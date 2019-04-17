@@ -25,5 +25,19 @@
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
-.vscode/
+### web ##
+/node_modules/
+/src/main/webapp/assets/bundle/
+/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+### ETC ###
+/bin/
+/.vscode/
+/target/
+/logs/
+/db/
+/temp/
