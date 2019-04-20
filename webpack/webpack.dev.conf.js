@@ -50,7 +50,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.html',
+      template: 'src/main/client/index.html',
       inject: true,
       title: 'vue-admin-template'
     })
