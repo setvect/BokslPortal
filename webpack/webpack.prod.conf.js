@@ -54,7 +54,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: config.build.index,
       template: 'index.html',
       inject: true,
-      favicon: resolve('favicon.ico'),
+      // favicon: resolve('favicon.ico'),
       title: 'vue-admin-template',
       minify: {
         removeComments: true,
@@ -93,7 +93,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../static'),
+        from: path.resolve(__dirname, '../src/main/static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
