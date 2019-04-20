@@ -27,8 +27,7 @@
 
 ### web ##
 /node_modules/
-/src/main/webapp/assets/bundle/
-/dist/
+/src/main/webapp/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -41,3 +40,4 @@ package-lock.json
 /logs/
 /db/
 /temp/
+src/main/webapp/index.html
