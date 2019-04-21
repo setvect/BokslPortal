@@ -159,7 +159,7 @@ module.exports = {
       }
     }],
     'padded-blocks': [2, 'never'],
-    'quotes': [2, 'single', {
+    'quotes': ['off', 'single', {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
