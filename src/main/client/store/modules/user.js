@@ -1,4 +1,4 @@
-import { logout, getInfo } from "@/api/login"
+import { logout } from "@/api/login"
 import { getToken, setToken, removeToken } from "@/utils/auth"
 import VueUtil from "@/utils/vue-util"
 
@@ -16,9 +16,6 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
-    },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
@@ -53,9 +50,13 @@ const user = {
     // 사용자 정보
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token)
-          .then(response => {
-            const data = response.data
+        VueUtil.get(
+          "/user/info.json",
+          {
+            token: state.token
+          },
+          result => {
+            const data = result.data
             if (data.roles && data.roles.length > 0) {
               // 주어진 role 검사
               commit("SET_ROLES", data.roles)
@@ -63,12 +64,14 @@ const user = {
               reject("getInfo: roles must be a non-null array !")
             }
             commit("SET_NAME", data.name)
-            commit("SET_AVATAR", data.avatar)
-            resolve(response)
-          })
-          .catch(error => {
-            reject(error)
-          })
+            resolve(result)
+          },
+          {
+            errorCall: error => {
+              reject(error)
+            }
+          }
+        )
       })
     },
 
