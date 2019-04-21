@@ -1,4 +1,3 @@
-import { logout } from "@/api/login"
 import { getToken, setToken, removeToken } from "@/utils/auth"
 import VueUtil from "@/utils/vue-util"
 
@@ -46,7 +45,6 @@ const user = {
         )
       })
     },
-
     // 사용자 정보
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
@@ -74,23 +72,26 @@ const user = {
         )
       })
     },
-
     // 로그아웃
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token)
-          .then(() => {
+        VueUtil.post(
+          "/user/logout.do",
+          {},
+          result => {
             commit("SET_TOKEN", "")
             commit("SET_ROLES", [])
             removeToken()
             resolve()
-          })
-          .catch(error => {
-            reject(error)
-          })
+          },
+          {
+            errorCall: error => {
+              reject(error)
+            }
+          }
+        )
       })
     },
-
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit("SET_TOKEN", "")

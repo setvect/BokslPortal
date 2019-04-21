@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.setvect.bokslportal.user.vo.UserVo;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/user/")
+@Log4j2
 public class UserController {
 
   // ============== 조회 ==============
@@ -51,6 +53,17 @@ public class UserController {
     Map<String, Object> result = new HashMap<>();
     result.put("token", username);
     return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+
+  /**
+   * 로그아웃
+   */
+  @RequestMapping(value = "/logout.do", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseEntity<Object> logout() {
+    // TODO 로그 아웃 처리
+    log.info("logout...");
+    return ResponseEntity.noContent().build();
   }
 
   // ============== 등록 ==============
