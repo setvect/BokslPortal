@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <h3 class="title">vue-admin-template</h3>
+      <h3 class="title">복슬포털</h3>
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user"/>
@@ -15,7 +15,7 @@
         <el-input v-model="loginForm.password" type="password" name="password" auto-complete="on" placeholder="password" @keyup.enter.native="handleLogin"/>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">Sign in</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">들어가기</el-button>
       </el-form-item>
     </el-form>
   </div>

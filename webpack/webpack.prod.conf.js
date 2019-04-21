@@ -55,7 +55,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       // favicon: resolve('favicon.ico'),
-      title: 'vue-admin-template',
+      title: '복슬포털',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -68,7 +68,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       // matter anyway
     }),
     new ScriptExtHtmlWebpackPlugin({
-      //`runtime` must same as runtimeChunk name. default is `runtime`
+      // `runtime` must same as runtimeChunk name. default is `runtime`
       inline: /runtime\..*\.js$/
     }),
     // keep chunk.id stable when chunk has no name

@@ -159,10 +159,7 @@ module.exports = {
       }
     }],
     'padded-blocks': [2, 'never'],
-    'quotes': ['off', 'single', {
-      'avoidEscape': true,
-      'allowTemplateLiterals': true
-    }],
+    'quotes': ['off'],
     'semi': [2, 'never'],
     'semi-spacing': [2, {
       'before': false,

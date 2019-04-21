@@ -52,7 +52,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'src/main/client/index.html',
       inject: true,
-      title: 'vue-admin-template'
+      title: '복슬포털'
     })
   ]
 })
