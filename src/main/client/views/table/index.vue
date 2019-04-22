@@ -1,21 +1,11 @@
 <template>
   <div class="app-container">
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row>
+    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label="ID" width="95">
-        <template slot-scope="scope">
-          {{ scope.$index }}
-        </template>
+        <template slot-scope="scope">{{ scope.$index }}</template>
       </el-table-column>
       <el-table-column label="Title">
-        <template slot-scope="scope">
-          {{ scope.row.title }}
-        </template>
+        <template slot-scope="scope">{{ scope.row.title }}</template>
       </el-table-column>
       <el-table-column label="Author" width="110" align="center">
         <template slot-scope="scope">
@@ -23,9 +13,7 @@
         </template>
       </el-table-column>
       <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
+        <template slot-scope="scope">{{ scope.row.pageviews }}</template>
       </el-table-column>
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
         <template slot-scope="scope">
@@ -43,8 +31,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
-
+import VueUtil from "@/utils/vue-util"
 export default {
   filters: {
     statusFilter(status) {
@@ -68,8 +55,8 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
-        this.list = response.data.items
+      VueUtil.get('/dummy/table.json', {}, (result) => {
+        this.list = result.data
         this.listLoading = false
       })
     }
