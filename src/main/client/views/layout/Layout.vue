@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
+import { Navbar, Sidebar, AppMain } from './components/index'
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
