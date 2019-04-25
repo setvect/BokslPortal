@@ -50,13 +50,13 @@ export const constantRouterMap = [
         path: "table",
         name: "Table",
         component: () => import("@/views/table/index"),
-        meta: { title: "홈", icon: "table" }
+        meta: { title: "홈" }
       },
       {
         path: "table",
         name: "Table",
         component: () => import("@/views/table/index"),
-        meta: { title: "관리", icon: "table" }
+        meta: { title: "관리" }
       }
     ]
   },
@@ -65,48 +65,77 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
+        meta: { title: "복슬노트", icon: "example" },
         path: "index",
         name: "Form",
-        component: () => import("@/views/form/index"),
-        meta: { title: "Form", icon: "form" }
+        component: () => import("@/views/form/index")
       }
     ]
   },
-
   {
-    path: "/nested",
+    path: "/form",
     component: Layout,
-    redirect: "/nested/menu1",
-    name: "Nested",
-    meta: {
-      title: "Nested",
-      icon: "nested"
-    },
     children: [
       {
-        path: "menu1",
-        component: () => import("@/views/nested/menu1/index"), // Parent router-view
-        name: "Menu1",
-        meta: { title: "Menu1" },
-        children: [
-          {
-            path: "menu1-1",
-            component: () => import("@/views/nested/menu1/menu1-1"),
-            name: "Menu1-1",
-            meta: { title: "Menu1-1" }
-          },
-          {
-            path: "menu1-2",
-            component: () => import("@/views/nested/menu1/menu1-2"),
-            name: "Menu1-2",
-            meta: { title: "Menu1-2" }
-          }
-        ]
+        meta: { title: "복슬지식", icon: "example" },
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index")
+      }
+    ]
+  },
+  {
+    path: "/form",
+    component: Layout,
+    children: [
+      {
+        meta: { title: "복슬메모", icon: "example" },
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index")
+      }
+    ]
+  },
+  {
+    path: "/form",
+    component: Layout,
+    children: [
+      {
+        meta: { title: "복슬관계", icon: "example" },
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index")
+      }
+    ]
+  },
+  {
+    path: "/form",
+    component: Layout,
+    children: [
+      {
+        meta: { title: "복슬포토", icon: "example" },
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index")
+      }
+    ]
+  },
+  {
+    path: "/form",
+    component: Layout,
+    meta: { title: "실험실", icon: "example" },
+    children: [
+      {
+        meta: { title: "로또" },
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index")
       },
       {
-        path: "menu2",
-        component: () => import("@/views/nested/menu2/index"),
-        meta: { title: "menu2" }
+        meta: { title: "결정 장애 해결" },
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index")
       }
     ]
   },
