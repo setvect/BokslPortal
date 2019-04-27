@@ -12,7 +12,6 @@ import App from './App.vue'
 import store from './store/index'
 import router from './router/index'
 
-import '@/icons' // icon
 import '@/permission' // permission control
 
 Vue.use(ElementUI, { locale })

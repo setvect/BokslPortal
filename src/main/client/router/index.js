@@ -44,7 +44,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: "/home/main",
     name: "home",
-    meta: { title: "홈피", icon: "international" },
+    meta: { title: "홈피", icon: "home" },
     children: [
       {
         path: "home",

@@ -1,4 +1,5 @@
 <script>
+import 'font-awesome/css/font-awesome.css'
 export default {
   name: 'MenuItem',
   functional: true,
@@ -18,7 +19,15 @@ export default {
     const vnodes = []
 
     if (icon) {
-      vnodes.push(<i class='fa fa-signal'/>)
+      const img = h(
+        'i',
+        {
+          'attrs': {
+            'class': 'icon-pd fa fa-' + icon
+          }
+        }
+      )
+      vnodes.push(img)
     }
 
     if (title) {
@@ -28,3 +37,10 @@ export default {
   }
 }
 </script>
+
+<style rel="stylesheet/css" lang="css" scoped>
+  .icon-pd {
+		padding-right: 10px;
+		font-size: 15px;
+  }
+</style>
