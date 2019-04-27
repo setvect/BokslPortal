@@ -29,7 +29,7 @@
 
 1. lombok plugin 설치
 1. project settings -> Build, Execution, Deployment -> Compiler에서 Build Project automatically 체크
-1. project settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors에서 Enable annontation processing 체크  
+1. project settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors에서 Enable annontation processing 체크
 
 이클립스
 
@@ -58,3 +58,21 @@ npm run build
 ### 개발 실행
 
 ### 주요 화면
+
+### 주요 파일
+- 웹팩 설정 관련
+    - 공통: webpack/webpack.base.conf.js
+		- 개발: webpack/webpack.dev.conf.js
+		- 개발: webpack/webpack.prod.conf.js
+- 라우터
+    - /router/index.js
+- 틀
+    - 틀: client/views/layout/Layout.vue
+		- 메뉴: client/views/layout/components/Sidebar/index.vue
+		- 메뉴 항목: client/views/layout/components/Sidebar/SidebarItem.vue
+		- 메뉴 상세 항목: client/views/layout/components/Sidebar/Item.vue
+- 메뉴-아이콘
+    - 컨트롤: /client/components/SvgIcon/index.vue - 삭제
+		- 아이콘 파일: /client/icons/svg - 삭제
+- 화면 구성
+    - 상단 네비게이션: /client/components/Breadcrumb/index.vue

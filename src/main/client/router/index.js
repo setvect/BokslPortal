@@ -44,16 +44,16 @@ export const constantRouterMap = [
     component: Layout,
     redirect: "/home/main",
     name: "home",
-    meta: { title: "홈피", icon: "example" },
+    meta: { title: "홈피", icon: "international" },
     children: [
       {
-        path: "table",
+        path: "home",
         name: "Table",
         component: () => import("@/views/table/index"),
         meta: { title: "홈" }
       },
       {
-        path: "table",
+        path: "manager",
         name: "Table",
         component: () => import("@/views/table/index"),
         meta: { title: "관리" }
@@ -61,11 +61,11 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: "/form",
+    path: "/note",
     component: Layout,
     children: [
       {
-        meta: { title: "복슬노트", icon: "example" },
+        meta: { title: "복슬노트", icon: "edit" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -73,11 +73,11 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: "/form",
+    path: "/knowledge",
     component: Layout,
     children: [
       {
-        meta: { title: "복슬지식", icon: "example" },
+        meta: { title: "복슬지식", icon: "nested" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -85,11 +85,11 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: "/form",
+    path: "/memo",
     component: Layout,
     children: [
       {
-        meta: { title: "복슬메모", icon: "example" },
+        meta: { title: "복슬메모", icon: "clipboard" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -97,11 +97,11 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: "/form",
+    path: "/network",
     component: Layout,
     children: [
       {
-        meta: { title: "복슬관계", icon: "example" },
+        meta: { title: "복슬관계", icon: "tree" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -109,11 +109,11 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: "/form",
+    path: "/photo",
     component: Layout,
     children: [
       {
-        meta: { title: "복슬포토", icon: "example" },
+        meta: { title: "복슬포토", icon: "peoples" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -121,19 +121,19 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: "/form",
+    path: "/experiment",
     component: Layout,
-    meta: { title: "실험실", icon: "example" },
+    meta: { title: "실험실", icon: "chart" },
     children: [
       {
         meta: { title: "로또" },
-        path: "index",
+        path: "lotto",
         name: "Form",
         component: () => import("@/views/form/index")
       },
       {
         meta: { title: "결정 장애 해결" },
-        path: "index",
+        path: "choice",
         name: "Form",
         component: () => import("@/views/form/index")
       }
