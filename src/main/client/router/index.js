@@ -77,7 +77,7 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
-        meta: { title: "복슬지식", icon: "nested" },
+        meta: { title: "복슬지식", icon: "book" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -101,7 +101,7 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
-        meta: { title: "복슬관계", icon: "tree" },
+        meta: { title: "복슬관계", icon: "sitemap" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -113,7 +113,7 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
-        meta: { title: "복슬포토", icon: "peoples" },
+        meta: { title: "복슬포토", icon: "camera" },
         path: "index",
         name: "Form",
         component: () => import("@/views/form/index")
@@ -123,7 +123,7 @@ export const constantRouterMap = [
   {
     path: "/experiment",
     component: Layout,
-    meta: { title: "실험실", icon: "chart" },
+    meta: { title: "실험실", icon: "lightbulb-o" },
     children: [
       {
         meta: { title: "로또" },
