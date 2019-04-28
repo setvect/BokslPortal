@@ -1,9 +1,5 @@
 import Vue from "vue"
 import Router from "vue-router"
-
-// in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
-// detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
-
 Vue.use(Router)
 
 /* Layout */
@@ -18,7 +14,6 @@ import Layout from "../views/layout/Layout"
 * name:'router-name'             the name is used by <keep-alive> (must set!!!)
 * meta : {
     title: 'title'               the name show in subMenu and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar
     breadcrumb: false            if false, the item will hidden in breadcrumb(default is true)
   }
 **/
@@ -48,14 +43,14 @@ export const constantRouterMap = [
     children: [
       {
         path: "home",
-        name: "Table",
-        component: () => import("@/views/table/index"),
+        name: "home-main",
+        component: () => import("@/views/home/main"),
         meta: { title: "홈" }
       },
       {
         path: "manager",
-        name: "Table",
-        component: () => import("@/views/table/index"),
+        name: "home-manager",
+        component: () => import("@/views/home/manager"),
         meta: { title: "관리" }
       }
     ]
@@ -67,8 +62,8 @@ export const constantRouterMap = [
       {
         meta: { title: "복슬노트", icon: "edit" },
         path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "note",
+        component: () => import("@/views/note/note")
       }
     ]
   },
@@ -79,8 +74,8 @@ export const constantRouterMap = [
       {
         meta: { title: "복슬지식", icon: "book" },
         path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "knowledge",
+        component: () => import("@/views/knowledge/knowledge")
       }
     ]
   },
@@ -91,8 +86,8 @@ export const constantRouterMap = [
       {
         meta: { title: "복슬메모", icon: "clipboard" },
         path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "memo",
+        component: () => import("@/views/memo/memo")
       }
     ]
   },
@@ -103,8 +98,8 @@ export const constantRouterMap = [
       {
         meta: { title: "복슬관계", icon: "sitemap" },
         path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "relation",
+        component: () => import("@/views/relation/relation")
       }
     ]
   },
@@ -115,27 +110,39 @@ export const constantRouterMap = [
       {
         meta: { title: "복슬포토", icon: "camera" },
         path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "photo",
+        component: () => import("@/views/photo/photo")
       }
     ]
   },
   {
-    path: "/experiment",
+    path: "/task",
+    component: Layout,
+    children: [
+      {
+        meta: { title: "복슬할일", icon: "tasks" },
+        path: "index",
+        name: "task",
+        component: () => import("@/views/todo/todo")
+      }
+    ]
+  },
+  {
+    path: "/lab",
     component: Layout,
     meta: { title: "실험실", icon: "lightbulb-o" },
     children: [
       {
         meta: { title: "로또" },
         path: "lotto",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "lotto",
+        component: () => import("@/views/lab/lotto/lotto")
       },
       {
         meta: { title: "결정 장애 해결" },
         path: "choice",
-        name: "Form",
-        component: () => import("@/views/form/index")
+        name: "choice",
+        component: () => import("@/views/lab/choice/choice")
       }
     ]
   },
