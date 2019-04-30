@@ -162,7 +162,7 @@ SAVE_NAME|저장파일명| |Varchar|250|Y|기본 베이스 경로에서 시작�
 SIZE|파일 사이즈| |INT|4|Y|
 REG_DATE|등록일| |datetime| |Y|
 
-- TBGA_COMMENT: 파일 업로드
+- TBYB_COMMENT: 댓글
 
 Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
