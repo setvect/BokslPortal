@@ -1,6 +1,6 @@
 package com.setvect.bokslportal.config;
 
-import com.setvect.bokslportal.BokslMoneyConstant;
+import com.setvect.bokslportal.BokslPortalConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //    http.csrf().disable();
 //    http.headers().frameOptions().disable();
-//    http.rememberMe().key(BokslMoneyConstant.Login.REMEMBER_ME_KEY)
+//    http.rememberMe().key(BokslPortalConstant.Login.REMEMBER_ME_KEY)
 //      .rememberMeServices(tokenBasedRememberMeServices());
     http.httpBasic().disable().csrf().disable();
   }
@@ -65,8 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public TokenBasedRememberMeServices tokenBasedRememberMeServices() {
     TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices(
-      BokslMoneyConstant.Login.REMEMBER_ME_KEY, userDetailsService);
-    tokenBasedRememberMeServices.setCookieName(BokslMoneyConstant.Login.REMEMBER_COOKIE_NAME);
+      BokslPortalConstant.Login.REMEMBER_ME_KEY, userDetailsService);
+    tokenBasedRememberMeServices.setCookieName(BokslPortalConstant.Login.REMEMBER_COOKIE_NAME);
     return tokenBasedRememberMeServices;
   }
 

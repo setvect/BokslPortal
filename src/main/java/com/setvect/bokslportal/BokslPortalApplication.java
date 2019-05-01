@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BokslportalApplication {
+public class BokslPortalApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(BokslportalApplication.class, args);
+    SpringApplication.run(BokslPortalApplication.class, args);
   }
-
 }

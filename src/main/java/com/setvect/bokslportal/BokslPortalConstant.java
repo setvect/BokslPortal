@@ -3,16 +3,18 @@ package com.setvect.bokslportal;
 /**
  * 상수 정의.
  */
-public final class BokslMoneyConstant {
+public final class BokslPortalConstant {
+
+
   /**
    * not instance.
    */
-  private BokslMoneyConstant() {
+  private BokslPortalConstant() {
   }
 
   /**
    * js, css 등 웹 자원 파일 캐싱을 하지위한 값<br>
-   * src="${request.contextPath}/boksl.js?<%=com.setvect.bokslmoney.BokslMoneyConstant.CACHE_VER%>"
+   * src="${request.contextPath}/boksl.js?<%=com.setvect.bokslmoney.BokslPortalConstant.CACHE_VER%>"
    */
   public static final long CACHE_VER = System.currentTimeMillis();
 
@@ -34,4 +36,10 @@ public final class BokslMoneyConstant {
     public static final String REMEMBER_COOKIE_NAME = "bokslCookie";
 
   }
+
+  /**
+   * WHERE 절 replace를 하기 위함.
+   */
+  public static final String SQL_WHERE = "{WHERE}";
+
 }
