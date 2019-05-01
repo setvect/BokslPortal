@@ -1,10 +1,10 @@
 <template>
-  <el-container >
+  <el-container>
     <el-aside width="250px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
         <el-submenu index="3">
           <template slot="title">
-            <i class="el-icon-setting"></i>Navigator Three
+            <i class="el-icon-setting"/>Navigator Three
           </template>
           <el-menu-item-group>
             <el-menu-item index="3-1">Option 1</el-menu-item>
@@ -39,10 +39,10 @@ export default {
       date: '2016-05-02',
       name: 'Tom',
       address: 'No. 189, Grove St, Los Angeles'
-    };
+    }
     return {
       tableData: Array(20).fill(item)
     }
   }
-};
+}
 </script>

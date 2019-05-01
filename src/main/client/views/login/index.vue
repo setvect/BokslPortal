@@ -3,15 +3,11 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <h3 class="title">복슬포털</h3>
       <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
+        <i class="fa fa-user icon"/>
         <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="username"/>
       </el-form-item>
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"/>
-        </span>
+        <i class="fa fa-lock icon"/>
         <el-input v-model="loginForm.password" type="password" name="password" auto-complete="on" placeholder="password" @keyup.enter.native="handleLogin"/>
       </el-form-item>
       <el-form-item>
@@ -22,6 +18,7 @@
 </template>
 
 <script>
+import 'font-awesome/css/font-awesome.css'
 export default {
   name: 'Login',
   data() {
@@ -134,13 +131,6 @@ $light_gray: #eee;
       }
     }
   }
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
   .title {
     font-size: 26px;
     font-weight: 400;
@@ -157,6 +147,12 @@ $light_gray: #eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+  .icon {
+    font-size: 20px;
+    margin-top: -10px;
+    padding: 0 0 0 20px;
+    color: #889aa4;
   }
 }
 </style>

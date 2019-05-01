@@ -1,7 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.4.RELEASE'
-    id 'java'
-    id 'war'
+  id 'org.springframework.boot' version '2.1.4.RELEASE'
+  id 'java'
+  id 'war'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -11,23 +11,25 @@ version = '0.0.1'
 sourceCompatibility = '1.8'
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  compile 'org.springframework.boot:spring-boot-devtools'
+  compile 'com.github.bohnman:squiggly-filter-jackson:1.3.8'
+  compileOnly 'org.projectlombok:lombok'
+  runtimeOnly 'com.h2database:h2'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.security:spring-security-test'
 }

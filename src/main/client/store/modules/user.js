@@ -55,9 +55,10 @@ const user = {
           },
           result => {
             const data = result.data
-            if (data.roles && data.roles.length > 0) {
+            const role = data.userRole.map(r => r.roleName)
+            if (role.length > 0) {
               // 주어진 role 검사
-              commit("SET_ROLES", data.roles)
+              commit("SET_ROLES", role)
             } else {
               reject("getInfo: roles must be a non-null array !")
             }

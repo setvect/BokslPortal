@@ -1,8 +1,12 @@
 package com.setvect.bokslportal.user.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
+import com.setvect.bokslportal.user.vo.RoleName;
+import com.setvect.bokslportal.user.vo.UserRoleVo;
 import com.setvect.bokslportal.user.vo.UserVo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -36,7 +40,9 @@ public class UserController {
     UserVo userInfo = new UserVo();
     userInfo.setUserId(token);
     userInfo.setName("복슬이");
-    userInfo.addRole("admin");
+    UserRoleVo a = new UserRoleVo();
+    a.setRoleName(RoleName.ROLE_ADMIN);
+    userInfo.setUserRole(new HashSet<>(Arrays.asList(a)));
     return new ResponseEntity<>(userInfo, HttpStatus.OK);
   }
 
