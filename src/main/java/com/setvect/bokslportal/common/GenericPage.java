@@ -1,0 +1,62 @@
+package com.setvect.bokslportal.common;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.List;
+
+/**
+ * Page에서 검색된 객체들의 타입을 지정함
+ */
+@Getter
+public class GenericPage<T> {
+
+	private final List<T> objects;
+	private final int startCursor;
+	private final int totalCount;
+	private final int returnCount;
+
+	/**
+	 * @param objects
+	 *            리스트
+	 * @param startCursor
+	 *            시작 항목(1부터 시작)
+	 * @param totalCount
+	 *            전체 항목 수
+	 */
+	public GenericPage(List<T> objects, int startCursor, int totalCount) {
+		this.objects = objects;
+		this.startCursor = startCursor;
+		this.totalCount = totalCount;
+		this.returnCount = 0;
+	}
+
+	/**
+	 * @param objects
+	 *            리스트
+	 * @param startCursor
+	 *            시작 항목(1부터 시작)
+	 * @param totalCount
+	 *            전체 항목 수
+	 */
+	public GenericPage(List<T> objects, int startCursor, int totalCount, int returnCount) {
+		this.objects = objects;
+		this.startCursor = startCursor;
+		this.totalCount = totalCount;
+		this.returnCount = returnCount;
+	}
+
+	/**
+	 * 전체 페이지 개수
+	 * 
+	 * @return the returnCount
+	 */
+	public int getPageCount() {
+		if (returnCount == 0) {
+			return 0;
+		}
+		int page = (int) Math.ceil((double) totalCount / returnCount);
+		return page;
+	}
+}

@@ -5,6 +5,7 @@ import com.github.bohnman.squiggly.Squiggly;
 import com.github.bohnman.squiggly.util.SquigglyUtils;
 import com.setvect.bokslportal.user.vo.UserRoleVo;
 import com.setvect.bokslportal.user.vo.UserVo;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -71,6 +72,18 @@ public abstract class ApplicationUtil {
 	public static String makeLikeString(final String keyword) {
 		return "%" + keyword + "%";
 	}
+
+
+  /**
+   * @param word
+   *
+   * @return sql String 값에 들어가도록 변경
+   */
+  public static String getSqlString(String word) {
+    word = StringUtils.replace(word, "'", "''");
+    word = word.trim();
+    return new String("'" + word + "'");
+  }
 
 	/**
 	 * 파일 다운로드
