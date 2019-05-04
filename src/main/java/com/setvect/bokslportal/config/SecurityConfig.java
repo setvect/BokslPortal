@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    * 사용자 정보 관리.
    */
   @Autowired
+  @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   private UserDetailsService userDetailsService;
 
   @Override
@@ -56,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    http.headers().frameOptions().disable();
 //    http.rememberMe().key(BokslPortalConstant.Login.REMEMBER_ME_KEY)
 //      .rememberMeServices(tokenBasedRememberMeServices());
-    http.httpBasic().disable().csrf().disable();
+    // 인증 사용 안함.
+     http.httpBasic().disable().csrf().disable();
   }
 
   /**
