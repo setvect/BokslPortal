@@ -11,10 +11,19 @@ import java.util.Map;
 
 @Controller
 public class MainController {
-
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String page(final HttpServletRequest request) {
     return "index";
+  }
+
+  /**
+   * 로그인 화면. SecurityConfig 설정과 연계
+   *
+   * @return view 페이지
+   */
+  @RequestMapping("/login")
+  public String login() {
+    return "login";
   }
 
   @RequestMapping(value = "/test.json", method = RequestMethod.GET)

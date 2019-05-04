@@ -38,27 +38,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(final WebSecurity web) throws Exception {
-    web.ignoring().antMatchers("/assets/**").antMatchers("/html/**").antMatchers("/h2-console/**")
+    web.ignoring()
+      .antMatchers("/assets/**")
+      .antMatchers("/index.html")
+      .antMatchers("/html/**")
+      .antMatchers("/user/login.do")
+      .antMatchers("/user/logout.do")
+      .antMatchers("/user/info.json")  // TODO 삭제
+      .antMatchers("/static/**")
+      .antMatchers("/h2-console/**")
       .antMatchers("/error/**");
   }
 
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
-//    http.authorizeRequests()//
-//      .antMatchers("/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")//
-//      // 아래 코드 넣으면 로그인 시 에러 남. 그 이후에 에러 안남.
-//      // .anyRequest().authenticated()//
-//      .and().formLogin().loginPage("/login.do").permitAll().failureUrl("/login.do?error")//
-//      .and().logout().logoutUrl("/logout.do").permitAll().logoutSuccessUrl("/login.do?logout")//
-//      .and().csrf()//
-//      .and().exceptionHandling().accessDeniedPage("/403");
-//
-//    http.csrf().disable();
-//    http.headers().frameOptions().disable();
-//    http.rememberMe().key(BokslPortalConstant.Login.REMEMBER_ME_KEY)
-//      .rememberMeServices(tokenBasedRememberMeServices());
+    http.authorizeRequests()//
+      .antMatchers("/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")//
+      // 아래 코드 넣으면 로그인 시 에러 남. 그 이후에 에러 안남.
+      // .anyRequest().authenticated()//
+      .and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error")//
+      .and().logout().logoutUrl("/logout").permitAll().logoutSuccessUrl("/login?logout")//
+      .and().csrf()//
+      .and().exceptionHandling().accessDeniedPage("/403");
+
+    http.csrf().disable();
+    http.headers().frameOptions().disable();
+    http.rememberMe().key(BokslPortalConstant.Login.REMEMBER_ME_KEY)
+      .rememberMeServices(tokenBasedRememberMeServices());
     // 인증 사용 안함.
-     http.httpBasic().disable().csrf().disable();
+    // http.httpBasic().disable().csrf().disable();
   }
 
   /**
