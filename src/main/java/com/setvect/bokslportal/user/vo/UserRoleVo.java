@@ -18,6 +18,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * 권한
  */
@@ -26,7 +28,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class UserRoleVo {
+public class UserRoleVo implements Serializable {
 
 	/** 일련번호 */
 	@Id
