@@ -4,7 +4,7 @@
       <h3 class="title">복슬포털</h3>
       <el-form-item prop="username">
         <i class="fa fa-user icon"/>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="username"/>
+        <el-input ref="username" v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="username" autofocus="true"/>
       </el-form-item>
       <el-form-item prop="password">
         <i class="fa fa-lock icon"/>
@@ -31,8 +31,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        username: '',
+        password: ''
       },
       loginRules: {
         password: [{ required: true, validator: validatePass }]
@@ -48,6 +48,8 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
   },
   methods: {
     handleLogin() {

@@ -67,7 +67,8 @@ npm run build
 - 라우터
     - /router/index.js
 - 로그인
-    - /client/store/modules/user.js
+    - 로그인 틀 : /client/views/login/index.vue
+		- /client/store/modules/user.js
     - /utils/auth.js
 - 틀
     - 틀: client/views/layout/Layout.vue

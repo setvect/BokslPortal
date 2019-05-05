@@ -39,6 +39,8 @@ const user = {
           },
           {
             errorCall: error => {
+              console.log("error :", error)
+              console.log("reject :", reject)
               reject(error)
             }
           }

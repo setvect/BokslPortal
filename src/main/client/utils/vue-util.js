@@ -86,6 +86,7 @@ VueUtil._ajaxCall = function(callType, url, _param, _callback, _option) {
   if (option.waitDialog !== false) {
     // waitDialog.show(waitMsg, { dialogSize: "sm" })
   }
+  console.log("errorCall :", errorCall)
 
   axiosMethod(CommonUtil.appendContextRoot(url), sendParam, config)
     .then(result => callback(result))
