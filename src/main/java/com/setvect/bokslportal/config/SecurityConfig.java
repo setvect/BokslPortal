@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 
 
 /**
@@ -76,10 +78,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
-//  @Bean
-//  public HttpSessionStrategy httpSessionStrategy() {
-//    return new HeaderHttpSessionStrategy();
-//  }
+
+  @Bean
+  public HttpSessionIdResolver httpSessionIdResolver() {
+    return HeaderHttpSessionIdResolver.xAuthToken();
+  }
 
   /**
    * @return rememberMe 토근 생성 방식
