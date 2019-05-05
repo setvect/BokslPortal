@@ -48,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/html/**")
       .antMatchers("/user/login.do")
       .antMatchers("/user/logout.do")
-      .antMatchers("/user/info.json")  // TODO 삭제
       .antMatchers("/static/**")
       .antMatchers("/h2-console/**")
       .antMatchers("/error/**");
@@ -63,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers("/user/login").permitAll()
       .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//      .antMatchers("/user").hasAuthority(RoleName.ROLE_USER.name())
+//    .antMatchers("/user").hasAuthority(RoleName.ROLE_USER.name())
       .antMatchers("/**").hasAuthority(RoleName.ROLE_ADMIN.name())
       .anyRequest().authenticated()
       .and()

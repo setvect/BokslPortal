@@ -46,9 +46,11 @@ public class UserControllerTest {
 
     ObjectMapper om = new ObjectMapper();
 
+    String param = om.writeValueAsString(request);
+
     mvc.perform(post("/user/login")
       .contentType(MediaType.APPLICATION_JSON_UTF8)
-      .content(om.writeValueAsString(request)))
+      .content(param))
       .andDo(print())
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
