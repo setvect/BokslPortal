@@ -19,6 +19,7 @@
 
 <script>
 import 'font-awesome/css/font-awesome.css'
+import { MessageBox } from "element-ui"
 export default {
   name: 'Login',
   data() {
@@ -61,9 +62,10 @@ export default {
 
         this.loading = true
         this.$store.dispatch('Login', this.loginForm).then(() => {
-          this.loading = false
           this.$router.push({ path: this.redirect || '/' })
-        }).catch(() => {
+        }).catch((e) => {
+          MessageBox.alert("아이디 또는 비밀번호가 틀렸다.", "", { confirmButtonText: "확인" })
+        }).finally(() => {
           this.loading = false
         })
       })

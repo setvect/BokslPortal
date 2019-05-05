@@ -50,7 +50,7 @@ VueUtil._ajaxCall = function(callType, url, _param, _callback, _option) {
     headers: {}
   }
   if (store.getters.token) {
-    console.log("getToken() :", getToken())
+    // console.log("getToken() :", getToken())
     // 인증 토큰
     axios.defaults.headers.common["x-auth-token"] = getToken()
   }
@@ -83,20 +83,10 @@ VueUtil._ajaxCall = function(callType, url, _param, _callback, _option) {
       CommonUtil.popupError(err)
     }
 
-  if (option.waitDialog !== false) {
-    // waitDialog.show(waitMsg, { dialogSize: "sm" })
-  }
-  console.log("errorCall :", errorCall)
-
   axiosMethod(CommonUtil.appendContextRoot(url), sendParam, config)
     .then(result => callback(result))
     .catch(err => errorCall(err))
-    .finally(() => {
-      if (option.waitDialog !== false) {
-        // waitDialog.hide()
-      }
-      finallyCall()
-    })
+    .finally(() => finallyCall())
 }
 
 export default VueUtil
