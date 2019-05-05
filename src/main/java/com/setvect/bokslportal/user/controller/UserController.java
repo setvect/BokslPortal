@@ -14,12 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -41,13 +40,13 @@ public class UserController {
   // ============== 조회 ==============
 
   /**
-   * 로그인 사용자 정보
+   * 로그인 사용자 정보<br>
+   * 토큰 정보를 이용해 사용자를 찾음
    *
-   * @param token 토큰
    * @return 사용자 정보
    */
   @RequestMapping(value = "/info.json", method = RequestMethod.GET)
-  public ResponseEntity<UserVo> info(@RequestParam("token") final String token) {
+  public ResponseEntity<UserVo> info() {
     UserVo user = ApplicationUtil.getLoginUser();
 
     return new ResponseEntity<>(user, HttpStatus.OK);
@@ -59,7 +58,7 @@ public class UserController {
    * @return 로그인 결과
    */
   @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public AuthenticationToken login(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
+  public AuthenticationToken login(AuthenticationRequest authenticationRequest, HttpSession session) {
     String username = authenticationRequest.getUsername();
     String password = authenticationRequest.getPassword();
 
@@ -71,6 +70,21 @@ public class UserController {
 
     UserVo user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException(username));
     return new AuthenticationToken(user.getUserId(), user.getName(), user.getAuthorities(), session.getId());
+  }
+
+
+  /**
+   * @return 로그 아웃
+   */
+  @RequestMapping(value = "/logout", method = RequestMethod.POST)
+  public ResponseEntity<Object> logout(HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    SecurityContextHolder.clearContext();
+    if (session != null) {
+      session.invalidate();
+    }
+
+    return ResponseEntity.ok().build();
   }
 
   // ============== 등록 ==============

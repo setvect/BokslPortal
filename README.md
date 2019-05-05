@@ -66,6 +66,9 @@ npm run build
 		- 개발: webpack/webpack.prod.conf.js
 - 라우터
     - /router/index.js
+- 로그인
+    - /client/store/modules/user.js
+    - /utils/auth.js
 - 틀
     - 틀: client/views/layout/Layout.vue
 		- 메뉴: client/views/layout/components/Sidebar/index.vue

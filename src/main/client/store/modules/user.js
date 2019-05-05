@@ -26,7 +26,7 @@ const user = {
     Login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         VueUtil.post(
-          "/user/login.do",
+          "/user/login",
           {
             username: userInfo.username,
             password: userInfo.password
@@ -77,7 +77,7 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         VueUtil.post(
-          "/user/logout.do",
+          "/user/logout",
           {},
           result => {
             commit("SET_TOKEN", "")

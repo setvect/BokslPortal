@@ -45,13 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(final WebSecurity web) throws Exception {
     web.ignoring()
-      .antMatchers("/ASSETS/**")
       .antMatchers("/index.html")
-      .antMatchers("/html/**")
-      .antMatchers("/user/login.do")
-      .antMatchers("/user/logout.do")
+      .antMatchers("/favicon.ico")
       .antMatchers("/static/**")
       .antMatchers("/h2-console/**")
+      .antMatchers("/user/logout")
       .antMatchers("/error/**");
   }
 
@@ -64,11 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers("/user/login").permitAll()
       .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//    .antMatchers("/user").hasAuthority(RoleName.ROLE_USER.name())
       .antMatchers("/**").hasAuthority(RoleName.ROLE_ADMIN.name())
       .anyRequest().authenticated()
       .and()
-      .logout()
+      .logout().logoutUrl("/user/logout")
     ;
   }
 
