@@ -14,7 +14,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -160,4 +163,23 @@ public abstract class ApplicationUtil {
 		UserVo regUser = (UserVo) auth.getPrincipal();
 		return regUser;
 	}
+  /**
+   * 현재 쓰레드의 HttpSession를 이용해 로그인 정보 얻음
+   *
+   * @return 로그인 사용자. 없으면 null
+   */
+  public static UserVo getLoginUser() {
+    try {
+      HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+        .getRequest();
+      if (req != null) {
+        UserVo loginUser = getLoginUser(req.getSession());
+        return loginUser;
+      }
+      return null;
+    } catch (Exception e) {
+      logger.warn(e.getMessage());
+      return null;
+    }
+  }
 }

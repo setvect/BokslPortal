@@ -1,5 +1,6 @@
 package com.setvect.bokslportal.user.controller;
 
+import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.service.UserService;
 import com.setvect.bokslportal.user.vo.RoleName;
@@ -54,13 +55,9 @@ public class UserController {
    */
   @RequestMapping(value = "/info.json", method = RequestMethod.GET)
   public ResponseEntity<UserVo> info(@RequestParam("token") final String token) {
-    UserVo userInfo = new UserVo();
-    userInfo.setUserId(token);
-    userInfo.setName("복슬이");
-    UserRoleVo a = new UserRoleVo();
-    a.setRoleName(RoleName.ROLE_ADMIN);
-    userInfo.setUserRole(new HashSet<>(Arrays.asList(a)));
-    return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    UserVo user = ApplicationUtil.getLoginUser();
+
+    return new ResponseEntity<>(user, HttpStatus.OK);
   }
 
 
