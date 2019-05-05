@@ -1,6 +1,7 @@
 package com.setvect.bokslportal.config;
 
 import com.setvect.bokslportal.BokslPortalConstant;
+import com.setvect.bokslportal.user.vo.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,8 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers("/user/login").permitAll()
       .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-      .antMatchers("/user").hasAuthority("USER")
-      .antMatchers("/admin").hasAuthority("ADMIN")
+//      .antMatchers("/user").hasAuthority(RoleName.ROLE_USER.name())
+      .antMatchers("/**").hasAuthority(RoleName.ROLE_ADMIN.name())
       .anyRequest().authenticated()
       .and()
       .logout()
