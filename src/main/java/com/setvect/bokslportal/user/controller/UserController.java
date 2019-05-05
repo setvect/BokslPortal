@@ -3,8 +3,6 @@ package com.setvect.bokslportal.user.controller;
 import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.service.UserService;
-import com.setvect.bokslportal.user.vo.RoleName;
-import com.setvect.bokslportal.user.vo.UserRoleVo;
 import com.setvect.bokslportal.user.vo.UserVo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 
 /**
@@ -60,31 +53,11 @@ public class UserController {
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
 
-
   /**
-   * @param username 아이디
-   * @param password 비번
-   * @return 토큰
+   * @param authenticationRequest 로그인 정보
+   * @param session               새션
+   * @return 로그인 결과
    */
-  @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-  public ResponseEntity<Map<String, Object>> login(@RequestParam("username") final String username,
-                                                   @RequestParam("password") final String password) {
-    Map<String, Object> result = new HashMap<>();
-    result.put("token", username);
-    return new ResponseEntity<>(result, HttpStatus.OK);
-  }
-
-  /**
-   * 로그아웃
-   */
-  @RequestMapping(value = "/logout.do", method = RequestMethod.POST)
-  public ResponseEntity<Object> logout() {
-    // TODO 로그 아웃 처리
-    log.info("logout...");
-    return ResponseEntity.noContent().build();
-  }
-
-
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   public AuthenticationToken login(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
     String username = authenticationRequest.getUsername();

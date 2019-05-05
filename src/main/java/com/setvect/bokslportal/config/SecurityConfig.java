@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(final WebSecurity web) throws Exception {
     web.ignoring()
-      .antMatchers("/assets/**")
+      .antMatchers("/ASSETS/**")
       .antMatchers("/index.html")
       .antMatchers("/html/**")
       .antMatchers("/user/login.do")
