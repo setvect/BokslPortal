@@ -4,6 +4,7 @@ import com.setvect.bokslportal.BokslPortalConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -52,21 +53,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
-    http.authorizeRequests()//
-      .antMatchers("/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")//
-      // 아래 코드 넣으면 로그인 시 에러 남. 그 이후에 에러 안남.
-      // .anyRequest().authenticated()//
-      .and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error")//
-      .and().logout().logoutUrl("/logout").permitAll().logoutSuccessUrl("/login?logout")//
-      .and().csrf()//
-      .and().exceptionHandling().accessDeniedPage("/403");
+    http
+      .csrf().disable()
+      .authorizeRequests()
+      .antMatchers("/user/login").permitAll()
+      .antMatchers("/user").hasAuthority("USER")
+      .antMatchers("/admin").hasAuthority("ADMIN")
+      .anyRequest().authenticated()
+      .and()
+      .logout()
+    ;
+  }
 
-    http.csrf().disable();
-    http.headers().frameOptions().disable();
-    http.rememberMe().key(BokslPortalConstant.Login.REMEMBER_ME_KEY)
-      .rememberMeServices(tokenBasedRememberMeServices());
-    // 인증 사용 안함.
-    // http.httpBasic().disable().csrf().disable();
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 
   /**
