@@ -64,6 +64,8 @@ npm run build
     - 공통: webpack/webpack.base.conf.js
 		- 개발: webpack/webpack.dev.conf.js
 		- 개발: webpack/webpack.prod.conf.js
+- 유틸
+		- vuex: src/main/client/store/modules/app.js
 - 라우터
     - /router/index.js
 - 로그인
@@ -71,10 +73,13 @@ npm run build
 		- /client/store/modules/user.js
     - /utils/auth.js
 - 틀
+		- 네비, 메뉴, 내용영역 모음: client/views/layout/components/index.js
     - 틀: client/views/layout/Layout.vue
 		- 메뉴: client/views/layout/components/Sidebar/index.vue
 		- 메뉴 항목: client/views/layout/components/Sidebar/SidebarItem.vue
-		- 메뉴 상세 항목: client/views/layout/components/Sidebar/Item.vue
+		- 메뉴 상세 항목: client/views/layout/components/Sidebar/Item.vue  - 아이콘 이미지
+		- 메뉴 관련 스타일: src/main/client/styles/sidebar.scss
+		- 상단 네비게이션: src/main/client/views/layout/components/Navbar.vue
 - 메뉴-아이콘
     - 컨트롤: /client/components/SvgIcon/index.vue - 삭제
 		- 아이콘 파일: /client/icons/svg - 삭제

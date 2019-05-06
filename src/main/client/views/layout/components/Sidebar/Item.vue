@@ -31,7 +31,7 @@ export default {
     }
 
     if (title) {
-      vnodes.push(<span slot='title'>{(title)}</span>)
+      vnodes.push(<span slot='title'>{(title)}abc</span>)
     }
     return vnodes
   }
@@ -40,7 +40,6 @@ export default {
 
 <style rel="stylesheet/css" lang="css" scoped>
   .icon-pd {
-		padding-right: 10px;
 		font-size: 15px;
   }
 </style>

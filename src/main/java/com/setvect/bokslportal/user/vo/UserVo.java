@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 사용자
@@ -75,7 +78,10 @@ public class UserVo implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return ApplicationUtil.buildUserAuthority(getUserRole());
+    Set<UserRoleVo> userRoles = getUserRole();
+    List<GrantedAuthority> authList = userRoles.stream()
+      .map(x -> new SimpleGrantedAuthority(x.getRoleName().name())).collect(Collectors.toList());
+    return authList;
   }
 
   @Override
