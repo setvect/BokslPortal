@@ -1,6 +1,6 @@
 #app {
 
-  // 主体区域 Main container
+  //  Main container
   .main-container {
     min-height: 100%;
     transition: margin-left .28s;
@@ -8,7 +8,7 @@
     position: relative;
   }
 
-  // 侧边栏 Sidebar container
+  // Sidebar container
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
@@ -61,6 +61,7 @@
     // menu hover
     .submenu-title-noDropdown,
     .el-submenu__title {
+			// 메뉴 여백 조정
       padding-left: 16px !important;
       &:hover {
         background-color: $menuHover !important;

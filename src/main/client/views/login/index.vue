@@ -32,8 +32,8 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'boksl',
+        password: 'boksl'
       },
       loginRules: {
         password: [{ required: true, validator: validatePass }]

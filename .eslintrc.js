@@ -34,7 +34,7 @@ module.exports = {
     'camelcase': [0, {
       'properties': 'always'
     }],
-    'comma-dangle': [2, 'never'],
+    'comma-dangle': [0, 'never'],
     'comma-spacing': [2, {
       'before': false,
       'after': true
@@ -160,7 +160,7 @@ module.exports = {
     }],
     'padded-blocks': [2, 'never'],
     'quotes': ['off'],
-    'semi': [2, 'never'],
+    // 'semi': [2, 'never'],
     'semi-spacing': [2, {
       'before': false,
       'after': true

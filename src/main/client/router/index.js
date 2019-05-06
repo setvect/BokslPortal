@@ -48,10 +48,16 @@ export const constantRouterMap = [
         meta: { title: "홈" }
       },
       {
-        path: "manager",
-        name: "home-manager",
-        component: () => import("@/views/home/manager"),
-        meta: { title: "관리" }
+        path: "boardManager",
+        name: "board-manager",
+        component: () => import("@/views/home/boardManager/boardManager"),
+        meta: { title: "게시판관리" }
+      },
+      {
+        path: "code",
+        name: "code",
+        component: () => import("@/views/home/code/code"),
+        meta: { title: "코드관리" }
       }
     ]
   },
