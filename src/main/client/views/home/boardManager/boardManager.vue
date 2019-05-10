@@ -33,7 +33,7 @@
       <el-pagination :total="1000" background align="center" layout="prev, pager, next" @current-change="changePage"/>
     </el-row>
     <el-row>
-      <el-button size="medium">만들기</el-button>
+      <el-button size="medium" @click="addForm()">만들기</el-button>
     </el-row>
   </div>
 </template>
@@ -84,6 +84,11 @@ export default {
     },
     changePage(page) {
       console.log("page", page);
+    },
+    addForm() {
+      console.log("#######################");
+      console.log('this.$router :', this.$router);
+      this.$router.push({ name: 'board-manager-add' })
     }
   }
 }
