@@ -51,14 +51,14 @@ export const constantRouterMap = [
         path: "boardManager",
         name: "board-manager",
         component: () => import("@/views/home/boardManager/index"),
-        meta: { title: "게시판관리", breadcrumb: true },
+        meta: { title: "게시판관리" },
         redirect: '/home/boardManager/list',
         hidden: false,
         children: [
           {
             path: "list",
             name: "board-manager-list",
-            component: () => import("@/views/home/boardManager/boardManager"),
+            component: () => import("@/views/home/boardManager/boardManagerList"),
             meta: { title: "목록" }
           },
           {

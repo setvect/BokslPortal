@@ -1,17 +1,32 @@
 <template>
   <div class="app-container">
-    <el-row style="padding-buttom:20px;">
-      <el-col>
-        <el-select value="code" placeholder="Select" size="mini" style="width:100px;">
-          <el-option label="코드" value="code"/>
-          <el-option label="이름" value="name"/>
-        </el-select>
-        <el-input placeholder="검색어" size="mini" style="width:200px;"/>
-        <el-button size="mini">검색</el-button>
-      </el-col>
-    </el-row>
     <el-row>
-      <el-button size="medium">확인</el-button>
+      <el-form ref="form" :model="form" label-width="120px">
+        <el-form-item label="코드">
+          <el-input v-model="form.boardCode" style="max-width:200px;"/>
+        </el-form-item>
+        <el-form-item label="이름">
+          <el-input v-model="form.name" style="max-width:200px;"/>
+        </el-form-item>
+
+        <el-form-item label="업로드 용량제한">
+          <el-input v-model.number="form.uploadLimit" type="number" style="max-width:200px;"/>(KB)
+        </el-form-item>
+
+        <el-form-item label="댓글 사용">
+          <el-switch v-model="form.commentF"/>
+        </el-form-item>
+        <el-form-item label="파일 업로드">
+          <el-switch v-model="form.attachF"/>
+        </el-form-item>
+        <el-form-item label="암호화 글 등록">
+          <el-switch v-model="form.encodeF"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">확인</el-button>
+          <el-button @click="onCancel">취소</el-button>
+        </el-form-item>
+      </el-form>
     </el-row>
   </div>
 </template>
@@ -21,12 +36,26 @@ import "@/utils/vue-common"
 export default {
   data() {
     return {
+      form: {
+        boardCode: "BDAABB00",
+        name: '',
+        uploadLimit: 1000,
+        commentF: false,
+        attachF: true,
+        encodeF: false
+      }
     }
   },
   methods: {
     edit() {
       console.log("수정")
     },
+    onSubmit() {
+      this.$message('submit!')
+    },
+    onCancel() {
+      this.$router.push({ name: 'board-manager-list' })
+    }
   }
 }
 </script>
