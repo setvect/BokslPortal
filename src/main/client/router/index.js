@@ -4,6 +4,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from "../views/layout/Layout"
+import boardManagerRouter from "./modules/boardManager"
 
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -47,28 +48,13 @@ export const constantRouterMap = [
         component: () => import("@/views/home/main"),
         meta: { title: "홈" }
       },
+      boardManagerRouter,
       {
-        path: "boardManager",
-        name: "board-manager",
-        component: () => import("@/views/home/boardManager/index"),
-        meta: { title: "게시판관리" },
-        redirect: '/home/boardManager/list',
+        path: "board",
+        name: "board",
+        component: () => import("@/views/home/board"),
+        meta: { title: "게시판" },
         hidden: false,
-        children: [
-          {
-            path: "list",
-            name: "board-manager-list",
-            component: () => import("@/views/home/boardManager/boardManagerList"),
-            meta: { title: "목록" }
-          },
-          {
-            path: "add",
-            name: "board-manager-add",
-            component: () => import("@/views/home/boardManager/boardManagerAdd"),
-            hidden: true,
-            meta: { title: "등록" }
-          }
-        ]
       },
       {
         path: "code",

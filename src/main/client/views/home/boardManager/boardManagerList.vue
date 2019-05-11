@@ -86,8 +86,6 @@ export default {
       console.log("page", page);
     },
     addForm() {
-      console.log("#######################");
-      console.log('this.$router :', this.$router);
       this.$router.push({ name: 'board-manager-add' })
     }
   }
