@@ -16,11 +16,7 @@
           <template slot-scope="scope">{{ scope.$index | indexSeq({currentPage: 1, totalCount: 10, returnCount: 10}) }}</template>
         </el-table-column>
         <el-table-column prop="boardCode" label="코드"/>
-        <el-table-column label="이름">
-          <template slot-scope="scope">
-            <el-button type="text" size="small">{{scope.row.name}}</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="codeValue" label="이름"/>
         <el-table-column label="수정" width="100">
           <template slot-scope="scope">
             <el-button size="mini" @click="edit()">수정</el-button>
@@ -49,29 +45,29 @@ export default {
     return {
       tableData: [{
         boardCode: 'MainCode',
-        name: 'SubCode1',
+        minorCode: 'SubCode1',
         codeValue: '값1',
         orderNo: 10,
       }, {
         boardCode: 'MainCode',
-        name: 'SubCode2',
+        minorCode: 'SubCode2',
         codeValue: '값2',
         orderNo: 10,
       }, {
         boardCode: 'MainCode',
-        name: 'SubCode3',
+        minorCode: 'SubCode3',
         codeValue: '값3',
         orderNo: 10,
       }, {
         boardCode: 'MainCode',
-        name: 'SubCode4',
+        minorCode: 'SubCode4',
         codeValue: '값4',
         orderNo: 10,
       }],
       dialogFormVisible: false,
       form: {
         boardCode: 'ROOT',
-        name: '',
+        minorCode: '',
         codeValue: '',
         orderNo: 10,
       },

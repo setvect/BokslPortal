@@ -22,6 +22,7 @@ module.exports = {
       }
     }],
     "vue/name-property-casing": ["error", "PascalCase"],
+    "vue/mustache-interpolation-spacing": [0, "always"],
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
       'before': true,

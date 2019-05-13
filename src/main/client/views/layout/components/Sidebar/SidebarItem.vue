@@ -8,7 +8,7 @@
       </app-link>
     </template>
 
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)">
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" class="aaabb" popper-append-to-body>
       <template slot="title">
         <item :meta="item.meta"/>
       </template>
@@ -81,3 +81,9 @@ export default {
   }
 }
 </script>
+<style >
+  .aaabb .el-submenu__title{
+    /* padding: 10px !important;
+    color: red; */
+  }
+</style>

@@ -11,7 +11,14 @@ const boardManageRouter = {
       name: "board-manager-list",
       component: () => import("@/views/home/boardManager/boardManagerList"),
       hidden: true,
-      meta: { title: "목록" }
+      META: { title: "목록" }
+    },
+    {
+      path: "read",
+      name: "board-manager-read",
+      component: () => import("@/views/home/boardManager/boardManagerRead"),
+      hidden: true,
+      meta: { title: "읽기" }
     },
     {
       path: "add",

@@ -53,8 +53,31 @@ export const constantRouterMap = [
         path: "board",
         name: "board",
         component: () => import("@/views/home/board"),
+        redirect: "/home/boardManager/boardList",
         meta: { title: "게시판" },
-        hidden: false,
+        children: [
+          {
+            path: "list",
+            name: "board-list",
+            component: () => import("@/views/home/board/boardList"),
+            hidden: true,
+            meta: { title: "목록" }
+          },
+          {
+            path: "read",
+            name: "board-read",
+            component: () => import("@/views/home/board/boardRead"),
+            hidden: true,
+            meta: { title: "읽기" }
+          },
+          {
+            path: "write",
+            name: "board-write",
+            component: () => import("@/views/home/board/boardWrite"),
+            hidden: true,
+            meta: { title: "쓰기" }
+          }
+        ]
       },
       {
         path: "code",
