@@ -23,8 +23,8 @@
           <el-switch v-model="form.encodeF"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">확인</el-button>
-          <el-button @click="onCancel">취소</el-button>
+          <el-button size="medium" type="primary" @click="onSubmit()">확인</el-button>
+          <el-button size="medium" @click="listPage()">취소</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -53,7 +53,7 @@ export default {
     onSubmit() {
       this.$message('submit!')
     },
-    onCancel() {
+    listPage() {
       this.$router.push({ name: 'board-manager-list' })
     }
   }

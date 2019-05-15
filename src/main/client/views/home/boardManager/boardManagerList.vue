@@ -18,7 +18,7 @@
         <el-table-column prop="boardCode" label="코드"/>
         <el-table-column label="이름">
           <template slot-scope="scope">
-            <el-button type="text" size="small">{{scope.row.name}}</el-button>
+            <el-button type="text" size="small" @click="readPage()">{{scope.row.name}}</el-button>
           </template>
         </el-table-column>
         <el-table-column label="수정" width="100">
@@ -37,7 +37,7 @@
       <el-pagination :total="1000" background align="center" layout="prev, pager, next" @current-change="changePage"/>
     </el-row>
     <el-row>
-      <el-button size="medium" @click="addForm()">만들기</el-button>
+      <el-button size="medium" @click="addPage()">만들기</el-button>
     </el-row>
   </div>
 </template>
@@ -89,8 +89,11 @@ export default {
     changePage(page) {
       console.log("page", page);
     },
-    addForm() {
+    addPage() {
       this.$router.push({ name: 'board-manager-add' })
+    },
+    readPage() {
+      this.$router.push({ name: 'board-manager-read' })
     }
   }
 }

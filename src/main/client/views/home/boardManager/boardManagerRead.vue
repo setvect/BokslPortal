@@ -1,30 +1,16 @@
 <template>
   <div class="app-container">
     <el-row>
-      <el-form ref="form" :model="form" label-width="120px">
-        <el-form-item label="코드">
-          <el-input v-model="form.boardCode" style="max-width:200px;"/>
-        </el-form-item>
-        <el-form-item label="이름">
-          <el-input v-model="form.name" style="max-width:200px;"/>
-        </el-form-item>
-
-        <el-form-item label="업로드 용량제한">
-          <el-input v-model.number="form.uploadLimit" type="number" style="max-width:200px;"/>(KB)
-        </el-form-item>
-
-        <el-form-item label="댓글 사용">
-          <el-switch v-model="form.commentF"/>
-        </el-form-item>
-        <el-form-item label="파일 업로드">
-          <el-switch v-model="form.attachF"/>
-        </el-form-item>
-        <el-form-item label="암호화 글 등록">
-          <el-switch v-model="form.encodeF"/>
-        </el-form-item>
+      <el-form ref="form" label-width="120px">
+        <el-form-item label="코드">{{item.boardCode}}</el-form-item>
+        <el-form-item label="이름">{{item.name}}</el-form-item>
+        <el-form-item label="업로드 용량제한">{{item.uploadLimit}}</el-form-item>
+        <el-form-item label="댓글 사용">{{item.commentF}}</el-form-item>
+        <el-form-item label="파일 업로드">{{item.attachF}}</el-form-item>
+        <el-form-item label="암호화 글 등록">{{item.encodeF}}</el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">확인</el-button>
-          <el-button @click="onCancel">취소</el-button>
+          <el-button size="medium" type="primary" @click="editPage()">수정</el-button>
+          <el-button size="medium" @click="listPage()">목록</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -36,9 +22,9 @@ import "@/utils/vue-common"
 export default {
   data() {
     return {
-      form: {
+      item: {
         boardCode: "BDAABB00",
-        name: '',
+        name: '공지사항',
         uploadLimit: 1000,
         commentF: false,
         attachF: true,
@@ -47,16 +33,18 @@ export default {
     }
   },
   methods: {
-    edit() {
-      console.log("수정")
+    editPage() {
+      this.$router.push({ name: 'board-manager-add' })
     },
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
+    listPage() {
       this.$router.push({ name: 'board-manager-list' })
-    }
+    },
   }
 }
 </script>
+<style>
+  .row{
+    background-color: red;
+  }
+</style>
 
