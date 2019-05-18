@@ -53,7 +53,7 @@ export const constantRouterMap = [
         path: "board",
         name: "board",
         component: () => import("@/views/home/board"),
-        redirect: "/home/boardManager/boardList",
+        redirect: "/home/board/list",
         meta: { title: "게시판" },
         children: [
           {
@@ -71,9 +71,9 @@ export const constantRouterMap = [
             meta: { title: "읽기" }
           },
           {
-            path: "write",
-            name: "board-write",
-            component: () => import("@/views/home/board/boardWrite"),
+            path: "add",
+            name: "board-add",
+            component: () => import("@/views/home/board/boardAdd"),
             hidden: true,
             meta: { title: "쓰기" }
           }

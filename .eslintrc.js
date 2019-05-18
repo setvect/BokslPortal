@@ -23,6 +23,15 @@ module.exports = {
     }],
     "vue/name-property-casing": ["error", "PascalCase"],
     "vue/mustache-interpolation-spacing": [0, "always"],
+    "vue/html-self-closing": ["always", {
+      "html": {
+        "void": "never",
+        "normal": "always",
+        "component": "always"
+      },
+      "svg": "always",
+      "math": "always"
+    }],
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
       'before': true,

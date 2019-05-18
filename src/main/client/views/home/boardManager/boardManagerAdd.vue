@@ -47,9 +47,6 @@ export default {
     }
   },
   methods: {
-    edit() {
-      console.log("수정")
-    },
     onSubmit() {
       this.$message('submit!')
     },

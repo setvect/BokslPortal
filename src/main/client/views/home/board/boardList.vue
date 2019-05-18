@@ -15,8 +15,14 @@
         <el-table-column label="No." width="80" align="center">
           <template slot-scope="scope">{{ scope.$index | indexSeq({currentPage: 1, totalCount: 10, returnCount: 10}) }}</template>
         </el-table-column>
-        <el-table-column prop="boardCode" label="코드"/>
-        <el-table-column prop="codeValue" label="이름"/>
+        <el-table-column prop="title" label="제목">
+          <template slot-scope="scope">
+            <el-link @click="readPage(scope.row.articleSeq)">{{scope.row.title}}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="날짜" width="120">
+          <template slot-scope="scope">{{scope.row.regDate|dateFormat("YYYY-MM-DD")}}</template>
+        </el-table-column>
         <el-table-column label="수정" width="100">
           <template slot-scope="scope">
             <el-button size="mini" @click="edit()">수정</el-button>
@@ -33,7 +39,7 @@
       <el-pagination :total="1000" background align="center" layout="prev, pager, next" @current-change="changePage"/>
     </el-row>
     <el-row>
-      <el-button size="medium" @click="addForm()">만들기</el-button>
+      <el-button size="medium" @click="addPage()">만들기</el-button>
     </el-row>
   </div>
 </template>
@@ -44,31 +50,25 @@ export default {
   data() {
     return {
       tableData: [{
-        boardCode: 'MainCode',
+        articleSeq: 1,
+        title: 'MainCode',
         minorCode: 'SubCode1',
-        codeValue: '값1',
+        name: '값1',
+        regDate: new Date(),
         orderNo: 10,
       }, {
-        boardCode: 'MainCode',
-        minorCode: 'SubCode2',
-        codeValue: '값2',
-        orderNo: 10,
-      }, {
-        boardCode: 'MainCode',
-        minorCode: 'SubCode3',
-        codeValue: '값3',
-        orderNo: 10,
-      }, {
-        boardCode: 'MainCode',
+        articleSeq: 2,
+        title: 'MainCode',
         minorCode: 'SubCode4',
-        codeValue: '값4',
+        name: '값4',
+        regDate: new Date(),
         orderNo: 10,
       }],
       dialogFormVisible: false,
       form: {
-        boardCode: 'ROOT',
+        title: 'ROOT',
         minorCode: '',
-        codeValue: '',
+        name: '',
         orderNo: 10,
       },
       formLabelWidth: '120px',
@@ -85,8 +85,11 @@ export default {
     changePage(page) {
       console.log("page", page);
     },
-    addForm() {
-      this.$router.push({ name: 'board-manager-add' })
+    addPage() {
+      this.$router.push({ name: 'board-add' })
+    },
+    readPage() {
+      this.$router.push({ name: 'board-read' })
     }
   }
 }
