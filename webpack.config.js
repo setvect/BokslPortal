@@ -2,6 +2,7 @@ const path = require("path")
 const VueLoaderPlugin = require("vue-loader/lib/plugin")
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const webpack = require("webpack")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = env => {
   let clientPath = path.resolve(__dirname, "src/main/client")
@@ -9,8 +10,7 @@ module.exports = env => {
   return {
     mode: !env ? "development" : env,
     entry: {
-      "assets/bundle/js/vendors": ["jquery", "vue", "vuex", "axios", "vue-axios", "bootstrap", "vee-validate", "lodash", "datatables", "jszip", "datatables.net-buttons", "daterangepicker", "xlsx", "moment"],
-      "index.html": clientPath + "/index.html",
+      "assets/bundle/js/vendors": ["jquery", "vue", "vuex", "axios", "vue-axios", "bootstrap", "vee-validate", "lodash", "datatables", "jszip", "datatables.net-buttons", "daterangepicker", "xlsx", "moment"]
     },
     devtool: false,
     output: {
@@ -112,6 +112,22 @@ module.exports = env => {
         jquery: "jquery",
         "window.jQuery": "jquery",
         jQuery: "jquery"
+      }),
+      new HtmlWebpackPlugin({
+        filename: "index.html",
+        template: clientPath + "/index.html",
+        inject: true,
+        title: "vue-admin-template",
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true
+          // more options:
+          // https://github.com/kangax/html-minifier#options-quick-reference
+        }
+        // default sort mode uses toposort which cannot handle cyclic deps
+        // in certain cases, and in webpack 4, chunk order in HTML doesn't
+        // matter anyway
       })
     ]
   }
