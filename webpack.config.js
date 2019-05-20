@@ -10,7 +10,7 @@ module.exports = env => {
   return {
     mode: !env ? "development" : env,
     entry: {
-      "assets/bundle/js/vendors": ["jquery", "vue", "vuex", "axios", "vue-axios", "bootstrap", "vee-validate", "lodash", "datatables", "jszip", "datatables.net-buttons", "daterangepicker", "xlsx", "moment"]
+      app: './src/main/client/main.js'
     },
     devtool: false,
     output: {
