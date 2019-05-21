@@ -47,10 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     web.ignoring()
       .antMatchers("/index.html")
       .antMatchers("/favicon.ico")
-      .antMatchers("/static/**")
-      .antMatchers("/h2-console/**")
       .antMatchers("/user/logout")
-      .antMatchers("/error/**");
+      .antMatchers("/error/**")
+      .antMatchers("/h2-console/**")
+      // TODO 삭제 대상
+      .antMatchers("/vendors/**")
+      .antMatchers("/build/**")
+      .antMatchers("/images/**");
   }
 
   @Override

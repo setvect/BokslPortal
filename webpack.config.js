@@ -107,28 +107,23 @@ module.exports = env => {
         filename: "[name].js.map"
       }),
       new webpack.DefinePlugin({ "global.GENTLY": false }),
-      new webpack.ProvidePlugin({
-        $: "jquery",
-        jquery: "jquery",
-        "window.jQuery": "jquery",
-        jQuery: "jquery"
-      }),
-      new HtmlWebpackPlugin({
-        filename: "index.html",
-        template: clientPath + "/index.html",
-        inject: true,
-        title: "vue-admin-template",
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true
-          // more options:
-          // https://github.com/kangax/html-minifier#options-quick-reference
-        }
-        // default sort mode uses toposort which cannot handle cyclic deps
-        // in certain cases, and in webpack 4, chunk order in HTML doesn't
-        // matter anyway
-      })
+      // new webpack.ProvidePlugin({
+      //   $: "jquery",
+      //   jquery: "jquery",
+      //   "window.jQuery": "jquery",
+      //   jQuery: "jquery"
+      // }),
+      // new HtmlWebpackPlugin({
+      //   filename: "index.html",
+      //   template: clientPath + "/index.html",
+      //   inject: true,
+      //   title: "vue-admin-template",
+      //   minify: {
+      //     removeComments: true,
+      //     collapseWhitespace: true,
+      //     removeAttributeQuotes: true
+      //   }
+      // })
     ]
   }
 }
