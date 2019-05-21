@@ -27,7 +27,9 @@
 
 ### web ##
 /node_modules/
-/src/main/webapp/
+/src/main/webapp/asserts/
+/src/main/webapp/build/
+/src/main/webapp/vendors/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -40,4 +42,4 @@ package-lock.json
 /logs/
 /db/
 /temp/
-src/main/webapp/index.html
+src/main/webapp/index_back.html
