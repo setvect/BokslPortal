@@ -107,12 +107,12 @@ module.exports = env => {
         filename: "[name].js.map"
       }),
       new webpack.DefinePlugin({ "global.GENTLY": false }),
-      // new webpack.ProvidePlugin({
-      //   $: "jquery",
-      //   jquery: "jquery",
-      //   "window.jQuery": "jquery",
-      //   jQuery: "jquery"
-      // }),
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jquery: "jquery",
+        "window.jQuery": "jquery",
+        jQuery: "jquery"
+      }),
       // new HtmlWebpackPlugin({
       //   filename: "index.html",
       //   template: clientPath + "/index.html",
