@@ -10,7 +10,7 @@ module.exports = env => {
   return {
     mode: !env ? "development" : env,
     entry: {
-      app: './src/main/client/main.js'
+      "app/js/main": './src/main/client/main.js'
     },
     devtool: false,
     output: {

@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/error/**")
       .antMatchers("/h2-console/**")
       // TODO 삭제 대상
+      .antMatchers("/app/**")
       .antMatchers("/vendors/**")
       .antMatchers("/build/**")
       .antMatchers("/images/**");
