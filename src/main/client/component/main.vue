@@ -190,7 +190,14 @@
       <!-- /top navigation -->
 
       <!-- page content -->
-      <div class="right_col">111aaaaaaaa내용</div>
+      <div class="right_col">
+        <b-button>Button</b-button>
+        <b-button variant="danger">Button</b-button>
+        <b-button variant="success">Button</b-button>
+        <b-button variant="outline-primary">Button</b-button>
+
+        <b-table striped hover :items="items"></b-table>
+      </div>
       <!-- /page content -->
     </div>
   </div>
@@ -198,6 +205,17 @@
 <script type="text/javascript">
 import pageBody from '../app/custom.js'
 export default {
+  data() {
+    return {
+      items: [
+        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
+        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+        { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+        { age: 38, first_name: 'Jami', last_name: 'Carney' }
+      ]
+    }
+
+  },
   methods: {
   },
   mounted() {
