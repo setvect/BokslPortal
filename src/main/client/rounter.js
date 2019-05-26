@@ -8,7 +8,7 @@ export const constantRouterMap = [
     path: "/",
     component: deshboard,
     name: "Dashboard",
-  }
+  },
 ]
 
 export default new Router({

@@ -6,7 +6,7 @@
           <div class="navbar nav_title" style="border: 0;">
             <a href="index.html" class="site_title">
               <i class="fa fa-paw"></i>
-              <span>복슬포털</span>
+              <router-link to="/"><span style="color:white">복슬포털</span></router-link>
             </a>
           </div>
 
