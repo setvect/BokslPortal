@@ -6,7 +6,9 @@
           <div class="navbar nav_title" style="border: 0;">
             <a href="index.html" class="site_title">
               <i class="fa fa-paw"></i>
-              <router-link to="/"><span style="color:white">복슬포털</span></router-link>
+              <router-link to="/">
+                <span style="color:white">복슬포털</span>
+              </router-link>
             </a>
           </div>
 
@@ -36,14 +38,7 @@ import topComponent from './top.vue'
 
 export default {
   data() {
-    return {
-      items: [
-        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        { age: 38, first_name: 'Jami', last_name: 'Carney' }
-      ]
-    }
+    return {}
   },
   components: {
     sideMenu: menuComponent,

@@ -1,14 +1,25 @@
 import Vue from "vue"
 import Router from "vue-router"
-import deshboard from "./component/dashboard.vue"
 
 Vue.use(Router)
 export const constantRouterMap = [
   {
-    path: "/",
-    component: deshboard,
-    name: "Dashboard",
+    path: "/login",
+    component: () => import("./component/login.vue"),
+    name: "login"
   },
+  {
+    path: "/main",
+    component: () => import("./component/main.vue"),
+    name: "main",
+    children:[
+      {
+        path: "dashboard",
+        component: () => import("./component/dashboard.vue"),
+        name: "dashboard"
+      }
+    ]
+  }
 ]
 
 export default new Router({
