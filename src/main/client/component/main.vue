@@ -48,6 +48,9 @@ export default {
   },
   mounted() {
     pageBody.init();
+  },
+  beforeCreate() {
+    document.body.className = "nav-md"
   }
 }
 </script>
