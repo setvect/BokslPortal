@@ -47,7 +47,7 @@ PageBody.init_sidebar = function() {
 
     // normalize content
     contentHeight -= PageBody.$NAV_MENU.height()
-    PageBody.$RIGHT_COL.css("min-height", contentHeight + 10)
+    PageBody.$RIGHT_COL.css("min-height", contentHeight + 57)
   }
 
   PageBody.$SIDEBAR_MENU.find("a").on("click", function(ev) {

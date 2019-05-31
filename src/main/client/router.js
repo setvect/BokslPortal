@@ -3,6 +3,11 @@ import Router from "vue-router"
 
 Vue.use(Router)
 export const constantRouterMap = [
+  { path: "/404", component: () => import("./views/404"), hidden: true },
+  {
+    path: "/",
+    redirect: "/main/dashboard"
+  },
   {
     path: "/login",
     component: () => import("./component/login.vue"),
@@ -12,14 +17,15 @@ export const constantRouterMap = [
     path: "/main",
     component: () => import("./component/main.vue"),
     name: "main",
-    children:[
+    children: [
       {
         path: "dashboard",
         component: () => import("./component/dashboard.vue"),
         name: "dashboard"
       }
     ]
-  }
+  },
+  { path: "*", redirect: "/404"}
 ]
 
 export default new Router({
