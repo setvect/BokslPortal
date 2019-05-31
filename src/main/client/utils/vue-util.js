@@ -2,7 +2,7 @@ import CommonUtil from "./common-util.js"
 import axios from "axios"
 import $ from "jquery"
 import store from "../store/index"
-import { getToken } from "@/utils/auth"
+import { getToken } from "./auth.js"
 
 // Vue 관련 공통 함수.
 const VueUtil = {}
