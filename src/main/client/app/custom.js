@@ -36,21 +36,18 @@ PageBody.init_sidebar = function() {
   PageBody.$LEFT_COL = $(".left_col")
   PageBody.$RIGHT_COL = $(".right_col")
   PageBody.$NAV_MENU = $(".nav_menu")
-  PageBody.$FOOTER = $("footer")
 
   var setContentHeight = function() {
     // reset height
     PageBody.$RIGHT_COL.css("min-height", $(window).height())
 
     var bodyHeight = PageBody.$BODY.outerHeight(),
-      footerHeight = PageBody.$BODY.hasClass("footer_fixed") ? -10 : PageBody.$FOOTER.height(),
       leftColHeight = PageBody.$LEFT_COL.eq(1).height() + PageBody.$SIDEBAR_FOOTER.height(),
       contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight
 
     // normalize content
-    contentHeight -= PageBody.$NAV_MENU.height() + footerHeight
-
-    PageBody.$RIGHT_COL.css("min-height", contentHeight + 55)
+    contentHeight -= PageBody.$NAV_MENU.height()
+    PageBody.$RIGHT_COL.css("min-height", contentHeight + 10)
   }
 
   PageBody.$SIDEBAR_MENU.find("a").on("click", function(ev) {
