@@ -19,7 +19,6 @@ export default {
       'roles'
     ])
   }, mounted() {
-    console.log('mapGetters :', mapGetters);
   }
 }
 </script>
