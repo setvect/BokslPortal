@@ -18,6 +18,8 @@ export default {
       'name',
       'roles'
     ])
+  }, mounted() {
+    console.log('mapGetters :', mapGetters);
   }
 }
 </script>
