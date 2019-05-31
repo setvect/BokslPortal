@@ -9,7 +9,7 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
           <li class>
-            <a href="/logout.do" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <a @click="logout()" href="javascript:void(0)" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               로그아웃
               <span class="glyphicon glyphicon-log-out"></span>
             </a>
@@ -27,7 +27,13 @@
 </template>
 <script>
 export default {
-
+  methods: {
+    logout() {
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload()
+      })
+    }
+  }
 }
 </script>
 
