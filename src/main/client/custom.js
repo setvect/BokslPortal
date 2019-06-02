@@ -32,7 +32,6 @@ PageBody.init_sidebar = function() {
   PageBody.$BODY = $("body")
   PageBody.$MENU_TOGGLE = $("#menu_toggle")
   PageBody.$SIDEBAR_MENU = $("#sidebar-menu")
-  PageBody.$SIDEBAR_FOOTER = $(".sidebar-footer")
   PageBody.$LEFT_COL = $(".left_col")
   PageBody.$RIGHT_COL = $(".right_col")
   PageBody.$NAV_MENU = $(".nav_menu")
@@ -42,8 +41,7 @@ PageBody.init_sidebar = function() {
     PageBody.$RIGHT_COL.css("min-height", $(window).height())
 
     var bodyHeight = PageBody.$BODY.outerHeight(),
-      leftColHeight = PageBody.$LEFT_COL.eq(1).height() + PageBody.$SIDEBAR_FOOTER.height(),
-      contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight
+      contentHeight = bodyHeight
 
     // normalize content
     contentHeight -= PageBody.$NAV_MENU.height()
