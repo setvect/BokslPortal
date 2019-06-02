@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
     <router-view/>
   </div>
 </template>
