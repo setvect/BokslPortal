@@ -312,6 +312,9 @@ body {
 .nav.child_menu li li a.active {
   color: #fff;
 }
+.nav > li {
+  position: relative;
+}
 .nav > li > a {
   position: relative;
   display: block;

@@ -35,7 +35,7 @@ module.exports = env => {
       contentBase: outputPath,
       publicPath: "/",
       host: "0.0.0.0",
-      port: 8081,
+      port: 8082,
       proxy: {
         "**": "http://127.0.0.1:8080"
       },

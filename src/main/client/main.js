@@ -9,6 +9,8 @@ import './css/custom.css'
 import './permission.js'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+// import './assert/bootstrap3/dist/css/bootstrap.css'
+// import './assert/bootstrap4/dist/css/bootstrap.css'
 
 Vue.use(BootstrapVue)
 
