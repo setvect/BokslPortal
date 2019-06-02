@@ -13,9 +13,6 @@
 .nav-sm .container.body .col-md-3.left_col .mCustomScrollBox {
   overflow: visible;
 }
-.nav-sm .hidden-small {
-  visibility: hidden;
-}
 .nav-sm .container.body .right_col {
   padding: 10px 20px;
   margin-left: 70px;
@@ -190,13 +187,6 @@ body .container.body .right_col {
   }
 }
 
-.left_col .mCSB_scrollTools {
-  width: 6px;
-}
-.left_col .mCSB_dragger {
-  max-height: 400px !important;
-}
-
 .container {
   width: 100%;
   padding: 0;
@@ -232,9 +222,6 @@ body {
 .navbar {
   margin-bottom: 0;
 }
-.navbar-header {
-  background: #34495e;
-}
 .navbar-right {
   margin-right: 0;
 }
@@ -253,13 +240,6 @@ body {
   .top_nav .navbar-right li {
     position: relative;
   }
-}
-.top_nav .dropdown-menu li {
-  width: 100%;
-}
-.top_nav .dropdown-menu li a {
-  width: 100%;
-  padding: 12px 20px;
 }
 .top_nav li a i {
   font-size: 15px;
@@ -424,29 +404,6 @@ footer {
   margin-left: 70px;
 }
 
-.sidebar-footer {
-  bottom: 0px;
-  clear: both;
-  display: block;
-  padding: 5px 0 0 0;
-  position: fixed;
-  width: 230px;
-  background: #2a3f54;
-  z-index: 999;
-}
-.sidebar-footer a {
-  padding: 7px 0 3px;
-  text-align: center;
-  width: 25%;
-  font-size: 17px;
-  display: block;
-  float: left;
-  background: #172d44;
-  cursor: pointer;
-}
-.sidebar-footer a:hover {
-  background: #425567;
-}
 a.user-profile {
   color: #5e6974 !important;
 }
