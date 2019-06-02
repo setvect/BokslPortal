@@ -8,6 +8,7 @@
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 import menuComponent from './menu.vue'
 import topComponent from './top.vue'
+import '../css/custom.css'
 
 export default {
   data() {
