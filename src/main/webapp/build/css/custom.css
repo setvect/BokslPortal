@@ -90,13 +90,6 @@
   text-align: left !important;
 }
 
-
-
-
-
-
-
-
 .menu_section {
   margin-bottom: 35px;
 }
@@ -122,12 +115,6 @@
   min-width: inherit;
   color: #c4cfda;
 }
-
-
-
-
-
-
 
 .active a span.fa {
   text-align: right !important;
@@ -157,14 +144,6 @@
   }
 }
 
-
-
-
-
-
-
-
-
 .nav-md .container.body .col-md-3.left_col {
   min-height: 100%;
   width: 230px;
@@ -193,14 +172,6 @@ body .container.body .right_col {
   height: 57px;
 }
 
-
-
-
-
-
-
-
-
 @media (max-width: 991px) {
   .nav-md .container.body .right_col,
   .nav-md .container.body .top_nav {
@@ -219,18 +190,6 @@ body .container.body .right_col {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .left_col .mCSB_scrollTools {
   width: 6px;
 }
@@ -238,33 +197,10 @@ body .container.body .right_col {
   max-height: 400px !important;
 }
 
-
-
-
-
-
-
-
-
-
 .container {
   width: 100%;
   padding: 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .navbar-nav > li > a,
 .navbar-brand,
@@ -278,14 +214,6 @@ body .container.body .right_col {
 .top_nav .nav .open > a:hover {
   background: #d9dee4;
 }
-
-
-
-
-
-
-
-
 
 body {
   color: #73879c;
