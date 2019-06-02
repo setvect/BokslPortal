@@ -147,7 +147,7 @@
   padding: 0;
   position: absolute;
   display: -ms-flexbox;
-  display: flex;
+  /* display: flex; */
   z-index: 1;
 }
 .nav-md .container.body .col-md-3.left_col.menu_fixed {
@@ -188,10 +188,13 @@ body .container.body .right_col {
 }
 
 .container {
+  max-width: 100% !important;
   width: 100%;
-  padding: 0;
+  padding: 0 !important;
 }
-
+.navbar-nav{
+  display: block !important;
+}
 .navbar-nav > li > a,
 .navbar-brand,
 .navbar-nav > li > a {
@@ -206,12 +209,12 @@ body .container.body .right_col {
 }
 
 body {
-  color: #73879c;
-  background: #2a3f54;
-  font-family: "Malgun Gothic", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.471;
+  color: #73879c !important;
+  background: #2a3f54 !important;
+  font-family: "Malgun Gothic", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1.471 !important;
 }
 
 .main_container .top_nav {
@@ -221,6 +224,7 @@ body {
 
 .navbar {
   margin-bottom: 0;
+  padding: 0px !important;
 }
 .navbar-right {
   margin-right: 0;

@@ -9,8 +9,6 @@
 <script type="text/javascript">
 import menuComponent from './menu.vue'
 import topComponent from './top.vue'
-import '../css/custom.css'
-// import 'font-awesome/css/font-awesome.css'
 
 export default {
   data() {
