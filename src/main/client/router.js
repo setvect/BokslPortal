@@ -22,10 +22,15 @@ export const constantRouterMap = [
         path: "dashboard",
         component: () => import("./component/dashboard.vue"),
         name: "dashboard"
+      },
+      {
+        path: "code",
+        component: () => import("./app/code/code.vue"),
+        name: "code"
       }
     ]
   },
-  { path: "*", redirect: "/404"}
+  { path: "*", redirect: "/404" }
 ]
 
 export default new Router({

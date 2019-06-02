@@ -69,7 +69,7 @@
               </ul>
             </li>
             <li>
-              <a href="#">코드관리</a>
+              <router-link :to="{name: 'code'}">코드관리</router-link>
             </li>
           </ul>
         </li>
