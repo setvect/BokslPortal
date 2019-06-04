@@ -1,14 +1,11 @@
 package com.setvect.bokslportal.util;
 
-import org.apache.commons.lang3.StringUtils;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  */
@@ -16,7 +13,7 @@ public class StringEtcUtil {
 
 	/**
 	 * @param word
-	 * 
+	 *
 	 * @return sql String 값에 들어가도록 변경
 	 */
 	public static String getSqlString(String word) {
@@ -65,7 +62,7 @@ public class StringEtcUtil {
 
 	/**
 	 * 폼에 맞게 문자를 바꾸어 준다.
-	 * 
+	 *
 	 * @param src
 	 *            source String
 	 * @return 변환된 String
@@ -86,7 +83,7 @@ public class StringEtcUtil {
 
 	/**
 	 * Html 코드를 텍스트로 코드화 변환
-	 * 
+	 *
 	 * @param src
 	 *            html문자열
 	 * @return text로 변경된 문자열
@@ -109,7 +106,7 @@ public class StringEtcUtil {
 
 	/**
 	 * 개행문자를 br 테그를 변경
-	 * 
+	 *
 	 * @param src
 	 *            source String
 	 * @return 변환된 String
@@ -124,7 +121,7 @@ public class StringEtcUtil {
 
 	/**
 	 * s2 배열에중에 s1과 같은 문장이 있는지 검사
-	 * 
+	 *
 	 * @param s1
 	 *            원본값
 	 * @param s2
@@ -162,7 +159,7 @@ public class StringEtcUtil {
 
 	/**
 	 * s2 배열에중에 s1과 같은 문장이 있는지 검사. 만약 있으면 존제하는 배열위치 리턴
-	 * 
+	 *
 	 * @param s1
 	 *            원본값
 	 * @param s2
@@ -211,33 +208,10 @@ public class StringEtcUtil {
 		return buf.toString();
 	}
 
-	/**
-	 * @param str
-	 *            base64로 된 문자열
-	 * @return 디코딩 된 문자열
-	 */
-	public static String decodeString(String str) {
-		BASE64Decoder dec = new BASE64Decoder();
-		try {
-			return new String(dec.decodeBuffer(str));
-		} catch (IOException io) {
-			throw new RuntimeException(io.getMessage(), io.getCause());
-		}
-	}
-
-	/**
-	 * @param str
-	 *            인코딩 할 문자열
-	 * @return base64 문자열
-	 */
-	public static String encodeString(String str) {
-		BASE64Encoder encoder = new BASE64Encoder();
-		return new String(encoder.encodeBuffer(str.getBytes())).trim();
-	}
 
 	/**
 	 * 바이트 단위 스트링 절삭 (한글 인코딩에 따라 안될 수도 있음)
-	 * 
+	 *
 	 * @param str
 	 *            스트링
 	 * @param sz
@@ -270,7 +244,7 @@ public class StringEtcUtil {
 	/**
 	 * 제목등에 표시할때 스트링 줄임을 표현 (...)<br>
 	 * 바이트 단위
-	 * 
+	 *
 	 * @param s
 	 *            원본스트링
 	 * @param limit
@@ -291,7 +265,7 @@ public class StringEtcUtil {
 
 	/**
 	 * html 테그 제거
-	 * 
+	 *
 	 * @param src
 	 *            Html 코드가 들어간 텍스트 데이터
 	 * @return 순수 TEXT 데이터만 리턴
@@ -319,7 +293,7 @@ public class StringEtcUtil {
 
 	/**
 	 * 특수 문자 제거
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
