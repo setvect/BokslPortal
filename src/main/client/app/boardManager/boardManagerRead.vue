@@ -50,7 +50,10 @@
 </template>
 
 <script>
+import boardCommon from './mixin-boardManager.js'
+
 export default {
+  mixins: [boardCommon],
   data() {
     return {
       item: {
@@ -64,12 +67,6 @@ export default {
     }
   },
   methods: {
-    editPage() {
-      console.log("수정")
-    },
-    removeProc() {
-      console.log("삭제")
-    },
     listPage() {
       this.$router.push({ name: 'boardManagerList' })
     },

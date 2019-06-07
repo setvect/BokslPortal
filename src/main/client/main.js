@@ -1,22 +1,31 @@
-import Vue from 'vue'
-import template from './component/template.vue'
-import BootstrapVue from 'bootstrap-vue'
+import Vue from "vue"
+import template from "./component/template.vue"
+import BootstrapVue from "bootstrap-vue"
 import router from "./router.js"
-import store from './store/index'
+import store from "./store/index"
 
-import './assert/font-awesome/css/font-awesome.css'
-import './css/custom.css'
-import './permission.js'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import './assert/bootstrap3/dist/css/bootstrap.css'
-// import './assert/bootstrap4/dist/css/bootstrap.css'
+import "./assert/font-awesome/css/font-awesome.css"
+import "./css/custom.css"
+import "./permission.js"
+import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
+import VeeValidate from "vee-validate"
+import ko from "vee-validate/dist/locale/ko"
 
 Vue.use(BootstrapVue)
+Vue.use(VeeValidate, {
+  inject: true,
+  locale: "ko",
+  dictionary: {
+    ko
+  },
+  fieldsBagName: "veeFields",
+  errorBagName: "veeErrors"
+})
 
 new Vue({
-  el: '#app',
+  el: "#app",
   render: h => h(template),
   router,
-  store,
+  store
 })

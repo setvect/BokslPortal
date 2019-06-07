@@ -17,7 +17,7 @@
       </template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.boardManagerSeq)">수정</b-link>
-        <b-link @click="removeProc(data.boardManagerSeq)">삭제</b-link>
+        <b-link @click="deleteProc(data.boardManagerSeq)">삭제</b-link>
       </template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
@@ -30,7 +30,10 @@
 </template>
 
 <script>
+import boardCommon from './mixin-boardManager.js'
+
 export default {
+  mixins: [boardCommon],
   data() {
     return {
       fields: [
@@ -64,15 +67,6 @@ export default {
     }
   },
   methods: {
-    editPage() {
-      console.log("수정")
-    },
-    removeProc() {
-      console.log("삭제")
-    },
-    changePage(page) {
-      console.log("page", page);
-    },
     addPage() {
       this.$router.push({ name: 'boardManagerAdd' })
     },
