@@ -3,11 +3,18 @@
     <b-table :bordered="true" hover :fields="fields" :items="codeList">
       <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
       <template slot="orderNo" slot-scope="data">
-        <b-form-input id="input-1" v-model.number="data.item.orderNo " type="number" required/>
+        <b-form-input id="input-1" v-model.number="data.item.orderNo " type="number" size="sm" required/>
+      </template>
+      <template slot="delete" slot-scope="data">
+        <b-link @click="deleteProc(data.item)">삭제</b-link>
       </template>
     </b-table>
-    <b-button @click="addPage()" type="button" variant="info">코드 만들기</b-button>
-    <b-button type="button" variant="info">정렬값 수정</b-button>
+    <b-row>
+      <b-col style="text-align:right">
+        <b-button @click="addPage()" type="button" variant="info">코드 만들기</b-button>
+        <b-button type="button" variant="info">정렬값 수정</b-button>
+      </b-col>
+    </b-row>
     <add ref="add"/>
   </div>
 </template>
@@ -27,6 +34,7 @@ export default {
         { key: 'minorCode', label: "소분류" },
         { key: 'codeValue', label: "코드값" },
         { key: 'orderNo', label: "순서", class: 'col-order' },
+        { key: 'delete', label: "삭제" },
       ],
       codeList: [{
         majorCode: 'MainCode',

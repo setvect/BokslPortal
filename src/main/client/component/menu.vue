@@ -10,7 +10,7 @@
           </a>
           <ul class="nav child_menu">
             <li>
-              <a href="#">게시판관리</a>
+              <router-link :to="{name: 'boardManager'}">게시판관리</router-link>
             </li>
             <li></li>
             <li>
@@ -146,15 +146,58 @@
   </div>
   <!-- /sidebar menu -->
 </template>
-<script type="text/javascript">
+<script>
 export default {
   data() {
     return {
+      tableData: [{
+        boardCode: 'MainCode',
+        name: 'SubCode1',
+        codeValue: '값1',
+        orderNo: 10,
+      }, {
+        boardCode: 'MainCode',
+        name: 'SubCode2',
+        codeValue: '값2',
+        orderNo: 10,
+      }, {
+        boardCode: 'MainCode',
+        name: 'SubCode3',
+        codeValue: '값3',
+        orderNo: 10,
+      }, {
+        boardCode: 'MainCode',
+        name: 'SubCode4',
+        codeValue: '값4',
+        orderNo: 10,
+      }],
+      dialogFormVisible: false,
+      form: {
+        boardCode: 'ROOT',
+        name: '',
+        codeValue: '',
+        orderNo: 10,
+      },
+      formLabelWidth: '120px',
+      type: 'code',
     }
   },
   methods: {
+    edit() {
+      console.log("수정")
+    },
+    remove() {
+      console.log("삭제")
+    },
+    changePage(page) {
+      console.log("page", page);
+    },
+    addPage() {
+      this.$router.push({ name: 'board-manager-add' })
+    },
+    readPage() {
+      this.$router.push({ name: 'board-manager-read' })
+    }
   }
 }
-
 </script>
-

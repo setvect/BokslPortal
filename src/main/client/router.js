@@ -24,6 +24,24 @@ export const constantRouterMap = [
         name: "dashboard"
       },
       {
+        path: "boardManager",
+        component: () => import("./app/boardManager/index.vue"),
+        name: "boardManager",
+        redirect: "/main/boardManager/list",
+        children: [
+          {
+            path: "list",
+            component: () => import("./app/boardManager/boardManagerList.vue"),
+            name: "boardManagerList"
+          },
+          {
+            path: "read",
+            component: () => import("./app/boardManager/boardManagerRead.vue"),
+            name: "boardManagerRead"
+          }
+        ]
+      },
+      {
         path: "code",
         component: () => import("./app/code/code.vue"),
         name: "code"
