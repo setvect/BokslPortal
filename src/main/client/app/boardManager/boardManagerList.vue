@@ -74,7 +74,7 @@ export default {
       console.log("page", page);
     },
     addPage() {
-      this.$router.push({ name: 'board-manager-add' })
+      this.$router.push({ name: 'boardManagerAdd' })
     },
     readPage() {
       this.$router.push({ name: 'boardManagerRead' })

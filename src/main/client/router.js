@@ -38,6 +38,11 @@ export const constantRouterMap = [
             path: "read",
             component: () => import("./app/boardManager/boardManagerRead.vue"),
             name: "boardManagerRead"
+          },
+          {
+            path: "add",
+            component: () => import("./app/boardManager/boardManagerAdd.vue"),
+            name: "boardManagerAdd"
           }
         ]
       },
