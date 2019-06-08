@@ -25,7 +25,7 @@ export const constantRouterMap = [
       },
       {
         path: "boardManager",
-        component: () => import("./app/boardManager/index.vue"),
+        component: () => import("./app/index.vue"),
         name: "boardManager",
         redirect: "/main/boardManager/list",
         children: [
@@ -43,6 +43,29 @@ export const constantRouterMap = [
             path: "add",
             component: () => import("./app/boardManager/boardManagerAdd.vue"),
             name: "boardManagerAdd"
+          }
+        ]
+      },
+      {
+        path: "board",
+        component: () => import("./app/index.vue"),
+        name: "board",
+        redirect: "/main/board/list",
+        children: [
+          {
+            path: "list",
+            component: () => import("./app/board/boardList.vue"),
+            name: "boardList"
+          },
+          {
+            path: "read",
+            component: () => import("./app/board/boardRead.vue"),
+            name: "boardRead"
+          },
+          {
+            path: "add",
+            component: () => import("./app/board/boardAdd.vue"),
+            name: "boardAdd"
           }
         ]
       },

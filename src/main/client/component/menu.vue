@@ -20,7 +20,7 @@
               </a>
               <ul class="nav child_menu">
                 <li>
-                  <a href="#">글</a>
+                  <router-link :to="{name: 'board', query: { boardCode: 'BAAABB01' }}">글</router-link>
                 </li>
                 <li>
                   <a href="#">꿈</a>
