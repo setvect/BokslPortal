@@ -1,41 +1,24 @@
 <template>
   <div>
-    <h5>{{item.name}}</h5>
+    <h5>{{item.title}}</h5>
     <b-row>
       <b-col sm="2" class="head">
-        <label>코드</label>
+        <label>내용</label>
       </b-col>
-      <b-col sm="10">{{item.boardCode}}</b-col>
+      <b-col sm="10" v-html="item.content"/>
     </b-row>
     <b-row>
       <b-col sm="2" class="head">
-        <label>이름</label>
+        <label>첨부파일</label>
       </b-col>
-      <b-col sm="10">{{item.name}}</b-col>
-    </b-row>
-    <b-row>
-      <b-col sm="2" class="head">
-        <label>업로드 용량제한</label>
+      <b-col sm="10">
+        <ul>
+          <li
+            v-for="attach in item.attachList"
+            :key="attach.attachSeq"
+          >{{attach.name}} (size: {{attach.size | numberFormat}} byte )</li>
+        </ul>
       </b-col>
-      <b-col sm="10">{{item.uploadLimit}}</b-col>
-    </b-row>
-    <b-row>
-      <b-col sm="2" class="head">
-        <label>댓글 사용</label>
-      </b-col>
-      <b-col sm="10">{{item.commentF}}</b-col>
-    </b-row>
-    <b-row>
-      <b-col sm="2" class="head">
-        <label>파일 업로드</label>
-      </b-col>
-      <b-col sm="10">{{item.attachF}}</b-col>
-    </b-row>
-    <b-row>
-      <b-col sm="2" class="head">
-        <label>암호화 글</label>
-      </b-col>
-      <b-col sm="10">{{item.encodeF}}</b-col>
     </b-row>
     <b-row>
       <b-col>
@@ -50,31 +33,40 @@
 </template>
 
 <script>
-import boardCommon from './mixin-board.js'
+import boardCommon from "./mixin-board.js";
+import "../../utils/vue-common.js";
 
 export default {
   mixins: [boardCommon],
   data() {
     return {
       item: {
-        boardCode: "BDAABB00",
-        name: '공지사항',
-        uploadLimit: 1000,
-        commentF: false,
-        attachF: true,
-        encodeF: false
+        title: "BDAABB00",
+        content: "공지사항<br><strong>안녕</strong>",
+        attachList: [
+          {
+            attachSeq: 1,
+            name: "abc.ppt",
+            size: 500000
+          },
+          {
+            attachSeq: 2,
+            name: "bee.ppt",
+            size: 1000
+          }
+        ]
       }
-    }
+    };
   },
   methods: {
     listPage() {
-      this.$router.push({ name: 'boardList' })
-    },
+      this.$router.push({ name: "boardList" });
+    }
   }
-}
+};
 </script>
 <style scoped>
-  .head{
-    font-weight: bold;
-  }
+.head {
+  font-weight: bold;
+}
 </style>

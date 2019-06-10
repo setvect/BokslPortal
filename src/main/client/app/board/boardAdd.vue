@@ -2,37 +2,16 @@
   <div>
     <h5>게시판 만들기</h5>
     <form autocomplete="off">
-      <b-form-group abel-cols="2" label-cols-lg="2" label="코드">
-        <b-form-input v-model="item.boardCode" v-validate="{ required: true, length: 8 }" :state="validateState('item.boardCode')" name="item.boardCode" data-vv-as="코드"></b-form-input>
-        <span v-show="!validateState('item.boardCode')" class="invalid-feedback">{{ veeErrors.first('item.boardCode') }}</span>
+      <b-form-group abel-cols="2" label-cols-lg="2" label="제목">
+        <b-form-input v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('item.title')" name="item.title" data-vv-as="제목"></b-form-input>
+        <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
       </b-form-group>
-      <b-form-group label-cols="2" label-cols-lg="2" label="이름">
-        <b-form-input v-model="item.name" v-validate="{ required: true, max: 20 }" :state="validateState('item.name')" name="item.name" data-vv-as="이름"></b-form-input>
-        <span v-show="!validateState('item.name')" class="invalid-feedback">{{ veeErrors.first('item.name') }}</span>
+      <b-form-group label-cols="2" label-cols-lg="2" label="내용">
+        <quill-editor v-model="item.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)" style="height:300px; margin-bottom: 30px;"></quill-editor>
       </b-form-group>
-      <b-form-group label-cols="2" label-cols-lg="2" label="업로드 용량제한">
-        <b-form-input v-model="item.uploadLimit" v-validate="{ required: true, max: 8, integer: true}" :state="validateState('item.uploadLimit')" name="item.uploadLimit" data-vv-as="업로드 용량제한"></b-form-input>
-        <span v-show="!validateState('item.uploadLimit')" class="invalid-feedback">{{ veeErrors.first('item.uploadLimit') }}</span>
+      <b-form-group label-cols="2" label-cols-lg="2" label="첨부파일">
+        <b-form-file v-model="item.attach" :multiple="true"/>
       </b-form-group>
-      <b-form-group label-cols="2" label-cols-lg="2" label="댓글 사용">
-        <b-form-radio-group v-model="item.commentF" name="commentF">
-          <b-form-radio value="true">예</b-form-radio>
-          <b-form-radio value="false">아니오</b-form-radio>
-        </b-form-radio-group>
-      </b-form-group>
-      <b-form-group label-cols="2" label-cols-lg="2" label="파일 업로드">
-        <b-form-radio-group v-model="item.attachF" name="attachF">
-          <b-form-radio value="true">예</b-form-radio>
-          <b-form-radio value="false">아니오</b-form-radio>
-        </b-form-radio-group>
-      </b-form-group>
-      <b-form-group label-cols="2" label-cols-lg="2" label="암호화 글 등록">
-        <b-form-radio-group v-model="item.encodeF" name="encodeF">
-          <b-form-radio value="true">예</b-form-radio>
-          <b-form-radio value="false">아니오</b-form-radio>
-        </b-form-radio-group>
-      </b-form-group>
-
       <b-row>
         <b-col>
           <b-button @click="listPage()" type="button" variant="info">취소</b-button>
@@ -45,33 +24,70 @@
   </div>
 </template>
 <script>
-import comFunction from '../commonFunction.js'
-import boardCommon from './mixin-board.js'
+import comFunction from "../commonFunction.js";
+import boardCommon from "./mixin-board.js";
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
   mixins: [comFunction, boardCommon],
+  components: {
+    quillEditor
+  },
   data() {
     return {
       item: {
-        boardCode: "BDAABB00",
-        name: '공지사항',
-        uploadLimit: 1000,
-        commentF: false,
-        attachF: true,
-        encodeF: false
+        title: "BDAABB00",
+        content: "우리집 강아지\n복슬강아지",
+        attachList: [
+          {
+            attachSeq: 1,
+            name: "abc.ppt",
+            size: 500000
+          },
+          {
+            attachSeq: 2,
+            name: "bee.ppt",
+            size: 1000
+          }
+        ]
+      },
+      editorOption: {
+        // some quill options
       }
-    }
-  }, computed: {
-    validation() {
-      return this.item.boardCode.length > 4 && this.item.boardCode.length < 13
+    };
+  },
+  computed: {
+    editor() {
+      return this.$refs.myQuillEditor.quill
     }
   },
   methods: {
     submitProc() {
-      console.log("submit")
+      console.log("submit");
     },
+    onEditorBlur(quill) {
+      console.log('editor blur!', quill)
+    },
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill)
+    },
+    onEditorReady(quill) {
+      console.log('editor ready!', quill)
+    },
+    onEditorChange({ quill, html, text }) {
+      console.log('editor change!', quill, html, text)
+      this.item.content = html
+    }
+  },
+  mounted() {
+    console.log('this is current quill instance object', this.editor)
   }
-}
+};
 </script>
 <style scoped>
 </style>

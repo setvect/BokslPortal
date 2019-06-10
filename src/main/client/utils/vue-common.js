@@ -1,4 +1,5 @@
 import Vue from "vue"
+// TODO 아래 임포트 하면 아무런 에러 메시지 없이 화면이 나오지 않음.
 import moment from "moment"
 import $ from "jquery"
 import CommonUtil from "./common-util.js"
