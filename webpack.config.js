@@ -22,7 +22,7 @@ module.exports = env => {
       // minimize: true
       splitChunks: {
         chunks: "all",
-        minSize: 300000000,
+        minSize: 30000000,
         cacheGroups: {
           vendors: {
             test: /[\\/]node_modules[\\/]/,

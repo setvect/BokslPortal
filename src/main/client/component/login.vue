@@ -12,7 +12,7 @@
               <b-form-input type="password" v-model="form.password" placeholder="Password"></b-form-input>
             </div>
             <div>
-              <b-button @click.prevent="loginProc" variant="outline-primary">Login</b-button>
+              <b-button @click.prevent="loginProc" variant="outline-secondary">Login</b-button>
             </div>
             <div class="clearfix"></div>
           </b-form>
