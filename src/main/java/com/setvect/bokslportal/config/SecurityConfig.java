@@ -72,6 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .and()
       .logout().logoutUrl("/user/logout")
     ;
+    http.rememberMe().key(BokslPortalConstant.Login.REMEMBER_ME_KEY)
+      .rememberMeServices(tokenBasedRememberMeServices());
   }
 
   @Bean

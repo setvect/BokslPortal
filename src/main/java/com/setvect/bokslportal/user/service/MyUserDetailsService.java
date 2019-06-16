@@ -1,6 +1,5 @@
 package com.setvect.bokslportal.user.service;
 
-import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;

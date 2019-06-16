@@ -28,7 +28,8 @@ const user = {
           "/user/login",
           {
             username: userInfo.username,
-            password: userInfo.password
+            password: userInfo.password,
+            'remember-me': userInfo['remember-me']
           },
           result => {
             const data = result.data

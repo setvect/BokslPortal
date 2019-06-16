@@ -73,7 +73,30 @@ export const constantRouterMap = [
         path: "code",
         component: () => import("./app/code/code.vue"),
         name: "code"
-      }
+      },
+      {
+        path: "note",
+        component: () => import("./app/index.vue"),
+        name: "note",
+        redirect: "/main/note/list",
+        children: [
+          {
+            path: "list",
+            component: () => import("./app/note/noteList.vue"),
+            name: "noteList"
+          },
+          {
+            path: "read",
+            component: () => import("./app/note/noteRead.vue"),
+            name: "noteRead"
+          },
+          {
+            path: "add",
+            component: () => import("./app/note/noteAdd.vue"),
+            name: "noteAdd"
+          }
+        ]
+      },
     ]
   },
   { path: "*", redirect: "/404" }

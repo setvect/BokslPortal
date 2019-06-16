@@ -86,7 +86,21 @@
           </a>
           <ul class="nav child_menu">
             <li>
-              <a href="#"></a>
+              <router-link :to="{name: 'note'}">노트1</router-link>
+            </li>
+            <li>
+              <a href="#">공부</a>
+              <ul class="nav child_menu">
+                <li>
+                  <a href="#">프로그래밍</a>
+                </li>
+                <li>
+                  <a href="#">음악</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">복슬이</a>
             </li>
           </ul>
         </li>

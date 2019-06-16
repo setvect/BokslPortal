@@ -12,6 +12,9 @@
               <b-form-input type="password" v-model="form.password" placeholder="Password"></b-form-input>
             </div>
             <div>
+              <b-form-checkbox v-model="form['remember-me']" value="on" unchecked-value="">로그인 유지</b-form-checkbox>
+            </div>
+            <div style="padding-top: 20px;">
               <b-button @click.prevent="loginProc" variant="outline-secondary">Login</b-button>
             </div>
             <div class="clearfix"></div>
@@ -27,7 +30,8 @@ export default {
     return {
       form: {
         username: 'boksl',
-        password: 'boksl'
+        password: 'boksl',
+        'remember-me': ''
       },
       redirect: undefined
     }
@@ -45,7 +49,6 @@ export default {
   },
   methods: {
     loginProc() {
-      console.log("login...");
       this.$store.dispatch('Login', this.form).then(() => {
         this.$router.push({ path: this.redirect || '/' })
       }).catch((e) => {
@@ -57,4 +60,3 @@ export default {
   },
 }
 </script>
-
