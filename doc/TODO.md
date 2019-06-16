@@ -5,8 +5,9 @@
 - NEW_20190616: quill-editor fullscreen
 - NEW_20190616: quill-editor 들어쓰기 단축기 적용
 - NEW_20190616: quill-editor 클립보드 이미지 붙이기
+- NEW_20190616: quill-editor html
 - NEW_20190607: 페이지 접근 시 왼쪽 메뉴 활성화
-- NEW_20190607: 로그인 세션 기록하기
+- NEW_20190607: 로그인 세션 기록하기(remember-me)
 - NEW_20190607: eslint 적용
 - NEW_20190606: 템플릿 만들기
     - 게시판 관리 => OK

@@ -7,7 +7,7 @@
         <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
       </b-form-group>
       <b-form-group>
-        <quill-editor v-model="item.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)" style="height:300px; margin-bottom: 30px;" ></quill-editor>
+        <ckeditor :editor="editor" v-model="item.content" :config="editorConfig"></ckeditor>
       </b-form-group>
       <b-form-group>
         <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일"/>
@@ -26,20 +26,24 @@
 <script>
 import comFunction from "../commonFunction.js";
 import noteCommon from "./mixin-note.js";
-// require styles
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+import Vue from 'vue';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
-import { quillEditor } from 'vue-quill-editor'
+// require styles
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 export default {
   mixins: [comFunction, noteCommon],
   components: {
-    quillEditor
+    ckeditor: CKEditor.component
   },
   data() {
     return {
+      editor: ClassicEditor,
+      editorConfig: {
+        // toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'fullscreen', '|', 'undo', 'redo'],
+      },
       item: {
         title: "BDAABB00",
         content: "우리집 강아지\n복슬강아지",
@@ -56,15 +60,7 @@ export default {
           }
         ]
       },
-      editorOption: {
-       placeholder: '내용을 입력하세요.',
-      }
     };
-  },
-  computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill
-    }
   },
   methods: {
     submitProc() {
