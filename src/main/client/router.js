@@ -75,6 +75,29 @@ export const constantRouterMap = [
         name: "code"
       },
       {
+        path: "knowledge",
+        component: () => import("./app/index.vue"),
+        name: "knowledge",
+        redirect: "/main/knowledge/list",
+        children: [
+          {
+            path: "list",
+            component: () => import("./app/knowledge/knowledgeList.vue"),
+            name: "knowledgeList"
+          },
+          {
+            path: "read",
+            component: () => import("./app/knowledge/knowledgeRead.vue"),
+            name: "knowledgeRead"
+          },
+          {
+            path: "add",
+            component: () => import("./app/knowledge/knowledgeAdd.vue"),
+            name: "knowledgeAdd"
+          }
+        ]
+      },
+      {
         path: "note",
         component: () => import("./app/index.vue"),
         name: "note",

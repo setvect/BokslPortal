@@ -78,6 +78,11 @@
             <i class="fa fa-book"></i> 복슬지식
             <span class="fa fa-chevron-down"></span>
           </a>
+          <ul class="nav child_menu">
+            <li>
+              <router-link :to="{name: 'knowledge'}">복슬지식</router-link>
+            </li>
+          </ul>
         </li>
         <li>
           <a>
