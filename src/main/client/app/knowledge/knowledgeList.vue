@@ -2,9 +2,9 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-form-select v-model="searchData.field" size="sm">
-          <option value="name">이름</option>
-          <option value="content">내용</option>
+        <b-form-select v-model="searchData.category" size="sm">
+          <option :value="null">--전체--</option>
+          <option v-for="category in categoryList" :key="category">{{category.name}}</option>
         </b-form-select>
         <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm">검색</b-button>
@@ -12,13 +12,7 @@
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="listData">
       <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
-      <template slot="title" slot-scope="data">
-        <b-link @click="readPage(data.item.knowledgeSeq)">{{ data.item.title }}</b-link>
-      </template>
-      <template slot="function" slot-scope="data">
-        <b-link @click="editPage(data.knowledgeSeq)">수정</b-link>
-        <b-link @click="deleteProc(data.knowledgeSeq)">삭제</b-link>
-      </template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
     <b-row>
@@ -30,6 +24,7 @@
 </template>
 
 <script>
+import '../../utils/vue-common.js'
 import knowledgeCommon from "./mixin-knowledge.js";
 
 export default {
@@ -38,32 +33,44 @@ export default {
     return {
       fields: [
         { key: "index", label: "#", class: 'index-col' },
-        { key: "title", label: "제목" },
-        { key: "function", label: "기능", class: 'function-col' }
+        { key: "question", label: "질문", class: 'content-col' },
+        { key: "answer", label: "답변", class: 'content-col' },
+        { key: "regDate", label: "날짜", class: 'date-col' }
       ],
       listData: [
         {
           knowledgeSeq: 1,
-          title: "제목입니다1"
+          question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
+          answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
+          regDate: 1561071320000
+        }, {
+          knowledgeSeq: 1,
+          question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
+          answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
+          regDate: 1561071320000
         },
-        {
-          knowledgeSeq: 2,
-          title: "제목입니다2"
-        },
-        {
-          knowledgeSeq: 3,
-          title: "제목입니다31"
-        }
       ],
       searchData: {
-        field: "name",
+        category: null,
         word: null,
         currentPage: 1
       },
       page: {
         total: 300,
         perPage: 10
-      }
+      },
+      categoryList: [
+        {
+          categorySeq: 1,
+          name: "언어"
+        }, {
+          categorySeq: 2,
+          name: "DBMS"
+        }, {
+          categorySeq: 3,
+          name: "OS셋팅"
+        },
+      ]
     };
   },
   methods: {
@@ -77,7 +84,7 @@ export default {
       console.log("page :", page);
     }
   },
-  mounted(){
+  mounted() {
   }
 };
 </script>
@@ -86,7 +93,13 @@ export default {
   .index-col{
     width: 50px;
   }
-  .function-col{
+  .content-col{
+     max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .date-col{
     width: 140px;
   }
 </style>
