@@ -1,22 +1,17 @@
 <template>
   <div>
-    <h5>{{item.title}}</h5>
+    <h5>질문</h5>
     <b-row>
-      <b-col sm="2" class="head">
-        <label>내용</label>
-      </b-col>
-      <b-col sm="10" v-html="item.content"/>
+      <b-col sm="12" v-html="item.question"/>
     </b-row>
+    <h5 style="padding-top:30px;">답변</h5>
     <b-row>
-      <b-col sm="2" class="head">
-        <label>첨부파일</label>
-      </b-col>
-      <b-col sm="10">
+      <b-col sm="12" v-html="item.answer"/>
+    </b-row>
+    <b-row style="padding-top:30px;">
+      <b-col sm="12">
         <ul>
-          <li
-            v-for="attach in item.attachList"
-            :key="attach.attachSeq"
-          >{{attach.name}} (size: {{attach.size | numberFormat}} byte )</li>
+          <li v-for="attach in item.attachList" :key="attach.attachSeq">{{attach.name}} (size: {{attach.size | numberFormat}} byte )</li>
         </ul>
       </b-col>
     </b-row>
@@ -41,8 +36,10 @@ export default {
   data() {
     return {
       item: {
-        title: "노트..",
-        content: "공지사항<br><strong>안녕</strong>",
+        knowledgeSeq: 1,
+        question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
+        answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
+        regDate: 1561071320000,
         attachList: [
           {
             attachSeq: 1,

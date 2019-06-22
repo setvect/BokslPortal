@@ -11,7 +11,7 @@
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="listData">
-      <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
+      <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.boardSeq)">{{ data.item.title }}</b-link>
       </template>

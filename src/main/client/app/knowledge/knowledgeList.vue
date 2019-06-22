@@ -4,15 +4,16 @@
       <b-form inline style="display:block; margin-bottom: 10px;">
         <b-form-select v-model="searchData.category" size="sm">
           <option :value="null">--전체--</option>
-          <option v-for="category in categoryList" :key="category">{{category.name}}</option>
+          <option v-for="category in categoryList" :key="category.categorySeq">{{category.name}}</option>
         </b-form-select>
         <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm">검색</b-button>
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="listData">
-      <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
-      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
+      <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
+      <template slot="question" slot-scope="data"><b-link @click="readPage(data.item.knowledgeSeq)">{{ data.item.question }}</b-link></template>
+      <template slot="answer" slot-scope="data"><b-link @click="readPage(data.item.knowledgeSeq)">{{ data.item.answer }}</b-link></template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
     <b-row>
@@ -44,7 +45,7 @@ export default {
           answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
           regDate: 1561071320000
         }, {
-          knowledgeSeq: 1,
+          knowledgeSeq: 2,
           question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
           answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
           regDate: 1561071320000

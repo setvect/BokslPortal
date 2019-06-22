@@ -2,6 +2,7 @@
 =========================
 
 ### 진행예정
+- NEW_20190622: ckeditor5-vue 높이 조절
 - NEW_20190616: quill-editor fullscreen
 - NEW_20190616: quill-editor 들어쓰기 단축기 적용
 - NEW_20190616: quill-editor 클립보드 이미지 붙이기

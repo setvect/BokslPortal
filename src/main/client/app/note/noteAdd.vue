@@ -26,7 +26,6 @@
 <script>
 import comFunction from "../commonFunction.js";
 import noteCommon from "./mixin-note.js";
-import Vue from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
 // require styles

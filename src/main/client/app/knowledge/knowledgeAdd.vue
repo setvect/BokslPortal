@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h5>글 등록</h5>
+    <h5>등록</h5>
     <form autocomplete="off">
       <b-form-group>
-        <b-form-input v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('item.title')" name="item.title" data-vv-as="제목" placeholder="제목 넣어라"></b-form-input>
-        <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
+        <ckeditor :editor="editor" v-model="item.question" :config="editorConfig"></ckeditor>
       </b-form-group>
       <b-form-group>
-        <quill-editor v-model="item.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)" style="height:300px; margin-bottom: 30px;" ></quill-editor>
+        <ckeditor :editor="editor" v-model="item.answer" :config="editorConfig"></ckeditor>
       </b-form-group>
       <b-form-group>
         <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일"/>
@@ -26,23 +25,27 @@
 <script>
 import comFunction from "../commonFunction.js";
 import knowledgeCommon from "./mixin-knowledge.js";
-// require styles
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
-import { quillEditor } from 'vue-quill-editor'
+// require styles
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
   mixins: [comFunction, knowledgeCommon],
   components: {
-    quillEditor
+    ckeditor: CKEditor.component
   },
   data() {
     return {
+      editor: ClassicEditor,
+      editorConfig: {
+        // toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'fullscreen', '|', 'undo', 'redo'],
+      },
       item: {
-        title: "BDAABB00",
-        content: "우리집 강아지\n복슬강아지",
+        knowledgeSeq: 1,
+        question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
+        answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
+        regDate: 1561071320000,
         attachList: [
           {
             attachSeq: 1,
@@ -57,37 +60,22 @@ export default {
         ]
       },
       editorOption: {
-       placeholder: '내용을 입력하세요.',
+        placeholder: '내용을 입력하세요.',
       }
     };
-  },
-  computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill
-    }
   },
   methods: {
     submitProc() {
       console.log("submit");
     },
-    onEditorBlur(quill) {
-      console.log('editor blur!', quill)
-    },
-    onEditorFocus(quill) {
-      console.log('editor focus!', quill)
-    },
-    onEditorReady(quill) {
-      console.log('editor ready!', quill)
-    },
-    onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
-      this.item.content = html
-    }
   },
   mounted() {
     console.log('this is current quill instance object', this.editor)
   }
 };
 </script>
-<style scoped>
+<style >
+  .ck-editor__editable {
+    min-height: 300px;
+  }
 </style>
