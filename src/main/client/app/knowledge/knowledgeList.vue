@@ -14,6 +14,7 @@
       <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
       <template slot="question" slot-scope="data"><b-link @click="readPage(data.item.knowledgeSeq)">{{ data.item.question }}</b-link></template>
       <template slot="answer" slot-scope="data"><b-link @click="readPage(data.item.knowledgeSeq)">{{ data.item.answer }}</b-link></template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
     <b-row>

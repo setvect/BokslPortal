@@ -116,7 +116,7 @@
           </a>
           <ul class="nav child_menu">
             <li>
-              <a href="#">리스트</a>
+              <router-link :to="{name: 'memoList'}">목록 형식</router-link>
             </li>
             <li>
               <a href="#">레이어</a>

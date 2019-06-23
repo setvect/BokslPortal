@@ -120,6 +120,24 @@ export const constantRouterMap = [
           }
         ]
       },
+      {
+        path: "memo",
+        component: () => import("./app/index.vue"),
+        name: "memo",
+        redirect: "/main/memo/memoList",
+        children: [
+          {
+            path: "memoList",
+            component: () => import("./app/memo/memoList.vue"),
+            name: "memoList"
+          },
+          {
+            path: "memoAdd",
+            component: () => import("./app/memo/memoAdd.vue"),
+            name: "memoAdd"
+          },
+        ]
+      },
     ]
   },
   { path: "*", redirect: "/404" }
