@@ -136,8 +136,13 @@ export const constantRouterMap = [
             component: () => import("./app/memo/memoAdd.vue"),
             name: "memoAdd"
           },
+          {
+            path: "memoLayer",
+            component: () => import("./app/memo/memoLayer.vue"),
+            name: "memoLayer"
+          }
         ]
-      },
+      }
     ]
   },
   { path: "*", redirect: "/404" }
