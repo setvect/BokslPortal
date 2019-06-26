@@ -1,15 +1,14 @@
 package com.setvect.bokslportal.code.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 코드
@@ -22,8 +21,7 @@ public class CodeVo {
 	/** 일련번호 */
 	@Id
 	@Column(name = "CODE_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int codeSeq;
 
 	/** 메인코드 */

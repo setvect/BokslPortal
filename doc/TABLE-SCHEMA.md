@@ -41,15 +41,12 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 ARTICLE_SEQ|키|PK|integer|4|Y|
 BOARD_CODE|게시판 코드|FK|varchar|20|Y|TBBA_BOARD_MANAGER 외래키
-USER_ID|아이디| |varchar|20| |TBAA_USER 논리적
+USER_ID|아이디| |varchar|20|Y|TBAA_USER 외래키
 IDX1|인덱스1| |integer|4|Y|
 IDX2|인덱스2| |integer|4|Y|
 IDX3|인덱스3| |integer|4|Y|1 부터 시작
 DEPTH_LEV|깊이| |integer|4|Y|답변 깊이 1부터시작
 TITLE|제목| |varchar|200|Y|
-NAME|이름| |varchar|50|Y|
-EMAIL|이메일| |varchar|100| |
-PASSWD|암호| |varchar|10| |
 CONTENT|본문| |TEXT| |Y|
 IP|아이피| |varchar|20|Y|
 HIT_COUNT|조회수| |integer| |Y|
@@ -154,7 +151,7 @@ REG_DATE|등록일| |datetime| |Y|
 Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 ATTACH_FIlE_SEQ|키|PK|integer|4|Y|
-MODULE_NAME|모듈이름| |varchar|20|Y|예: 유지보수, 이슈, …
+MODULE_NAME|모듈이름| |varchar|20|Y|예: 게시판, 포토갤러리, …
 MODULE_ID|모듈내 항목 번호| |varchar|50|Y|모듈내 항목의 관계를 알 수 있는 값
 USER_ID|아이디|FK|varchar|20|Y|TBAA_USER
 ORIGINAL_NAME|원본파일명| |varchar|250|Y|복슬이_일상.hwp
@@ -167,7 +164,7 @@ REG_DATE|등록일| |datetime| |Y|
 Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 COMMENT_SEQ|일련번호|PK|integer|4|Y|
-MODULE_NAME|모듈이름| |varchar|20|Y|예: 유지보수, 이슈, …
+MODULE_NAME|모듈이름| |varchar|20|Y|예: 게시판, 포토갤러리, …
 MODULE_ID|모듈내 항목 번호| |varchar|50|Y|모듈내 항목의 관계를 알 수 있는 값
 USER_ID|아이디|FK|varchar|20|Y|TBAA_USER
 CONTENT|내용| |varchar|4000|Y|

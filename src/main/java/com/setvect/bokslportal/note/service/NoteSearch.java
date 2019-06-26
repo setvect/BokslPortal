@@ -1,10 +1,12 @@
 package com.setvect.bokslportal.note.service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.setvect.bokslportal.common.SearchListVo;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 노트 페이징 및 검색 조건

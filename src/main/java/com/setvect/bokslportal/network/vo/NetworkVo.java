@@ -1,10 +1,6 @@
 package com.setvect.bokslportal.network.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.hibernate.annotations.Type;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "TBFA_NETWORK")
@@ -22,8 +22,7 @@ import java.util.Date;
 public class NetworkVo {
 	@Id
 	@Column(name = "NETWORK_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int networkSeq;
 	@Column(name = "TITLE", nullable = false, length = 200)
 	private String title;

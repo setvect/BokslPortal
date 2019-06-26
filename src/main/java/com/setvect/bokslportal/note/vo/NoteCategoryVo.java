@@ -1,10 +1,7 @@
 package com.setvect.bokslportal.note.vo;
 
-import com.setvect.bokslportal.common.TreeItem;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+
+import org.hibernate.annotations.Type;
+
+import com.setvect.bokslportal.common.TreeItem;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 노트 카테고리
@@ -24,17 +25,14 @@ import java.util.List;
 @Table(name = "TBDA_NOTE_CATEGORY")
 @Getter
 @Setter
-public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
+public class NoteCategoryVo implements TreeItem<Integer> {
 	/** ROOT 카테고리 아이디 */
 	public static final int ROOT_CATEGORY_ID = 0;
-
-	private static final long serialVersionUID = -8586768191354097869L;
 
 	/** 일련번호 */
 	@Id
 	@Column(name = "CATEGORY_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int categorySeq;
 
 	/**
@@ -65,7 +63,6 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	/** 하위 카테고리 */
 	@Transient
 	private List<NoteCategoryVo> children;
-
 
 	/**
 	 * 이름 순으로 오름차순 정렬
@@ -98,6 +95,5 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	public void setDepth(final int depth) {
 		this.depth = depth;
 	}
-
 
 }

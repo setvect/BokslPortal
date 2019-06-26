@@ -1,7 +1,8 @@
 package com.setvect.bokslportal.note.repository;
 
-import com.setvect.bokslportal.note.vo.NoteCategoryVo;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.setvect.bokslportal.note.vo.NoteCategoryVo;
 
 /**
  * 노트 카테고리

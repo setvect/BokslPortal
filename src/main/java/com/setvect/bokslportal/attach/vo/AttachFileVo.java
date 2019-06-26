@@ -1,10 +1,6 @@
 package com.setvect.bokslportal.attach.vo;
 
-import com.setvect.bokslportal.service.vo.AttachFileModule;
-import com.setvect.bokslportal.user.vo.UserVo;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
+
+import com.setvect.bokslportal.service.vo.AttachFileModule;
+import com.setvect.bokslportal.user.vo.UserVo;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 첨부파일
@@ -29,8 +30,7 @@ public class AttachFileVo {
 	/** 일련번호 */
 	@Id
 	@Column(name = "ATTACH_FIlE_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int attachFileSeq;
 
 	/** 모듈이름 */

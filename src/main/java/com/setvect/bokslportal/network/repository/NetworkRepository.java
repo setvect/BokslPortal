@@ -1,7 +1,8 @@
 package com.setvect.bokslportal.network.repository;
 
-import com.setvect.bokslportal.network.vo.NetworkVo;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.setvect.bokslportal.network.vo.NetworkVo;
 
 /**
  * 네트워크 내용

@@ -1,8 +1,18 @@
 복슬포털 - TODO
 =========================
 
-### 진행예정
-- NEW-20190623: JPA VO 관계 구조
+
+
+
+
+
+
+
+### 진행예정.
+- NEW-20190626: PhotoRepositoryImpl 사용하지 않는 테이블 정리
+- NEW-20190626: PageQueryCondition Builder 형태로 만들어 보는 거 고려
+- NEW-20190626: 게시판 CLOB Lazy loadding
+- NEW-20190626: 페이징 방식 변경
 - NEW-20190622: ckeditor5-vue 높이 조절
 - NEW-20190616: quill-editor fullscreen
 - NEW-20190616: quill-editor 들어쓰기 단축기 적용
@@ -25,6 +35,9 @@
     - TODO
 
 ### 완료
+- NEW-20190626: NoteCategoryVo 계층 구조 변경. 인터페이스 사용안하고 하는 방법 있음.
+- NEW-20190626: Hibernate ID generator 방식 변경 -> sequence
+- NEW-20190623(20190626): JPA VO 관계 구조 변경. FK 사용
 - PBM-20190602: 왼쪽 메뉴 확장 시 블릿 이미지 표시가 메뉴를 덮어 버리는 문제
 - PBM-20190602: 왼쪽 메뉴 2단계 확장 시 블릿 이미지 들어 쓰기 오류
 

@@ -1,15 +1,18 @@
 package com.setvect.bokslportal.knowledge.repository;
 
+import java.util.Collections;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.knowledge.service.KnowledgeSearch;
 import com.setvect.bokslportal.knowledge.vo.KnowledgeVo;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.List;
+import com.setvect.bokslportal.util.page.PageQueryCondition;
+import com.setvect.bokslportal.util.page.PageUtil;
 
 /**
  * 게시물 Repository
@@ -21,36 +24,10 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 
 	@Override
 	public GenericPage<KnowledgeVo> getKnowledgePagingList(final KnowledgeSearch pageCondition) {
-		String q = "select count(*) from KnowledgeVo b " + getArticleWhereClause(pageCondition);
-		Query query = em.createQuery(q);
-		int totalCount = ((Long) query.getSingleResult()).intValue();
-
-		q = "select b from KnowledgeVo b " + getArticleWhereClause(pageCondition) + " order by knowledgeSeq desc";
-
-		query = em.createQuery(q);
-		query.setFirstResult(pageCondition.getStartCursor());
-		query.setMaxResults(pageCondition.getReturnCount());
-
-		@SuppressWarnings("unchecked")
-		List<KnowledgeVo> resultList = query.getResultList();
-
-		GenericPage<KnowledgeVo> resultPage = new GenericPage<KnowledgeVo>(resultList, pageCondition.getStartCursor(),
-				totalCount, pageCondition.getReturnCount());
-		return resultPage;
-	}
-
-	/**
-	 * 검색 조건
-	 *
-	 * @param search
-	 *            검색 조건
-	 * @return where절
-	 */
-	private String getArticleWhereClause(final KnowledgeSearch search) {
 		String where = " where b.deleteF = 'N' ";
 
-		String searchWord = search.getSearchWord();
-		String searchClassify = search.getSearchClassifyC();
+		String searchWord = pageCondition.getSearchWord();
+		String searchClassify = pageCondition.getSearchClassifyC();
 
 		if (StringUtils.isNotEmpty(searchWord)) {
 			String wordLikeString = ApplicationUtil.makeLikeString(searchWord);
@@ -60,6 +37,12 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 		if (StringUtils.isNotEmpty(searchClassify)) {
 			where += " and b.classifyC = " + ApplicationUtil.getSqlString(searchClassify);
 		}
-		return where;
+
+		PageQueryCondition pageQuery = new PageQueryCondition(Collections.emptyMap(), pageCondition);
+		pageQuery.setCountQuery("select count(*) from KnowledgeVo b " + where);
+		pageQuery.setSelectQuery("select b from KnowledgeVo b " + where + " order by knowledgeSeq desc");
+
+		GenericPage<KnowledgeVo> result = PageUtil.excutePageQuery(em, pageQuery, KnowledgeVo.class);
+		return result;
 	}
 }

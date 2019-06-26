@@ -1,13 +1,14 @@
 package com.setvect.bokslportal.note.repository;
 
-import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.note.service.NoteCategorySearch;
-import com.setvect.bokslportal.note.vo.NoteCategoryVo;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
+
+import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.note.service.NoteCategorySearch;
+import com.setvect.bokslportal.note.vo.NoteCategoryVo;
 
 /**
  * 복슬노트 카테고리

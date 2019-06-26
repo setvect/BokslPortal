@@ -1,10 +1,6 @@
 package com.setvect.bokslportal.knowledge.vo;
 
-import com.setvect.bokslportal.code.vo.CodeVo;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
+
+import org.hibernate.annotations.Type;
+
+import com.setvect.bokslportal.code.vo.CodeVo;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 지식정보
@@ -27,8 +29,7 @@ public class KnowledgeVo {
 	/** key */
 	@Id
 	@Column(name = "KNOWLEDGE_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int knowledgeSeq;
 
 	/** 분류 코드 */

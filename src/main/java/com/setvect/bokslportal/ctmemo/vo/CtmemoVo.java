@@ -1,18 +1,21 @@
 package com.setvect.bokslportal.ctmemo.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Date;
+
+import org.hibernate.annotations.Type;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 메모장
@@ -21,14 +24,11 @@ import java.util.Date;
 @Table(name = "TBCA_CTMEMO")
 @Getter
 @Setter
-public class CtmemoVo implements Serializable {
-	private static final long serialVersionUID = 4659097867395968759L;
-
+public class CtmemoVo {
 	/** 일련번호 */
 	@Id
 	@Column(name = "CTMEMO_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ctmemoSeq;
 
 	/** 내용 */
@@ -77,6 +77,7 @@ public class CtmemoVo implements Serializable {
 	private boolean deleteF;
 
 	/** 워크스페이스 일련번호 */
-	@Column(name = "WORKSPACE_SEQ", nullable = false)
-	private int workspaceSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "WORKSPACE_SEQ", nullable = false)
+	private WorkspaceVo workspace;
 }

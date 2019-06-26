@@ -1,6 +1,7 @@
 package com.setvect.bokslportal.network.service;
 
 import com.setvect.bokslportal.common.SearchListVo;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

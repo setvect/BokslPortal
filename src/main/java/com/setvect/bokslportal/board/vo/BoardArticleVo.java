@@ -1,22 +1,27 @@
 package com.setvect.bokslportal.board.vo;
 
-import com.setvect.bokslportal.attach.vo.AttachFileVo;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
-import java.util.List;
+
+import org.hibernate.annotations.Type;
+
+import com.setvect.bokslportal.attach.vo.AttachFileVo;
+import com.setvect.bokslportal.user.vo.UserVo;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 게시물 VO
@@ -29,17 +34,17 @@ public class BoardArticleVo {
 	/** */
 	@Id
 	@Column(name = "ARTICLE_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int articleSeq;
 
-	/** */
-	@Column(name = "BOARD_CODE", nullable = false, length = 20)
-	private String boardCode;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BOARD_CODE", nullable = false)
+	private BoardVo board;
 
 	/** */
-	@Column(name = "USER_ID", nullable = true, length = 20)
-	private String userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable = false)
+	private UserVo user;
 
 	/** */
 	@Column(name = "IDX1", nullable = false)
@@ -60,18 +65,6 @@ public class BoardArticleVo {
 	/** 제목 */
 	@Column(name = "TITLE", nullable = false, length = 200)
 	private String title;
-
-	/** 이름 */
-	@Column(name = "NAME", nullable = false, length = 50)
-	private String name;
-
-	/** 이메일 */
-	@Column(name = "EMAIL", nullable = true, length = 100)
-	private String email;
-
-	/** 암호 */
-	@Column(name = "PASSWD", nullable = true, length = 10)
-	private String passwd;
 
 	/** 본문 */
 	@Column(name = "CONTENT", nullable = false)
@@ -99,10 +92,6 @@ public class BoardArticleVo {
 	@Column(name = "DELETE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean deleteF;
-
-	/** 첨부파일 */
-	@Transient
-	private MultipartFile[] attachFile;
 
 	/** 첨부파일 */
 	@Transient

@@ -1,7 +1,8 @@
 package com.setvect.bokslportal.util;
 
-import com.setvect.bokslportal.ApplicationContextProvider;
 import org.springframework.context.ApplicationContext;
+
+import com.setvect.bokslportal.ApplicationContextProvider;
 
 
 /**

@@ -1,6 +1,7 @@
 package com.setvect.bokslportal.comment.service;
 
 import com.setvect.bokslportal.common.SearchListVo;
+
 import lombok.Getter;
 import lombok.Setter;
 

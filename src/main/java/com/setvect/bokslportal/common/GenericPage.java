@@ -1,10 +1,8 @@
 package com.setvect.bokslportal.common;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.util.List;
+
+import lombok.Getter;
 
 /**
  * Page에서 검색된 객체들의 타입을 지정함

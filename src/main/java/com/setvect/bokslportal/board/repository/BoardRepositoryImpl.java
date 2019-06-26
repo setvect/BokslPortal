@@ -1,15 +1,17 @@
 package com.setvect.bokslportal.board.repository;
 
-import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.board.service.BoardManagerSearch;
-import com.setvect.bokslportal.board.vo.BoardVo;
-import com.setvect.bokslportal.common.GenericPage;
-import org.apache.commons.lang3.StringUtils;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.board.service.BoardManagerSearch;
+import com.setvect.bokslportal.board.vo.BoardVo;
+import com.setvect.bokslportal.common.GenericPage;
 
 /**
  * 게시물 Repository

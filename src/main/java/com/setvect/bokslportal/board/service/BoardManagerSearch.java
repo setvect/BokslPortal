@@ -1,9 +1,11 @@
 package com.setvect.bokslportal.board.service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.setvect.bokslportal.common.SearchListVo;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 게시물 관리 목록 페이징 및 검색 조건

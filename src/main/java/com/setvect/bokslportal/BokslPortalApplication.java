@@ -1,13 +1,14 @@
 package com.setvect.bokslportal;
 
-import com.setvect.bokslportal.user.service.UserService;
-import com.setvect.bokslportal.util.BeanUtils;
+import java.net.URL;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.net.URL;
+import com.setvect.bokslportal.user.service.UserService;
+import com.setvect.bokslportal.util.BeanUtils;
 
 @SpringBootApplication
 public class BokslPortalApplication {

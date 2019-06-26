@@ -1,23 +1,26 @@
 package com.setvect.bokslportal.note.vo;
 
-import com.setvect.bokslportal.attach.vo.AttachFileVo;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+
+import org.hibernate.annotations.Type;
+
+import com.setvect.bokslportal.attach.vo.AttachFileVo;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 노트 내용
@@ -26,21 +29,18 @@ import java.util.List;
 @Table(name = "TBDB_NOTE")
 @Getter
 @Setter
-public class NoteVo implements Serializable {
-
-	/** */
-	private static final long serialVersionUID = -2975824645025088507L;
+public class NoteVo {
 
 	/** 일련번호 */
 	@Id
 	@Column(name = "NOTE_SEQ", nullable = false)
-	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int noteSeq;
 
 	/** 카테고리 */
-	@Column(name = "CATEGORY_SEQ", nullable = false)
-	private int categorySeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CATEGORY_SEQ", nullable = false)
+	private NoteCategoryVo category;
 
 	/** 제목 */
 	@Column(name = "TITLE", nullable = false, length = 200)
@@ -66,11 +66,6 @@ public class NoteVo implements Serializable {
 
 	/** 첨부파일 */
 	@Transient
-	private MultipartFile[] attachFile;
-
-	/** 첨부파일 */
-	@Transient
 	private List<AttachFileVo> attach;
-
 
 }

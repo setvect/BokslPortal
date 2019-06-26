@@ -1,8 +1,6 @@
 package com.setvect.bokslportal.photo.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
+
+import org.hibernate.annotations.Type;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 사진 항목

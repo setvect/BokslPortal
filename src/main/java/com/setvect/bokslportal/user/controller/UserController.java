@@ -1,10 +1,8 @@
 package com.setvect.bokslportal.user.controller;
 
-import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.user.repository.UserRepository;
-import com.setvect.bokslportal.user.service.UserService;
-import com.setvect.bokslportal.user.vo.UserVo;
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.user.repository.UserRepository;
+import com.setvect.bokslportal.user.service.UserService;
+import com.setvect.bokslportal.user.vo.UserVo;
+
+import lombok.extern.log4j.Log4j2;
 
 
 /**

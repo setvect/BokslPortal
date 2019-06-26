@@ -1,9 +1,10 @@
 package com.setvect.bokslportal.code.repository;
 
-import com.setvect.bokslportal.code.vo.CodeVo;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.setvect.bokslportal.code.vo.CodeVo;
 
 
 /**

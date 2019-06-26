@@ -1,16 +1,17 @@
 package com.setvect.bokslportal.user.service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.vo.RoleName;
 import com.setvect.bokslportal.user.vo.UserRoleVo;
 import com.setvect.bokslportal.user.vo.UserVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 @Service
 public class UserService {

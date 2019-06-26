@@ -2,8 +2,8 @@ package com.setvect.bokslportal.util.page;
 
 import java.util.Map;
 
-
 import com.setvect.bokslportal.common.SearchListVo;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

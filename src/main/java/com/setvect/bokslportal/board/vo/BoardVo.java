@@ -1,13 +1,14 @@
 package com.setvect.bokslportal.board.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 게시판 설정
