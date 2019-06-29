@@ -32,6 +32,7 @@ import '../../utils/vue-common.js'
 import 'jquery-ui/themes/base/all.css';
 import 'jquery-ui/ui/core.js';
 import 'jquery-ui/ui/widgets/draggable.js'
+import 'jquery-ui/ui/widgets/resizable.js'
 
 export default {
   data() {
@@ -82,8 +83,19 @@ export default {
   },
   mounted() {
     var a = $("._item");
-    console.log('a :', a);
-    a.draggable();
+    a.draggable({      stop: (eventObj) => {
+        console.log('drag eventObj :', eventObj);
+      }    });
+
+    a.resizable({
+      maxHeight: 300,
+      maxWidth: 300,
+      minHeight: 80,
+      minWidth: 130,
+      stop: function (eventObj) {
+        console.log('resize eventObj :', eventObj);
+      }
+    });
   }
 };
 </script>
