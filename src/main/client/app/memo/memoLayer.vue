@@ -10,9 +10,9 @@
         <b-button variant="secondary" size="sm">삭제취소</b-button>
       </b-form>
     </div>
-    <div style="background: #ddd">
+    <div style="background: #ddd;">
       aaaaaaaa
-      <div class="_item" style="left: 266px; top: 49px; z-index: 2675; width: 150px; height: 150px; background:yellow">
+      <div class="_item layer-memo" style="left: 266px; top: 49px; z-index: 2675; width: 150px; height: 150px; background:yellow">
         <span class="toolbar _header">
           16.08.28
           <b-button variant="info" size="sm" class="xs-btn">D</b-button>
@@ -22,6 +22,17 @@
           <b-button variant="info" size="sm" class="xs-btn">W</b-button>
         </span>
         <div class="itemContent _content">여행의 마지막. 뭔갈 하날 끝내고 나면 인생의 마지막에 한 발짝 더 가까이 온 기분.</div>
+      </div>
+      <div class="_item layer-memo" style="left: 650px; top: 149px; z-index: 2676; width: 150px; height: 150px; background:yellow">
+        <span class="toolbar _header">
+          16.08.28
+          <b-button variant="info" size="sm" class="xs-btn">D</b-button>
+          <b-button variant="info" size="sm" class="xs-btn">E</b-button>
+          <b-button variant="info" size="sm" class="xs-btn">Done</b-button>
+          <b-button variant="info" size="sm" class="xs-btn">S</b-button>
+          <b-button variant="info" size="sm" class="xs-btn">W</b-button>
+        </span>
+        <div class="itemContent _content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem voluptatum delectus eius, distinctio eligendi eaque maxime. Voluptates, minima porro, illum provident harum quidem libero culpa voluptatibus adipisci placeat est officia!</div>
       </div>
     </div>
   </div>
@@ -104,5 +115,8 @@ export default {
 .xs-btn{
   padding:0.15rem;
   font-size:0.75rem;
+}
+.layer-memo{
+  overflow: hidden;
 }
 </style>

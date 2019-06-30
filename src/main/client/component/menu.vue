@@ -130,7 +130,7 @@
           </a>
           <ul class="nav child_menu">
             <li>
-              <a href="#">나의 기록</a>
+              <router-link :to="{name: 'photoList'}">나의 기록</router-link>
             </li>
             <li>
               <a href="#">올리기</a>

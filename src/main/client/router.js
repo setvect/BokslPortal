@@ -142,6 +142,24 @@ export const constantRouterMap = [
             name: "memoLayer"
           }
         ]
+      },
+      {
+        path: "photo",
+        component: () => import("./app/index.vue"),
+        name: "photo",
+        redirect: "/main/photo/photoList",
+        children: [
+          {
+            path: "photoList",
+            component: () => import("./app/photo/photoList.vue"),
+            name: "photoList"
+          },
+          {
+            path: "photoAdd",
+            component: () => import("./app/photo/photoAdd.vue"),
+            name: "photoAdd"
+          }
+        ]
       }
     ]
   },
