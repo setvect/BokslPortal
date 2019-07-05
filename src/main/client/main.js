@@ -12,7 +12,10 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 import VeeValidate from "vee-validate"
 import ko from "vee-validate/dist/locale/ko"
 
-Vue.use(BootstrapVue)
+import VueLazyLoad from 'vue-lazyload'
+
+Vue.use(BootstrapVue);
+Vue.use(VueLazyLoad);
 Vue.use(VeeValidate, {
   inject: true,
   locale: "ko",
@@ -21,11 +24,11 @@ Vue.use(VeeValidate, {
   },
   fieldsBagName: "veeFields",
   errorBagName: "veeErrors"
-})
+});
 
 new Vue({
   el: "#app",
   render: h => h(template),
   router,
   store
-})
+});

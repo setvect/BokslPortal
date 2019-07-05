@@ -3,7 +3,7 @@
     <h5>글 등록</h5>
     <form autocomplete="off">
       <b-form-group>
-        <b-form-textarea v-model="item.content" v-validate="{ required: true}" :state="validateState('item.content')" name="item.content" data-vv-as="내용" placeholder="내용 넣어라" style="height:300px;"></b-form-textarea>
+        <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
       </b-form-group>
       <b-row>
         <b-col>
@@ -17,32 +17,29 @@
   </div>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
-
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
-  mixins: [comFunction],
+  components: {
+    vueDropzone: vue2Dropzone
+  },
   data() {
     return {
-      item: {
-        content: "우리집 강아지\n복슬강아지",
-      },
+      dropzoneOptions: {
+        url: 'https://127.0.0.1',
+        thumbnailWidth: 150,
+        maxFilesize: 0.5,
+        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> UPLOAD ME",
+        headers: { "My-Awesome-Header": "header value" }
+      }
     };
   },
   methods: {
     submitProc() {
-      this.$validator.validate().then((result) => {
-        if (result) {
-          alert('Form Submitted!');
-          return;
-        }
-        alert('Correct them errors!');
-      });
+      alert('Correct them errors!');
     },
   },
-  mounted() {
-    console.log('VueBootstrapDatetimePicker :', VueBootstrapDatetimePicker);
-  }
 };
 </script>
 <style scoped>

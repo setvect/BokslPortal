@@ -133,7 +133,7 @@
               <router-link :to="{name: 'photoList'}">나의 기록</router-link>
             </li>
             <li>
-              <a href="#">올리기</a>
+              <router-link :to="{name: 'photoAdd'}">올리기</router-link>
             </li>
           </ul>
         </li>
@@ -142,6 +142,11 @@
             <i class="fa fa-sitemap"></i> 복슬관계
             <span class="fa fa-chevron-down"></span>
           </a>
+          <ul class="nav child_menu">
+            <li>
+              <a href="#">복슬관계</a>
+            </li>
+          </ul>
         </li>
         <li>
           <a>
