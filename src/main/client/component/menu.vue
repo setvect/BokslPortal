@@ -144,7 +144,7 @@
           </a>
           <ul class="nav child_menu">
             <li>
-              <a href="#">복슬관계</a>
+              <router-link :to="{name: 'networkList'}">복슬관계</router-link>
             </li>
           </ul>
         </li>
