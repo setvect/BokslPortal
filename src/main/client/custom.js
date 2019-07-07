@@ -100,7 +100,7 @@ PageBody.init_sidebar = function() {
         .removeClass("active-sm")
     }
 
-    PageBody.$BODY.toggleClass("nav-md nav-sm")
+    PageBody.$BODY.toggleClass("nav-md")
     $.cookie("menu-small", PageBody.$BODY.hasClass("nav-sm"), { expires: 30, path: "/" })
     setContentHeight()
 

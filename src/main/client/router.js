@@ -160,6 +160,24 @@ export const constantRouterMap = [
             name: "photoAdd"
           }
         ]
+      },
+      {
+        path: "network",
+        component: () => import("./app/index.vue"),
+        name: "network",
+        redirect: "/main/network/networkList",
+        children: [
+          {
+            path: "networkList",
+            component: () => import("./app/network/networkList.vue"),
+            name: "networkList"
+          },
+          {
+            path: "networkRead",
+            component: () => import("./app/network/networkRead.vue"),
+            name: "networkRead"
+          }
+        ]
       }
     ]
   },
