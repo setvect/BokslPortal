@@ -1,14 +1,8 @@
 복슬포털 - TODO
 =========================
 
-
-
-
-
-
-
-
 ### 진행예정.
+- NEW-20190707: webpack 빌드가 잘 안됨. 빌드가 이상하게 되어 빌드된 javascript로 실행이 안됨.(이 문제 나올 것 같았음. 왜 이렇게 힘들까?) - 대충보니 패스만 잘 잡아 주면 될 것 같음.
 - NEW-20190626: PhotoRepositoryImpl 사용하지 않는 테이블 정리
 - NEW-20190626: PageQueryCondition Builder 형태로 만들어 보는 거 고려
 - NEW-20190626: 게시판 CLOB Lazy loadding
