@@ -173,9 +173,9 @@ export const constantRouterMap = [
             name: "networkList"
           },
           {
-            path: "networkRead",
-            component: () => import("./app/network/networkRead.vue"),
-            name: "networkRead"
+            path: "networkEdit",
+            component: () => import("./app/network/networkEdit.vue"),
+            name: "networkEdit"
           }
         ]
       },
@@ -207,6 +207,11 @@ export const constantRouterMap = [
                 name: "select-step2"
               }
             ]
+          },
+          {
+            path: "todo",
+            component: () => import("./app/lab/todo/todo.vue"),
+            name: "todo"
           }
         ]
       }

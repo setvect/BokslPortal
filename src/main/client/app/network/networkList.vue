@@ -97,7 +97,7 @@ export default {
       this.$router.push({ name: "networkRead" });
     },
     readPage(seq){
-      this.$router.push({ name: "networkRead" });
+      this.$router.push({ name: "networkEdit" });
     }
   },
   mounted() {

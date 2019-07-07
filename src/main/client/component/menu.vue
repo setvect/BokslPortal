@@ -161,7 +161,7 @@
               <router-link :to="{name: 'select-step1'}">결정장애 해결</router-link>
             </li>
             <li>
-              <a href="#">TODO</a>
+              <router-link :to="{name: 'todo'}">할일</router-link>
             </li>
           </ul>
         </li>
