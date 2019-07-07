@@ -190,6 +190,24 @@ export const constantRouterMap = [
             component: () => import("./app/lab/lotto/lotto.vue"),
             name: "lotto"
           },
+          {
+            path: "select",
+            component: () => import("./app/index.vue"),
+            name: "select",
+            redirect: "/main/lab/select/step1",
+            children: [
+              {
+                path: "step1",
+                component: () => import("./app/lab/select/selectStep1.vue"),
+                name: "select-step1"
+              },
+              {
+                path: "step2",
+                component: () => import("./app/lab/select/selectStep2.vue"),
+                name: "select-step2"
+              }
+            ]
+          }
         ]
       }
     ]

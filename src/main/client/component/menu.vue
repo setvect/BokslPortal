@@ -158,7 +158,7 @@
               <router-link :to="{name: 'lotto'}">로또</router-link>
             </li>
             <li>
-              <a href="#">결정장애 해결</a>
+              <router-link :to="{name: 'select-step1'}">결정장애 해결</router-link>
             </li>
             <li>
               <a href="#">TODO</a>
