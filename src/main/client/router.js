@@ -178,6 +178,19 @@ export const constantRouterMap = [
             name: "networkRead"
           }
         ]
+      },
+      {
+        path: "lab",
+        component: () => import("./app/index.vue"),
+        name: "lab",
+        redirect: "/main/lab/lotto",
+        children: [
+          {
+            path: "lotto",
+            component: () => import("./app/lab/lotto/lotto.vue"),
+            name: "lotto"
+          },
+        ]
       }
     ]
   },

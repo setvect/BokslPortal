@@ -155,7 +155,7 @@
           </a>
           <ul class="nav child_menu">
             <li>
-              <a href="#">로또</a>
+              <router-link :to="{name: 'lotto'}">로또</router-link>
             </li>
             <li>
               <a href="#">결정장애 해결</a>
