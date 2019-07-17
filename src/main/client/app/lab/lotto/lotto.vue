@@ -12,18 +12,32 @@
 </template>
 
 <script>
+import VueUtil from "../../../utils/vue-util.js"
+
 export default {
   data() {
     return {
       luckNumber: [
-        [1,2,3,4,5,6],
-        [10,11,12,13,14,15],
       ]
     }
   },
   methods: {
+    init() {
+      VueUtil.get(
+        "/lab/lotto/luck.json",
+        {
+          token: this.$store.getters.token
+        },
+        result => {
+          this.luckNumber = result.data;
+        },
+      )
+    }
   },
   mounted() {
-  }
+    console.log('this.$store.getters.token :', this.$store.getters.token);
+    this.init();
+  },
+
 };
 </script>
