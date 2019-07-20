@@ -9,15 +9,18 @@
         </b-col>
       </b-row>
     </form>
-    <div class="the_wheel" style="height: 582px; width: 438px; padding: 74px 0 0 2px;">
-      <canvas id="canvas" width="434" height="434"></canvas>
-    </div>
+    <b-row class='row-center'>
+      <div class="the_wheel" style="height: 582px; width: 438px; padding: 74px 0 0 2px;">
+        <canvas id="canvas" width="434" height="434"></canvas>
+      </div>
+    </b-row>
   </div>
 </template>
 <script>
 import Winwheel from '../../../assert/lib/Winwheel/Winwhee.js';
 import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
 import { debuglog } from 'util';
+import cookies from 'js-cookie'
 const COLORS = ["#eae56f", "#89f26e", "#7de6ef", "#e7706f", "#fcafee",
   "#89f26e", "#7de6ef", "#e7706f", "#ff3377", "#47d147", "#3399ff", "#ffd633"];
 
@@ -26,7 +29,7 @@ export default {
     return {
       wheelSpinning: false,
       theWheel: null,
-      menu: "짜장면\n떡볶이\n굶기\n순대국\n됀장찌개",
+      menu: "",
     };
   },
   methods: {
@@ -40,8 +43,6 @@ export default {
         return { 'fillStyle': COLORS[colorIdx++], 'text': m };
       });
 
-      console.log('segments :', segments);
-
       this.theWheel = new Winwheel({
         'numSegments': segments.length,
         'outerRadius': 212,
@@ -53,7 +54,7 @@ export default {
           'duration': 5,
           'spins': segments.length,
           // TODO 종료 이벤트가 발생하지 않는다.
-          'callbackFinished': (indicatedSegment) => {console.log('indicatedSegment :', indicatedSegment.text); }
+          'callbackFinished': (indicatedSegment) => { alert(indicatedSegment.text); }
         }
       });
     },
@@ -69,7 +70,7 @@ export default {
     },
   },
   mounted() {
-    console.log('Winwheel :', Winwheel);
+    this.menu = cookies.get("BokslSelectValue");
     this.init();
   }
 };
@@ -78,5 +79,9 @@ export default {
 .the_wheel{
   background-image: url("../../../assert/image/wheel_back.png");
   background-position: center;
+}
+.row-center {
+  width: 434px;
+  margin: 0 auto;
 }
 </style>

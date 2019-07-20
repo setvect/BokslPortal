@@ -3,8 +3,8 @@
     <h5>후보 등록</h5>
     <form autocomplete="off">
       <b-form-group>
-        <b-form-textarea v-model="target" v-validate="{ required: true}" :state="validateState('target')" name="target" data-vv-as="내용" placeholder="내용 넣어라" style="height:200px;"></b-form-textarea>
-        <span v-show="!validateState('target')" class="invalid-feedback">{{ veeErrors.first('target') }}</span>
+        <b-form-textarea v-model="content" v-validate="{ required: true}" :state="validateState('content')" name="content" data-vv-as="내용" placeholder="내용 넣어라" style="height:200px;"></b-form-textarea>
+        <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
       </b-form-group>
       <b-row>
         <b-col cols="auto">
@@ -16,25 +16,28 @@
 </template>
 <script>
 import comFunction from "../../commonFunction.js";
+import cookies from 'js-cookie'
 
 export default {
   mixins: [comFunction],
   data() {
     return {
-      target: ""
+      content: ""
     };
   },
   methods: {
     next() {
       this.$validator.validate().then((result) => {
-        if (result) {
+        if (!result) {
           return;
         }
+        cookies.set("BokslSelectValue", this.content);
         this.$router.push({ name: "select-step2" });
       });
     }
   },
   mounted() {
+    this.content = cookies.get("BokslSelectValue");
   }
 };
 </script>
