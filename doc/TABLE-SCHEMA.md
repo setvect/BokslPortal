@@ -145,6 +145,27 @@ MEMO|메모| |varchar|1000| |
 PROTECT_F|보호 이미지| |char|1|Y|Y, N
 REG_DATE|등록일| |datetime| |Y|
 
+### TODO
+- TBHA_TODO: TODO 항목
+
+Column Name | Attribute Name | Key | Type | Len | Not Null | Description
+----------- | -------------- | --- | ---- | --- | -------- | -----------
+TODO_SEQ|일련번호|PK|integer|4|Y|
+CONTENT|내용| |varchar|1000|Y|
+PERIOD|주기| |varchar|20|Y|ONCE, DAY, WEEK, MONTH
+ENABLE_F|활성화| |varchar|1|Y|Y, N|
+REG_DATE|등록일| |datetime| |Y|
+DELETE_F|삭제여부| |varchar|1|Y|Y, N
+
+- TBHB_TODO_CHECK: TODO 체크
+
+Column Name | Attribute Name | Key | Type | Len | Not Null | Description
+----------- | -------------- | --- | ---- | --- | -------- | -----------
+TODO_CHECK_SEQ|키|PK|integer|4|Y|
+TODO_SEQ|키|FK|integer|4|Y|TBHA_TODO 외래키
+CHECK_TYPE|체크 유형 | | varchar|20|Y|DO, NOT_DO
+CHECK_DATE|체크일| |datetime| |Y|
+
 ### 공통관리 항목
 - TBYA_ATTACH_FILE: 파일 업로드
 

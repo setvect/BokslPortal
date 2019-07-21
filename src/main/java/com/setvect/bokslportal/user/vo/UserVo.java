@@ -28,7 +28,7 @@ import lombok.ToString;
  * 사용자
  */
 @Entity
-@Table(name = "AA_USER")
+@Table(name = "TBAA_USER")
 @Setter
 @Getter
 @ToString(exclude = { "password", "userRole" })

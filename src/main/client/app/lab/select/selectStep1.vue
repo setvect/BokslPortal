@@ -31,7 +31,8 @@ export default {
         if (!result) {
           return;
         }
-        cookies.set("BokslSelectValue", this.content);
+        // expires 100 days
+        cookies.set("BokslSelectValue", this.content, { expires: 100 });
         this.$router.push({ name: "select-step2" });
       });
     }

@@ -24,7 +24,7 @@ import lombok.ToString;
  * 권한
  */
 @Entity
-@Table(name = "AB_ROLE")
+@Table(name = "TBAB_ROLE")
 @Setter
 @Getter
 @ToString
