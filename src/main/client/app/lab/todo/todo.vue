@@ -2,18 +2,32 @@
   <div>
     <div>
       <b-form inline style="margin: 59px 0 10px; 0 ">
-        <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" :checked="true">예정</b-form-checkbox>
-        <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" :checked="true">완료</b-form-checkbox>
-        <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" :checked="true">실패</b-form-checkbox>
-
+        <b-form-group>
+          <b-form-checkbox-group v-model="selected" :options="options" switches></b-form-checkbox-group>
+        </b-form-group>
+        <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" :checked="true">비활성화 포함</b-form-checkbox>
         <b-input v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
     </div>
     <b-row style="margin:0px;">
-      <b-card v-for="item in listData" :key="item.networkSeq" :title="item.title" tag="article" style="max-width: 20rem; margin-right:10px;" class="mb-2">
-        <b-card-text>{{item.editDate | dateFormat('YYYY-MM-DD') }}</b-card-text>
+      <b-card
+        v-for="item in listData"
+        :key="item.networkSeq"
+        :title="item.title"
+        :bg-variant="getStyle(item).bg"
+        :text-variant="getStyle(item).text"
+        footer-bg-variant="white"
+        tag="article"
+        style="max-width: 20rem; margin-right:10px"
+        :style="{'opacity':item.enable ? 1 : 0.35}"
+        class="mb-2"
+      >
+        <b-card-text>
+          {{item.editDate | dateFormat('YYYY-MM-DD') }}
+          <span v-show="item.completeDate != null" style="float:right">{{item.completeDate | dateFormat('YYYY-MM-DD')}}</span>
+        </b-card-text>
         <div slot="footer">
           <b-button href="#" variant="outline-danger" size="sm" @click="deleteProc(item)">삭제</b-button>
           <b-button href="#" variant="outline-primary" size="sm" @click="editForm(item)">수정</b-button>
@@ -44,65 +58,68 @@ import '../../../utils/vue-common.js'
 export default {
   data() {
     return {
+      selected: ['plan', 'complete'], // Must be an array reference!
+      options: [
+        { text: '예정', value: 'plan' },
+        { text: '완료', value: 'complete' },
+        { text: '포기', value: 'giveup' }
+      ],
       listData: [
         {
           todoSeq: 1,
           title: '책읽기',
+          status: 'complete',
+          enable: true,
+          regDate: 1561071320000,
+          completeDate: 1582075320000
+        },
+        {
+          todoSeq: 1,
+          title: '책읽기',
+          status: 'giveup',
+          enable: true,
           regDate: 1561071320000
         },
         {
           todoSeq: 1,
           title: '책읽기',
+          status: 'plan',
+          enable: true,
           regDate: 1561071320000
         },
         {
           todoSeq: 1,
           title: '책읽기',
+          status: 'giveup',
+          enable: false,
           regDate: 1561071320000
         },
         {
           todoSeq: 1,
           title: '책읽기',
+          status: 'complete',
+          enable: true,
           regDate: 1561071320000
         },
         {
           todoSeq: 1,
           title: '책읽기',
+          status: 'complete',
+          enable: true,
           regDate: 1561071320000
         },
         {
           todoSeq: 1,
           title: '책읽기',
+          status: 'complete',
+          enable: true,
           regDate: 1561071320000
         },
         {
           todoSeq: 1,
           title: '책읽기',
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '시장 가서 장보기',
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
+          status: 'complete',
+          enable: true,
           regDate: 1561071320000
         },
       ],
@@ -130,6 +147,15 @@ export default {
     },
     addProc() {
       console.log("addProc");
+    },
+    getStyle(item) {
+      if (item.status == 'complete') {
+        return { bg: "success", text: 'white' };
+      }
+      if (item.status == 'giveup') {
+        return { bg: "warning", text: 'white' };
+      }
+      return { bg: "", text: '' };
     }
   },
   mounted() {
