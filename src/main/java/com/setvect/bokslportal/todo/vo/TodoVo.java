@@ -1,8 +1,7 @@
 package com.setvect.bokslportal.todo.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Date;
-import java.util.List;
+
+import org.hibernate.annotations.Type;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -56,10 +58,16 @@ public class TodoVo {
   private Period period;
 
   /**
-   * 활성화
+   * 시작기간
    */
-  @Column(name = "ENABLE_F", nullable = false)
-  private boolean enableF;
+  @Column(name = "DURATION_FROM", nullable = false)
+  private Date durationFrom;
+
+  /**
+   * 종료기간
+   */
+  @Column(name = "DURATION_TO", nullable = false)
+  private Date durationTo;
 
   /**
    * 등록일

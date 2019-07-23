@@ -84,7 +84,7 @@ TITLE|제목| |varchar|200|Y|
 ### 복슬노트
 - TBDA_NOTE_CATEGORY: 카테고리 
 
-Column Name | Attribute Name | Key | Type | Len | Not Null | Description
+Column Name | Attribute Ntame | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 CATEGORY_SEQ|일련번호|PK|integer| |Y|
 PARENT_ID|부모 카테고리|FK|integer| |Y|TBCA_NOTE_CATEGORY 외래키
@@ -153,7 +153,8 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 TODO_SEQ|일련번호|PK|integer|4|Y|
 CONTENT|내용| |varchar|1000|Y|
 PERIOD|주기| |varchar|20|Y|ONCE, DAY, WEEK, MONTH
-ENABLE_F|활성화| |varchar|1|Y|Y, N|
+DURATION_FROM|시작기간| |datetime|1|Y|Y, N|
+DURATION_TO|종료기간| |datetime|1|Y|Y, N|
 REG_DATE|등록일| |datetime| |Y|
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 

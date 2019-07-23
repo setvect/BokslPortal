@@ -40,11 +40,14 @@
       <b-button block variant="outline-secondary" size="sm">더보기(100/200)</b-button>
     </div>
 
-    <b-modal ref="todoForm" title="할일 만들기" @ok="addProc()">
+    <b-modal ref="todoForm" title="할일 만들기" no-fade @ok="addProc()" @show="showAddEvent()">
       <div>
         <b-form>
-          <b-form-group label="내용" label-for="input-label">
-            <b-form-input id="input-label"></b-form-input>
+          <b-form-group label="내용" label-for="input-content">
+            <b-form-input id="input-content"></b-form-input>
+          </b-form-group>
+          <b-form-group label="수행기간" label-for="input-duration">
+            <input type="text" id="input-duration" class="form-control daterange _datepicker" readonly="readonly" />
           </b-form-group>
         </b-form>
       </div>
@@ -54,6 +57,9 @@
 
 <script>
 import '../../../utils/vue-common.js'
+import "daterangepicker";
+import 'daterangepicker/daterangepicker.css';
+import moment from "moment";
 
 export default {
   data() {
@@ -132,6 +138,7 @@ export default {
   methods: {
     addForm() {
       this.$refs['todoForm'].show()
+
     },
     editForm(item) {
       console.log('item 수정 :', item);
@@ -148,6 +155,25 @@ export default {
     addProc() {
       console.log("addProc");
     },
+    showAddEvent() {
+      console.log("showAddEvent...");
+      this.$nextTick(()=>{
+        console.log('$("._datepicker") :', $("._datepicker"));
+
+      });
+      setTimeout(() => {
+        $("._datepicker").daterangepicker({
+          showDropdowns: true,
+          locale: {
+            format: 'YYYY-MM-DD'
+          },
+          startDate: moment(new Date(2016, 0, 12)),
+          endDate: moment(new Date(2016, 7, 31))
+        }, (start) => {
+          console.log('start.format("YYYY-MM-DD") :', start.format("YYYY-MM-DD"));
+        });
+      }, 1000);
+    },
     getStyle(item) {
       if (item.status == 'complete') {
         return { bg: "success", text: 'white' };
@@ -159,6 +185,7 @@ export default {
     }
   },
   mounted() {
+
   }
 };
 </script>
