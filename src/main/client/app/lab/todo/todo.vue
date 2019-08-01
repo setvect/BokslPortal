@@ -2,6 +2,10 @@
   <div>
     <div>
       <b-form inline style="margin: 59px 0 10px; 0 ">
+        <!-- <input type="text" class="form-control daterange _datepicker" readonly="readonly" /> -->
+        <b-form-group style="padding-right:20px;">
+          <datepicker v-model="searchData.baseDate" :language="ko" format="yyyy-MM-dd" input-class="form-control form-control-sm" placeholder="기준일"></datepicker>
+        </b-form-group>
         <b-form-group>
           <b-form-checkbox-group v-model="selected" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
@@ -63,9 +67,14 @@
 import '../../../utils/vue-common.js'
 import "daterangepicker";
 import 'daterangepicker/daterangepicker.css';
+import { ko } from 'vuejs-datepicker/dist/locale'
+import Datepicker from 'vuejs-datepicker';
 import moment from "moment";
 
 export default {
+  components: {
+    Datepicker
+  },
   data() {
     return {
       selected: ['plan', 'complete'], // Must be an array reference!
@@ -136,9 +145,11 @@ export default {
           regDate: 1561071320000
         },
       ],
+      ko: ko,
       searchData: {
         categorySeq: 2,
         word: null,
+        baseDate: new Date()
       },
     };
   },
@@ -161,8 +172,8 @@ export default {
     addProc() {
       console.log("addProc");
     },
-    getPeriodLabel(period){
-      return this.periodOption.find((item)=> item.value === period).text;
+    getPeriodLabel(period) {
+      return this.periodOption.find((item) => item.value === period).text;
     },
     showAddEvent() {
       console.log("showAddEvent...");
