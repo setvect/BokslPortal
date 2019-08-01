@@ -26,6 +26,7 @@
       >
         <b-card-text>
           {{item.editDate | dateFormat('YYYY-MM-DD') }}
+          <span>({{getPeriodLabel(item.period)}})</span>
           <span v-show="item.completeDate != null" style="float:right">{{item.completeDate | dateFormat('YYYY-MM-DD')}}</span>
         </b-card-text>
         <div slot="footer">
@@ -46,7 +47,10 @@
           <b-form-group label="내용" label-for="input-content">
             <b-form-input id="input-content"></b-form-input>
           </b-form-group>
-          <b-form-group label="수행기간" label-for="input-duration">
+          <b-form-group label="주기" label-for="period-slots">
+            <b-form-radio-group id="period-slots" v-model="item.period" :options="periodOption" name="period-options-slots"></b-form-radio-group>
+          </b-form-group>
+          <b-form-group v-show="item.period != 'ONCE'" label="수행기간" label-for="input-duration">
             <input type="text" id="input-duration" class="form-control daterange _datepicker" readonly="readonly" />
           </b-form-group>
         </b-form>
@@ -70,11 +74,23 @@ export default {
         { text: '완료', value: 'complete' },
         { text: '포기', value: 'giveup' }
       ],
+      periodOption: [
+        { text: '한번만', value: 'ONCE' },
+        { text: '매일', value: 'DAY' },
+        { text: '주', value: 'WEEK' },
+        { text: '월', value: 'MONTH' },
+      ],
+      item: {
+        period: 'ONCE',
+        durationForm: 1561071320000,
+        durationTo: 1561071320000,
+      },
       listData: [
         {
           todoSeq: 1,
           title: '책읽기',
           status: 'complete',
+          period: 'ONCE',
           enable: true,
           regDate: 1561071320000,
           completeDate: 1582075320000
@@ -83,6 +99,7 @@ export default {
           todoSeq: 1,
           title: '책읽기',
           status: 'giveup',
+          period: 'ONCE',
           enable: true,
           regDate: 1561071320000
         },
@@ -90,6 +107,7 @@ export default {
           todoSeq: 1,
           title: '책읽기',
           status: 'plan',
+          period: 'DAY',
           enable: true,
           regDate: 1561071320000
         },
@@ -97,6 +115,7 @@ export default {
           todoSeq: 1,
           title: '책읽기',
           status: 'giveup',
+          period: 'WEEK',
           enable: false,
           regDate: 1561071320000
         },
@@ -104,6 +123,7 @@ export default {
           todoSeq: 1,
           title: '책읽기',
           status: 'complete',
+          period: 'MONTH',
           enable: true,
           regDate: 1561071320000
         },
@@ -111,20 +131,7 @@ export default {
           todoSeq: 1,
           title: '책읽기',
           status: 'complete',
-          enable: true,
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'complete',
-          enable: true,
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'complete',
+          period: 'ONCE',
           enable: true,
           regDate: 1561071320000
         },
@@ -138,7 +145,6 @@ export default {
   methods: {
     addForm() {
       this.$refs['todoForm'].show()
-
     },
     editForm(item) {
       console.log('item 수정 :', item);
@@ -155,9 +161,12 @@ export default {
     addProc() {
       console.log("addProc");
     },
+    getPeriodLabel(period){
+      return this.periodOption.find((item)=> item.value === period).text;
+    },
     showAddEvent() {
       console.log("showAddEvent...");
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         console.log('$("._datepicker") :', $("._datepicker"));
 
       });
@@ -167,25 +176,24 @@ export default {
           locale: {
             format: 'YYYY-MM-DD'
           },
-          startDate: moment(new Date(2016, 0, 12)),
-          endDate: moment(new Date(2016, 7, 31))
+          startDate: moment(this.item.durationForm),
+          endDate: moment(this.item.durationTo)
         }, (start) => {
           console.log('start.format("YYYY-MM-DD") :', start.format("YYYY-MM-DD"));
         });
-      }, 1000);
+      }, 100); // TODO 이렇게 하지말기. 현재로썬 이렇게 안하면 daterangepicker가 적용되지 않음.
     },
     getStyle(item) {
-      if (item.status == 'complete') {
+      if (item.status === 'complete') {
         return { bg: "success", text: 'white' };
       }
-      if (item.status == 'giveup') {
+      if (item.status === 'giveup') {
         return { bg: "warning", text: 'white' };
       }
       return { bg: "", text: '' };
     }
   },
   mounted() {
-
   }
 };
 </script>
