@@ -35,9 +35,10 @@
         </b-card-text>
         <div slot="footer">
           <b-button href="#" variant="outline-danger" size="sm" @click="deleteProc(item)">삭제</b-button>
-          <b-button href="#" variant="outline-primary" size="sm" @click="editForm(item)">수정</b-button>
-          <b-button href="#" variant="outline-warning" size="sm" @click="givenUpProc(item)">포기</b-button>
-          <b-button href="#" variant="outline-success" size="sm" @click="completeProc(item)">완료</b-button>
+          <b-button v-show="item.status === 'plan'" href="#" variant="outline-primary" size="sm" @click="editForm(item)">수정</b-button>
+          <b-button v-show="item.status === 'plan'" href="#" variant="outline-warning" size="sm" @click="givenUpProc(item)">포기</b-button>
+          <b-button v-show="item.status === 'plan'" href="#" variant="outline-success" size="sm" @click="completeProc(item)">완료</b-button>
+          <b-button v-show="item.status !== 'plan'" href="#" variant="outline-success" size="sm" @click="cancelProc(item)">취소</b-button>
         </div>
       </b-card>
     </b-row>
@@ -45,11 +46,12 @@
       <b-button block variant="outline-secondary" size="sm">더보기(100/200)</b-button>
     </div>
 
-    <b-modal ref="todoForm" title="할일 만들기" no-fade @ok="addProc()" @show="showAddEvent()">
+    <b-modal ref="todoForm" title="할일 만들기" @ok="addProc" @show="showAddEvent()">
       <div>
-        <b-form>
+        <b-form autocomplete="off">
           <b-form-group label="내용" label-for="input-content">
-            <b-form-input id="input-content"></b-form-input>
+            <b-form-input v-model="item.content" name="content"  v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
+            <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
           </b-form-group>
           <b-form-group label="주기" label-for="period-slots">
             <b-form-radio-group id="period-slots" v-model="item.period" :options="periodOption" name="period-options-slots"></b-form-radio-group>
@@ -64,6 +66,7 @@
 </template>
 
 <script>
+import comFunction from "../../commonFunction.js";
 import '../../../utils/vue-common.js'
 import "daterangepicker";
 import 'daterangepicker/daterangepicker.css';
@@ -72,6 +75,7 @@ import Datepicker from 'vuejs-datepicker';
 import moment from "moment";
 
 export default {
+  mixins: [comFunction],
   components: {
     Datepicker
   },
@@ -91,6 +95,7 @@ export default {
       ],
       item: {
         period: 'ONCE',
+        content: '',
         durationForm: 1561071320000,
         durationTo: 1561071320000,
       },
@@ -169,11 +174,22 @@ export default {
     completeProc(item) {
       console.log('item 완료 :', item);
     },
-    addProc() {
+    addProc(event) {
       console.log("addProc");
+      event.preventDefault();
+      this.$validator.validate().then((result) => {
+        if (!result) {
+          return false;
+        }
+        console.log("addProc Go.");
+        this.$refs.todoForm.hide();
+      });
     },
     getPeriodLabel(period) {
       return this.periodOption.find((item) => item.value === period).text;
+    },
+    cancelProc(item) {
+      console.log('취소');
     },
     showAddEvent() {
       console.log("showAddEvent...");
