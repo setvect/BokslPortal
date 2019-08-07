@@ -60,13 +60,13 @@ public class TodoVo {
   /**
    * 시작기간
    */
-  @Column(name = "DURATION_FROM", nullable = false)
+  @Column(name = "DURATION_FROM", nullable = true)
   private Date durationFrom;
 
   /**
    * 종료기간
    */
-  @Column(name = "DURATION_TO", nullable = false)
+  @Column(name = "DURATION_TO", nullable = true)
   private Date durationTo;
 
   /**

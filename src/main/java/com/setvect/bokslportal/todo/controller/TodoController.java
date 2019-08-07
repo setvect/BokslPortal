@@ -1,5 +1,6 @@
 package com.setvect.bokslportal.todo.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.setvect.bokslportal.todo.repository.TodoRepository;
 import com.setvect.bokslportal.todo.service.TodoSearch;
 import com.setvect.bokslportal.todo.vo.TodoCheckVo;
 import com.setvect.bokslportal.todo.vo.TodoVo;
+import com.setvect.bokslportal.todo.vo.TodoVo.Period;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -61,6 +63,11 @@ public class TodoController {
    */
   @RequestMapping(value = "/addTodo.do", method = RequestMethod.POST)
   public ResponseEntity<Integer> addTodo(TodoVo todo) {
+    todo.setRegDate(new Date());
+    if (todo.getPeriod() == Period.ONCE) {
+      todo.setDurationFrom(null);
+      todo.setDurationTo(null);
+    }
     todoRepository.save(todo);
     return new ResponseEntity<>(todo.getTodoSeq(), HttpStatus.OK);
   }

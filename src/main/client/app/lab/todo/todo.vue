@@ -50,7 +50,7 @@
       <div>
         <b-form autocomplete="off">
           <b-form-group label="내용" label-for="input-content">
-            <b-form-input v-model="item.content" name="content"  v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
+            <b-form-input v-model="item.content" name="content" v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
             <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
           </b-form-group>
           <b-form-group label="주기" label-for="period-slots">
@@ -68,6 +68,7 @@
 <script>
 import comFunction from "../../commonFunction.js";
 import '../../../utils/vue-common.js'
+import VueUtil from '../../../utils/vue-util.js'
 import "daterangepicker";
 import 'daterangepicker/daterangepicker.css';
 import { ko } from 'vuejs-datepicker/dist/locale'
@@ -96,7 +97,7 @@ export default {
       item: {
         period: 'ONCE',
         content: '',
-        durationForm: 1561071320000,
+        durationFrom: 1561071320000,
         durationTo: 1561071320000,
       },
       listData: [
@@ -182,7 +183,9 @@ export default {
           return false;
         }
         console.log("addProc Go.");
-        this.$refs.todoForm.hide();
+        VueUtil.post("/todo/addTodo.do", this.item, (res) => {
+          this.$refs.todoForm.hide();
+        });
       });
     },
     getPeriodLabel(period) {
@@ -203,10 +206,13 @@ export default {
           locale: {
             format: 'YYYY-MM-DD'
           },
-          startDate: moment(this.item.durationForm),
+          startDate: moment(this.item.durationFrom),
           endDate: moment(this.item.durationTo)
-        }, (start) => {
-          console.log('start.format("YYYY-MM-DD") :', start.format("YYYY-MM-DD"));
+        }, (from, to) => {
+          console.log('from :', from.valueOf());
+          console.log('to :', to);
+          this.item.durationFrom = from.valueOf();
+          this.item.durationTo = to.valueOf();
         });
       }, 100); // TODO 이렇게 하지말기. 현재로썬 이렇게 안하면 daterangepicker가 적용되지 않음.
     },
