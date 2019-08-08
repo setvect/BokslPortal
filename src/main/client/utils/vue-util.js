@@ -2,7 +2,9 @@ import CommonUtil from "./common-util.js"
 import axios from "axios"
 import $ from "jquery"
 import store from "../store/index"
-import { getToken } from "./auth.js"
+import {
+  getToken
+} from "./auth.js"
 
 // Vue 관련 공통 함수.
 const VueUtil = {}
@@ -12,7 +14,7 @@ const NOTING_OPERATION = () => {}
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.get = function(url, param, callback, option) {
+VueUtil.get = function (url, param, callback, option) {
   VueUtil._ajaxCall("get", url, param, callback, option)
 }
 
@@ -21,28 +23,28 @@ VueUtil.get = function(url, param, callback, option) {
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.post = function(url, param, callback, option) {
+VueUtil.post = function (url, param, callback, option) {
   VueUtil._ajaxCall("post", url, param, callback, option)
 }
 
 /*
  * url: 호출 주소 param: 전달 파라미터(JSON 문자열) option: 옵션
  */
-VueUtil.json = function(url, param, callback, option) {
+VueUtil.json = function (url, param, callback, option) {
   VueUtil._axisCall("json", url, param, callback, option)
 }
 
 /*
  * url: 호출 주소 param: 전달 파라미터 option: 옵션
  */
-VueUtil.multipart = function(url, param, callback, option) {
+VueUtil.multipart = function (url, param, callback, option) {
   VueUtil._axisCall("multipart", url, param, callback, option)
 }
 
 /*
  * get, post 처리
  */
-VueUtil._ajaxCall = function(callType, url, _param, _callback, _option) {
+VueUtil._ajaxCall = function (callType, url, _param, _callback, _option) {
   const param = _param || {}
   const callback = _callback || NOTING_OPERATION
   const option = _option || {}
@@ -55,13 +57,28 @@ VueUtil._ajaxCall = function(callType, url, _param, _callback, _option) {
     axios.defaults.headers.common["x-auth-token"] = getToken()
   }
 
-  let axiosMethod
-  let sendParam
+  let axiosMethod;
+  let sendParam;
 
   if (callType === "get") {
-    axiosMethod = axios.get
+    var paramValue = new URLSearchParams();
+    console.log('param 1111111111:', param);
+    Object.keys(param).map((key) => {
+      console.log('key :', key);
+      if (value === null) {
+        return;
+      }
+      let value = param[key];
+      if (Array.isArray(value)) {
+        value.forEach((v) => paramValue.append(key, v));
+      } else {
+        paramValue.append(key, param[key]);
+      }
+    })
+
+    axiosMethod = axios.get;
     sendParam = {
-      params: param
+      params: paramValue
     }
   } else if (callType === "post") {
     axiosMethod = axios.post
@@ -79,7 +96,7 @@ VueUtil._ajaxCall = function(callType, url, _param, _callback, _option) {
   const finallyCall = option.finallyCall || NOTING_OPERATION
   const errorCall =
     option.errorCall ||
-    function(err) {
+    function (err) {
       CommonUtil.popupError(err)
     }
 

@@ -21,6 +21,8 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
   public GenericPage<TodoVo> getTodoPagingList(TodoSearch searchCondition) {
     Map<String, Object> bindParameter = new HashMap<>();
     String where = " WHERE p.deleteF = 'N' ";
+    where += " AND p.content like :word";
+    bindParameter.put("word", "%" + searchCondition.getWord() + "%");
 
     PageQueryCondition pageQuery = new PageQueryCondition(bindParameter, searchCondition);
 

@@ -7,9 +7,8 @@
           <datepicker v-model="searchData.baseDate" :language="ko" format="yyyy-MM-dd" input-class="form-control form-control-sm" placeholder="기준일"></datepicker>
         </b-form-group>
         <b-form-group>
-          <b-form-checkbox-group v-model="selected" :options="options" switches></b-form-checkbox-group>
+          <b-form-checkbox-group v-model="searchData.status" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
-        <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" :checked="true">비활성화 포함</b-form-checkbox>
         <b-input v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
@@ -82,7 +81,6 @@ export default {
   },
   data() {
     return {
-      selected: ['plan', 'complete'], // Must be an array reference!
       options: [
         { text: '예정', value: 'plan' },
         { text: '완료', value: 'complete' },
@@ -103,6 +101,7 @@ export default {
       page: {},
       searchData: {
         word: null,
+        status: ['plan', 'complete'],
         baseDate: (new Date()).getTime()
       },
       ko: ko,
