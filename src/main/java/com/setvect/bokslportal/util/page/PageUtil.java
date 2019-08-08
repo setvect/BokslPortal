@@ -36,7 +36,7 @@ public abstract class PageUtil {
 		TypedQuery<T> querySelect = PageUtil.makeListQueryWhere(em, condition.getSelectQuery(),
 				condition.getBindParameter(), classType);
 
-		querySelect.setFirstResult(condition.getPageRange().getStartCursor());
+    querySelect.setFirstResult(condition.getPageRange().getStartCursor());
 		querySelect.setMaxResults(condition.getPageRange().getReturnCount());
 
 		List<T> resultList = querySelect.getResultList();

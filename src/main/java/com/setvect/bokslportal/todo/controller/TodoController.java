@@ -1,7 +1,6 @@
 package com.setvect.bokslportal.todo.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.todo.repository.TodoCheckRepository;
 import com.setvect.bokslportal.todo.repository.TodoRepository;
@@ -38,10 +38,12 @@ public class TodoController {
    *          검색 조건
    * @return 할일 목록
    */
-  @RequestMapping(value = "/listTodo.do", method = RequestMethod.GET)
-  public List<TodoVo> listTodo(TodoSearch param) {
-    GenericPage<TodoVo> list = todoRepository.getTodoPagingList(param);
-    return list.getObjects();
+  @RequestMapping(value = "/listTodo.json", method = RequestMethod.GET)
+  public ResponseEntity<String> listTodo(TodoSearch param) {
+    GenericPage<TodoVo> page = todoRepository.getTodoPagingList(param);
+    page.getList().stream().forEach(todo -> todo.setStatus(TodoVo.Status.PLAN));
+    String json = ApplicationUtil.toJson(page, "**,list[**,-todoCheckList]");
+    return new ResponseEntity<>(json, HttpStatus.OK);
   }
 
   /**

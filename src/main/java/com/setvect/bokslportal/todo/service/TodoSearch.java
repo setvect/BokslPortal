@@ -1,20 +1,16 @@
 package com.setvect.bokslportal.todo.service;
 
+import java.util.Set;
+
 import com.setvect.bokslportal.common.SearchListVo;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Getter
 @Setter
 
 public class TodoSearch extends SearchListVo {
-
-  public TodoSearch(int startCursor, int returnCount) {
-    super(startCursor, returnCount);
-  }
-
   /**
    * 내용 검색
    */

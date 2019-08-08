@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.setvect.bokslportal.common.SearchListVo;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,20 +12,16 @@ import lombok.ToString;
 /**
  * 페이징 조건
  */
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor
+@Getter
+@Setter
 @ToString
 public class PageQueryCondition {
-	@Getter
-	private final Map<String, Object> bindParameter;
+  private final Map<String, Object> bindParameter;
 
-	@Getter
-	private final SearchListVo pageRange;
+  private final SearchListVo pageRange;
 
-	@Getter
-	@Setter
-	private String selectQuery;
+  private String selectQuery;
 
-	@Getter
-	@Setter
-	private String countQuery;
+  private String countQuery;
 }

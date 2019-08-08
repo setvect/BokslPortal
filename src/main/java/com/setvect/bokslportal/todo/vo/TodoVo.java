@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -25,15 +26,22 @@ import lombok.Setter;
 @Entity
 @Table(name = "TBHA_TODO")
 /**
- * TODO 항목
+ * 할일 항목
  */
 public class TodoVo {
 
   /**
-   * TODO 반복 주기
+   * 할일 반복 주기
    */
-  public enum Period{
+  public enum Period {
     ONCE, DAY, WEEK, MONTH
+  }
+
+  /**
+   *
+   */
+  public enum Status {
+    PLAN, GIVEUP, COMPLETE;
   }
 
   /**
@@ -87,4 +95,8 @@ public class TodoVo {
    */
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "todo", cascade = CascadeType.ALL)
   private List<TodoCheckVo> todoCheckList;
+
+  /** 할일 상태 */
+  @Transient
+  private Status status;
 }

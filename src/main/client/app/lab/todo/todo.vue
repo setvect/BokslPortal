@@ -17,9 +17,9 @@
     </div>
     <b-row style="margin:0px;">
       <b-card
-        v-for="item in listData"
-        :key="item.networkSeq"
-        :title="item.title"
+        v-for="item in page.list"
+        :key="item.todoSeq"
+        :title="item.content"
         :bg-variant="getStyle(item).bg"
         :text-variant="getStyle(item).text"
         footer-bg-variant="white"
@@ -100,66 +100,20 @@ export default {
         durationFrom: 1561071320000,
         durationTo: 1561071320000,
       },
-      listData: [
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'complete',
-          period: 'ONCE',
-          enable: true,
-          regDate: 1561071320000,
-          completeDate: 1582075320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'giveup',
-          period: 'ONCE',
-          enable: true,
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'plan',
-          period: 'DAY',
-          enable: true,
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'giveup',
-          period: 'WEEK',
-          enable: false,
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'complete',
-          period: 'MONTH',
-          enable: true,
-          regDate: 1561071320000
-        },
-        {
-          todoSeq: 1,
-          title: '책읽기',
-          status: 'complete',
-          period: 'ONCE',
-          enable: true,
-          regDate: 1561071320000
-        },
-      ],
-      ko: ko,
+      page: {},
       searchData: {
-        categorySeq: 2,
         word: null,
-        baseDate: new Date()
+        baseDate: (new Date()).getTime()
       },
+      ko: ko,
     };
   },
   methods: {
+    listProc() {
+      VueUtil.get("/todo/listTodo.json", this.searchData, (res) => {
+        this.page = res.data;
+      });
+    },
     addForm() {
       this.$refs['todoForm'].show()
     },
@@ -227,6 +181,7 @@ export default {
     }
   },
   mounted() {
+    this.listProc();
   }
 };
 </script>
