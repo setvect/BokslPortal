@@ -62,13 +62,11 @@ VueUtil._ajaxCall = function (callType, url, _param, _callback, _option) {
 
   if (callType === "get") {
     var paramValue = new URLSearchParams();
-    console.log('param 1111111111:', param);
     Object.keys(param).map((key) => {
-      console.log('key :', key);
+      let value = param[key];
       if (value === null) {
         return;
       }
-      let value = param[key];
       if (Array.isArray(value)) {
         value.forEach((v) => paramValue.append(key, v));
       } else {

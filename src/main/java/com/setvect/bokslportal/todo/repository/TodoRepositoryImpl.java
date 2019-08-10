@@ -11,6 +11,7 @@ import com.setvect.bokslportal.todo.service.TodoSearch;
 import com.setvect.bokslportal.todo.vo.TodoVo;
 import com.setvect.bokslportal.util.page.PageQueryCondition;
 import com.setvect.bokslportal.util.page.PageUtil;
+import org.apache.commons.lang3.StringUtils;
 
 public class TodoRepositoryImpl implements TodoRepositoryCustom {
   /** JPA DB 세션 */
@@ -21,9 +22,10 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
   public GenericPage<TodoVo> getTodoPagingList(TodoSearch searchCondition) {
     Map<String, Object> bindParameter = new HashMap<>();
     String where = " WHERE p.deleteF = 'N' ";
-    where += " AND p.content like :word";
-    bindParameter.put("word", "%" + searchCondition.getWord() + "%");
-
+    if(StringUtils.isNotBlank(searchCondition.getWord())) {
+      where += " AND p.content like :word";
+      bindParameter.put("word", "%" + searchCondition.getWord() + "%");
+    }
     PageQueryCondition pageQuery = new PageQueryCondition(bindParameter, searchCondition);
 
     pageQuery.setCountQuery("select count(*) FROM TodoVo p " + where);

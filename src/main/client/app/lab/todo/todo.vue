@@ -10,7 +10,7 @@
           <b-form-checkbox-group v-model="searchData.status" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
         <b-input v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
-        <b-button variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
+        <b-button @click="listProc()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
     </div>
@@ -129,13 +129,11 @@ export default {
       console.log('item 완료 :', item);
     },
     addProc(event) {
-      console.log("addProc");
       event.preventDefault();
       this.$validator.validate().then((result) => {
         if (!result) {
           return false;
         }
-        console.log("addProc Go.");
         VueUtil.post("/todo/addTodo.do", this.item, (res) => {
           this.$refs.todoForm.hide();
         });
