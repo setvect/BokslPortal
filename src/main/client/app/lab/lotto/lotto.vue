@@ -24,7 +24,7 @@ export default {
   methods: {
     init() {
       VueUtil.get(
-        "/lab/lotto/luck.json",
+        "/lab/lotto/luck",
         {},
         result => {
           this.luckNumber = result.data;

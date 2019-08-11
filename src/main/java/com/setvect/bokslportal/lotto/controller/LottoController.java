@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/lab/lotto/")
 public class LottoController {
-  @RequestMapping(value = "/luck.json", method = RequestMethod.GET)
+  @RequestMapping(value = "/luck", method = RequestMethod.GET)
   public ResponseEntity<List<Set<Integer>>> luck(HttpServletRequest request, HttpServletResponse response) {
     LocalDate today = LocalDate.now();
     List<Set<Integer>> luckList = makeLottoNumber(today.hashCode());

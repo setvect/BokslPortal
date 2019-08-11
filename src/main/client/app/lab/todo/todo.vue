@@ -45,11 +45,11 @@
       <b-button block variant="outline-secondary" size="sm">더보기(100/200)</b-button>
     </div>
 
-    <b-modal ref="todoForm" title="할일 만들기" @ok="addProc" @show="showAddEvent()">
+    <b-modal ref="todoForm" title="할일 만들기" @ok="addProc" @shown="shownAddEvent">
       <div>
         <b-form autocomplete="off">
           <b-form-group label="내용" label-for="input-content">
-            <b-form-input v-model="item.content" name="content" v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
+            <b-form-input ref="content-input" v-model="item.content" name="content" v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
             <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
           </b-form-group>
           <b-form-group label="주기" label-for="period-slots">
@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     listProc() {
-      VueUtil.get("/todo/listTodo.json", this.searchData, (res) => {
+      VueUtil.get("/todo/list", this.searchData, (res) => {
         this.page = res.data;
       });
     },
@@ -120,7 +120,10 @@ export default {
       console.log('item 수정 :', item);
     },
     deleteProc(item) {
-      console.log('item 삭제 :', item);
+      VueUtil.delete(`/todo/item/${item.todoSeq}`, {}, (res) => {
+        this.page.list = this.page.list.filter(i => i !== item);
+      });
+
     },
     givenUpProc(item) {
       console.log('item 포기 :', item);
@@ -134,8 +137,9 @@ export default {
         if (!result) {
           return false;
         }
-        VueUtil.post("/todo/addTodo.do", this.item, (res) => {
+        VueUtil.post("/todo/item", this.item, (res) => {
           this.$refs.todoForm.hide();
+          this.listProc();
         });
       });
     },
@@ -145,27 +149,22 @@ export default {
     cancelProc(item) {
       console.log('취소');
     },
-    showAddEvent() {
-      console.log("showAddEvent...");
-      this.$nextTick(() => {
-        console.log('$("._datepicker") :', $("._datepicker"));
-
+    // 입력 창 오픈시
+    shownAddEvent(event) {
+      $("._datepicker").daterangepicker({
+        showDropdowns: true,
+        locale: {
+          format: 'YYYY-MM-DD'
+        },
+        startDate: moment(this.item.durationFrom),
+        endDate: moment(this.item.durationTo)
+      }, (from, to) => {
+        console.log('from :', from.valueOf());
+        console.log('to :', to);
+        this.item.durationFrom = from.valueOf();
+        this.item.durationTo = to.valueOf();
       });
-      setTimeout(() => {
-        $("._datepicker").daterangepicker({
-          showDropdowns: true,
-          locale: {
-            format: 'YYYY-MM-DD'
-          },
-          startDate: moment(this.item.durationFrom),
-          endDate: moment(this.item.durationTo)
-        }, (from, to) => {
-          console.log('from :', from.valueOf());
-          console.log('to :', to);
-          this.item.durationFrom = from.valueOf();
-          this.item.durationTo = to.valueOf();
-        });
-      }, 100); // TODO 이렇게 하지말기. 현재로썬 이렇게 안하면 daterangepicker가 적용되지 않음.
+      this.$refs['content-input'].focus();
     },
     getStyle(item) {
       if (item.status === 'complete') {

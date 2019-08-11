@@ -36,7 +36,7 @@ package-lock.json
 
 ### ETC ###
 /bin/
-/.vscode/
+#/.vscode/
 /target/
 /logs/
 /db/
