@@ -152,20 +152,10 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 TODO_SEQ|일련번호|PK|integer|4|Y|
 CONTENT|내용| |varchar|1000|Y|
-PERIOD|주기| |varchar|20|Y|ONCE, DAY, WEEK, MONTH
-DURATION_FROM|시작기간| |datetime|1|Y|Y, N|
-DURATION_TO|종료기간| |datetime|1|Y|Y, N|
+CHECK_TYPE|체크 유형 | | varchar|20|Y|PLAN, GIVEUP, COMPLETE
 REG_DATE|등록일| |datetime| |Y|
-DELETE_F|삭제여부| |varchar|1|Y|Y, N
-
-- TBHB_TODO_CHECK: TODO 체크
-
-Column Name | Attribute Name | Key | Type | Len | Not Null | Description
------------ | -------------- | --- | ---- | --- | -------- | -----------
-TODO_CHECK_SEQ|키|PK|integer|4|Y|
-TODO_SEQ|키|FK|integer|4|Y|TBHA_TODO 외래키
-CHECK_TYPE|체크 유형 | | varchar|20|Y|DO, NOT_DO
 CHECK_DATE|체크일| |datetime| |Y|
+DELETE_F|삭제여부| |varchar|1|Y|Y, N
 
 ### 공통관리 항목
 - TBYA_ATTACH_FILE: 파일 업로드

@@ -29,7 +29,7 @@
       >
         <b-card-text>
           {{item.editDate | dateFormat('YYYY-MM-DD') }}
-          <span>({{getPeriodLabel(item.period)}})</span>
+          <span>{{item.checkType}}</span>
           <span v-show="item.completeDate != null" style="float:right">{{item.completeDate | dateFormat('YYYY-MM-DD')}}</span>
         </b-card-text>
         <div slot="footer">
@@ -47,16 +47,10 @@
 
     <b-modal ref="todoForm" title="할일 만들기" @ok="addProc" @shown="shownAddEvent">
       <div>
-        <b-form autocomplete="off">
+        <b-form autocomplete="off" @submit.stop.prevent>
           <b-form-group label="내용" label-for="input-content">
-            <b-form-input ref="content-input" v-model="item.content" name="content" v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
+            <b-form-input ref="content-input" v-on:keyup.13="addProc" v-model="item.content" name="content" v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
             <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
-          </b-form-group>
-          <b-form-group label="주기" label-for="period-slots">
-            <b-form-radio-group id="period-slots" v-model="item.period" :options="periodOption" name="period-options-slots"></b-form-radio-group>
-          </b-form-group>
-          <b-form-group v-show="item.period != 'ONCE'" label="수행기간" label-for="input-duration">
-            <input type="text" id="input-duration" class="form-control daterange _datepicker" readonly="readonly" />
           </b-form-group>
         </b-form>
       </div>
@@ -68,8 +62,6 @@
 import comFunction from "../../commonFunction.js";
 import '../../../utils/vue-common.js'
 import VueUtil from '../../../utils/vue-util.js'
-import "daterangepicker";
-import 'daterangepicker/daterangepicker.css';
 import { ko } from 'vuejs-datepicker/dist/locale'
 import Datepicker from 'vuejs-datepicker';
 import moment from "moment";
@@ -138,32 +130,16 @@ export default {
           return false;
         }
         VueUtil.post("/todo/item", this.item, (res) => {
-          this.$refs.todoForm.hide();
+          this.$refs['todoForm'].hide();
           this.listProc();
         });
       });
-    },
-    getPeriodLabel(period) {
-      return this.periodOption.find((item) => item.value === period).text;
     },
     cancelProc(item) {
       console.log('취소');
     },
     // 입력 창 오픈시
     shownAddEvent(event) {
-      $("._datepicker").daterangepicker({
-        showDropdowns: true,
-        locale: {
-          format: 'YYYY-MM-DD'
-        },
-        startDate: moment(this.item.durationFrom),
-        endDate: moment(this.item.durationTo)
-      }, (from, to) => {
-        console.log('from :', from.valueOf());
-        console.log('to :', to);
-        this.item.durationFrom = from.valueOf();
-        this.item.durationTo = to.valueOf();
-      });
       this.$refs['content-input'].focus();
     },
     getStyle(item) {
@@ -174,7 +150,7 @@ export default {
         return { bg: "warning", text: 'white' };
       }
       return { bg: "", text: '' };
-    }
+    },
   },
   mounted() {
     this.listProc();

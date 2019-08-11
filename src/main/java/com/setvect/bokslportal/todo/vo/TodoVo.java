@@ -1,25 +1,18 @@
 package com.setvect.bokslportal.todo.vo;
 
-import java.util.Date;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.Type;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -31,17 +24,21 @@ import lombok.Setter;
 public class TodoVo {
 
   /**
-   * 할일 반복 주기
+   * 체크 유형
    */
-  public enum Period {
-    ONCE, DAY, WEEK, MONTH
-  }
-
-  /**
-   *
-   */
-  public enum Status {
-    PLAN, GIVEUP, COMPLETE;
+  public enum CheckType {
+    /**
+     * 계획
+     */
+    PLAN,
+    /**
+     * 포기
+     */
+    GIVEUP,
+    /**
+     * 완료
+     */
+    COMPLETE;
   }
 
   /**
@@ -59,23 +56,18 @@ public class TodoVo {
   private String content;
 
   /**
-   * 주기
+   * 체크 유형
    */
-  @Column(name = "PERIOD", nullable = false, length = 20)
+  @Column(name = "CHECK_TYPE", nullable = false, length = 20)
   @Enumerated(EnumType.STRING)
-  private Period period;
+  private CheckType checkType;
+
 
   /**
-   * 시작기간
+   * 체크일
    */
-  @Column(name = "DURATION_FROM", nullable = true)
-  private Date durationFrom;
-
-  /**
-   * 종료기간
-   */
-  @Column(name = "DURATION_TO", nullable = true)
-  private Date durationTo;
+  @Column(name = "CHECK_DATE", nullable = true)
+  private Date checkDate;
 
   /**
    * 등록일
@@ -89,14 +81,4 @@ public class TodoVo {
   @Column(name = "DELETE_F", nullable = false)
   @Type(type = "yes_no")
   private boolean deleteF;
-
-  /**
-   * 체크 항목
-   */
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "todo", cascade = CascadeType.ALL)
-  private List<TodoCheckVo> todoCheckList;
-
-  /** 할일 상태 */
-  @Transient
-  private Status status;
 }

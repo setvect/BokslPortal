@@ -2,18 +2,15 @@ package com.setvect.bokslportal.todo.controller;
 
 import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.todo.repository.TodoCheckRepository;
 import com.setvect.bokslportal.todo.repository.TodoRepository;
 import com.setvect.bokslportal.todo.service.TodoSearch;
-import com.setvect.bokslportal.todo.vo.TodoCheckVo;
 import com.setvect.bokslportal.todo.vo.TodoVo;
-import com.setvect.bokslportal.todo.vo.TodoVo.Period;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,9 +27,6 @@ public class TodoController {
   @Autowired
   private TodoRepository todoRepository;
 
-  @Autowired
-  private TodoCheckRepository todoCheckRepository;
-
   // ============== 조회 ==============
 
   /**
@@ -42,9 +36,8 @@ public class TodoController {
   @GetMapping("list")
   public ResponseEntity<String> listTodo(TodoSearch param) {
     GenericPage<TodoVo> page = todoRepository.getTodoPagingList(param);
-    page.getList().stream().forEach(todo -> todo.setStatus(TodoVo.Status.PLAN));
-    String json = ApplicationUtil.toJson(page, "**,list[**,-todoCheckList]");
-    return new ResponseEntity<>(json, HttpStatus.OK);
+    String json = ApplicationUtil.toJson(page, "**,list[**]");
+    return ResponseEntity.ok().body(json);
   }
 
   /**
@@ -52,9 +45,9 @@ public class TodoController {
    * @return 할일 목록
    */
   @GetMapping("item/{id}")
-  public TodoVo getTodo(@PathVariable("id") int todoSeq) {
+  public ResponseEntity<TodoVo> getTodo(@PathVariable("id") int todoSeq) {
     TodoVo item = todoRepository.getOne(todoSeq);
-    return item;
+    return ResponseEntity.ok().body(item);
   }
 
   // ------- 등록
@@ -64,38 +57,37 @@ public class TodoController {
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
-  public ResponseEntity<Integer> addTodo(TodoVo todo) {
+  public ResponseEntity<TodoVo> addTodo(TodoVo todo) {
     todo.setRegDate(new Date());
-    if (todo.getPeriod() == Period.ONCE) {
-      todo.setDurationFrom(null);
-      todo.setDurationTo(null);
-    }
+    todo.setCheckType(TodoVo.CheckType.PLAN);
     todoRepository.save(todo);
-    return new ResponseEntity<>(todo.getTodoSeq(), HttpStatus.OK);
+    return ResponseEntity.ok().body(todo);
   }
 
   /**
-   * 할일 체크
-   *
-   * @param check   체크 정보
-   * @return 할일 체크 일련번호
+   * @param todoSeq   일련번호
+   * @param checkType 유형
+   * @return 할일 정보
    */
-  @PostMapping("check")
-  public ResponseEntity<Integer> addCheck(TodoCheckVo check) {
-    todoCheckRepository.save(check);
-    return new ResponseEntity<>(check.getTodoCheckSeq(), HttpStatus.OK);
+  @PatchMapping("check")
+  public ResponseEntity<TodoVo> addCheck(@RequestParam("todoSeq") int todoSeq, @RequestParam("checkType") TodoVo.CheckType checkType) {
+    TodoVo todo = todoRepository.getOne(todoSeq);
+    todo.setCheckDate(new Date());
+    todo.setCheckType(checkType);
+    todoRepository.save(todo);
+    return ResponseEntity.ok().body(todo);
   }
 
   // ------- 수정
 
   /**
    * @param todo 일일
-   * @return 성공여부
+   * @return 할일 정보
    */
   @PutMapping("item")
-  public ResponseEntity<Boolean> editTodo(TodoVo todo) {
+  public ResponseEntity<TodoVo> editTodo(TodoVo todo) {
     todoRepository.save(todo);
-    return new ResponseEntity<>(true, HttpStatus.OK);
+    return ResponseEntity.ok().body(todo);
   }
 
   // ------- 삭제
@@ -105,8 +97,8 @@ public class TodoController {
    * @return 성공여부
    */
   @DeleteMapping(value = "item/{id}")
-  public ResponseEntity<Boolean> deleteTodo(@PathVariable("id") int todoSeq) {
+  public ResponseEntity deleteTodo(@PathVariable("id") int todoSeq) {
     todoRepository.deleteById(todoSeq);
-    return new ResponseEntity<>(true, HttpStatus.OK);
+    return ResponseEntity.noContent().build();
   }
 }
