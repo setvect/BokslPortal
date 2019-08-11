@@ -54,7 +54,7 @@ public class TodoCheckVo {
   private TodoVo todo;
 
   /**
-   * 주기
+   * 체크 유형
    */
   @Column(name = "CHECK_TYPE", nullable = false, length = 20)
   @Enumerated(EnumType.STRING)
