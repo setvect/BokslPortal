@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <b-form inline style="margin: 59px 0 10px; 0 ">
+      <b-form @submit.stop.prevent inline style="margin: 59px 0 10px; 0 ">
         <!-- <input type="text" class="form-control daterange _datepicker" readonly="readonly" /> -->
         <b-form-group>
           <b-form-checkbox-group v-model="searchData.statusType" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
-        <b-input v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13="listProc()" v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
         <b-button @click="listProc()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
@@ -21,18 +21,17 @@
         footer-bg-variant="white"
         tag="article"
         style="max-width: 20rem; margin-right:10px"
-        :style="{'opacity':item.enable ? 1 : 0.35}"
         class="mb-2"
       >
         <b-card-text>
           {{item.editDate | dateFormat('YYYY-MM-DD') }}
           <span>{{item.checkType}}</span>
-          <span v-show="item.completeDate != null" style="float:right">{{item.completeDate | dateFormat('YYYY-MM-DD')}}</span>
+          <span v-show="item.checkDate != null" style="float:right">{{item.checkDate | dateFormat('YYYY-MM-DD')}}</span>
         </b-card-text>
         <div slot="footer">
           <b-button href="#" variant="outline-danger" size="sm" @click="deleteProc(item)">삭제</b-button>
           <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-primary" size="sm" @click="editForm(item)">수정</b-button>
-          <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-warning" size="sm" @click="givenUpProc(item)">포기</b-button>
+          <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-warning" size="sm" @click="giveUpProc(item)">포기</b-button>
           <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-success" size="sm" @click="completeProc(item)">완료</b-button>
           <b-button v-show="item.statusType !== 'PLAN'" href="#" variant="outline-success" size="sm" @click="cancelProc(item)">취소</b-button>
         </div>
@@ -42,13 +41,13 @@
       <b-button block variant="outline-secondary" size="sm">더보기(100/200)</b-button>
     </div>
 
-    <b-modal ref="todoForm" title="할일 만들기" @ok="addProc" @shown="shownAddEvent">
+    <b-modal ref="todoForm" title="할일 만들기" @ok="confirmEvent" @shown="shownAddEvent">
       <div>
         <b-form autocomplete="off" @submit.stop.prevent>
           <b-form-group label="내용" label-for="input-content">
             <b-form-input
               ref="content-input"
-              v-on:keyup.13="addProc"
+              @keypress.13="confirmEvent"
               v-model="item.content"
               name="content"
               v-validate="{ required: true}"
@@ -70,6 +69,7 @@ import '../../../utils/vue-common.js'
 import VueUtil from '../../../utils/vue-util.js'
 import { ko } from 'vuejs-datepicker/dist/locale'
 import moment from "moment";
+import _ from "lodash";
 
 export default {
   mixins: [comFunction],
@@ -87,11 +87,10 @@ export default {
         { text: '월', value: 'MONTH' },
       ],
       item: {
-        period: 'ONCE',
         content: '',
-        durationFrom: 1561071320000,
-        durationTo: 1561071320000,
       },
+      // 쓰기 상태, 수정 상태 여부
+      confirmEvent: '',
       page: {},
       searchData: {
         word: null,
@@ -107,37 +106,58 @@ export default {
       });
     },
     addForm() {
-      this.$refs['todoForm'].show()
+      this.item = { content: "" };
+      this.$refs['todoForm'].show();
+      this.confirmEvent = this.addProc;
     },
     editForm(item) {
-      console.log('item 수정 :', item);
+      this.item = $.extend(true, {}, item);;
+      this.$refs['todoForm'].show()
+      this.confirmEvent = this.editProc;
     },
     deleteProc(item) {
       VueUtil.delete(`/todo/item/${item.todoSeq}`, {}, (res) => {
         this.page.list = this.page.list.filter(i => i !== item);
       });
-
     },
-    givenUpProc(item) {
-      console.log('item 포기 :', item);
+    giveUpProc(item) {
+      this.changeStatusProc(item.todoSeq, 'GIVEUP');
     },
     completeProc(item) {
-      console.log('item 완료 :', item);
+      this.changeStatusProc(item.todoSeq, 'COMPLETE');
     },
-    addProc(event) {
-      event.preventDefault();
+    cancelProc(item) {
+      this.changeStatusProc(item.todoSeq, 'PLAN');
+    },
+    changeStatusProc(todoSeq, statusType) {
+      VueUtil.patch('/todo/check', { todoSeq: todoSeq, statusType: statusType }, (res) => {
+        let idx = _.findIndex(this.page.list, (ele) => ele.todoSeq === todoSeq);
+        // array element 변경사항을 vue가 알 수 있도록
+        this.page.list.splice(idx, 1, res.data);
+      });
+    },
+    addProc() {
       this.$validator.validate().then((result) => {
         if (!result) {
           return false;
         }
         VueUtil.post("/todo/item", this.item, (res) => {
           this.$refs['todoForm'].hide();
-          this.listProc();
+          this.page.list.unshift(res.data);
         });
       });
     },
-    cancelProc(item) {
-      console.log('취소');
+    editProc() {
+      this.$validator.validate().then((result) => {
+        if (!result) {
+          return false;
+        }
+        VueUtil.put("/todo/item", this.item, (res) => {
+          let idx = _.findIndex(this.page.list, (ele) => ele.todoSeq === this.item.todoSeq);
+          this.page.list.splice(idx, 1, res.data);
+          this.$refs['todoForm'].hide();
+        });
+      });
     },
     // 입력 창 오픈시
     shownAddEvent(event) {

@@ -43,8 +43,10 @@ public abstract class ApplicationUtil {
    * filePath = /home/user/temp/readme.txt<br>
    * 리턴값: temp/read.txt
    *
-   * @param basePath 기준 경로(OS Full Path)
-   * @param filePath 파일 경로(OS Full Path)
+   * @param basePath
+   *          기준 경로(OS Full Path)
+   * @param filePath
+   *          파일 경로(OS Full Path)
    * @return filePath에서 basePath 경로를 제외된 값
    */
   public static String getRelativePath(final File basePath, final File filePath) {
@@ -53,13 +55,13 @@ public abstract class ApplicationUtil {
   }
 
   /**
-   * @param keyword 검색어
+   * @param keyword
+   *          검색어
    * @return 주어진 검색어에 like 검색을 할 수 있도록 양쪽에 % 넣기
    */
   public static String makeLikeString(final String keyword) {
     return "%" + keyword + "%";
   }
-
 
   /**
    * @param word
@@ -74,13 +76,17 @@ public abstract class ApplicationUtil {
   /**
    * 파일 다운로드
    *
-   * @param response         .
-   * @param targetFile       다운로드 대상 파일
-   * @param downloadFileName 다운로드 파일 이름
-   * @throws IOException .
+   * @param response
+   *          .
+   * @param targetFile
+   *          다운로드 대상 파일
+   * @param downloadFileName
+   *          다운로드 파일 이름
+   * @throws IOException
+   *           .
    */
   public static void downloadFile(final HttpServletResponse response, final File targetFile,
-                                  final String downloadFileName) throws IOException {
+      final String downloadFileName) throws IOException {
     String fileName = URLEncoder.encode(downloadFileName.replace(" ", "_"), "UTF-8");
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
@@ -92,13 +98,17 @@ public abstract class ApplicationUtil {
   /**
    * 파일 다운로드
    *
-   * @param response         .
-   * @param is               입력 스트림
-   * @param downloadFileName 다운로드 파일 이름
-   * @throws IOException .
+   * @param response
+   *          .
+   * @param is
+   *          입력 스트림
+   * @param downloadFileName
+   *          다운로드 파일 이름
+   * @throws IOException
+   *           .
    */
   public static void downloadFile(final HttpServletResponse response, final InputStream is,
-                                  final String downloadFileName) throws IOException {
+      final String downloadFileName) throws IOException {
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment;filename=" + downloadFileName);
     try (OutputStream os = response.getOutputStream();) {
@@ -109,8 +119,10 @@ public abstract class ApplicationUtil {
   /**
    * val 객체를 json 문자열로 변환 한다.
    *
-   * @param val    대상 객체
-   * @param filter 변환 필터링 조건
+   * @param val
+   *          대상 객체
+   * @param filter
+   *          변환 필터링 조건
    * @return json
    */
   public static String toJson(final Object val, final String filter) {
@@ -122,12 +134,24 @@ public abstract class ApplicationUtil {
   }
 
   /**
-   * @param session HTTP 세션
+   * val 객체를 json 문자열로 변환 한다.<br>
+   * 하이버네이트 관련 proxy 객체를 제거함
+   *
+   * @param val 객체
+   * @return json
+   */
+  public static String toJsonWtihRemoveHibernate(final Object val) {
+    return ApplicationUtil.toJson(val, "-handler,-hibernateLazyInitializer");
+  }
+
+  /**
+   * @param session
+   *          HTTP 세션
    * @return 현재 로그인한 사용자 정보 반환
    */
   public static UserVo getLoginUser(final HttpSession session) {
     SecurityContext securityContext = (SecurityContext) session
-      .getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+        .getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
     if (securityContext == null) {
       return null;
     }
@@ -144,7 +168,7 @@ public abstract class ApplicationUtil {
   public static UserVo getLoginUser() {
     try {
       HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-        .getRequest();
+          .getRequest();
       if (req != null) {
         UserVo loginUser = getLoginUser(req.getSession());
         return loginUser;
