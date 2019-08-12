@@ -2,7 +2,9 @@ import CommonUtil from "./common-util.js";
 import axios from "axios";
 import $ from "jquery";
 import store from "../store/index";
-import { getToken } from "./auth.js";
+import {
+  getToken
+} from "./auth.js";
 
 // Vue 관련 공통 함수.
 const VueUtil = {};
@@ -12,7 +14,7 @@ const NOTING_OPERATION = () => {};
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.get = function(url, param, callback, option) {
+VueUtil.get = function (url, param, callback, option) {
   VueUtil._ajaxCall("get", url, param, callback, option);
 };
 
@@ -21,7 +23,7 @@ VueUtil.get = function(url, param, callback, option) {
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.post = function(url, param, callback, option) {
+VueUtil.post = function (url, param, callback, option) {
   VueUtil._ajaxCall("post", url, param, callback, option);
 };
 
@@ -30,7 +32,7 @@ VueUtil.post = function(url, param, callback, option) {
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.put = function(url, param, callback, option) {
+VueUtil.put = function (url, param, callback, option) {
   VueUtil._ajaxCall("put", url, param, callback, option);
 };
 
@@ -39,7 +41,7 @@ VueUtil.put = function(url, param, callback, option) {
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.patch = function(url, param, callback, option) {
+VueUtil.patch = function (url, param, callback, option) {
   VueUtil._ajaxCall("patch", url, param, callback, option);
 };
 
@@ -48,14 +50,14 @@ VueUtil.patch = function(url, param, callback, option) {
  * param: 전달 파라미터
  * option: 옵션
  */
-VueUtil.delete = function(url, param, callback, option) {
+VueUtil.delete = function (url, param, callback, option) {
   VueUtil._ajaxCall("delete", url, param, callback, option);
 };
 
 /*
  * get, post 처리
  */
-VueUtil._ajaxCall = function(method, url, _param, _callback, _option) {
+VueUtil._ajaxCall = function (method, url, _param, _callback, _option) {
   const param = _param || {};
   const callback = _callback || NOTING_OPERATION;
   const option = _option || {};
@@ -93,6 +95,9 @@ VueUtil._ajaxCall = function(method, url, _param, _callback, _option) {
         paramValue.append(key, param[key]);
       }
     });
+    sendParam = {
+      params: paramValue
+    }
   } else {
     if (callType === "json") {
       sendParam = param;
@@ -108,7 +113,7 @@ VueUtil._ajaxCall = function(method, url, _param, _callback, _option) {
   const finallyCall = option.finallyCall || NOTING_OPERATION;
   const errorCall =
     option.errorCall ||
-    function(err) {
+    function (err) {
       CommonUtil.popupError(err);
     };
 

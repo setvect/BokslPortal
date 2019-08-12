@@ -6,12 +6,13 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.todo.service.TodoSearch;
 import com.setvect.bokslportal.todo.vo.TodoVo;
 import com.setvect.bokslportal.util.page.PageQueryCondition;
 import com.setvect.bokslportal.util.page.PageUtil;
-import org.apache.commons.lang3.StringUtils;
 
 public class TodoRepositoryImpl implements TodoRepositoryCustom {
   /**
@@ -31,6 +32,8 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
       where.append(" AND todo.content like :word");
       bindParameter.put("word", "%" + searchCondition.getWord() + "%");
     }
+    where.append(" AND todo.statusType in :statusType");
+    bindParameter.put("statusType", searchCondition.getStatusType());
 
     countQuery.append(where);
     selectQuery.append(where + " ORDER BY todo.regDate DESC");

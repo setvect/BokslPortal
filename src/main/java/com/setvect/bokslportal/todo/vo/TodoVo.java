@@ -1,8 +1,6 @@
 package com.setvect.bokslportal.todo.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.hibernate.annotations.Type;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -26,7 +28,7 @@ public class TodoVo {
   /**
    * 체크 유형
    */
-  public enum CheckType {
+  public enum StatusType {
     /**
      * 계획
      */
@@ -58,10 +60,9 @@ public class TodoVo {
   /**
    * 체크 유형
    */
-  @Column(name = "CHECK_TYPE", nullable = false, length = 20)
+  @Column(name = "STATUS_TYPE", nullable = false, length = 20)
   @Enumerated(EnumType.STRING)
-  private CheckType checkType;
-
+  private StatusType statusType;
 
   /**
    * 체크일

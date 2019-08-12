@@ -3,11 +3,8 @@
     <div>
       <b-form inline style="margin: 59px 0 10px; 0 ">
         <!-- <input type="text" class="form-control daterange _datepicker" readonly="readonly" /> -->
-        <b-form-group style="padding-right:20px;">
-          <datepicker v-model="searchData.baseDate" :language="ko" format="yyyy-MM-dd" input-class="form-control form-control-sm" placeholder="기준일"></datepicker>
-        </b-form-group>
         <b-form-group>
-          <b-form-checkbox-group v-model="searchData.status" :options="options" switches></b-form-checkbox-group>
+          <b-form-checkbox-group v-model="searchData.statusType" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
         <b-input v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
         <b-button @click="listProc()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
@@ -34,10 +31,10 @@
         </b-card-text>
         <div slot="footer">
           <b-button href="#" variant="outline-danger" size="sm" @click="deleteProc(item)">삭제</b-button>
-          <b-button v-show="item.status === 'plan'" href="#" variant="outline-primary" size="sm" @click="editForm(item)">수정</b-button>
-          <b-button v-show="item.status === 'plan'" href="#" variant="outline-warning" size="sm" @click="givenUpProc(item)">포기</b-button>
-          <b-button v-show="item.status === 'plan'" href="#" variant="outline-success" size="sm" @click="completeProc(item)">완료</b-button>
-          <b-button v-show="item.status !== 'plan'" href="#" variant="outline-success" size="sm" @click="cancelProc(item)">취소</b-button>
+          <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-primary" size="sm" @click="editForm(item)">수정</b-button>
+          <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-warning" size="sm" @click="givenUpProc(item)">포기</b-button>
+          <b-button v-show="item.statusType === 'PLAN'" href="#" variant="outline-success" size="sm" @click="completeProc(item)">완료</b-button>
+          <b-button v-show="item.statusType !== 'PLAN'" href="#" variant="outline-success" size="sm" @click="cancelProc(item)">취소</b-button>
         </div>
       </b-card>
     </b-row>
@@ -49,7 +46,16 @@
       <div>
         <b-form autocomplete="off" @submit.stop.prevent>
           <b-form-group label="내용" label-for="input-content">
-            <b-form-input ref="content-input" v-on:keyup.13="addProc" v-model="item.content" name="content" v-validate="{ required: true}" :state="validateState('content')" id="input-content" data-vv-as="내용 "></b-form-input>
+            <b-form-input
+              ref="content-input"
+              v-on:keyup.13="addProc"
+              v-model="item.content"
+              name="content"
+              v-validate="{ required: true}"
+              :state="validateState('content')"
+              id="input-content"
+              data-vv-as="내용 "
+            ></b-form-input>
             <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
           </b-form-group>
         </b-form>
@@ -63,20 +69,16 @@ import comFunction from "../../commonFunction.js";
 import '../../../utils/vue-common.js'
 import VueUtil from '../../../utils/vue-util.js'
 import { ko } from 'vuejs-datepicker/dist/locale'
-import Datepicker from 'vuejs-datepicker';
 import moment from "moment";
 
 export default {
   mixins: [comFunction],
-  components: {
-    Datepicker
-  },
   data() {
     return {
       options: [
-        { text: '예정', value: 'plan' },
-        { text: '완료', value: 'complete' },
-        { text: '포기', value: 'giveup' }
+        { text: '예정', value: 'PLAN' },
+        { text: '완료', value: 'COMPLETE' },
+        { text: '포기', value: 'GIVEUP' }
       ],
       periodOption: [
         { text: '한번만', value: 'ONCE' },
@@ -93,8 +95,7 @@ export default {
       page: {},
       searchData: {
         word: null,
-        status: ['plan', 'complete'],
-        baseDate: (new Date()).getTime()
+        statusType: ['PLAN'],
       },
       ko: ko,
     };
@@ -143,10 +144,10 @@ export default {
       this.$refs['content-input'].focus();
     },
     getStyle(item) {
-      if (item.status === 'complete') {
+      if (item.statusType === 'COMPLETE') {
         return { bg: "success", text: 'white' };
       }
-      if (item.status === 'giveup') {
+      if (item.statusType === 'GIVEUP') {
         return { bg: "warning", text: 'white' };
       }
       return { bg: "", text: '' };

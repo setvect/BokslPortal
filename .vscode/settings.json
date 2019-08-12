@@ -6,7 +6,7 @@
 	"java.errors.incompleteClasspath.severity": "ignore",
 	"editor.fontFamily": "D2Coding,나눔고딕코딩, 'Courier New'",
 	"window.zoomLevel": 0,
-	"editor.fontSize": 14,
+	"editor.fontSize": 13,
 	"terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
 	"git.confirmSync": false,
 	"git.autofetch": false,
@@ -22,7 +22,7 @@
 	"vetur.format.options.useTabs": false,
 	"vetur.format.defaultFormatterOptions": {
 			"prettyhtml": {
-					"printWidth": 200,
+					"printWidth": 200
 			}
 	},
 	"editor.wordWrapColumn": 150,
@@ -36,5 +36,5 @@
 	"vetur.format.defaultFormatter.js": "vscode-typescript",
 	"editor.wordWrap": "on",
 	"html.format.wrapAttributes": "preserve",
-	"editor.fontLigatures": true,
+	"editor.fontLigatures": true
 }

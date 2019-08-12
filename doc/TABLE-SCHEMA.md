@@ -152,7 +152,7 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 TODO_SEQ|일련번호|PK|integer|4|Y|
 CONTENT|내용| |varchar|1000|Y|
-CHECK_TYPE|체크 유형 | | varchar|20|Y|PLAN, GIVEUP, COMPLETE
+STATUS_TYPE|상태 유형 | | varchar|20|Y|PLAN, GIVEUP, COMPLETE
 REG_DATE|등록일| |datetime| |Y|
 CHECK_DATE|체크일| |datetime| |Y|
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
