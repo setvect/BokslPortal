@@ -6,8 +6,8 @@
         <b-form-group>
           <b-form-checkbox-group v-model="searchData.statusType" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
-        <b-input @keypress.13="listProc()" v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
-        <b-button @click="listProc()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
+        <b-input @keypress.13="nextProc()" v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
+        <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
     </div>
@@ -26,7 +26,7 @@
         <b-card-text>
           {{item.editDate | dateFormat('YYYY-MM-DD') }}
           <span>{{item.checkType}}</span>
-          <span v-show="item.checkDate != null" style="float:right">{{item.checkDate | dateFormat('YYYY-MM-DD')}}</span>
+          <span v-show="item.checkDate != null" style="padding-left:20px; float:right">{{item.checkDate | dateFormat('YYYY-MM-DD')}}</span>
         </b-card-text>
         <div slot="footer">
           <b-button href="#" variant="outline-danger" size="sm" @click="deleteProc(item)">삭제</b-button>
@@ -38,7 +38,7 @@
       </b-card>
     </b-row>
     <div>
-      <b-button block variant="outline-secondary" size="sm">더보기(100/200)</b-button>
+      <b-button @click="nextProc()" block variant="outline-secondary" size="sm">더보기({{page.list.length | numberFormat}}/{{page.totalCount | numberFormat}})</b-button>
     </div>
 
     <b-modal ref="todoForm" title="할일 만들기" @ok="confirmEvent" @shown="shownAddEvent">
@@ -60,6 +60,7 @@
         </b-form>
       </div>
     </b-modal>
+    <notifications group="message-noti" position="top center" />
   </div>
 </template>
 
@@ -91,19 +92,37 @@ export default {
       },
       // 쓰기 상태, 수정 상태 여부
       confirmEvent: '',
-      page: {},
+      page: {
+        list: [],
+        totalCount: -1,
+      },
       searchData: {
         word: null,
         statusType: ['PLAN'],
+        startCursor: 0,
       },
       ko: ko,
     };
   },
   methods: {
-    listProc() {
+    nextProc() {
+      this.searchData.startCursor = this.page.list.length;
+      if (this.searchData.startCursor == this.page.totalCount) {
+        this.$notify({
+          group: 'message-noti',
+          type: 'warn',
+          text: '더 이상 없다.'
+        });
+      }
       VueUtil.get("/todo/list", this.searchData, (res) => {
-        this.page = res.data;
+        this.page.totalCount = res.data.totalCount;
+        this.page.list = this.page.list.concat(res.data.list);
       });
+    },
+    search() {
+      this.page.list = [];
+      this.page.totalCount = -1;
+      this.nextProc();
     },
     addForm() {
       this.item = { content: "" };
@@ -174,7 +193,7 @@ export default {
     },
   },
   mounted() {
-    this.listProc();
+    this.nextProc();
   }
 };
 </script>

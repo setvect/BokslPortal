@@ -78,6 +78,7 @@
     "vue-axios": "^2.1.4",
     "vue-context": "^4.0.2",
     "vue-image-lightbox": "^6.2.1",
+    "vue-notification": "^1.3.16",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.6",
     "vue-winwheel": "^0.1.2",

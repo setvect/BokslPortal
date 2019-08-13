@@ -13,6 +13,7 @@ import VeeValidate from "vee-validate"
 import ko from "vee-validate/dist/locale/ko"
 
 import VueLazyLoad from 'vue-lazyload'
+import Notifications from 'vue-notification'
 
 Vue.use(BootstrapVue);
 Vue.use(VueLazyLoad);
@@ -25,6 +26,7 @@ Vue.use(VeeValidate, {
   fieldsBagName: "veeFields",
   errorBagName: "veeErrors"
 });
+Vue.use(Notifications);
 
 new Vue({
   el: "#app",
