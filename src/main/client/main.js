@@ -14,6 +14,7 @@ import ko from "vee-validate/dist/locale/ko"
 
 import VueLazyLoad from 'vue-lazyload'
 import Notifications from 'vue-notification'
+import VueLoading from 'vue-loading-overlay'
 
 Vue.use(BootstrapVue);
 Vue.use(VueLazyLoad);
@@ -27,6 +28,7 @@ Vue.use(VeeValidate, {
   errorBagName: "veeErrors"
 });
 Vue.use(Notifications);
+Vue.use(VueLoading);
 
 new Vue({
   el: "#app",

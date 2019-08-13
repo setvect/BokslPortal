@@ -2,6 +2,8 @@ import CommonUtil from "./common-util.js";
 import axios from "axios";
 import $ from "jquery";
 import store from "../store/index";
+import Vue from "vue"
+import 'vue-loading-overlay/dist/vue-loading.css'
 import {
   getToken
 } from "./auth.js";
@@ -117,10 +119,23 @@ VueUtil._ajaxCall = function (method, url, _param, _callback, _option) {
       CommonUtil.popupError(err);
     };
 
+  let loader = null;
+  // 진행중 메시지 표시 여부
+  if (option.progress == null || option.progress != false) {
+    loader = Vue.$loading.show({
+      loader: 'dots'
+    });
+  }
+
   axiosMethod(CommonUtil.appendContextRoot(url), sendParam, config)
     .then(result => callback(result))
     .catch(err => errorCall(err))
-    .finally(() => finallyCall());
+    .finally(() => {
+      if (loader) {
+        loader.hide();
+      }
+      finallyCall()
+    });
 };
 
 export default VueUtil;
