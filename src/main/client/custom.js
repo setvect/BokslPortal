@@ -1,11 +1,12 @@
 import "jquery.cookie"
-(function($, sr) {
-  var debounce = function(func, threshold, execAsap) {
+(function ($, sr) {
+  var debounce = function (func, threshold, execAsap) {
     var timeout
 
     return function debounced() {
       var obj = this,
         args = arguments
+
       function delayed() {
         if (!execAsap) func.apply(obj, args)
         timeout = null
@@ -19,7 +20,7 @@ import "jquery.cookie"
   }
 
   // smartresize
-  jQuery.fn[sr] = function(fn) {
+  jQuery.fn[sr] = function (fn) {
     return fn ? this.bind("resize", debounce(fn)) : this.trigger(sr)
   }
 })(jQuery, "smartresize")
@@ -27,7 +28,7 @@ import "jquery.cookie"
 const PageBody = {}
 
 // Sidebar
-PageBody.init_sidebar = function() {
+PageBody.init_sidebar = function () {
   PageBody.CURRENT_URL = window.location.href.split("#")[0].split("?")[0]
   PageBody.$BODY = $("body")
   PageBody.$MENU_TOGGLE = $("#menu_toggle")
@@ -36,7 +37,7 @@ PageBody.init_sidebar = function() {
   PageBody.$RIGHT_COL = $(".right_col")
   PageBody.$NAV_MENU = $(".nav_menu")
 
-  var setContentHeight = function() {
+  var setContentHeight = function () {
     // reset height
     PageBody.$RIGHT_COL.css("min-height", $(window).height())
 
@@ -48,13 +49,13 @@ PageBody.init_sidebar = function() {
     PageBody.$RIGHT_COL.css("min-height", contentHeight + 57)
   }
 
-  PageBody.$SIDEBAR_MENU.find("a").on("click", function(ev) {
+  PageBody.$SIDEBAR_MENU.find("a").on("click", function (ev) {
     //  //  console.log('clicked - sidebar_menu');
     var $li = $(this).parent()
 
     if ($li.is(".active")) {
       $li.removeClass("active active-sm")
-      $("ul:first", $li).slideUp(function() {
+      $("ul:first", $li).slideUp(function () {
         setContentHeight()
       })
     } else {
@@ -76,14 +77,14 @@ PageBody.init_sidebar = function() {
       }
       $li.addClass("active")
 
-      $("ul:first", $li).slideDown(function() {
+      $("ul:first", $li).slideDown(function () {
         setContentHeight()
       })
     }
   })
 
   // toggle small or large menu
-  PageBody.$MENU_TOGGLE.on("click", function() {
+  PageBody.$MENU_TOGGLE.on("click", function () {
     //  console.log('clicked - menu toggle');
 
     if (PageBody.$BODY.hasClass("nav-md")) {
@@ -100,11 +101,14 @@ PageBody.init_sidebar = function() {
         .removeClass("active-sm")
     }
 
-    PageBody.$BODY.toggleClass("nav-md")
-    $.cookie("menu-small", PageBody.$BODY.hasClass("nav-sm"), { expires: 30, path: "/" })
+    PageBody.$BODY.toggleClass("nav-md nav-sm")
+    $.cookie("menu-small", PageBody.$BODY.hasClass("nav-sm"), {
+      expires: 30,
+      path: "/"
+    })
     setContentHeight()
 
-    $(".dataTable").each(function() {
+    $(".dataTable").each(function () {
       $(this)
         .dataTable()
         .fnDraw()
@@ -119,20 +123,20 @@ PageBody.init_sidebar = function() {
 
   PageBody.$SIDEBAR_MENU
     .find("a")
-    .filter(function() {
+    .filter(function () {
       return this.href == PageBody.CURRENT_URL
     })
     .parent("li")
     .addClass("current-page")
     .parents("ul")
-    .slideDown(function() {
+    .slideDown(function () {
       setContentHeight()
     })
     .parent()
     .addClass("active")
 
   // recompute content when resizing
-  $(window).smartresize(function() {
+  $(window).smartresize(function () {
     setContentHeight()
   })
 
@@ -143,12 +147,14 @@ PageBody.init_sidebar = function() {
     $(".menu_fixed").mCustomScrollbar({
       autoHideScrollbar: true,
       theme: "minimal",
-      mouseWheel: { preventDefault: true }
+      mouseWheel: {
+        preventDefault: true
+      }
     })
   }
 }
 
-PageBody.init = function() {
+PageBody.init = function () {
   PageBody.init_sidebar()
   let menuSmall = $.cookie("menu-small") == "true"
   if (menuSmall) {
