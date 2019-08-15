@@ -1,4 +1,6 @@
 import $ from "jquery"
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 // 프로그램 전역적으로 사용하는 공통 함수
 var CommonUtil = {}
@@ -10,8 +12,10 @@ CommonUtil.popupError = function(err) {
   var message = err.response == null ? err.message : err.response.data.message
   if (err.message != null) {
     console.log("프로그램 에러", message)
+    Swal.fire('에러다', message, 'error')
   } else {
     console.log("프로그램 에러", err)
+    Swal.fire('에러다', err, 'error')
   }
 }
 

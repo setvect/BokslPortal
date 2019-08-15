@@ -2,7 +2,6 @@
 =========================
 
 ### 진행예정.
-- NEW-20190807: CommonUtil.popupError 팝업창 처리
 - NEW-20190707: webpack 빌드가 잘 안됨. 빌드가 이상하게 되어 빌드된 javascript로 실행이 안됨.(이 문제 나올 것 같았음. 왜 이렇게 힘들까?) - 대충보니 패스만 잘 잡아 주면 될 것 같음.
 - NEW-20190626: PhotoRepositoryImpl 사용하지 않는 테이블 정리
 - NEW-20190626: PageQueryCondition Builder 형태로 만들어 보는 거 고려
@@ -18,6 +17,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20190807(20190815): CommonUtil.popupError 팝업창 처리
 - NEW-20190810(20190813): ajax 통신 시 Wait 구현 - spinner 
 - NEW-20190813: 메뉴 활성, 비활성 페이지 새로고침 해도 상태 유지
 - PBM-20190813: 메뉴 버튼 누르면 레이아웃 깨지는 문제 수정

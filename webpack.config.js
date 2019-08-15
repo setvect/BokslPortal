@@ -1,16 +1,16 @@
-const path = require("path")
-const VueLoaderPlugin = require("vue-loader/lib/plugin")
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
-const webpack = require("webpack")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+const path = require("path");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = env => {
-  let clientPath = path.resolve(__dirname, "src/main/client")
-  let outputPath = path.resolve(__dirname, env == "production" ? "src/main/webapp/asserts" : "out")
+  let clientPath = path.resolve(__dirname, "src/main/client");
+  let outputPath = path.resolve(__dirname, env == "production" ? "src/main/webapp/asserts" : "out");
   return {
     mode: !env ? "development" : env,
     entry: {
-      "app/js/main": './src/main/client/main.js'
+      "app/js/main": "./src/main/client/main.js"
     },
     devtool: false,
     output: {
@@ -51,7 +51,7 @@ module.exports = env => {
             {
               loader: "babel-loader",
               options: {
-                presets: ['@babel/preset-env']
+                presets: ["@babel/preset-env"]
               }
             }
           ]
@@ -63,6 +63,10 @@ module.exports = env => {
         {
           test: /\.css$/,
           use: ["style-loader", "css-loader"]
+        },
+        {
+          test: /\.scss$/,
+          use: ["style-loader", "css-loader", "sass-loader"]
         }
       ].concat([
         env === "production"
@@ -112,7 +116,7 @@ module.exports = env => {
         jquery: "jquery",
         "window.jQuery": "jquery",
         jQuery: "jquery"
-      }),
+      })
       // new HtmlWebpackPlugin({
       //   filename: "index.html",
       //   template: clientPath + "/index.html",
@@ -125,5 +129,5 @@ module.exports = env => {
       //   }
       // })
     ]
-  }
-}
+  };
+};
