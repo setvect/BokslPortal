@@ -20,7 +20,7 @@
         :text-variant="getStyle(item).text"
         footer-bg-variant="white"
         tag="article"
-        style="max-width: 20rem; margin-right:10px"
+        style="max-width: 20rem; margin-right:10px;min-width:250px;"
         class="mb-2"
       >
         <b-card-text>
@@ -91,7 +91,7 @@ export default {
         content: '',
       },
       // 쓰기 상태, 수정 상태 여부
-      confirmEvent: '',
+      confirmEvent: {},
       page: {
         list: [],
         totalCount: -1,
@@ -155,10 +155,13 @@ export default {
         this.page.list.splice(idx, 1, res.data);
       });
     },
-    addProc() {
+    addProc(event) {
+      if(event.type === 'hide'){
+        event.preventDefault();
+      }
       this.$validator.validate().then((result) => {
         if (!result) {
-          return false;
+          return;
         }
         VueUtil.post("/todo/item", this.item, (res) => {
           this.$refs['todoForm'].hide();
@@ -166,10 +169,13 @@ export default {
         });
       });
     },
-    editProc() {
+    editProc(event) {
+      if(event.type === 'hide'){
+        event.preventDefault();
+      }
       this.$validator.validate().then((result) => {
         if (!result) {
-          return false;
+          return;
         }
         VueUtil.put("/todo/item", this.item, (res) => {
           let idx = _.findIndex(this.page.list, (ele) => ele.todoSeq === this.item.todoSeq);
