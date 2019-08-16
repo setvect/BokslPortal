@@ -3,13 +3,18 @@
 export default {
   methods: {
     // 입력 항목을 기준으로 validation check 함수
-    validateState(ref) {
-      console.log('ref :', ref);
-      console.log('this.veeFields :', this.veeFields);
-      if (this.veeFields[ref] && (this.veeFields[ref].dirty || this.veeFields[ref].validated)) {
-        return !this.veeErrors.has(ref)
+    validateState(field, scope) {
+      let veeFields = this.veeFields;
+      if(scope){
+        veeFields = this.veeFields["$" + scope];
       }
-      return null
-    }
+      if(!veeFields){
+        return null;
+      }
+      if (veeFields[field] && (veeFields[field].dirty || veeFields[field].validated)) {
+        return !this.veeErrors.has(field, scope);
+      }
+      return null;
+    },
   }
-}
+};
