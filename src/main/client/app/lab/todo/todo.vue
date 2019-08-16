@@ -167,7 +167,7 @@ export default {
       });
     },
     editProc(event) {
-      this.$validator.validate().then((result) => {
+      this.$validator.validateAll().then((result) => {
         if (!result) {
           return;
         }

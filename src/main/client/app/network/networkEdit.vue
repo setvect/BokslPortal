@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h5>글 등록</h5>
+      <h5>등록</h5>
       <b-form data-vv-scope="main-form" autocomplete="off" @submit.stop.prevent>
         <div class="row">
           <div class="col-sm-10">
@@ -37,61 +37,18 @@
         <a href="#" @click.prevent="redo()">앞으로돌리기</a>
       </li>
     </vue-context>
-
-    <b-modal ref="nodeForm" title="노드 추가" @ok.prevent="addNodeProc()">
-      <div>
-        <b-form data-vv-scope="node-form" autocomplete="off" @submit.stop.prevent>
-          <b-form-group label="레이블" label-for="input-label">
-            <b-form-input name="label" id="input-label" data-vv-as="레이블 " :state="validateState('node-form.label')" v-validate="{ required: true, max:30}" />
-            <span v-show="!validateState('node-form.label')" class="invalid-feedback">{{ veeErrors.first('node-form.label') }}</span>
-          </b-form-group>
-          <b-form-group label="모양" id="input-shape">
-            <b-form-radio-group>
-              <b-form-radio value="1">타원</b-form-radio>
-              <b-form-radio value="2">사각형</b-form-radio>
-              <b-form-radio value="3">원</b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-          <b-form-group label="색" id="input-color">
-            <b-form-radio-group>
-              <b-form-radio value="1">
-                <span class="color_label" style="background: #ffffcc;" />
-              </b-form-radio>
-              <b-form-radio value="#ffffff">
-                <span class="color_label" style="background: #ffffff;" />
-              </b-form-radio>
-              <b-form-radio value="#ffff66">
-                <span class="color_label" style="background: #ffff66;" />
-              </b-form-radio>
-              <b-form-radio value="#ccff66">
-                <span class="color_label" style="background: #ccff66;" />
-              </b-form-radio>
-              <b-form-radio value="#99ccff">
-                <span class="color_label" style="background: #99ccff;" />
-              </b-form-radio>
-              <b-form-radio value="#ff99ff">
-                <span class="color_label" style="background: #ff99ff;" />
-              </b-form-radio>
-              <b-form-radio value="#eeeeee">
-                <span class="color_label" style="background: #eeeeee;" />
-              </b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-        </b-form>
-      </div>
-    </b-modal>
-
+    <networkNode  ref="nodeComponent"/>
     <b-modal ref="edgeForm" title="연결선 추가" @ok="addNodeProc()">
       <div>
         <b-form>
-          <b-form-group label="시작" label-for="input-label">
+          <b-form-group label="시작" label-for="input-1">
             <b-form-select size="sm">
               <option :value="null">--선택--</option>
               <option value="a">1번</option>
               <option value="b">2번</option>
             </b-form-select>
           </b-form-group>
-          <b-form-group label="끝" label-for="input-label">
+          <b-form-group label="끝" label-for="input-2">
             <b-form-select size="sm">
               <option :value="null">--선택--</option>
               <option value="a">1번</option>
@@ -142,11 +99,13 @@ import CommonUtil from '../../utils/common-util.js'
 import "vis/dist/vis.css";
 import vis from 'vis/dist/vis.js';
 import { VueContext } from 'vue-context';
+import networkNode from './networkNode.vue';
 
 export default {
   mixins: [comFunction],
   components: {
-    VueContext
+    VueContext,
+    networkNode
   },
   data() {
     return {
@@ -214,21 +173,7 @@ export default {
       });
     },
     addNodeForm() {
-      this.$refs['nodeForm'].show()
-      let node = this.getSelectNodeId();
-      console.log('node :', node);
-      this.$refs['nodeForm'].hide();
-    },
-    addNodeProc() {
-      console.log('addNodeProc');
-      this.$validator.validateAll('node-form').then((result) => {
-        if (!result) {
-          console.log("cancel");
-          return;
-        }
-        console.log("ok");
-      });
-
+      this.$refs["nodeComponent"].show();
     },
     addEdgeForm() {
       this.$refs['edgeForm'].show()
@@ -279,7 +224,6 @@ export default {
       console.log("되돌리기");
     },
     changeProc() {
-      console.log("changeProc");
       if (CommonUtil.isEmpty(this.item.title)) {
         return;
       }
@@ -294,17 +238,16 @@ export default {
           this.editProc();
         }
       });
-      console.log("#####################");
     },
     addProc() {
       VueUtil.post("/network/item", this.item, (res) => {
         this.item = res.data;
-      }, { progress: false });
+      }, { wait: false });
     },
     editProc() {
       VueUtil.put("/network/item", this.item, (res) => {
         this.item = res.data;
-      }, { progress: false });
+      }, { wait: false });
     }
   },
   mounted() {
@@ -320,10 +263,5 @@ export default {
     height: 100%;
     background-color: #f0f0f5;
     margin-top:10px;
-  }
-  .color_label {
-    border: 1px solid #CCC;
-    padding: 10px;
-    display: inline-block;
   }
 </style>
