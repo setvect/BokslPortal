@@ -86,7 +86,9 @@ public class NetworkController {
    */
   @DeleteMapping(value = "item/{id}")
   public ResponseEntity deleteNetwork(@PathVariable("id") int networkSeq) {
-    networkRepository.deleteById(networkSeq);
+    NetworkVo saveData = networkRepository.getOne(networkSeq);
+    saveData.setDeleteF(true);
+    networkRepository.save(saveData);
     return ResponseEntity.noContent().build();
   }
 }

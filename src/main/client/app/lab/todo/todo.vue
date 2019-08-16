@@ -41,7 +41,7 @@
       <b-button @click="nextProc()" block variant="outline-secondary" size="sm">더보기({{page.list.length | numberFormat}}/{{page.totalCount | numberFormat}})</b-button>
     </div>
 
-    <b-modal ref="todoForm" title="할일 만들기" @ok="confirmEvent" @shown="shownAddEvent">
+    <b-modal ref="todoForm" title="할일 만들기" @ok.prevent="confirmEvent" @shown="shownAddEvent">
       <div>
         <b-form autocomplete="off" @submit.stop.prevent>
           <b-form-group label="내용" label-for="input-content">
@@ -156,9 +156,6 @@ export default {
       });
     },
     addProc(event) {
-      if(event.type === 'hide'){
-        event.preventDefault();
-      }
       this.$validator.validate().then((result) => {
         if (!result) {
           return;
@@ -170,9 +167,6 @@ export default {
       });
     },
     editProc(event) {
-      if(event.type === 'hide'){
-        event.preventDefault();
-      }
       this.$validator.validate().then((result) => {
         if (!result) {
           return;
