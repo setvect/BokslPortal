@@ -23,11 +23,12 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
 
   @Override
   public GenericPage<TodoVo> getTodoPagingList(TodoSearch searchCondition) {
-    Map<String, Object> bindParameter = new HashMap<>();
     StringBuffer selectQuery = new StringBuffer("select todo FROM TodoVo todo");
     StringBuffer countQuery = new StringBuffer("select count(*) FROM TodoVo todo");
 
     StringBuffer where = new StringBuffer(" WHERE todo.deleteF = 'N'");
+    Map<String, Object> bindParameter = new HashMap<>();
+
     if (StringUtils.isNotBlank(searchCondition.getWord())) {
       where.append(" AND todo.content like :word");
       bindParameter.put("word", "%" + searchCondition.getWord() + "%");

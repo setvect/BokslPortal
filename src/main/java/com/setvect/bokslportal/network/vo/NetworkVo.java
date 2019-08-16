@@ -1,19 +1,19 @@
 package com.setvect.bokslportal.network.vo;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
 @Entity
 @Table(name = "TBFA_NETWORK")
@@ -29,7 +29,8 @@ public class NetworkVo {
 
 	@Column(name = "CONTENT", nullable = false)
 	@Lob
-	private String jsonData;
+  @Basic(fetch= FetchType.LAZY)
+  private String content;
 
 	@Column(name = "REG_DATE", nullable = false)
 	private Date regDate;

@@ -124,7 +124,7 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
 NETWORK_SEQ|키|PK|integer|4|Y|
 TITLE|제목| |varchar|200|Y|
-JSON_DATA|JSON_DATA| |TEXT| |Y|
+CONTENT|JSON_DATA| |TEXT| |Y|
 REG_DATE|등록일| |datetime| |Y|
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 
