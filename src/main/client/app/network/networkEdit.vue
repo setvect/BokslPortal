@@ -42,8 +42,8 @@
       <div>
         <b-form data-vv-scope="node-form" autocomplete="off" @submit.stop.prevent>
           <b-form-group label="레이블" label-for="input-label">
-            <b-form-input name="label" id="input-label" data-vv-as="레이블 " :state="validateState('label')" v-validate="{ required: true, max:30}" />
-            <span v-show="!validateState('label')" class="invalid-feedback">{{ veeErrors.first('label') }}</span>
+            <b-form-input name="label" id="input-label" data-vv-as="레이블 " :state="validateState('node-form.label')" v-validate="{ required: true, max:30}" />
+            <span v-show="!validateState('node-form.label')" class="invalid-feedback">{{ veeErrors.first('node-form.label') }}</span>
           </b-form-group>
           <b-form-group label="모양" id="input-shape">
             <b-form-radio-group>
@@ -299,12 +299,12 @@ export default {
     addProc() {
       VueUtil.post("/network/item", this.item, (res) => {
         this.item = res.data;
-      });
+      }, { progress: false });
     },
     editProc() {
       VueUtil.put("/network/item", this.item, (res) => {
         this.item = res.data;
-      });
+      }, { progress: false });
     }
   },
   mounted() {

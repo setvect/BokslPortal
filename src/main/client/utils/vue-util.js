@@ -121,7 +121,7 @@ VueUtil._ajaxCall = function (method, url, _param, _callback, _option) {
 
   let loader = null;
   // 진행중 메시지 표시 여부
-  if (option.progress == null || option.progress != false) {
+  if (option.wait == null || option.wait != false) {
     loader = Vue.$loading.show({
       loader: 'dots'
     });

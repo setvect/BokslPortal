@@ -3,7 +3,18 @@
 export default {
   methods: {
     // 입력 항목을 기준으로 validation check 함수
-    validateState(field, scope) {
+    validateState(ref) {
+      let tokens = ref.split('.');
+      let field;
+      let scope = null;
+
+      if(tokens.length === 1){
+        field = tokens[0];
+      } else if(tokens.length === 2){
+        scope = tokens[0];
+        field = tokens[1];
+      }
+
       let veeFields = this.veeFields;
       if(scope){
         veeFields = this.veeFields["$" + scope];
