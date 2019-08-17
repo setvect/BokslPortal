@@ -31,14 +31,14 @@ public class NetworkRepositoryImpl implements NetworkRepositoryCustom {
     StringBuffer where = new StringBuffer(" WHERE network.deleteF = 'N'");
     Map<String, Object> bindParameter = new HashMap<>();
 
-    if (StringUtils.isNotEmpty(pageCondition.getTitle())) {
-      where.append(" and upper(b.title) like :word");
-      bindParameter.put("word", "%" + pageCondition.getTitle().toUpperCase() + "%");
+    if (StringUtils.isNotEmpty(pageCondition.getWord())) {
+      where.append(" and upper(network.title) like :word");
+      bindParameter.put("word", "%" + pageCondition.getWord().toUpperCase() + "%");
     }
     countQuery.append(where);
     selectQuery.append(where + " order by editDate desc");
 
-    PageQueryCondition pageQuery = new PageQueryCondition(Collections.emptyMap(), pageCondition);
+    PageQueryCondition pageQuery = new PageQueryCondition(bindParameter, pageCondition);
     pageQuery.setCountQuery(countQuery.toString());
     pageQuery.setSelectQuery(selectQuery.toString());
 

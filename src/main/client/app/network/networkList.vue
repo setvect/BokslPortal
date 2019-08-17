@@ -3,12 +3,20 @@
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
         <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
-        <b-button variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
+        <b-button variant="primary" size="sm" style="margin-right:30px;" @click="search()">검색</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
     </div>
     <b-row style="margin:0px;">
-      <b-card v-for="item in page.list" :key="item.networkSeq" :title="item.title" tag="article" style="max-width: 20rem; margin-right:10px;cursor: pointer" class="mb-2" @click="readPage(item.networkSeq)">
+      <b-card
+        v-for="item in page.list"
+        :key="item.networkSeq"
+        :title="item.title"
+        tag="article"
+        style="max-width: 20rem; margin-right:10px;cursor: pointer"
+        class="mb-2"
+        @click="readPage(item.networkSeq)"
+      >
         <b-card-text>수정일: {{item.editDate | dateFormat('YYYY-MM-DD') }}</b-card-text>
       </b-card>
     </b-row>
@@ -38,7 +46,6 @@ export default {
         totalCount: -1,
       },
       searchData: {
-        categorySeq: 2,
         word: null,
       },
       page: {
@@ -48,6 +55,11 @@ export default {
     };
   },
   methods: {
+    search() {
+      this.page.list = [];
+      this.page.totalCount = -1;
+      this.nextProc();
+    },
     nextProc() {
       this.searchData.startCursor = this.page.list.length;
       if (this.searchData.startCursor == this.page.totalCount) {

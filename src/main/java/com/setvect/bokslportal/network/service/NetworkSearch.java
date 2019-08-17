@@ -10,6 +10,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class NetworkSearch extends SearchListVo {
-	private String title;
+	private String word;
 
 }
