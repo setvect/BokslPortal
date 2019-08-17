@@ -5,7 +5,7 @@
       <b-form data-vv-scope="main-form" autocomplete="off" @submit.stop.prevent>
         <div class="row">
           <div class="col-sm-10">
-            <b-form-input @change="changeProc()" v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('main-form.title')" name="title" size="sm" data-vv-as="제목"></b-form-input>
+            <b-form-input @change="saveProc()" v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('main-form.title')" name="title" size="sm" data-vv-as="제목"></b-form-input>
             <span v-show="!validateState('main-form.title')" class="invalid-feedback">{{ veeErrors.first('main-form.title') }}</span>
           </div>
           <div class="col-sm-2">
@@ -18,16 +18,16 @@
     <div id="mynetwork" @contextmenu.prevent="$refs.menu.open">aaa</div>
     <vue-context ref="menu">
       <li>
-        <a href="#" @click.prevent="addNodeForm()">노드추가</a>
+        <a href="#" @click.prevent="openNodeForm()">노드추가</a>
       </li>
       <li>
-        <a href="#" @click.prevent="addEdgeForm()">연결선 추가</a>
+        <a href="#" @click.prevent="openEdgeForm()">연결선 추가</a>
       </li>
       <li>
-        <a href="#" @click.prevent="action()">수정</a>
+        <a href="#" @click.prevent="editObject()">수정</a>
       </li>
       <li>
-        <a href="#" @click.prevent="action()">제거</a>
+        <a href="#" @click.prevent="deleteObject()">제거</a>
       </li>
       <li>----------------------------</li>
       <li>
@@ -37,58 +37,8 @@
         <a href="#" @click.prevent="redo()">앞으로돌리기</a>
       </li>
     </vue-context>
-    <networkNode  ref="nodeComponent"/>
-    <b-modal ref="edgeForm" title="연결선 추가" @ok="addNodeProc()">
-      <div>
-        <b-form>
-          <b-form-group label="시작" label-for="input-1">
-            <b-form-select size="sm">
-              <option :value="null">--선택--</option>
-              <option value="a">1번</option>
-              <option value="b">2번</option>
-            </b-form-select>
-          </b-form-group>
-          <b-form-group label="끝" label-for="input-2">
-            <b-form-select size="sm">
-              <option :value="null">--선택--</option>
-              <option value="a">1번</option>
-              <option value="b">2번</option>
-            </b-form-select>
-          </b-form-group>
-          <b-form-group label="선 형태" id="input-shape">
-            <b-form-radio-group>
-              <b-form-radio value="1">실선</b-form-radio>
-              <b-form-radio value="2">점선</b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-          <b-form-group label="색" id="input-color">
-            <b-form-radio-group>
-              <b-form-radio value="#777777">
-                <span class="color_label" style="background: #777777;" />
-              </b-form-radio>
-              <b-form-radio value="#006699">
-                <span class="color_label" style="background: #006699;" />
-              </b-form-radio>
-              <b-form-radio value="#00ff00">
-                <span class="color_label" style="background: #00ff00;" />
-              </b-form-radio>
-              <b-form-radio value="#aa44aa">
-                <span class="color_label" style="background: #aa44aa;" />
-              </b-form-radio>
-              <b-form-radio value="#cc9900">
-                <span class="color_label" style="background: #cc9900;" />
-              </b-form-radio>
-              <b-form-radio value="#cc0066">
-                <span class="color_label" style="background: #cc0066;" />
-              </b-form-radio>
-              <b-form-radio value="#3333ff">
-                <span class="color_label" style="background: #3333ff;" />
-              </b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-        </b-form>
-      </div>
-    </b-modal>
+    <networkNode ref="nodeComponent" />
+    <networkEdge ref="edgeComponent" />
   </div>
 </template>
 
@@ -99,13 +49,15 @@ import CommonUtil from '../../utils/common-util.js'
 import "vis/dist/vis.css";
 import vis from 'vis/dist/vis.js';
 import { VueContext } from 'vue-context';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 import networkNode from './networkNode.vue';
+import networkEdge from './networkEdge.vue';
 
 export default {
   mixins: [comFunction],
   components: {
-    VueContext,
-    networkNode
+    VueContext, networkNode, networkEdge
   },
   data() {
     return {
@@ -158,10 +110,9 @@ export default {
       let self = this;
 
       // 네트워크 그래프 이벤트
-      this.network.on("dragEnd", (params) => this.changeProc());
+      this.network.on("dragEnd", (params) => this.saveProc());
       this.network.on("doubleClick", (params) => {
-        console.log('params :', params);
-        this.$refs['edgeForm'].show();
+        this.editObject();
       });
     },
     listPage() {
@@ -172,14 +123,24 @@ export default {
         this.listPage();
       });
     },
-    addNodeForm() {
-      this.$refs["nodeComponent"].show();
+    editObject() {
+      let nodeId = this.getSelectNodeId();
+      if (nodeId) {
+        this.openNodeForm(this.nodes.get(nodeId));
+        return;
+      }
+      let edgeId = this.getSelectEdgeId();
+      if (edgeId) {
+        this.openEdgeForm(this.edges.get(edgeId));
+        return;
+      }
+      Swal.fire('안내', "뭐라도 선택해라.", 'info');
     },
-    addEdgeForm() {
-      this.$refs['edgeForm'].show()
+    openNodeForm(node) {
+      this.$refs["nodeComponent"].show(node);
     },
-    addEdgeProc() {
-      console.log('addEdgeProc');
+    openEdgeForm(edge) {
+      this.$refs['edgeComponent'].show(this.nodes.get(), edge, this.getSelectNodeId());
     },
     // 선택한 node 반환
     getSelectNodeId() {
@@ -217,13 +178,49 @@ export default {
       let exportValue = JSON.stringify(data, undefined, 2);
       return exportValue;
     },
+    // 신규 노드 등록
+    addNode(node) {
+      this.nodes.add(node);
+      let selectNodeId = this.getSelectNodeId();
+      if (selectNodeId) {
+        this.edges.add({
+          from: selectNodeId,
+          to: node.id
+        });
+      }
+      this.saveProc();
+    },
+    editNode(node) {
+      this.nodes.update(node);
+      this.saveProc();
+    },
+    // 신규 엣지 등록
+    addEdge(edge) {
+      this.edges.add(edge);
+      this.saveProc();
+    },
+    editEdge(edge) {
+      this.edges.update(edge);
+      this.saveProc();
+    },
+    // 노드 또는 엣지 삭제
+    deleteObject() {
+      let selectionList = this.network.getSelection();
+      selectionList.nodes.forEach((id) => {
+        this.nodes.remove({ id: id });
+      });
+      selectionList.edges.forEach((id) => {
+        this.edges.remove({ id: id });
+      });
+      this.saveProc();
+    },
     redo() {
       console.log("앞으로돌리기");
     },
     undo() {
       console.log("되돌리기");
     },
-    changeProc() {
+    saveProc() {
       if (CommonUtil.isEmpty(this.item.title)) {
         return;
       }
