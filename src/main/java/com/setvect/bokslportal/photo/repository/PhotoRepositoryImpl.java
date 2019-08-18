@@ -1,167 +1,56 @@
 package com.setvect.bokslportal.photo.repository;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.photo.service.PhotoSearchParam;
+import com.setvect.bokslportal.photo.service.PhotoSearch;
 import com.setvect.bokslportal.photo.vo.PhotoVo;
-import com.setvect.bokslportal.util.DateUtil;
+import com.setvect.bokslportal.util.page.PageQueryCondition;
+import com.setvect.bokslportal.util.page.PageUtil;
 
 /**
  * 사진 검색 조건
  */
 public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
-	/** JPA DB 세션 */
-	@PersistenceContext
-	private EntityManager em;
+  /** JPA DB 세션 */
+  @PersistenceContext
+  private EntityManager em;
 
-	@Override
-	public GenericPage<PhotoVo> getPhotoPagingList(final PhotoSearchParam pageCondition) {
-		String queryStatement = "select count(DISTINCT p.photoId) FROM PhotoVo p LEFT OUTER JOIN p.folders f "
-				+ BokslPortalConstant.SQL_WHERE;
-		Query queryCount = makeListQueryWhere(pageCondition, queryStatement);
-		int totalCount = ((Long) queryCount.getSingleResult()).intValue();
+  @Override
+  public GenericPage<PhotoVo> getPagingList(final PhotoSearch searchCondition) {
+    StringBuffer selectQuery = new StringBuffer("select photo FROM PhotoVo photo");
+    StringBuffer countQuery = new StringBuffer("select count(*) FROM PhotoVo photo");
 
-		queryStatement = "SELECT DISTINCT p FROM PhotoVo p LEFT OUTER JOIN p.folders f " + BokslPortalConstant.SQL_WHERE
-				+ " ORDER BY p.shotDate DESC";
+    StringBuffer where = new StringBuffer(" WHERE 1 = 1 ");
+    Map<String, Object> bindParameter = new HashMap<>();
 
-		Query querySelect = makeListQueryWhere(pageCondition, queryStatement);
-		querySelect.setFirstResult(pageCondition.getStartCursor());
-		querySelect.setMaxResults(pageCondition.getReturnCount());
+    if (StringUtils.isNotBlank(searchCondition.getMemo())) {
+      where.append(" AND photo.memo like :memo");
+      bindParameter.put("word", "%" + searchCondition.getMemo() + "%");
+    }
 
-		@SuppressWarnings("unchecked")
-		List<PhotoVo> resultList = querySelect.getResultList();
-		GenericPage<PhotoVo> resultPage = new GenericPage<PhotoVo>(resultList, pageCondition.getStartCursor(),
-				totalCount);
+    if (searchCondition.isDateNoting()) {
+      where.append(" AND p.shotDate IS NULL ");
+    } else if (searchCondition.isDateBetween()) {
+      where.append(" AND p.shotDate BETWEEN :from and :to ");
+      bindParameter.put("from", searchCondition.getFrom());
+      bindParameter.put("to", searchCondition.getEndLast());
+    }
 
-		// 만들어진 객체 비영속
-		em.clear();
-		return resultPage;
-	}
+    countQuery.append(where);
+    selectQuery.append(where + " ORDER BY photo.shotDate DESC");
 
-	@Override
-	public Map<String, Integer> getPhotoDirectoryList() {
-		String queryStatement = "SELECT p.directory, count(*) FROM PhotoVo p GROUP BY p.directory ORDER BY 1";
-		Query querySelect = em.createQuery(queryStatement);
+    PageQueryCondition pageQuery = new PageQueryCondition(bindParameter, searchCondition);
+    pageQuery.setCountQuery(countQuery.toString());
+    pageQuery.setSelectQuery(selectQuery.toString());
 
-		@SuppressWarnings("unchecked")
-		List<Object[]> resultList = querySelect.getResultList();
-
-		Map<String, Integer> result = resultList.stream().collect(Collectors.toMap(p -> {
-			Object[] v = p;
-			return (String) v[0];
-		}, p -> {
-			Object[] v = p;
-			return ((Long) v[1]).intValue();
-		}, (v1, v2) -> v1, TreeMap::new));
-
-		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<ImmutablePair<Date, Integer>> getGroupShotDate(final PhotoSearchParam condition) {
-		// H2 Database 의존 쿼리
-		String queryStatement = "SELECT to_char(p.SHOT_DATE, 'YYYYMMDD') as DATE_STRING, COUNT(*) " //
-				+ " FROM TBBA_PHOTO P LEFT OUTER JOIN TBBC_MAPPING  F ON P.PHOTO_ID = F.PHOTO_ID ";
-		queryStatement += " WHERE  1 = 1 ";
-
-		Map<String, Object> bindMap = new HashMap<>();
-
-		if (StringUtils.isNotEmpty(condition.getSearchDirectory())) {
-			queryStatement += " AND DIRECTORY = :directory";
-			bindMap.put("directory", condition.getSearchDirectory());
-		}
-		if (StringUtils.isNotEmpty(condition.getSearchMemo())) {
-			queryStatement += " AND MEMO like :memo";
-			bindMap.put("memo", "%" + condition.getSearchMemo() + "%");
-		}
-
-		if (condition.isDateBetween()) {
-			queryStatement += " AND SHOT_DATE BETWEEN :from AND :to";
-			bindMap.put("from", condition.getSearchFrom());
-			bindMap.put("to", condition.getSearchToEnd());
-		}
-
-		if (condition.getSearchFolderSeq() != 0) {
-			queryStatement += " AND F.FOLDER_SEQ = :folderSeq";
-			bindMap.put("folderSeq", condition.getSearchFolderSeq());
-		}
-
-		queryStatement += " GROUP BY DATE_STRING ORDER BY DATE_STRING DESC";
-		Query querySelect = em.createNativeQuery(queryStatement);
-
-		bindMap.entrySet().stream().forEach(entry -> {
-			querySelect.setParameter(entry.getKey(), entry.getValue());
-		});
-
-		List<Object[]> resultList = querySelect.getResultList();
-
-		List<ImmutablePair<Date, Integer>> result = resultList.stream().map(p -> {
-			Object[] v = p;
-			Date date = null;
-			if (v[0] != null) {
-				date = DateUtil.getDate((String) v[0], "yyyyMMdd");
-			}
-			Number right = (Number) v[1];
-			@SuppressWarnings("rawtypes")
-			ImmutablePair<Date, Integer> pair = new ImmutablePair(date, right.intValue());
-			return pair;
-		}).collect(Collectors.toList());
-		return result;
-	}
-
-	/**
-	 * @param pageCondition
-	 *            검색 조건
-	 * @param queryStatement
-	 *            기본 쿼리
-	 * @return Where조건이 포함된 질의
-	 */
-	private Query makeListQueryWhere(final PhotoSearchParam pageCondition, final String queryStatement) {
-		Map<String, Object> bindMap = new HashMap<>();
-
-		String where = " WHERE 1=1 ";
-		if (pageCondition.isSearchDateNoting()) {
-			where += " AND p.shotDate IS NULL ";
-		} else if (pageCondition.isDateBetween()) {
-			where += " AND p.shotDate BETWEEN :from and :to ";
-			bindMap.put("from", pageCondition.getSearchFrom());
-			bindMap.put("to", pageCondition.getSearchToEnd());
-		}
-
-		if (StringUtils.isNotEmpty(pageCondition.getSearchDirectory())) {
-			where += " AND p.directory = :directory";
-			bindMap.put("directory", pageCondition.getSearchDirectory());
-		}
-		if (StringUtils.isNotEmpty(pageCondition.getSearchMemo())) {
-			where += " AND p.memo like :memo";
-			bindMap.put("memo", "%" + pageCondition.getSearchMemo() + "%");
-		}
-		if (pageCondition.getSearchFolderSeq() != 0) {
-			where += " AND f.folderSeq = :folderSeq";
-			bindMap.put("folderSeq", pageCondition.getSearchFolderSeq());
-		}
-
-		String queryString = queryStatement.replace(BokslPortalConstant.SQL_WHERE, where);
-		Query query = em.createQuery(queryString);
-
-		bindMap.entrySet().stream().forEach(entry -> {
-			query.setParameter(entry.getKey(), entry.getValue());
-		});
-		return query;
-	}
+    GenericPage<PhotoVo> resultPage = PageUtil.excutePageQuery(em, pageQuery, PhotoVo.class);
+    return resultPage;
+  }
 }

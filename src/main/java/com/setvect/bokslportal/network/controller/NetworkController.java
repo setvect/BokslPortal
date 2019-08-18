@@ -33,7 +33,7 @@ public class NetworkController {
    */
   @GetMapping("list")
   public ResponseEntity<String> listNetwork(NetworkSearch param) {
-    GenericPage<NetworkVo> page = networkRepository.getNetworkPagingList(param);
+    GenericPage<NetworkVo> page = networkRepository.getPagingList(param);
     String json = ApplicationUtil.toJson(page, "**,list[**]");
     return ResponseEntity.ok().body(json);
   }

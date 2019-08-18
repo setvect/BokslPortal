@@ -24,7 +24,7 @@ public class NetworkRepositoryImpl implements NetworkRepositoryCustom {
   private EntityManager em;
 
   @Override
-  public GenericPage<NetworkVo> getNetworkPagingList(final NetworkSearch pageCondition) {
+  public GenericPage<NetworkVo> getPagingList(final NetworkSearch pageCondition) {
     StringBuffer selectQuery = new StringBuffer("select network from NetworkVo network ");
     StringBuffer countQuery = new StringBuffer("select count(*) from NetworkVo network ");
 

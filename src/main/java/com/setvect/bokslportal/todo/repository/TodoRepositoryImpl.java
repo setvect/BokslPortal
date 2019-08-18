@@ -22,7 +22,7 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
   private EntityManager em;
 
   @Override
-  public GenericPage<TodoVo> getTodoPagingList(TodoSearch searchCondition) {
+  public GenericPage<TodoVo> getPagingList(TodoSearch searchCondition) {
     StringBuffer selectQuery = new StringBuffer("select todo FROM TodoVo todo");
     StringBuffer countQuery = new StringBuffer("select count(*) FROM TodoVo todo");
 

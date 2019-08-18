@@ -39,7 +39,7 @@ public class TodoController {
    */
   @GetMapping("list")
   public ResponseEntity<String> listTodo(TodoSearch param) {
-    GenericPage<TodoVo> page = todoRepository.getTodoPagingList(param);
+    GenericPage<TodoVo> page = todoRepository.getPagingList(param);
     String json = ApplicationUtil.toJson(page, "**,list[**]");
     return ResponseEntity.ok().body(json);
   }

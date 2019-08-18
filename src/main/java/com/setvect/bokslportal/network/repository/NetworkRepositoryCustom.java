@@ -14,6 +14,6 @@ public interface NetworkRepositoryCustom {
 	 *            노트 검색 정보
 	 * @return 노트 목록
 	 */
-	public GenericPage<NetworkVo> getNetworkPagingList(NetworkSearch pageCondition);
+	public GenericPage<NetworkVo> getPagingList(NetworkSearch pageCondition);
 
 }
