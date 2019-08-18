@@ -37,8 +37,8 @@ public class TodoController {
    *          검색 조건
    * @return 할일 목록
    */
-  @GetMapping("list")
-  public ResponseEntity<String> listTodo(TodoSearch param) {
+  @GetMapping("page")
+  public ResponseEntity<String> page(TodoSearch param) {
     GenericPage<TodoVo> page = todoRepository.getPagingList(param);
     String json = ApplicationUtil.toJson(page, "**,list[**]");
     return ResponseEntity.ok().body(json);
@@ -50,7 +50,7 @@ public class TodoController {
    * @return 할일 목록
    */
   @GetMapping("item/{id}")
-  public ResponseEntity<String> getTodo(@PathVariable("id") int todoSeq) {
+  public ResponseEntity<String> getItem(@PathVariable("id") int todoSeq) {
     TodoVo item = todoRepository.getOne(todoSeq);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item));
   }
@@ -63,7 +63,7 @@ public class TodoController {
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
-  public ResponseEntity<String> addTodo(TodoVo todo) {
+  public ResponseEntity<String> addItem(TodoVo todo) {
     todo.setRegDate(new Date());
     todo.setStatusType(TodoVo.StatusType.PLAN);
     todoRepository.save(todo);
@@ -95,7 +95,7 @@ public class TodoController {
    * @return 할일 정보
    */
   @PutMapping("item")
-  public ResponseEntity<String> editTodo(TodoVo todo) {
+  public ResponseEntity<String> editItem(TodoVo todo) {
     todoRepository.save(todo);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(todo));
   }
@@ -109,7 +109,7 @@ public class TodoController {
    */
   @SuppressWarnings("rawtypes")
   @DeleteMapping(value = "item/{id}")
-  public ResponseEntity deleteTodo(@PathVariable("id") int todoSeq) {
+  public ResponseEntity deleteItem(@PathVariable("id") int todoSeq) {
     todoRepository.deleteById(todoSeq);
     return ResponseEntity.noContent().build();
   }

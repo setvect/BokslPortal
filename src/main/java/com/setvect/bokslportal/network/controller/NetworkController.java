@@ -1,11 +1,7 @@
 package com.setvect.bokslportal.network.controller;
 
-import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.network.repository.NetworkRepository;
-import com.setvect.bokslportal.network.service.NetworkSearch;
-import com.setvect.bokslportal.network.vo.NetworkVo;
-import lombok.extern.log4j.Log4j2;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.network.repository.NetworkRepository;
+import com.setvect.bokslportal.network.service.NetworkSearch;
+import com.setvect.bokslportal.network.vo.NetworkVo;
+
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping(value = "/network/")
@@ -31,8 +33,8 @@ public class NetworkController {
    * @param param 검색 조건
    * @return 할일 목록
    */
-  @GetMapping("list")
-  public ResponseEntity<String> listNetwork(NetworkSearch param) {
+  @GetMapping("page")
+  public ResponseEntity<String> page(NetworkSearch param) {
     GenericPage<NetworkVo> page = networkRepository.getPagingList(param);
     String json = ApplicationUtil.toJson(page, "**,list[**]");
     return ResponseEntity.ok().body(json);
@@ -43,7 +45,7 @@ public class NetworkController {
    * @return 할일 목록
    */
   @GetMapping("item/{id}")
-  public ResponseEntity<String> getNetwork(@PathVariable("id") int networkSeq) {
+  public ResponseEntity<String> getItem(@PathVariable("id") int networkSeq) {
     NetworkVo item = networkRepository.getOne(networkSeq);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item));
   }
@@ -55,7 +57,7 @@ public class NetworkController {
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
-  public ResponseEntity<String> addNetwork(NetworkVo network) {
+  public ResponseEntity<String> addItem(NetworkVo network) {
     network.setRegDate(new Date());
     network.setEditDate(network.getRegDate());
     networkRepository.save(network);
@@ -69,7 +71,7 @@ public class NetworkController {
    * @return 할일 정보
    */
   @PutMapping("item")
-  public ResponseEntity<String> editNetwork(NetworkVo network) {
+  public ResponseEntity<String> editItem(NetworkVo network) {
     NetworkVo saveData = networkRepository.getOne(network.getNetworkSeq());
     saveData.setContent(network.getContent());
     saveData.setTitle(network.getTitle());
@@ -85,7 +87,7 @@ public class NetworkController {
    * @return 성공여부
    */
   @DeleteMapping(value = "item/{id}")
-  public ResponseEntity deleteNetwork(@PathVariable("id") int networkSeq) {
+  public ResponseEntity deleteItem(@PathVariable("id") int networkSeq) {
     NetworkVo saveData = networkRepository.getOne(networkSeq);
     saveData.setDeleteF(true);
     networkRepository.save(saveData);

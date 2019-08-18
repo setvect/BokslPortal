@@ -33,7 +33,7 @@ public class PhotoController {
    *          검색 조건
    * @return 사진 목록
    */
-  @GetMapping("list")
+  @GetMapping("page")
   public ResponseEntity<String> page(PhotoSearch param) {
     GenericPage<PhotoVo> page = photoRepository.getPagingList(param);
     String json = ApplicationUtil.toJson(page, "**,list[**]");

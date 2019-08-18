@@ -69,7 +69,7 @@ export default {
           text: '더 이상 없다.'
         });
       }
-      VueUtil.get("/network/list", this.searchData, (res) => {
+      VueUtil.get("/network/page", this.searchData, (res) => {
         this.page.totalCount = res.data.totalCount;
         this.page.list = this.page.list.concat(res.data.list);
       });

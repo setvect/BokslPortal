@@ -114,7 +114,7 @@ export default {
           text: '더 이상 없다.'
         });
       }
-      VueUtil.get("/todo/list", this.searchData, (res) => {
+      VueUtil.get("/todo/page", this.searchData, (res) => {
         this.page.totalCount = res.data.totalCount;
         this.page.list = this.page.list.concat(res.data.list);
       });
