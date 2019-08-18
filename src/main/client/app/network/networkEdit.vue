@@ -30,10 +30,10 @@
         <a href="#" @click.prevent="deleteObject()">제거</a>
       </li>
       <li>----------------------------</li>
-      <li>
+      <li v-show="undoHistory.length !== 0">
         <a href="#" @click.prevent="undo()">되돌리기</a>
       </li>
-      <li>
+      <li v-show="redoHistory.length !== 0">
         <a href="#" @click.prevent="redo()">앞으로돌리기</a>
       </li>
     </vue-context>
@@ -67,24 +67,25 @@ export default {
       },
       nodes: {},
       edges: {},
-      network: {}
+      network: {},
+      undoHistory: [],
+      redoHistory: [],
     };
   },
   methods: {
     init() {
       if (!this.$route.query.networkSeq) {
         this.item.content = "{\"nodes\": [{\"id\": \"1\", \"label\": \"복슬\", \"shape\": \"ellipse\", \"color\": \"#22ee55\" }],\"edges\": [ ]}";
-        let graphData = JSON.parse(this.item.content);
-        this.display(graphData);
+        this.display();
       } else {
         VueUtil.get(`/network/item/${this.$route.query.networkSeq}`, {}, (res) => {
           this.item = res.data;
-          let graphData = JSON.parse(this.item.content);
-          this.display(graphData);
+          this.display();
         });
       }
     },
-    display(graphData) {
+    display() {
+      let graphData = JSON.parse(this.item.content);
       this.nodes = new vis.DataSet(graphData.nodes);
       this.edges = new vis.DataSet(graphData.edges);
       window.addEventListener('resize', (e) => {
@@ -180,6 +181,9 @@ export default {
     },
     // 신규 노드 등록
     addNode(node, edgeLable) {
+      this.undoHistory.push(this.getJson());
+      this.redoHistory = [];
+
       this.nodes.add(node);
       let selectNodeId = this.getSelectNodeId();
       if (selectNodeId) {
@@ -193,23 +197,32 @@ export default {
       this.saveProc();
     },
     editNode(node) {
-      console.log('node :', node);
+      this.undoHistory.push(this.getJson());
+      this.redoHistory = [];
+
       this.nodes.update(node);
       this.saveProc();
     },
     // 신규 엣지 등록
     addEdge(edge) {
-      console.log('edge :', edge);
+      this.undoHistory.push(this.getJson());
+      this.redoHistory = [];
+
       this.edges.add(edge);
       this.saveProc();
     },
     editEdge(edge) {
-      console.log('edge :', edge);
+      this.undoHistory.push(this.getJson());
+      this.redoHistory = [];
+
       this.edges.update(edge);
       this.saveProc();
     },
     // 노드 또는 엣지 삭제
     deleteObject() {
+      this.undoHistory.push(this.getJson());
+      this.redoHistory = [];
+
       let selectionList = this.network.getSelection();
       selectionList.nodes.forEach((id) => {
         this.nodes.remove({ id: id });
@@ -221,10 +234,28 @@ export default {
     },
     redo() {
       console.log("앞으로돌리기");
+      this.item.content = this.redoHistory.pop();
+      this.undoHistory.push(this.getJson());
+      this.display();
+      this.saveProc();
     },
     undo() {
-      console.log("되돌리기");
+      this.item.content = this.undoHistory.pop();
+      this.redoHistory.push(this.getJson());
+      this.display();
+      this.saveProc();
     },
+    addProc() {
+      VueUtil.post("/network/item", this.item, (res) => {
+        this.item = res.data;
+      }, { wait: false });
+    },
+    editProc() {
+      VueUtil.put("/network/item", this.item, (res) => {
+        this.item = res.data;
+      }, { wait: false });
+    },
+    // 현 상태 서버 저장
     saveProc() {
       if (CommonUtil.isEmpty(this.item.title)) {
         return;
@@ -241,16 +272,6 @@ export default {
         }
       });
     },
-    addProc() {
-      VueUtil.post("/network/item", this.item, (res) => {
-        this.item = res.data;
-      }, { wait: false });
-    },
-    editProc() {
-      VueUtil.put("/network/item", this.item, (res) => {
-        this.item = res.data;
-      }, { wait: false });
-    }
   },
   mounted() {
     this.init();
