@@ -43,16 +43,16 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import vis from 'vis/dist/vis.js';
 import comFunction from "../commonFunction.js";
 import VueUtil from '../../utils/vue-util.js'
 import CommonUtil from '../../utils/common-util.js'
-import "vis/dist/vis.css";
-import vis from 'vis/dist/vis.js';
 import { VueContext } from 'vue-context';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
 import networkNode from './networkNode.vue';
 import networkEdge from './networkEdge.vue';
+import "vis/dist/vis.css";
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   mixins: [comFunction],
@@ -137,7 +137,7 @@ export default {
       Swal.fire('안내', "뭐라도 선택해라.", 'info');
     },
     openNodeForm(node) {
-      this.$refs["nodeComponent"].show(node);
+      this.$refs["nodeComponent"].show(node, this.getSelectNodeId() != null);
     },
     openEdgeForm(edge) {
       this.$refs['edgeComponent'].show(this.nodes.get(), edge, this.getSelectNodeId());
@@ -179,27 +179,32 @@ export default {
       return exportValue;
     },
     // 신규 노드 등록
-    addNode(node) {
+    addNode(node, edgeLable) {
       this.nodes.add(node);
       let selectNodeId = this.getSelectNodeId();
       if (selectNodeId) {
         this.edges.add({
           from: selectNodeId,
-          to: node.id
+          to: node.id,
+          label: edgeLable,
+          color: { color: '#777777', highlight: '#777777' }
         });
       }
       this.saveProc();
     },
     editNode(node) {
+      console.log('node :', node);
       this.nodes.update(node);
       this.saveProc();
     },
     // 신규 엣지 등록
     addEdge(edge) {
+      console.log('edge :', edge);
       this.edges.add(edge);
       this.saveProc();
     },
     editEdge(edge) {
+      console.log('edge :', edge);
       this.edges.update(edge);
       this.saveProc();
     },

@@ -1,9 +1,9 @@
 <template>
-  <b-modal ref="nodeForm" title="노드 추가" @ok.prevent="confirm()">
+  <b-modal ref="nodeForm" title="노드 추가" @ok.prevent="confirm()" @shown="shownModal">
     <div>
       <b-form autocomplete="off" @submit.stop.prevent>
         <b-form-group label="레이블" label-for="input-label">
-          <b-form-input v-model="node.label" name="label" id="input-label" data-vv-as="레이블 " :state="validateState('label')" v-validate="{ required: true, max:30}" />
+          <b-form-input v-model="node.label" ref="input-label" name="label" id="input-label" data-vv-as="레이블 " :state="validateState('label')" v-validate="{ required: true, max:30}" />
           <span v-show="!validateState('label')" class="invalid-feedback">{{ veeErrors.first('label') }}</span>
         </b-form-group>
         <b-form-group label="모양" id="input-shape">
@@ -15,6 +15,10 @@
               <span class="color_label" :style="{'background': color}" />
             </b-form-radio>
           </b-form-radio-group>
+        </b-form-group>
+        <b-form-group v-show="isSelectNode" label="연결선 레이블" label-for="input-edge-label">
+          <b-form-input v-model="edgeLabel" name="edgeLabel" id="input-edge-label" data-vv-as="연결선 레이블 " :state="validateState('edgeLabel')" v-validate="{max:30}" />
+          <span v-show="!validateState('edgeLabel')" class="invalid-feedback">{{ veeErrors.first('edgeLabel') }}</span>
         </b-form-group>
       </b-form>
     </div>
@@ -28,6 +32,8 @@ export default {
   data() {
     return {
       node: {},
+      edgeLabel: null,
+      isSelectNode: false,
       shapeOption: [
         { text: '타원', value: 'ellipse' },
         { text: '사각형', value: 'box' },
@@ -38,7 +44,10 @@ export default {
     };
   },
   methods: {
-    show(node) {
+    show(node, isSelectNode) {
+      this.isSelectNode = false;
+      this.edgeLabel = null;
+
       if (node) {
         // node 값이 있으면 수정
         this.node = node;
@@ -51,9 +60,13 @@ export default {
           shape: this.shapeOption[0].value,
           color: this.colorOption[0],
         }
+        this.isSelectNode = isSelectNode;
         this.update = false;
       }
       this.$refs['nodeForm'].show();
+    },
+    shownModal(){
+      this.$refs['input-label'].focus();
     },
     confirm() {
       this.$validator.validateAll().then((result) => {
@@ -61,10 +74,10 @@ export default {
           return;
         }
         this.$refs['nodeForm'].hide();
-        if(this.update){
+        if (this.update) {
           this.$parent.editNode(this.node);
-        }else{
-          this.$parent.addNode(this.node);
+        } else {
+          this.$parent.addNode(this.node, this.edgeLabel);
         }
       });
     },
