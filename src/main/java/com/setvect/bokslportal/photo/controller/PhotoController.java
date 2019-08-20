@@ -53,14 +53,13 @@ public class PhotoController {
 
   // ------- 등록
 
-  @SuppressWarnings("rawtypes")
   /**
    * @param photo
    *          사진
    * @return 등록된 항목 일련번호
    */
   @PostMapping("image")
-  public ResponseEntity addImage(PhotoVo photo) {
+  public ResponseEntity<Void> addImage(PhotoVo photo) {
     photoRepository.save(photo);
     return ResponseEntity.noContent().build();
   }
@@ -91,9 +90,8 @@ public class PhotoController {
    *          일련번호
    * @return 성공여부
    */
-  @SuppressWarnings("rawtypes")
   @DeleteMapping(value = "item/{id}")
-  public ResponseEntity deleteItem(@PathVariable("id") String photoId) {
+  public ResponseEntity<Void> deleteItem(@PathVariable("id") String photoId) {
     photoRepository.deleteById(photoId);
     return ResponseEntity.noContent().build();
   }

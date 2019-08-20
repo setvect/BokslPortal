@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import VueUtil from "../../../utils/vue-util.js"
-
 export default {
   data() {
     return {

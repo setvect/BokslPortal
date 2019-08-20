@@ -43,18 +43,15 @@ module.exports = env => {
       hot: false
     },
     module: {
-      rules: [
-        {
+      rules: [{
           test: /\.js$/,
           exclude: /[\\/]node_modules[\\/]/,
-          use: [
-            {
-              loader: "babel-loader",
-              options: {
-                presets: ["@babel/preset-env"]
-              }
+          use: [{
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"]
             }
-          ]
+          }]
         },
         {
           test: /\.vue$/,
@@ -69,34 +66,28 @@ module.exports = env => {
           use: ["style-loader", "css-loader", "sass-loader"]
         }
       ].concat([
-        env === "production"
-          ? {
-              test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
-              use: [
-                {
-                  loader: "url-loader",
-                  options: {
-                    limit: 1024 * 1024
-                  }
-                  // loader: "file-loader",
-                  // options: {
-                  //   name: "[name].[ext]",
-                  //   outputPath: "images/"
-                  // }
-                }
-              ]
+        env === "production" ? {
+          test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
+          use: [{
+            loader: "url-loader",
+            options: {
+              limit: 1024 * 1024
             }
-          : {
-              test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
-              use: [
-                {
-                  loader: "url-loader",
-                  options: {
-                    limit: 1024 * 1024
-                  }
-                }
-              ]
+            // loader: "file-loader",
+            // options: {
+            //   name: "[name].[ext]",
+            //   outputPath: "images/"
+            // }
+          }]
+        } : {
+          test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
+          use: [{
+            loader: "url-loader",
+            options: {
+              limit: 1024 * 1024
             }
+          }]
+        }
       ])
     },
     resolve: {
@@ -110,12 +101,21 @@ module.exports = env => {
       new webpack.SourceMapDevToolPlugin({
         filename: "[name].js.map"
       }),
-      new webpack.DefinePlugin({ "global.GENTLY": false }),
+      new webpack.DefinePlugin({
+        "global.GENTLY": false
+      }),
       new webpack.ProvidePlugin({
+        // node_moudles
         $: "jquery",
         jquery: "jquery",
         "window.jQuery": "jquery",
-        jQuery: "jquery"
+        jQuery: "jquery",
+        Swal: "sweetalert2",
+        moment: "moment",
+        // 직접 만든거
+        VueUtil: [path.resolve(__dirname, "src/main/client/utils/vue-util.js"), 'default'],
+        // CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), 'default'],
+        comFunction: [path.resolve(__dirname, "src/main/client/app/commonFunction.js"), 'default'],
       })
       // new HtmlWebpackPlugin({
       //   filename: "index.html",

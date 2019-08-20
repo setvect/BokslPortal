@@ -29,8 +29,6 @@
 
 <script>
 import '../../utils/vue-common.js';
-import comFunction from '../commonFunction.js';
-import VueUtil from '../../utils/vue-util.js'
 
 export default {
   mixins: [comFunction],

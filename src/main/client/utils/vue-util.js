@@ -1,6 +1,5 @@
 import CommonUtil from "./common-util.js";
 import axios from "axios";
-import $ from "jquery";
 import store from "../store/index";
 import Vue from "vue"
 import 'vue-loading-overlay/dist/vue-loading.css'

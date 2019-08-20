@@ -25,8 +25,6 @@
   </b-modal>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
-
 export default {
   mixins: [comFunction],
   data() {
@@ -65,7 +63,7 @@ export default {
       }
       this.$refs['nodeForm'].show();
     },
-    shownModal(){
+    shownModal() {
       this.$refs['input-label'].focus();
     },
     confirm() {

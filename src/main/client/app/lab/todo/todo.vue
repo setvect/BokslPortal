@@ -65,11 +65,7 @@
 </template>
 
 <script>
-import comFunction from "../../commonFunction.js";
 import '../../../utils/vue-common.js'
-import VueUtil from '../../../utils/vue-util.js'
-import { ko } from 'vuejs-datepicker/dist/locale'
-import moment from "moment";
 import _ from "lodash";
 
 export default {
@@ -101,7 +97,6 @@ export default {
         statusType: ['PLAN'],
         startCursor: 0,
       },
-      ko: ko,
     };
   },
   methods: {
@@ -135,9 +130,19 @@ export default {
       this.confirmEvent = this.editProc;
     },
     deleteProc(item) {
-      VueUtil.delete(`/todo/item/${item.todoSeq}`, {}, (res) => {
-        this.page.list = this.page.list.filter(i => i !== item);
-      });
+      Swal.fire({
+        title: '삭제할거야?',
+        type: 'info',
+        showCloseButton: true,
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.value) {
+          return;
+        }
+        VueUtil.delete(`/todo/item/${item.todoSeq}`, {}, (res) => {
+          this.page.list = this.page.list.filter(i => i !== item);
+        });
+      });;
     },
     giveUpProc(item) {
       this.changeStatusProc(item.todoSeq, 'GIVEUP');
@@ -193,6 +198,7 @@ export default {
     },
   },
   mounted() {
+    console.log('comFunction :', comFunction);
     this.nextProc();
   }
 };

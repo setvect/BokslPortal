@@ -107,9 +107,8 @@ public class TodoController {
    *          일련번호
    * @return 성공여부
    */
-  @SuppressWarnings("rawtypes")
   @DeleteMapping(value = "item/{id}")
-  public ResponseEntity deleteItem(@PathVariable("id") int todoSeq) {
+  public ResponseEntity<Void> deleteItem(@PathVariable("id") int todoSeq) {
     todoRepository.deleteById(todoSeq);
     return ResponseEntity.noContent().build();
   }

@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: 'https://127.0.0.1/',
+        url: CommonUtil.appendContextRoot("/"),
         thumbnailWidth: 150,
         maxFilesize: 10,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> 이미지 올려라",

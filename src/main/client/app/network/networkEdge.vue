@@ -35,8 +35,6 @@
   </b-modal>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
-
 export default {
   mixins: [comFunction],
   data() {

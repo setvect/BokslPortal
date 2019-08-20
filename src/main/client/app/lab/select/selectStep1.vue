@@ -15,7 +15,6 @@
   </div>
 </template>
 <script>
-import comFunction from "../../commonFunction.js";
 import cookies from 'js-cookie'
 
 export default {
