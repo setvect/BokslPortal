@@ -114,7 +114,7 @@ module.exports = env => {
         moment: "moment",
         // 직접 만든거
         VueUtil: [path.resolve(__dirname, "src/main/client/utils/vue-util.js"), 'default'],
-        // CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), 'default'],
+        CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), 'default'],
         comFunction: [path.resolve(__dirname, "src/main/client/app/commonFunction.js"), 'default'],
       })
       // new HtmlWebpackPlugin({

@@ -44,8 +44,6 @@
 
 <script>
 import vis from 'vis/dist/vis.js';
-import comFunction from "../commonFunction.js";
-import CommonUtil from '../../utils/common-util.js'
 import { VueContext } from 'vue-context';
 import networkNode from './networkNode.vue';
 import networkEdge from './networkEdge.vue';

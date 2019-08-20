@@ -1,5 +1,8 @@
-import { getToken, setToken, removeToken } from "../../utils/auth.js"
-import VueUtil from "../../utils/vue-util.js"
+import {
+  getToken,
+  setToken,
+  removeToken
+} from "../../utils/auth.js"
 
 const user = {
   state: {
@@ -22,11 +25,12 @@ const user = {
 
   actions: {
     // 로그인
-    Login({ commit }, userInfo) {
+    Login({
+      commit
+    }, userInfo) {
       return new Promise((resolve, reject) => {
         VueUtil.post(
-          "/user/login",
-          {
+          "/user/login", {
             username: userInfo.username,
             password: userInfo.password,
             'remember-me': userInfo['remember-me']
@@ -36,8 +40,7 @@ const user = {
             setToken(data.token)
             commit("SET_TOKEN", data.token)
             resolve()
-          },
-          {
+          }, {
             errorCall: error => {
               reject(error)
             }
@@ -46,11 +49,13 @@ const user = {
       })
     },
     // 사용자 정보
-    GetInfo({ commit, state }) {
+    GetInfo({
+      commit,
+      state
+    }) {
       return new Promise((resolve, reject) => {
         VueUtil.get(
-          "/user/info.json",
-          {
+          "/user/info.json", {
             token: state.token
           },
           result => {
@@ -64,8 +69,7 @@ const user = {
             }
             commit("SET_NAME", data.name)
             resolve(result)
-          },
-          {
+          }, {
             errorCall: error => {
               reject(error)
             }
@@ -74,18 +78,19 @@ const user = {
       })
     },
     // 로그아웃
-    LogOut({ commit, state }) {
+    LogOut({
+      commit,
+      state
+    }) {
       return new Promise((resolve, reject) => {
         VueUtil.post(
-          "/user/logout",
-          {},
+          "/user/logout", {},
           result => {
             commit("SET_TOKEN", "")
             commit("SET_ROLES", [])
             removeToken()
             resolve()
-          },
-          {
+          }, {
             errorCall: error => {
               reject(error)
             }
@@ -93,7 +98,9 @@ const user = {
         )
       })
     },
-    FedLogOut({ commit }) {
+    FedLogOut({
+      commit
+    }) {
       return new Promise(resolve => {
         commit("SET_TOKEN", "")
         removeToken()
