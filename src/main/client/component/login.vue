@@ -52,7 +52,7 @@ export default {
       this.$store.dispatch('Login', this.form).then(() => {
         this.$router.push({ path: this.redirect || '/' })
       }).catch((e) => {
-        alert("아이디 또는 비밀번호가 틀렸다.")
+        Swal.fire('로그인 실패', "아이디 또는 비밀번호가 틀렸다.", 'error');
       }).finally(() => {
         this.loading = false
       })

@@ -1,4 +1,3 @@
-import CommonUtil from "./common-util.js";
 import axios from "axios";
 import store from "../store/index";
 import Vue from "vue"

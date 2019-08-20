@@ -115,8 +115,22 @@ export default {
       this.$router.push({ name: "networkList" });
     },
     deleteProc() {
-      VueUtil.delete(`/network/item/${this.item.networkSeq}`, this.item, (res) => {
-        this.listPage();
+      Swal.fire({
+        title: '삭제할거야?',
+        type: 'info',
+        showCloseButton: true,
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.value) {
+          return;
+        }
+        if (!this.item.networkSeq) {
+          this.listPage();
+          return;
+        }
+        VueUtil.delete(`/network/item/${this.item.networkSeq}`, this.item, (res) => {
+          this.listPage();
+        });
       });
     },
     editObject() {
