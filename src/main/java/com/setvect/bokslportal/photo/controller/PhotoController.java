@@ -1,5 +1,15 @@
 package com.setvect.bokslportal.photo.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,11 +19,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.photo.repository.PhotoRepository;
 import com.setvect.bokslportal.photo.service.PhotoSearch;
+import com.setvect.bokslportal.photo.service.PhotoService;
 import com.setvect.bokslportal.photo.vo.PhotoVo;
 import com.setvect.bokslportal.photo.vo.PhotoVo.ShotDateType;
 
@@ -25,6 +39,8 @@ import lombok.extern.log4j.Log4j2;
 public class PhotoController {
   @Autowired
   private PhotoRepository photoRepository;
+  @Autowired
+  private PhotoService photoService;
 
   // ============== 조회 ==============
 
@@ -57,10 +73,33 @@ public class PhotoController {
    * @param photo
    *          사진
    * @return 등록된 항목 일련번호
+   * @throws IOException
    */
   @PostMapping("image")
-  public ResponseEntity<Void> addImage(PhotoVo photo) {
-    photoRepository.save(photo);
+  public ResponseEntity<Void> addImage(MultipartHttpServletRequest request) {
+    photoService.createUploadDir();
+
+    Iterator<String> itr = request.getFileNames();
+    List<File> photoFileList = StreamSupport
+        .stream(Spliterators.spliteratorUnknownSize(itr, Spliterator.ORDERED), false).map(uploadedFile -> {
+          MultipartFile uploadFile = request.getFile(uploadedFile);
+
+          String name = uploadFile.getOriginalFilename();
+          String ext = FilenameUtils.getExtension(name);
+          // prefix가 최소 3자 이상 되어야 함.
+          String prefix = FilenameUtils.getBaseName(name) + "__";
+
+          try {
+            File saveFile = File.createTempFile(prefix, "." + ext, BokslPortalConstant.Photo.BASE_DIR);
+            uploadFile.transferTo(saveFile);
+            return saveFile;
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }).collect(Collectors.toList());
+
+    photoService.addPhoto(photoFileList);
+
     return ResponseEntity.noContent().build();
   }
 

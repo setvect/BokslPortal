@@ -142,7 +142,6 @@ LATITUDE|위도| |double| ||
 LONGITUDE|경도| |double| ||
 ORIENTATION|이미지 회전| |integer| |Y|참고: http://www.impulseadventure.com/photo/exif-orientation.html
 MEMO|메모| |varchar|1000| |
-PROTECT_F|보호 이미지| |char|1|Y|Y, N
 REG_DATE|등록일| |datetime| |Y|
 
 ### TODO

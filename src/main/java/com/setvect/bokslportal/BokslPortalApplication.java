@@ -6,11 +6,14 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 
 import com.setvect.bokslportal.user.service.UserService;
 import com.setvect.bokslportal.util.BeanUtils;
 
 @SpringBootApplication
+// @ImportResource({ "classpath:/spring/context-transaction.xml" })
+@ImportResource({ "classpath:/spring/context-transaction.xml", "classpath:/spring/context-beans.xml" })
 public class BokslPortalApplication {
   /**
    * 설정 파일 경로.
@@ -20,7 +23,6 @@ public class BokslPortalApplication {
    * 테스트 설정 파일 경로
    */
   private static final String CONFIG_PROPERTIES_TEST = "/test.properties";
-
 
   public static void main(String[] args) {
     // spring boot에서 클래스가 및 properties 변경되었을 때 restart 안되게 함.
@@ -39,7 +41,6 @@ public class BokslPortalApplication {
   ApplicationContextProvider getApplicationContext() {
     return new ApplicationContextProvider();
   }
-
 
   /**
    * 서비스 시작점 초기화.

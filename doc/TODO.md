@@ -5,7 +5,7 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
-- NEW-20190820: 로그인 - 비밀번호 입력 폼에서 엔터 누르면 로그인 액션 처리
+
 - NEW-20190815: 복슬지식 구현
 - NEW-20190815: 복슬노트 구현
 - NEW-20190815: 복슬메모 구현
@@ -25,6 +25,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20190820(20190823): 로그인 - 비밀번호 입력 폼에서 엔터 누르면 로그인 액션 처리
 - NEW-20190820: 대부분의 모듈에서 사용하는 (Swal, jquery, VueUtil)을 전역 선언
 - NEW-20190815(20190818): 복슬관계 구현
 - NEW-20190807(20190815): CommonUtil.popupError 팝업창 처리
