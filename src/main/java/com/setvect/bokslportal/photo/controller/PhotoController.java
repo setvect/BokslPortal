@@ -1,15 +1,14 @@
 package com.setvect.bokslportal.photo.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
+import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.BokslPortalConstant;
+import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.photo.repository.PhotoRepository;
+import com.setvect.bokslportal.photo.service.PhotoSearch;
+import com.setvect.bokslportal.photo.service.PhotoService;
+import com.setvect.bokslportal.photo.vo.PhotoVo;
+import com.setvect.bokslportal.photo.vo.PhotoVo.ShotDateType;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.BokslPortalConstant;
-import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.photo.repository.PhotoRepository;
-import com.setvect.bokslportal.photo.service.PhotoSearch;
-import com.setvect.bokslportal.photo.service.PhotoService;
-import com.setvect.bokslportal.photo.vo.PhotoVo;
-import com.setvect.bokslportal.photo.vo.PhotoVo.ShotDateType;
-
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/photo/")
@@ -53,7 +44,7 @@ public class PhotoController {
   @GetMapping("page")
   public ResponseEntity<String> page(PhotoSearch param) {
     GenericPage<PhotoVo> page = photoRepository.getPagingList(param);
-    String json = ApplicationUtil.toJson(page, "**,list[**]");
+    String json = ApplicationUtil.toJson(page, "**,list[photoId,shotDate,shotDateType,memo]");
     return ResponseEntity.ok().body(json);
   }
 
@@ -65,6 +56,45 @@ public class PhotoController {
   public ResponseEntity<String> getItem(@PathVariable("id") String photoId) {
     PhotoVo item = photoRepository.getOne(photoId);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item));
+  }
+  /**
+   * 원본 사진 정보를 byte로 전송
+   *
+   * @param photoId
+   *            사진 아이디
+   * @param request
+   *            servletRequest
+   * @return 이미지 byte
+   * @throws IOException
+   *             예외
+   */
+  @GetMapping("/image")
+  public byte[] getImage(@RequestParam("photoId") final String photoId, final HttpServletRequest request)
+    throws IOException {
+    PhotoVo photo = photoRepository.getOne(photoId);
+    return photoService.getImageOrg(photo);
+  }
+
+  /**
+   * 썸네일 사진 정보를 byte로 전송
+   *
+   * @param photoId
+   *            사진 아이디
+   * @param width
+   *            넓이 픽셀
+   * @param height
+   *            높이 픽셀
+   * @param request
+   *            servletRequest
+   * @return 섬네일 이미지 byte
+   * @throws IOException
+   *             파일 처리 오류
+   */
+  @GetMapping("/thumbimage")
+  public byte[] getThumb(@RequestParam("photoId") final String photoId, @RequestParam("w") final int width,
+                         @RequestParam("h") final int height, final HttpServletRequest request) throws IOException {
+    PhotoVo photo = photoRepository.getOne(photoId);
+    return photoService.makeThumbimage(photo, width, height);
   }
 
   // ------- 등록

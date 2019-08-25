@@ -36,9 +36,9 @@ public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
     }
 
     if (searchCondition.isDateNoting()) {
-      where.append(" AND p.shotDate IS NULL ");
+      where.append(" AND photo.shotDate IS NULL ");
     } else if (searchCondition.isDateBetween()) {
-      where.append(" AND p.shotDate BETWEEN :from and :to ");
+      where.append(" AND photo.shotDate BETWEEN :from and :to ");
       bindParameter.put("from", searchCondition.getFrom());
       bindParameter.put("to", searchCondition.getEndLast());
     }

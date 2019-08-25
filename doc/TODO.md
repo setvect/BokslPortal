@@ -5,7 +5,7 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
-
+- NEW-20190825: 복슬 포토 썸내일 이미지 처리 시 인증 토큰 받을 수 있게.
 - NEW-20190815: 복슬지식 구현
 - NEW-20190815: 복슬노트 구현
 - NEW-20190815: 복슬메모 구현

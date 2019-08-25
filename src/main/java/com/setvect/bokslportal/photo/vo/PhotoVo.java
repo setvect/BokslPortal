@@ -67,10 +67,6 @@ public class PhotoVo {
   @Column(name = "REG_DATE", nullable = false)
   private Date regData;
 
-  /** 이미지를 볼 수 없는 경우 true. 비공개 이미지 이면서 허가된 IP로 접속되지 않는 경우 보이지 않음. */
-  @Transient
-  private boolean deny;
-
   /**
    * 촬영일 입력 데이터 형식
    */

@@ -15,27 +15,25 @@ import lombok.Setter;
 @Setter
 public class PhotoSearch extends SearchListVo {
 
-  /** 시작 날짜 */
+  /**
+   * 시작 날짜
+   */
   private Date from;
 
-  /** 끝 날짜 */
+  /**
+   * 끝 날짜
+   */
   private Date to;
 
-  /** 메모 조건 */
+  /**
+   * 메모 조건
+   */
   private String memo;
 
-  /** 촬영 날짜가 없는 사진 검색 */
-  private boolean dateNoting;
-
   /**
-   * @param startCursor
-   *          시작 지점 (0부터 시작)
-   * @param returnCount
-   *          가져올 항목 갯수
+   * 촬영 날짜가 없는 사진 검색
    */
-  public PhotoSearch(final int startCursor, final int returnCount) {
-    super(startCursor, returnCount);
-  }
+  private boolean dateNoting;
 
   /**
    * @return 종료일 + 23:59:59

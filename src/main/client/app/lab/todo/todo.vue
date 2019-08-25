@@ -4,9 +4,9 @@
       <b-form @submit.stop.prevent inline style="margin: 59px 0 10px; 0 ">
         <!-- <input type="text" class="form-control daterange _datepicker" readonly="readonly" /> -->
         <b-form-group>
-          <b-form-checkbox-group v-model="searchData.statusType" :options="options" switches></b-form-checkbox-group>
+          <b-form-checkbox-group v-model="searchParam.statusType" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
-        <b-input @keypress.13="nextProc()" v-model="searchData.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13="nextProc()" v-model="searchParam.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
@@ -92,7 +92,7 @@ export default {
         list: [],
         totalCount: -1,
       },
-      searchData: {
+      searchParam: {
         word: null,
         statusType: ['PLAN'],
         startCursor: 0,
@@ -101,15 +101,15 @@ export default {
   },
   methods: {
     nextProc() {
-      this.searchData.startCursor = this.page.list.length;
-      if (this.searchData.startCursor == this.page.totalCount) {
+      this.searchParam.startCursor = this.page.list.length;
+      if (this.searchParam.startCursor == this.page.totalCount) {
         this.$notify({
           group: 'message-noti',
           type: 'warn',
           text: '더 이상 없다.'
         });
       }
-      VueUtil.get("/todo/page", this.searchData, (res) => {
+      VueUtil.get("/todo/page", this.searchParam, (res) => {
         this.page.totalCount = res.data.totalCount;
         this.page.list = this.page.list.concat(res.data.list);
       });

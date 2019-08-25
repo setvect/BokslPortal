@@ -2,7 +2,7 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input v-model="searchParam.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm" style="margin-right:30px;" @click="search()">검색</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
@@ -34,7 +34,7 @@ export default {
   mixins: [comFunction],
   data() {
     return {
-      searchData: {
+      searchParam: {
         word: null,
         statusType: ['PLAN'],
         startCursor: 0,
@@ -43,7 +43,7 @@ export default {
         list: [],
         totalCount: -1,
       },
-      searchData: {
+      searchParam: {
         word: null,
       },
       page: {
@@ -59,15 +59,15 @@ export default {
       this.nextProc();
     },
     nextProc() {
-      this.searchData.startCursor = this.page.list.length;
-      if (this.searchData.startCursor == this.page.totalCount) {
+      this.searchParam.startCursor = this.page.list.length;
+      if (this.searchParam.startCursor == this.page.totalCount) {
         this.$notify({
           group: 'message-noti',
           type: 'warn',
           text: '더 이상 없다.'
         });
       }
-      VueUtil.get("/network/page", this.searchData, (res) => {
+      VueUtil.get("/network/page", this.searchParam, (res) => {
         this.page.totalCount = res.data.totalCount;
         this.page.list = this.page.list.concat(res.data.list);
       });
