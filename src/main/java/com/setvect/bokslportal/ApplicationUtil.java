@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.util.DigestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

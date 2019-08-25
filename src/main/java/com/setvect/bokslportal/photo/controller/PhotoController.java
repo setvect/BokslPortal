@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.io.FilenameUtils;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -45,8 +47,7 @@ public class PhotoController {
   // ============== 조회 ==============
 
   /**
-   * @param param
-   *          검색 조건
+   * @param param 검색 조건
    * @return 사진 목록
    */
   @GetMapping("page")
@@ -57,8 +58,7 @@ public class PhotoController {
   }
 
   /**
-   * @param phtooSeq
-   *          일련번호
+   * @param photoId 아이디
    * @return 사진 목록
    */
   @GetMapping("item/{id}")
@@ -70,35 +70,27 @@ public class PhotoController {
   // ------- 등록
 
   /**
-   * @param photo
-   *          사진
+   * @param uploadFile 이미지 파일
    * @return 등록된 항목 일련번호
    * @throws IOException
    */
-  @PostMapping("image")
-  public ResponseEntity<Void> addImage(MultipartHttpServletRequest request) {
+  @PostMapping("item")
+  public ResponseEntity<Void> addImage(@RequestParam("image") MultipartFile uploadFile) {
     photoService.createUploadDir();
 
-    Iterator<String> itr = request.getFileNames();
-    List<File> photoFileList = StreamSupport
-        .stream(Spliterators.spliteratorUnknownSize(itr, Spliterator.ORDERED), false).map(uploadedFile -> {
-          MultipartFile uploadFile = request.getFile(uploadedFile);
+    String name = uploadFile.getOriginalFilename();
+    String ext = FilenameUtils.getExtension(name);
+    // prefix가 최소 3자 이상 되어야 함.
+    String prefix = FilenameUtils.getBaseName(name) + "__";
 
-          String name = uploadFile.getOriginalFilename();
-          String ext = FilenameUtils.getExtension(name);
-          // prefix가 최소 3자 이상 되어야 함.
-          String prefix = FilenameUtils.getBaseName(name) + "__";
+    try {
+      File saveFile = File.createTempFile(prefix, "." + ext, BokslPortalConstant.Photo.BASE_DIR);
+      uploadFile.transferTo(saveFile);
+      photoService.addPhoto(saveFile);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
-          try {
-            File saveFile = File.createTempFile(prefix, "." + ext, BokslPortalConstant.Photo.BASE_DIR);
-            uploadFile.transferTo(saveFile);
-            return saveFile;
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-        }).collect(Collectors.toList());
-
-    photoService.addPhoto(photoFileList);
 
     return ResponseEntity.noContent().build();
   }
@@ -106,8 +98,7 @@ public class PhotoController {
   // ------- 수정
 
   /**
-   * @param photo
-   *          일일
+   * @param photo 일일
    * @return 사진 정보
    */
   @PatchMapping("item")
@@ -125,8 +116,7 @@ public class PhotoController {
   // ------- 삭제
 
   /**
-   * @param networkSeq
-   *          일련번호
+   * @param photoId 아이디
    * @return 성공여부
    */
   @DeleteMapping(value = "item/{id}")

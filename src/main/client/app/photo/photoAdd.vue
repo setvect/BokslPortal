@@ -19,6 +19,8 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import store from "../../store/index.js";
+import { getToken } from "../../utils/auth.js";
 
 export default {
   components: {
@@ -27,14 +29,18 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: CommonUtil.appendContextRoot("/"),
+        url: CommonUtil.appendContextRoot("/photo/item"),
         thumbnailWidth: 150,
         maxFilesize: 10,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> 이미지 올려라",
         headers: { "My-Awesome-Header": "header value" },
         autoProcessQueue: false,
         addRemoveLinks: true,
-        acceptedFiles: ".psd,.jpg,.jpeg,.png"
+        acceptedFiles: ".jpg,.jpeg,.png",
+        paramName: "image",
+        headers: {
+          "x-auth-token": getToken()
+        }
       }
     };
   },

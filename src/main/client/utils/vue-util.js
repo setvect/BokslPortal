@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "../store/index";
+import store from "../store/index.js";
 import Vue from "vue"
 import 'vue-loading-overlay/dist/vue-loading.css'
 import {

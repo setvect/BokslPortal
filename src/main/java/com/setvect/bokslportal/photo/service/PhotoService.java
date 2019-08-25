@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,71 +49,64 @@ public class PhotoService {
    */
   public void createUploadDir() {
     if (!BokslPortalConstant.Photo.BASE_DIR.exists()) {
-      BokslPortalConstant.Photo.BASE_DIR.mkdir();
+      BokslPortalConstant.Photo.BASE_DIR.mkdirs();
     }
   }
 
   /**
    * 사진을 저장
    *
-   * @param imageList
+   * @param imageFile
    */
-  public void addPhoto(List<File> imageList) {
+  public void addPhoto(File imageFile) {
     File baseFile = BokslPortalConstant.Photo.BASE_DIR;
 
-    imageList.forEach(imageFile -> {
-      File dirFile = imageFile.getParentFile();
-      String dir = ApplicationUtil.getRelativePath(baseFile, dirFile);
-      dir = "/" + dir;
+    File dirFile = imageFile.getParentFile();
+    String dir = ApplicationUtil.getRelativePath(baseFile, dirFile);
+    dir = "/" + dir;
 
-      if (!imageFile.exists()) {
-        log.warn("Skip. Image not exist.({})", imageFile.getAbsolutePath());
-        return;
-      }
+    if (!imageFile.exists()) {
+      log.warn("Skip. Image not exist.({})", imageFile.getAbsolutePath());
+      return;
+    }
 
-      PhotoVo photo = new PhotoVo();
-      Date shotDate = getShotDate(imageFile);
-      String photoId = ApplicationUtil.getMd5(imageFile);
-      PhotoVo before = photoRepository.getOne(photoId);
+    PhotoVo photo = new PhotoVo();
+    Date shotDate = getShotDate(imageFile);
+    String photoId = ApplicationUtil.getMd5(imageFile);
 
-      File beforeFile = null;
-      if (before != null) {
-        beforeFile = before.getFullPath();
-      }
-
+    photoRepository.findById(photoId).ifPresent((beforePhoto)->{
+      File beforeFile = beforePhoto.getFullPath();
       log.info("Already have the same file. ({})", beforeFile.getAbsolutePath());
       // 업로드된 이미지와 기존 저장된 이미지가 다르면 기존 이미지 삭제
       if (!imageFile.equals(beforeFile)) {
         deleteImageFile(beforeFile);
       }
-
-      photo.setPhotoId(photoId);
-      photo.setDirectory(dir);
-      photo.setName(imageFile.getName());
-      photo.setShotDate(shotDate);
-      photo.setShotDateType(shotDate != null ? ShotDateType.META : ShotDateType.MANUAL);
-      photo.setRegData(new Date());
-
-      try {
-        Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
-        GeoCoordinates geo = getGeo(metadata);
-        if (geo != null) {
-          photo.setLatitude(geo.getLatitude());
-          photo.setLongitude(geo.getLongitude());
-        }
-        int orientationValue = getOrientation(metadata);
-        photo.setOrientation(orientationValue);
-      } catch (ImageProcessingException | IOException e) {
-        log.error(e.getMessage() + ": " + imageFile.getAbsolutePath(), e);
-      }
-      photoRepository.save(photo);
     });
 
+    photo.setPhotoId(photoId);
+    photo.setDirectory(dir);
+    photo.setName(imageFile.getName());
+    photo.setShotDate(shotDate);
+    photo.setShotDateType(shotDate != null ? ShotDateType.META : ShotDateType.MANUAL);
+    photo.setRegData(new Date());
+
+    try {
+      Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
+      GeoCoordinates geo = getGeo(metadata);
+      if (geo != null) {
+        photo.setLatitude(geo.getLatitude());
+        photo.setLongitude(geo.getLongitude());
+      }
+      int orientationValue = getOrientation(metadata);
+      photo.setOrientation(orientationValue);
+    } catch (ImageProcessingException | IOException e) {
+      log.error(e.getMessage() + ": " + imageFile.getAbsolutePath(), e);
+    }
+    photoRepository.save(photo);
   }
 
   /**
-   * @param metadata
-   *          이미지 메타 테그
+   * @param metadata 이미지 메타 테그
    * @return 회원 정보. 추출하지 못하면 0을 반환
    */
   private int getOrientation(final Metadata metadata) {
@@ -134,8 +126,7 @@ public class PhotoService {
   /**
    * 메타 정보
    *
-   * @param imageFile
-   *          이미지 파일
+   * @param imageFile 이미지 파일
    * @return Key: 메타 이름, Value: 값
    */
   public static Map<String, String> getImageMeta(final File imageFile) {
@@ -143,11 +134,11 @@ public class PhotoService {
       Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
 
       Map<String, String> result = StreamSupport.stream(metadata.getDirectories().spliterator(), false)
-          .flatMap(p -> p.getTags().stream()).filter(Objects::nonNull).collect(Collectors.toMap(p -> {
-            return "[" + p.getDirectoryName() + "]" + p.getTagName();
-          }, p -> {
-            return p.getDescription() == null ? "" : p.getDescription();
-          }, (v1, v2) -> v1, TreeMap::new));
+        .flatMap(p -> p.getTags().stream()).filter(Objects::nonNull).collect(Collectors.toMap(p -> {
+          return "[" + p.getDirectoryName() + "]" + p.getTagName();
+        }, p -> {
+          return p.getDescription() == null ? "" : p.getDescription();
+        }, (v1, v2) -> v1, TreeMap::new));
 
       return result;
     } catch (Exception e) {
@@ -159,8 +150,7 @@ public class PhotoService {
   /**
    * GEO 좌표
    *
-   * @param metadata
-   *          이미지 파일
+   * @param metadata 이미지 파일
    * @return GEO 좌표
    */
   public static GeoCoordinates getGeo(final Metadata metadata) {
@@ -173,21 +163,21 @@ public class PhotoService {
 
     // 37° 28' 46.12"
     Map<String, Double> geo = meta.getTags().stream()
-        .filter(tag -> tag.getTagName().equals(BokslPortalConstant.Photo.GPS_LATITUDE)
-            || tag.getTagName().equals(BokslPortalConstant.Photo.GPS_LONGITUDE))
-        .filter(tag -> tag.getDescription() != null).collect(Collectors.toMap(p -> p.getTagName(), p -> {
-          String coordinates = p.getDescription();
-          Matcher matcher = regex.matcher(coordinates);
-          if (!matcher.find()) {
-            return null;
-          }
+      .filter(tag -> tag.getTagName().equals(BokslPortalConstant.Photo.GPS_LATITUDE)
+        || tag.getTagName().equals(BokslPortalConstant.Photo.GPS_LONGITUDE))
+      .filter(tag -> tag.getDescription() != null).collect(Collectors.toMap(p -> p.getTagName(), p -> {
+        String coordinates = p.getDescription();
+        Matcher matcher = regex.matcher(coordinates);
+        if (!matcher.find()) {
+          return null;
+        }
 
-          double degree = Double.parseDouble(matcher.group(1));
-          double minutes = Double.parseDouble(matcher.group(2));
-          double seconds = Double.parseDouble(matcher.group(3));
-          double value = degree + minutes / 60 + seconds / 3600;
-          return value;
-        }));
+        double degree = Double.parseDouble(matcher.group(1));
+        double minutes = Double.parseDouble(matcher.group(2));
+        double seconds = Double.parseDouble(matcher.group(3));
+        double value = degree + minutes / 60 + seconds / 3600;
+        return value;
+      }));
     if (geo.size() == 2) {
       Double latitude = geo.get(BokslPortalConstant.Photo.GPS_LATITUDE);
       Double longitude = geo.get(BokslPortalConstant.Photo.GPS_LONGITUDE);
@@ -203,8 +193,7 @@ public class PhotoService {
   /**
    * 이미지 파일 삭제
    *
-   * @param imageFile
-   *          이미지 파일
+   * @param imageFile 이미지 파일
    */
   private void deleteImageFile(final File imageFile) {
     boolean delete = imageFile.delete();
@@ -214,8 +203,7 @@ public class PhotoService {
   /**
    * 사진 촬영일
    *
-   * @param imageFile
-   *          이미지 파일
+   * @param imageFile 이미지 파일
    * @return 촬영일
    */
   private static Date getShotDate(final File imageFile) {
@@ -228,9 +216,9 @@ public class PhotoService {
       }
 
       Optional<LocalDateTime> shotDate = exifSubIFDDirectory.getTags().stream()
-          .filter(tag -> tag != null && tag.getTagName().equals(BokslPortalConstant.Photo.DATE_TIME_ORIGINAL))
-          .map(tag -> tag.getDescription()).findAny()
-          .map(dateStr -> LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")));
+        .filter(tag -> tag != null && tag.getTagName().equals(BokslPortalConstant.Photo.DATE_TIME_ORIGINAL))
+        .map(tag -> tag.getDescription()).findAny()
+        .map(dateStr -> LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")));
 
       if (shotDate.isPresent()) {
         LocalDateTime value = shotDate.get();
@@ -246,11 +234,9 @@ public class PhotoService {
   /**
    * 원본이미지 정보. 디카 이미지 메타 정보를 파악해 회전 정보를 보정해서 반환
    *
-   * @param photo
-   *          포토
+   * @param photo 포토
    * @return 이미지 바이너리 정보
-   * @throws IOException
-   *           예외
+   * @throws IOException 예외
    */
   public byte[] getImageOrg(final PhotoVo photo) throws IOException {
     File photoFile;
@@ -269,11 +255,9 @@ public class PhotoService {
   /**
    * 이미지 회전 보정
    *
-   * @param photo
-   *          포토
+   * @param photo 포토
    * @return 회전 된 파일 이름
-   * @throws IOException
-   *           예외
+   * @throws IOException 예외
    */
   private File rotateCorrection(final PhotoVo photo) throws IOException {
     if (!BokslPortalConstant.Photo.ROTATE_DIR.exists()) {
