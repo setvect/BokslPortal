@@ -9,7 +9,7 @@
     <b-container fluid class="p-4 bg-dark">
       <b-row>
         <b-col v-for="(image, index) in page.list" :key="image.photoId" class="photo-img">
-          <b-img thumbnail fluid :src="getThumbimage(image.photoId)" :title="'image ' + index" @click="show(index)"></b-img>
+          <b-img thumbnail fluid :src="image.thumb" :title="image.memo" @click="show(index)"></b-img>
         </b-col>
       </b-row>
     </b-container>
@@ -64,6 +64,10 @@ export default {
       }
       VueUtil.get("/photo/page", this.searchParam, (res) => {
         this.page.totalCount = res.data.totalCount;
+        res.data.list.forEach(item => {
+          item.thumb = this.getThumbimage(item.photoId);
+          item.src = this.getSrc(item.photoId);
+        })
         this.page.list = this.page.list.concat(res.data.list);
       });
     },
@@ -83,13 +87,18 @@ export default {
         this.searchParam.to = end.valueOf();
       });
     },
+    getSrc(photoId) {
+      let param = {
+        photoId: photoId,
+      }
+      return CommonUtil.appendContextRoot("/photo/orgimage?" + $.param(param));
+    },
     getThumbimage(photoId) {
       let param = {
         photoId: photoId,
         w: 330,
         h: 300,
       }
-      console.log(' $.param(param) :', $.param(param));
       return CommonUtil.appendContextRoot("/photo/thumbimage?" + $.param(param));
     }
   },

@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/asserts/**")
       .antMatchers("/**/*.js")
       .antMatchers("/photo/thumbimage/**")
+      .antMatchers("/photo/orgimage/**")
 
       // TODO 삭제 대상
       .antMatchers("/app/**")

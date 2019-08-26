@@ -71,8 +71,7 @@ public class PhotoController {
   @GetMapping("/image")
   public byte[] getImage(@RequestParam("photoId") final String photoId, final HttpServletRequest request)
     throws IOException {
-    PhotoVo photo = photoRepository.getOne(photoId);
-    return photoService.getImageOrg(photo);
+    return photoService.getImageOrg(photoId);
   }
 
   /**
@@ -84,19 +83,31 @@ public class PhotoController {
    *            넓이 픽셀
    * @param height
    *            높이 픽셀
-   * @param request
-   *            servletRequest
    * @return 섬네일 이미지 byte
    * @throws IOException
    *             파일 처리 오류
    */
   @GetMapping("/thumbimage")
   public byte[] getThumb(@RequestParam("photoId") final String photoId, @RequestParam("w") final int width,
-                         @RequestParam("h") final int height, final HttpServletRequest request) throws IOException {
+                         @RequestParam("h") final int height) throws IOException {
     PhotoVo photo = photoRepository.getOne(photoId);
     return photoService.makeThumbimage(photo, width, height);
   }
 
+
+  /**
+   * 썸네일 사진 정보를 byte로 전송
+   *
+   * @param photoId
+   *            사진 아이디
+   * @return 이미지 byte
+   * @throws IOException
+   *             파일 처리 오류
+   */
+  @GetMapping("/orgimage")
+  public byte[] getOrgImage(@RequestParam("photoId") final String photoId) throws IOException {
+    return photoService.getImageOrg(photoId);
+  }
   // ------- 등록
 
   /**

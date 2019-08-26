@@ -74,7 +74,7 @@ public class PhotoService {
     Date shotDate = getShotDate(imageFile);
     String photoId = ApplicationUtil.getMd5(imageFile);
 
-    photoRepository.findById(photoId).ifPresent((beforePhoto)->{
+    photoRepository.findById(photoId).ifPresent((beforePhoto) -> {
       File beforeFile = beforePhoto.getFullPath();
       log.info("Already have the same file. ({})", beforeFile.getAbsolutePath());
       // 업로드된 이미지와 기존 저장된 이미지가 다르면 기존 이미지 삭제
@@ -234,11 +234,12 @@ public class PhotoService {
   /**
    * 원본이미지 정보. 디카 이미지 메타 정보를 파악해 회전 정보를 보정해서 반환
    *
-   * @param photo 포토
+   * @param photoId 아이디
    * @return 이미지 바이너리 정보
    * @throws IOException 예외
    */
-  public byte[] getImageOrg(final PhotoVo photo) throws IOException {
+  public byte[] getImageOrg(final String photoId) throws IOException {
+    PhotoVo photo = photoRepository.getOne(photoId);
     File photoFile;
 
     if (photo.isRotate()) {
@@ -255,15 +256,11 @@ public class PhotoService {
   /**
    * 섬네일 이미지 만들기
    *
-   * @param photo
-   *            이미지
-   * @param width
-   *            최대 넓이
-   * @param height
-   *            최대 높이
+   * @param photo  이미지
+   * @param width  최대 넓이
+   * @param height 최대 높이
    * @return 섬네일 이미지 byte
-   * @throws IOException
-   *             예외
+   * @throws IOException 예외
    */
   public byte[] makeThumbimage(final PhotoVo photo, final int width, final int height) throws IOException {
     // 입력값이 재대로 입력되지 않으면 그냥 리턴
@@ -305,6 +302,7 @@ public class PhotoService {
       return IOUtils.toByteArray(in);
     }
   }
+
   /**
    * 이미지 회전 보정
    *
