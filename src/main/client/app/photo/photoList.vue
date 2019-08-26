@@ -36,12 +36,7 @@ export default {
   data() {
     return {
       page: {
-        list: [
-          // {
-          //   thumb: 'https://picsum.photos/250/250/?image=50',
-          //   src: 'https://picsum.photos/250/250/?image=50',
-          // },
-        ],
+        list: [],
         totalCount: -1,
       },
       fields: [
@@ -94,7 +89,7 @@ export default {
         w: 330,
         h: 300,
       }
-      console.log(' $.param(param) :',  $.param(param));
+      console.log(' $.param(param) :', $.param(param));
       return CommonUtil.appendContextRoot("/photo/thumbimage?" + $.param(param));
     }
   },

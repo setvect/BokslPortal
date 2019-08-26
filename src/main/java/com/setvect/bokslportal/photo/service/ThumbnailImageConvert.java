@@ -1,13 +1,10 @@
 package com.setvect.bokslportal.photo.service;
 
+import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
+
 import java.io.File;
 import java.io.IOException;
-
-import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.coobird.thumbnailator.Thumbnails;
 
 /**
  * 섬네일 이미지 제작
