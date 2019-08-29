@@ -1,4 +1,4 @@
-package com.setvect.bokslportal.ctmemo.vo;
+package com.setvect.bokslportal.memo.vo;
 
 import java.util.Date;
 
@@ -21,15 +21,15 @@ import lombok.Setter;
  * 메모장
  */
 @Entity
-@Table(name = "TBCA_CTMEMO")
+@Table(name = "TBCB_MEMO")
 @Getter
 @Setter
-public class CtmemoVo {
+public class MemoVo {
 	/** 일련번호 */
 	@Id
-	@Column(name = "CTMEMO_SEQ", nullable = false)
+	@Column(name = "MEMO_SEQ", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int ctmemoSeq;
+	private int memoSeq;
 
 	/** 내용 */
 	@Column(name = "CONTENT", nullable = false, length = 4000)
@@ -78,6 +78,6 @@ public class CtmemoVo {
 
 	/** 워크스페이스 일련번호 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WORKSPACE_SEQ", nullable = false)
-	private WorkspaceVo workspace;
+	@JoinColumn(name = "CATEGORY_SEQ", nullable = false)
+	private MemoCategoryVo category;
 }

@@ -22,7 +22,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 	private final OBJ[] _obj_empty_array;
 
 	/**
-	 * @param itmes
+	 * @param items
 	 *            기초 데이터
 	 * @param rootID
 	 *            카테고리 root 아이디
@@ -48,7 +48,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 기존에 저장되어 있는 객체를 지우고, 데이터 객체 정보를 변경
-	 * 
+	 *
 	 * @param items
 	 */
 	public void setTreeItem(OBJ[] items) {
@@ -68,7 +68,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param baseRootCategoryID
 	 *            트리 시작 지점
 	 * @return 자식 객체 정보, 트리형태 아님
@@ -88,7 +88,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 트리 표시 순서대로 카테고리를 정렬 해서 가져옴
-	 * 
+	 *
 	 * @return 카테고리 전체 구조(루트 카테고리 제외 )
 	 */
 	public List<OBJ> getTree() {
@@ -97,7 +97,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 트리 표시 순서대로 카테고리를 정렬 해서 가져옴
-	 * 
+	 *
 	 * @param rootCategory
 	 *            시작되는 카테고리
 	 * @return 정렬된 카테고리 배열
@@ -108,7 +108,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 트리 표시 순서대로 카테고리를 정렬 해서 가져옴
-	 * 
+	 *
 	 * @param rootCategory
 	 *            시작되는 카테고리
 	 * @param rootSave
@@ -121,7 +121,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 트리 표시 순서대로 카테고리를 정렬 해서 가져옴
-	 * 
+	 *
 	 * @param rootCategory
 	 *            시작되는 카테고리
 	 * @param rootSave
@@ -136,7 +136,7 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 루트 카테고리리 부터 현재 카테고리까지 경로를 구한다.
-	 * 
+	 *
 	 * @param formCategoryID
 	 *            루트로 부터 formCategoryID카테고리 까지 경로를 구함
 	 * @return 카테고리 경로
@@ -217,10 +217,10 @@ public class TreeCollection<OBJ extends TreeItem<?>> {
 
 	/**
 	 * 재귀 호출을 통해 카테고리 아이디 저장
-	 * 
+	 *
 	 * @param cat
 	 *            카테고리 정보값
-	 * 
+	 *
 	 * @param currentCategoryID
 	 *            현재 카테고리 아이디
 	 * @param saveCategory

@@ -214,7 +214,7 @@ public class StringEtcUtil {
 	 *
 	 * @param str
 	 *            스트링
-	 * @param sz
+	 * @param limit
 	 *            자를 바이트수
 	 * @return 잘라진 스트링
 	 */

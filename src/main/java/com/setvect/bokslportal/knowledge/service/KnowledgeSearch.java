@@ -11,11 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KnowledgeSearch extends SearchListVo {
-
-	private String searchClassifyC;
-	private String searchWord;
-
-	public KnowledgeSearch(int startCursor, int returnCount) {
-		super(startCursor, returnCount);
-	}
+  /**
+   * 분류 코드
+   */
+  private String classifyC;
+  /**
+   * 검색어
+   */
+  private String word;
 }

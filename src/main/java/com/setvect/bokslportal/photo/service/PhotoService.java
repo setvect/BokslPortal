@@ -1,31 +1,11 @@
 package com.setvect.bokslportal.photo.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
+import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
@@ -34,9 +14,24 @@ import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.photo.repository.PhotoRepository;
 import com.setvect.bokslportal.photo.vo.PhotoVo;
 import com.setvect.bokslportal.photo.vo.PhotoVo.ShotDateType;
-
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Log4j2
@@ -153,7 +148,7 @@ public class PhotoService {
    * @param metadata 이미지 파일
    * @return GEO 좌표
    */
-  public static GeoCoordinates getGeo(final Metadata metadata) {
+  private static GeoCoordinates getGeo(final Metadata metadata) {
     GpsDirectory meta = metadata.getFirstDirectoryOfType(GpsDirectory.class);
 
     if (meta == null) {
@@ -217,7 +212,7 @@ public class PhotoService {
 
       Optional<LocalDateTime> shotDate = exifSubIFDDirectory.getTags().stream()
         .filter(tag -> tag != null && tag.getTagName().equals(BokslPortalConstant.Photo.DATE_TIME_ORIGINAL))
-        .map(tag -> tag.getDescription()).findAny()
+        .map(Tag::getDescription).findAny()
         .map(dateStr -> LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")));
 
       if (shotDate.isPresent()) {
@@ -331,5 +326,16 @@ public class PhotoService {
       return toRotate;
     }
     return toRotate;
+  }
+
+  /**
+   * 사진 파일을 삭제한다. DB에서 해당 정보를 삭제함
+   *
+   * @param photoId 사진 아이디
+   */
+  public void delete(String photoId) {
+    PhotoVo photo = photoRepository.getOne(photoId);
+    photo.getFullPath().delete();
+    photoRepository.delete(photo);
   }
 }

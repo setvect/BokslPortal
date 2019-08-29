@@ -10,8 +10,11 @@ import java.util.Set;
  */
 public final class BokslPortalConstant {
 
-  /** 테스트 실행 여부을 알수 있는 System property 이름 */
-  public static final String TEST_CHECK_PROPERTY_NAME = "test_run";;
+  /**
+   * 테스트 실행 여부을 알수 있는 System property 이름
+   */
+  public static final String TEST_CHECK_PROPERTY_NAME = "test_run";
+  ;
 
   /**
    * not instance.
@@ -44,33 +47,56 @@ public final class BokslPortalConstant {
 
   }
 
+  public static class Attach {
+    /**
+     * 파일 저장 기본 경로
+     */
+    public static final File BASE_DIR = new File(EnvirmentProperty.getString("com.setvect.bokslportal.attch.upload"));
+  }
+
   /**
    * 포토 서비스 관련 상수.
    */
   public static class Photo {
-    /** 이미지 저장 기본 경로. */
+    /**
+     * 이미지 저장 기본 경로.
+     */
     public static final File BASE_DIR = new File(EnvirmentProperty.getString("com.setvect.bokslportal.photo.upload"));
 
-    /** 썸네일 이미지 저장 기본 경로 */
+    /**
+     * 썸네일 이미지 저장 기본 경로
+     */
     public static final File THUMBNAIL_DIR = new File(
-        EnvirmentProperty.getString("com.setvect.bokslportal.photo.thumbnail"));
+      EnvirmentProperty.getString("com.setvect.bokslportal.photo.thumbnail"));
 
-    /** 이미지 회전 보정 저장 기본 경로 */
+    /**
+     * 이미지 회전 보정 저장 기본 경로
+     */
     public static final File ROTATE_DIR = new File(EnvirmentProperty.getString("com.setvect.bokslportal.photo.rotate"));
 
-    /** 허용 이미지 파일 확장자. */
+    /**
+     * 허용 이미지 파일 확장자.
+     */
     public static final Set<String> ALLOW = new HashSet<>(Arrays.asList("jpg", "png", "gif"));
 
-    /** GPS 좌표 추출 정규식 */
+    /**
+     * GPS 좌표 추출 정규식
+     */
     public static final String GPS_REGEX = "^(\\d*)\\W*(\\d*)\\W*((?:\\d|\\.)*)";
 
-    /** 메타정보 - 촬영일 */
+    /**
+     * 메타정보 - 촬영일
+     */
     public static final String DATE_TIME_ORIGINAL = "Date/Time Original";
 
-    /** 메타정보 - 위도 */
+    /**
+     * 메타정보 - 위도
+     */
     public static final String GPS_LATITUDE = "GPS Latitude";
 
-    /** 메타정보 - 경도 */
+    /**
+     * 메타정보 - 경도
+     */
     public static final String GPS_LONGITUDE = "GPS Longitude";
   }
 

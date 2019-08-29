@@ -1,49 +1,37 @@
 package com.setvect.bokslportal.note.repository;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.note.service.NoteCategorySearch;
 import com.setvect.bokslportal.note.vo.NoteCategoryVo;
+import com.setvect.bokslportal.util.page.PageQueryCondition;
+import com.setvect.bokslportal.util.page.PageUtil;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Collections;
 
 /**
  * 복슬노트 카테고리
  */
 public class NoteCategoryRepositoryImpl implements NoteCategoryRepositoryCustom {
-	@PersistenceContext
-	private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-	@Override
-	public GenericPage<NoteCategoryVo> getNoteCategoryPagingList(NoteCategorySearch pageCondition) {
-		String q = "select count(*) from NoteCategoryVo " + getCategoryWhereClause(pageCondition);
-		Query query = em.createQuery(q);
-		int totalCount = ((Long) query.getSingleResult()).intValue();
+  @Override
+  public GenericPage<NoteCategoryVo> getNoteCategoryPagingList(NoteCategorySearch searchCondition) {
+    StringBuffer selectQuery = new StringBuffer("select category FROM NoteCategoryVo category");
+    StringBuffer countQuery = new StringBuffer("select count(*) FROM NoteCategoryVo category");
 
-		q = " from NoteCategoryVo " + getCategoryWhereClause(pageCondition) + " order by name ";
-		query = em.createQuery(q);
-		query.setFirstResult(pageCondition.getStartCursor());
-		query.setMaxResults(pageCondition.getReturnCount());
+    StringBuffer where = new StringBuffer(" WHERE category.deleteF = 'N'");
 
-		@SuppressWarnings("unchecked")
-		List<NoteCategoryVo> resultList = query.getResultList();
+    countQuery.append(where);
+    selectQuery.append(where + " order by name");
 
-		GenericPage<NoteCategoryVo> resultPage = new GenericPage<NoteCategoryVo>(resultList, pageCondition.getStartCursor(),
-				totalCount, pageCondition.getReturnCount());
-		return resultPage;
-	}
+    PageQueryCondition pageQuery = new PageQueryCondition(Collections.emptyMap(), searchCondition);
+    pageQuery.setCountQuery(countQuery.toString());
+    pageQuery.setSelectQuery(selectQuery.toString());
 
-	/**
-	 * @param pageCondition
-	 *            검색 조건
-	 * @return select where 절
-	 */
-	private String getCategoryWhereClause(NoteCategorySearch pageCondition) {
-		String where = " where deleteF = 'N' ";
-		return where;
-	}
-
+    GenericPage<NoteCategoryVo> resultPage = PageUtil.excutePageQuery(em, pageQuery, NoteCategoryVo.class);
+    return resultPage;
+  }
 }

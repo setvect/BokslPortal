@@ -14,6 +14,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PhotoSearch extends SearchListVo {
+  public enum DateType {
+    /**
+     * 촬영일짜 조건 없이 전체 검색
+     */
+    ALL,
+    /**
+     * 촬영일짜 정보가 없는 사진 검색
+     */
+    NOTHING,
+    /**
+     * 촬영일짜 범위 선택
+     */
+    SELECT
+  }
 
   /**
    * 시작 날짜
@@ -33,7 +47,7 @@ public class PhotoSearch extends SearchListVo {
   /**
    * 촬영 날짜가 없는 사진 검색
    */
-  private boolean dateNoting;
+  private DateType dateType;
 
   /**
    * @return 종료일 + 23:59:59

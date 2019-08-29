@@ -57,16 +57,14 @@ public class PhotoController {
     PhotoVo item = photoRepository.getOne(photoId);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item));
   }
+
   /**
    * 원본 사진 정보를 byte로 전송
    *
-   * @param photoId
-   *            사진 아이디
-   * @param request
-   *            servletRequest
+   * @param photoId 사진 아이디
+   * @param request servletRequest
    * @return 이미지 byte
-   * @throws IOException
-   *             예외
+   * @throws IOException 예외
    */
   @GetMapping("/image")
   public byte[] getImage(@RequestParam("photoId") final String photoId, final HttpServletRequest request)
@@ -77,15 +75,11 @@ public class PhotoController {
   /**
    * 썸네일 사진 정보를 byte로 전송
    *
-   * @param photoId
-   *            사진 아이디
-   * @param width
-   *            넓이 픽셀
-   * @param height
-   *            높이 픽셀
+   * @param photoId 사진 아이디
+   * @param width   넓이 픽셀
+   * @param height  높이 픽셀
    * @return 섬네일 이미지 byte
-   * @throws IOException
-   *             파일 처리 오류
+   * @throws IOException 파일 처리 오류
    */
   @GetMapping("/thumbimage")
   public byte[] getThumb(@RequestParam("photoId") final String photoId, @RequestParam("w") final int width,
@@ -96,13 +90,11 @@ public class PhotoController {
 
 
   /**
-   * 썸네일 사진 정보를 byte로 전송
+   * 사진 정보를 byte로 전송
    *
-   * @param photoId
-   *            사진 아이디
+   * @param photoId 사진 아이디
    * @return 이미지 byte
-   * @throws IOException
-   *             파일 처리 오류
+   * @throws IOException 파일 처리 오류
    */
   @GetMapping("/orgimage")
   public byte[] getOrgImage(@RequestParam("photoId") final String photoId) throws IOException {
@@ -162,7 +154,7 @@ public class PhotoController {
    */
   @DeleteMapping(value = "item/{id}")
   public ResponseEntity<Void> deleteItem(@PathVariable("id") String photoId) {
-    photoRepository.deleteById(photoId);
+    photoService.delete(photoId);
     return ResponseEntity.noContent().build();
   }
 }

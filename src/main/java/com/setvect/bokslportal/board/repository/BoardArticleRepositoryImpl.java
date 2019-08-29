@@ -29,11 +29,11 @@ public class BoardArticleRepositoryImpl implements BoardArticleRepositoryCustom 
 		String where = " where ";
 		List<String> codes = pageCondition.getSearchCodes();
 		if (codes == null) {
-			where += " b.boardCode = " + ApplicationUtil.getSqlString(pageCondition.getSearchCode());
+			where += " b.boardCode = " + ApplicationUtil.makeSqlString(pageCondition.getSearchCode());
 		} else {
 			where += " b.boardCode in ( '___dummyCode'";
 			for (String c : codes) {
-				where += "," + ApplicationUtil.getSqlString(c);
+				where += "," + ApplicationUtil.makeSqlString(c);
 			}
 			where += " ) ";
 		}

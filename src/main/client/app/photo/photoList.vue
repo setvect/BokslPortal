@@ -1,8 +1,12 @@
 <template>
   <div>
     <div>
-      <b-form inline style="display:block; margin-bottom: 10px;">
-        <input type="text" class="form-control daterange _datepicker" readonly="readonly" />
+      <b-form inline style="margin: 59px 0 10px; 0">
+        <b-form-radio v-model="searchParam.dateType" value="ALL" class="mb-2 mr-sm-2 mb-sm-0">전체기간</b-form-radio>
+        <b-form-radio v-model="searchParam.dateType" value="NOTHING" class="mb-2 mr-sm-2 mb-sm-0">기간정보없음</b-form-radio>
+        <b-form-radio v-model="searchParam.dateType" value="SELECT" class="mb-2 mr-sm-2 mb-sm-0">기간선택</b-form-radio>
+        <input type="text" class="form-control _datepicker" readonly="readonly" style="margin-right:10px;" :style="{'background':!isDateRange ? '#ccc' : ''}" :disabled="!isDateRange" />
+        <b-input @keypress.13="nextProc()" v-model="searchParam.memo" style="margin-right:5px;" size="sm" placeholder="메모"></b-input>
         <b-button variant="primary" size="sm" @click="nextProc()">검색</b-button>
       </b-form>
     </div>
@@ -14,7 +18,7 @@
       </b-row>
     </b-container>
     <LightBox :images="page.list" ref="imageBox" :show-light-box="false"></LightBox>
-    <div>
+    <div style="padding-bottom: 20px;">
       <b-button @click="nextProc()" block variant="outline-secondary" size="sm">더보기({{page.list.length | numberFormat}}/{{page.totalCount | numberFormat}})</b-button>
     </div>
   </div>
@@ -33,6 +37,11 @@ export default {
   components: {
     LightBox,
   },
+  computed: {
+    isDateRange() {
+      return this.searchParam.dateType === 'select'
+    }
+  },
   data() {
     return {
       page: {
@@ -45,9 +54,11 @@ export default {
         { key: "editDate", label: "수정일", class: 'date-col' }
       ],
       searchParam: {
+        dateType: "ALL",
         from: moment().add('y', -1).valueOf(),
         to: moment().valueOf(),
         startCursor: 0,
+        memo: '',
       },
       isShowItem: false,
     };

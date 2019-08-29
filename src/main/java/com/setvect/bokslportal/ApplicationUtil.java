@@ -72,7 +72,7 @@ public abstract class ApplicationUtil {
    * @param word
    * @return sql String 값에 들어가도록 변경
    */
-  public static String getSqlString(String word) {
+  public static String makeSqlString(String word) {
     word = StringUtils.replace(word, "'", "''");
     word = word.trim();
     return new String("'" + word + "'");

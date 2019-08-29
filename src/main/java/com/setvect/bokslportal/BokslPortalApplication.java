@@ -2,6 +2,7 @@ package com.setvect.bokslportal;
 
 import java.net.URL;
 
+import com.setvect.bokslportal.memo.service.MemoService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ import com.setvect.bokslportal.util.BeanUtils;
 
 @SpringBootApplication
 // @ImportResource({ "classpath:/spring/context-transaction.xml" })
-@ImportResource({ "classpath:/spring/context-transaction.xml", "classpath:/spring/context-beans.xml" })
+@ImportResource({"classpath:/spring/context-transaction.xml", "classpath:/spring/context-beans.xml"})
 public class BokslPortalApplication {
   /**
    * 설정 파일 경로.
@@ -60,6 +61,9 @@ public class BokslPortalApplication {
       EnvirmentProperty.init(configUrl);
       UserService userService = BeanUtils.getBean(UserService.class);
       userService.init();
+
+      MemoService memoService = BeanUtils.getBean(MemoService.class);
+      memoService.init();
     };
   }
 

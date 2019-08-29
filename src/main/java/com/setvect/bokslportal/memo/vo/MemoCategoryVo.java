@@ -1,4 +1,4 @@
-package com.setvect.bokslportal.ctmemo.vo;
+package com.setvect.bokslportal.memo.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,24 +11,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 메모장 워크스페이스 정보
+ * 메모장 카테고리 정보
  */
 @Entity
-@Table(name = "TBCB_WORKSPACE")
+@Table(name = "TBCA_MEMO_CATEGORY")
 @Getter
 @Setter
-public class WorkspaceVo {
+public class MemoCategoryVo {
 	/**
 	 * 일련번호
 	 */
 	@Id
-	@Column(name = "WORKSPACE_SEQ", nullable = false)
+	@Column(name = "CATEGORY_SEQ", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int workspaceSeq;
+	private int categorySeq;
 
 	/**
-	 * 내용
+	 * 이름
 	 */
-	@Column(name = "TITLE", nullable = false, length = 200)
-	private String title;
+	@Column(name = "NAME", nullable = false, length = 200)
+	private String name;
 }

@@ -16,7 +16,7 @@ public class GenericPage<T> {
   private final int returnCount;
 
   /**
-   * @param objects
+   * @param list
    *          리스트
    * @param startCursor
    *          시작 항목(1부터 시작)
@@ -31,7 +31,7 @@ public class GenericPage<T> {
   }
 
   /**
-   * @param objects
+   * @param list
    *          리스트
    * @param startCursor
    *          시작 항목(1부터 시작)

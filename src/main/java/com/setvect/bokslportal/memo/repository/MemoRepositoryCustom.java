@@ -1,9 +1,9 @@
-package com.setvect.bokslportal.ctmemo.repository;
+package com.setvect.bokslportal.memo.repository;
 
 /**
  * 메모장 Repository
  */
-public interface CtmemoRepositoryCustom {
+public interface MemoRepositoryCustom {
 	/**
 	 * z-index 최대 값
 	 *

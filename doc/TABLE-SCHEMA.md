@@ -22,7 +22,7 @@ ROLE|권한 이름| |varchar|50|Y|
 
 
 ### 게시판
-- TBBA_BOARD_MANAGER: 게시판 설정 정보 
+- TBBA_BOARD_MANAGER: 게시판 설정 정보
 
 Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
@@ -56,7 +56,14 @@ DELETE_F|삭제여부| |varchar|1|Y|Y, N
 
 ### 복슬메모
 
-- TBCA_CTMEMO: 메모장
+- TBCA_MEMO_CATEGORY: 메모장 워크스페이스
+
+Column Name | Attribute Name | Key | Type | Len | Not Null | Description
+----------- | -------------- | --- | ---- | --- | -------- | -----------
+CATEGORY_SEQ|카테고리 일련번호|PK|integer| |Y|
+NAME|이름| |varchar|200|Y|
+
+- TBCB_MEMO: 메모장
 
 Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
@@ -72,17 +79,11 @@ POSITION_Y|좌표 Y| |integer|1|Y|레이어 top 소성 값
 UPT_DATE|마지막 수정일| |DATE|1| |
 REG_DATE|처음 등록일| |DATE|1| |
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
-WORKSPACE_SEQ|워크스페이스 일련번호| |integer| |Y|
+CATEGORY_SEQ|카테고리 일련번호| |integer| |Y|
 
-- TBCB_WORKSPACE: 메모장 워크스페이스
-
-Column Name | Attribute Name | Key | Type | Len | Not Null | Description
------------ | -------------- | --- | ---- | --- | -------- | -----------
-WORKSPACE_SEQ|워크스페이스 일련번호|PK|integer| |Y|
-TITLE|제목| |varchar|200|Y|
 
 ### 복슬노트
-- TBDA_NOTE_CATEGORY: 카테고리 
+- TBDA_NOTE_CATEGORY: 카테고리
 
 Column Name | Attribute Ntame | Key | Type | Len | Not Null | Description
 ----------- | -------------- | --- | ---- | --- | -------- | -----------
@@ -195,4 +196,3 @@ ORDER_NO|순서| |integer| |Y|
 
 
 
- 

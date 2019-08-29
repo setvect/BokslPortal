@@ -35,9 +35,9 @@ public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
       bindParameter.put("word", "%" + searchCondition.getMemo() + "%");
     }
 
-    if (searchCondition.isDateNoting()) {
+    if (searchCondition.getDateType() == PhotoSearch.DateType.NOTHING) {
       where.append(" AND photo.shotDate IS NULL ");
-    } else if (searchCondition.isDateBetween()) {
+    } else if (searchCondition.getDateType() == PhotoSearch.DateType.SELECT) {
       where.append(" AND photo.shotDate BETWEEN :from and :to ");
       bindParameter.put("from", searchCondition.getFrom());
       bindParameter.put("to", searchCondition.getEndLast());

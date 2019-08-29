@@ -19,24 +19,20 @@ public class NoteSearch extends SearchListVo {
     REG, UPD;
   }
 
-  private int searchCategorySeq;
-  private String searchTitle;
-  private String searchContent;
+  private int categorySeq;
+  private String title;
+  private String content;
   private NoteSort sort;
-
-  public NoteSearch(int startCursor, int returnCount) {
-    super(startCursor, returnCount);
-  }
 
   /**
    * @return 검색 단어중 값이 있는 하나를 반환. 아무도 없으면 null. 2개 이상 값이 있을 경우 어떤걸 반환 할지 모름
    */
   public String getWord() {
-    if (!StringUtils.isEmpty(searchTitle)) {
-      return searchTitle;
+    if (!StringUtils.isEmpty(title)) {
+      return title;
     }
-    if (!StringUtils.isEmpty(searchContent)) {
-      return searchContent;
+    if (!StringUtils.isEmpty(content)) {
+      return content;
     }
     return null;
   }

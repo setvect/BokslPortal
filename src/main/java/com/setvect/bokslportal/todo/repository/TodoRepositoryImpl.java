@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.setvect.bokslportal.ApplicationUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import com.setvect.bokslportal.common.GenericPage;
@@ -31,7 +32,7 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
 
     if (StringUtils.isNotBlank(searchCondition.getWord())) {
       where.append(" AND todo.content like :word");
-      bindParameter.put("word", "%" + searchCondition.getWord() + "%");
+      bindParameter.put("word", ApplicationUtil.makeLikeString(searchCondition.getWord()));
     }
     where.append(" AND todo.statusType in :statusType");
     bindParameter.put("statusType", searchCondition.getStatusType());

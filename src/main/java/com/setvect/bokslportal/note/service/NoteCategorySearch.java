@@ -7,8 +7,4 @@ import com.setvect.bokslportal.common.SearchListVo;
  */
 public class NoteCategorySearch extends SearchListVo {
 
-  public NoteCategorySearch(int startCursor, int returnCount) {
-    super(startCursor, returnCount);
-  }
-
 }
