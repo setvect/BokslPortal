@@ -1,23 +1,24 @@
-const memo = {
+const note = {
   namespaced: true,
   state: {
-    categoryList: null
+    categoryTree: null
   },
 
   mutations: {
-    setCategoryList: (state, categoryList) => {
-      state.categoryList = categoryList;
+    setTree: (state, categoryTree) => {
+      state.categoryTree = categoryTree;
     }
   },
 
   actions: {
-    loadCategory({ commit }) {
+    // 로그인
+    loadTree({ commit }) {
       return new Promise((resolve, reject) => {
         VueUtil.get(
-          "/memo/category/list",
+          "/note/tree",
           {},
           res => {
-            commit("setCategoryList", res.data);
+            commit("setTree", res.data);
             resolve();
           },
           {
@@ -31,4 +32,4 @@ const memo = {
   }
 };
 
-export default memo;
+export default note;

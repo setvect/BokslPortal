@@ -97,7 +97,7 @@ export default {
       this.loadCategoryProc();
     }
     else {
-      store.dispatch('memo/loadCategory').then((r) => {
+      store.dispatch('memo/loadCategory').then(() => {
         this.loadCategoryProc();
       });
     }

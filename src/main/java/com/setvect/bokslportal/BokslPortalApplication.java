@@ -3,6 +3,7 @@ package com.setvect.bokslportal;
 import java.net.URL;
 
 import com.setvect.bokslportal.memo.service.MemoService;
+import com.setvect.bokslportal.note.service.NoteService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -64,6 +65,9 @@ public class BokslPortalApplication {
 
       MemoService memoService = BeanUtils.getBean(MemoService.class);
       memoService.init();
+
+      NoteService noteService = BeanUtils.getBean(NoteService.class);
+      noteService.init();
     };
   }
 

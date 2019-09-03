@@ -20,7 +20,7 @@
         <b-link @click="deleteProc(data.noteSeq)">삭제</b-link>
       </template>
     </b-table>
-    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
+    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
     <b-row>
       <b-col style="text-align:right">
         <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
@@ -31,6 +31,7 @@
 
 <script>
 import noteCommon from "./mixin-note.js";
+import store from "../../store/index.js";
 
 export default {
   mixins: [noteCommon],
@@ -77,7 +78,8 @@ export default {
       console.log("page :", page);
     }
   },
-  mounted(){
+  mounted() {
+    store.dispatch('note/loadTree');
   }
 };
 </script>
