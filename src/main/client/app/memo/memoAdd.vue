@@ -2,12 +2,19 @@
   <div>
     <h5>글 등록</h5>
     <form autocomplete="off">
-      <b-form-group>
-        <b-form-textarea v-model="item.content" v-validate="{ required: true}" :state="validateState('item.content')" name="item.content" data-vv-as="내용" placeholder="내용 넣어라" style="height:300px;"></b-form-textarea>
+      <b-form-group label="카테고리">
+        <b-form-select v-model="item.categorySeq" size="sm">
+          <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
+        </b-form-select>
+      </b-form-group>
+
+      <b-form-group label="내용">
+        <b-form-textarea v-model="item.content" v-validate="{ required: true}" :state="validateState('content')" name="content" data-vv-as="내용" placeholder="내용 넣어라" style="height:300px;"></b-form-textarea>
+        <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
       </b-form-group>
       <b-row>
         <b-col>
-          <b-button @click="listPage()" type="button" variant="info">취소</b-button>
+          <b-button @click="listPage($route.query.categorySeq)" type="button" variant="info">취소</b-button>
         </b-col>
         <b-col cols="auto">
           <b-button @click="submitProc()" type="button" variant="info">확인</b-button>
@@ -18,29 +25,69 @@
 </template>
 <script>
 import comFunction from "../commonFunction.js";
-import memoCommon from "./mixin-memo.js";
+import store from "../../store/index.js";
 
 export default {
-  mixins: [comFunction, memoCommon],
+  mixins: [comFunction],
   data() {
     return {
-      item: {
-        content: "우리집 강아지\n복슬강아지",
-      },
+      item: {},
+      categoryList: [
+      ]
     };
   },
   methods: {
+    init() {
+      this.categoryList = store.state.memo.categoryList;
+
+      if (this.$route.query.memoSeq) {
+        VueUtil.get(`/memo/item/${this.$route.query.memoSeq}`, {}, (res) => {
+          this.item = res.data;
+          this.item.categorySeq = this.$route.query.categorySeq;
+        });
+      } else {
+        this.item = {};
+        this.item.categorySeq = this.$route.query.categorySeq;
+      }
+    },
+    listPage(categorySeq) {
+      this.$router.push({ name: "memoList", query: { categorySeq: categorySeq } });
+    },
+
     submitProc() {
       this.$validator.validate().then((result) => {
-        if (result) {
-          alert('Form Submitted!');
+        if (!result) {
           return;
         }
-        alert('Correct them errors!');
+
+        if (this.item.memoSeq) {
+          this.editProc();
+        } else {
+          this.addProc();
+        }
+      });
+    },
+    addProc() {
+      VueUtil.post("/memo/item", this.item, (res) => {
+        this.listPage(this.$route.query.categorySeq);
+      });
+    },
+    editProc() {
+      this.item.category = null;
+      VueUtil.put("/memo/item", this.item, (res) => {
+        this.listPage(this.$route.query.categorySeq);
       });
     },
   },
   mounted() {
+    if (store.state.memo.categoryList) {
+      this.init();
+    }
+    else {
+      store.dispatch('memo/loadCategory').then((r) => {
+        this.init();
+      });
+    }
   }
 };
 </script>

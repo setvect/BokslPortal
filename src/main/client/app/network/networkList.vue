@@ -2,7 +2,7 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-input v-model="searchParam.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input v-model="searchParam.word" @keypress.13="search()" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm" style="margin-right:30px;" @click="search()">검색</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>
