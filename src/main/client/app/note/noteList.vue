@@ -67,6 +67,11 @@ export default {
       }
     };
   },
+  watch: {
+    '$route.query.categorySeq'() {
+      console.log("################", this.$route.query.categorySeq);
+    }
+  },
   methods: {
     addPage() {
       this.$router.push({ name: "noteAdd" });
@@ -79,7 +84,7 @@ export default {
     }
   },
   mounted() {
-    store.dispatch('note/loadTree');
+    console.log("mounted..");
   }
 };
 </script>

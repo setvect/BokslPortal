@@ -89,25 +89,7 @@
             <i class="fa fa-edit"></i> 복슬노트
             <span class="fa fa-chevron-down"></span>
           </a>
-          <ul class="nav child_menu">
-            <li>
-              <router-link :to="{name: 'note'}">노트1</router-link>
-            </li>
-            <li>
-              <a href="#">공부</a>
-              <ul class="nav child_menu">
-                <li>
-                  <a href="#">프로그래밍</a>
-                </li>
-                <li>
-                  <a href="#">음악</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">복슬이</a>
-            </li>
-          </ul>
+          <note-tree-menu :list="noteCategoryTree" />
         </li>
         <li>
           <a>
@@ -170,58 +152,30 @@
   </div>
   <!-- /sidebar menu -->
 </template>
+
 <script>
+import store from "../store/index.js";
+import noteTreeMenu from "./noteTreeMenu";
+import pageBody from '../custom.js'
+
 export default {
   data() {
     return {
-      tableData: [{
-        boardCode: 'MainCode',
-        name: 'SubCode1',
-        codeValue: '값1',
-        orderNo: 10,
-      }, {
-        boardCode: 'MainCode',
-        name: 'SubCode2',
-        codeValue: '값2',
-        orderNo: 10,
-      }, {
-        boardCode: 'MainCode',
-        name: 'SubCode3',
-        codeValue: '값3',
-        orderNo: 10,
-      }, {
-        boardCode: 'MainCode',
-        name: 'SubCode4',
-        codeValue: '값4',
-        orderNo: 10,
-      }],
-      dialogFormVisible: false,
-      form: {
-        boardCode: 'ROOT',
-        name: '',
-        codeValue: '',
-        orderNo: 10,
-      },
-      formLabelWidth: '120px',
-      type: 'code',
+      noteCategoryTree: [],
     }
   },
+  components: {
+    noteTreeMenu
+  },
   methods: {
-    edit() {
-      console.log("수정")
-    },
-    remove() {
-      console.log("삭제")
-    },
-    changePage(page) {
-      console.log("page", page);
-    },
-    addPage() {
-      this.$router.push({ name: 'board-manager-add' })
-    },
-    readPage() {
-      this.$router.push({ name: 'board-manager-read' })
-    }
+  },
+  mounted() {
+    store.dispatch('note/loadTree').then(() => {
+      this.noteCategoryTree = store.state.note.categoryTree.children;
+      this.$nextTick(() => {
+        pageBody.menuClickEvent();
+      });
+    });
   }
 }
 </script>
