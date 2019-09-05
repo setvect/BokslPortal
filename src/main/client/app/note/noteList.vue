@@ -70,6 +70,10 @@ export default {
   watch: {
     '$route.query.categorySeq'() {
       console.log("################", this.$route.query.categorySeq);
+      store.state.note.categoryTree.children[0].data.name = "aaaaaaaaa";
+      store.state.note.categoryTree.children[0].children =[{"data":{"categorySeq":100,"name":"복슬ㅋㅋㅋ","regDate":1567499071022,"deleteF":false,"root":false},"children":[]}];
+
+      console.log('store.state.note.categoryTree :', store.state.note.categoryTree);
     }
   },
   methods: {
