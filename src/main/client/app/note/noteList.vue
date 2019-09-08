@@ -7,7 +7,9 @@
           <option value="content">내용</option>
         </b-form-select>
         <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
-        <b-button variant="primary" size="sm">검색</b-button>
+        <b-button variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
+        <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
+        <b-button @click="categoryForm()" size="sm" type="button" variant="outline-primary" style="float:right">카테고리</b-button>
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="listData">
@@ -21,20 +23,32 @@
       </template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
-    <b-row>
-      <b-col style="text-align:right">
-        <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
-      </b-col>
-    </b-row>
+    <b-modal ref="categoryForm" title="카테고리 분류" @shown="shownAddEvent">
+      <div>
+        <b-form autocomplete="off" @submit.stop.prevent>
+          <Tree :data="categoryTree" draggable>
+            <div slot-scope="{data, store}">
+              <template>
+                <b v-if="data.children && data.children.length" @click="store.toggleOpen(data)">{{data.open ? '-' : '+'}}&nbsp;</b>
+                <span>{{data.data.name}}</span>
+              </template>
+            </div>
+          </Tree>
+          <b-button @click="addChild" size="sm" type="button" variant="primary">Add child</b-button>
+        </b-form>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import noteCommon from "./mixin-note.js";
 import store from "../../store/index.js";
+import { DraggableTree } from 'vue-draggable-nested-tree';
 
 export default {
   mixins: [noteCommon],
+  components: { Tree: DraggableTree },
   data() {
     return {
       fields: [
@@ -64,16 +78,19 @@ export default {
       page: {
         total: 300,
         perPage: 10
-      }
+      },
+      categoryTree: [],
+      tree2data: [
+        { text: 'node 1' },
+        { text: 'node 2' },
+        { text: 'node 3' },
+        { text: 'node 4' },
+      ],
     };
   },
   watch: {
     '$route.query.categorySeq'() {
-      console.log("################", this.$route.query.categorySeq);
-      store.state.note.categoryTree.children[0].data.name = "aaaaaaaaa";
-      store.state.note.categoryTree.children[0].children =[{"data":{"categorySeq":100,"name":"복슬ㅋㅋㅋ","regDate":1567499071022,"deleteF":false,"root":false},"children":[]}];
-
-      console.log('store.state.note.categoryTree :', store.state.note.categoryTree);
+      console.log('this.$route.query.categorySeq :', this.$route.query.categorySeq);
     }
   },
   methods: {
@@ -85,19 +102,52 @@ export default {
     },
     changePage(page) {
       console.log("page :", page);
-    }
+    },
+    categoryForm() {
+      console.log("categoryForm");
+      this.$refs['categoryForm'].show();
+    },
+    // 입력 창 오픈시
+    shownAddEvent(event) {
+      console.log("shownAddEvent");
+    },
+    // add child to tree2
+    addChild() {
+      this.tree2data[0].children.push({ text: 'child' })
+    },
   },
   mounted() {
-    console.log("mounted..");
+    store.dispatch('note/loadTree').then(() => {
+      this.categoryTree = store.state.note.categoryTree.children;
+    });
   }
 };
 </script>
 
-<style >
-  .index-col{
-    width: 50px;
-  }
-  .function-col{
-    width: 140px;
-  }
+<style lang="scss">
+.index-col {
+  width: 50px;
+}
+.function-col {
+  width: 140px;
+}
+.he-tree {
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+.tree-node-inner {
+  padding: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.draggable-placeholder-inner {
+  border: 1px dashed #0088f8;
+  box-sizing: border-box;
+  background: rgba(0, 136, 249, 0.09);
+  color: #0088f9;
+  text-align: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
 </style>
