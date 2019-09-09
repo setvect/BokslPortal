@@ -113,7 +113,12 @@ export default {
     },
     // add child to tree2
     addChild() {
-      this.tree2data[0].children.push({ text: 'child' })
+
+      this.categoryTree.push({ data: { "categorySeq": 10, "name": "카테고리122", "regDate": 1567499071022, "deleteF": false, "root": false }, children: [] });
+
+
+      console.log('this.categoryTree[0] :', this.categoryTree[0]);
+      // this.categoryTree[0].children.push({ text: 'child' })
     },
   },
   mounted() {
