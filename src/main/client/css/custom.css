@@ -533,3 +533,8 @@ a.user-profile {
   border: 1px solid #A878AF;
   outline: none
 }
+.btn-xs{
+  line-height: 1.1 !important;
+  font-size:0.7rem !important;
+  padding: 0.20rem 0.3rem !important;
+}

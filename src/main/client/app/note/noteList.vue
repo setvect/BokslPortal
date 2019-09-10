@@ -26,15 +26,16 @@
     <b-modal ref="categoryForm" title="카테고리 분류" @shown="shownAddEvent">
       <div>
         <b-form autocomplete="off" @submit.stop.prevent>
-          <Tree :data="categoryTree" draggable>
+          <Tree :data="categoryTree" style="margin-bottom:10px;" draggable>
             <div slot-scope="{data, store}">
               <template>
-                <b v-if="data.children && data.children.length" @click="store.toggleOpen(data)">{{data.open ? '-' : '+'}}&nbsp;</b>
+                <strong v-if="data.children && data.children.length" @click="store.toggleOpen(data)">{{data.open ? '-' : '+'}}&nbsp;</strong>
                 <span>{{data.data.name}}</span>
+                <b-button @click="store.deleteNode(data)" class="btn-xs" type="button" variant="info" style="float:right;">삭제</b-button>
               </template>
             </div>
           </Tree>
-          <b-button @click="addChild" size="sm" type="button" variant="primary">Add child</b-button>
+          <b-button @click="addChild" size="sm" type="button" variant="primary">추가</b-button>
         </b-form>
       </div>
     </b-modal>
@@ -115,10 +116,7 @@ export default {
     addChild() {
 
       this.categoryTree.push({ data: { "categorySeq": 10, "name": "카테고리122", "regDate": 1567499071022, "deleteF": false, "root": false }, children: [] });
-
-
       console.log('this.categoryTree[0] :', this.categoryTree[0]);
-      // this.categoryTree[0].children.push({ text: 'child' })
     },
   },
   mounted() {
