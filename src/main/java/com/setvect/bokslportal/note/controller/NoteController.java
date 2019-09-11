@@ -1,9 +1,6 @@
 package com.setvect.bokslportal.note.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.bohnman.squiggly.Squiggly;
-import com.github.bohnman.squiggly.context.provider.AbstractSquigglyContextProvider;
-import com.github.bohnman.squiggly.web.RequestSquigglyContextProvider;
 import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
 import com.setvect.bokslportal.note.repository.NoteRepository;
@@ -14,10 +11,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/note/")
@@ -49,7 +49,16 @@ public class NoteController {
 
 
   // ============== 수정 ==============
-
+  /**
+   * @param category
+   *          할일
+   * @return
+   */
+  @PutMapping("category")
+  public ResponseEntity<Void> applyCategory(@RequestBody NoteCategoryVo category) {
+    System.out.println(category);
+    return ResponseEntity.noContent().build();
+  }
 
   // ============== 삭제 ==============
 }

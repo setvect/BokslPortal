@@ -1,5 +1,6 @@
 package com.setvect.bokslportal.util;
 
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;

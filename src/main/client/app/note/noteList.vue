@@ -23,10 +23,10 @@
       </template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
-    <b-modal ref="categoryForm" title="카테고리 분류" @shown="shownAddEvent">
+    <b-modal ref="categoryForm" title="카테고리 분류" @ok="applyCategory">
       <div>
         <b-form autocomplete="off" @submit.stop.prevent>
-          <Tree :data="categoryTree" style="margin-bottom:10px;" draggable>
+          <Tree ref="tree" :data="categoryTree" style="margin-bottom:10px;" draggable>
             <div slot-scope="{data, store}">
               <template>
                 <strong v-if="data.children && data.children.length" @click="store.toggleOpen(data)">{{data.open ? '-' : '+'}}&nbsp;</strong>
@@ -108,16 +108,33 @@ export default {
       console.log("categoryForm");
       this.$refs['categoryForm'].show();
     },
-    // 입력 창 오픈시
-    shownAddEvent(event) {
-      console.log("shownAddEvent");
-    },
     // add child to tree2
     addChild() {
-
-      this.categoryTree.push({ data: { "categorySeq": 10, "name": "카테고리122", "regDate": 1567499071022, "deleteF": false, "root": false }, children: [] });
-      console.log('this.categoryTree[0] :', this.categoryTree[0]);
+      this.categoryTree.push({ data: { "categorySeq": 0, "name": "카테고리122", "regDate": 1567499071022, "deleteF": false, "root": false }, children: [] });
     },
+    applyCategory() {
+      let pureCategory = this.$refs["tree"].pure(this.$refs["tree"].rootData, true).children;
+      let childrenCategory = [];
+      let rootCategory = $.extend(true, {}, store.state.note.categoryTree.data);
+      this.processCategory(pureCategory, rootCategory);
+
+      console.log('rootCategory :', rootCategory);
+
+      let json = JSON.stringify(rootCategory);
+      VueUtil.put("/note/category", json, (res) => {
+        console.log('res :', res);
+        this.$refs['categoryForm'].hide();
+      }, { "call-type": "json" });
+    },
+    // NoteCategoryVo 형태로 값을 구성함. 재귀호출
+    processCategory(categoryList, accCategory) {
+      accCategory.children = [];
+      categoryList.forEach((category) => {
+        let data = category.data;
+        accCategory.children.push(data);
+        this.processCategory(category.children, data);
+      });
+    }
   },
   mounted() {
     store.dispatch('note/loadTree').then(() => {
