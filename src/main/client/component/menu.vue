@@ -154,9 +154,11 @@
 </template>
 
 <script>
+import Vue from "vue";
 import store from "../store/index.js";
 import noteTreeMenu from "./noteTreeMenu";
-import pageBody from '../custom.js'
+import pageBody from '../custom.js';
+import EventBus from "../utils/event-bus.js";
 
 export default {
   data() {
@@ -168,13 +170,21 @@ export default {
     noteTreeMenu
   },
   methods: {
+    loadNoteCategory() {
+      console.log("loadNoteCategory call.");
+      store.dispatch('note/loadTree').then(() => {
+        this.noteCategoryTree = store.state.note.categoryTree.children;
+        this.$nextTick(() => {
+          pageBody.menuClickEvent();
+        });
+      });
+    }
   },
   mounted() {
-    store.dispatch('note/loadTree').then(() => {
-      this.noteCategoryTree = store.state.note.categoryTree.children;
-      this.$nextTick(() => {
-        pageBody.menuClickEvent();
-      });
+    this.loadNoteCategory();
+    // 노트 카테고리가 변경될 경우 이벤트 발생시켜 변경사항 반영
+    EventBus.$on('reloadNoteCategory', () => {
+      this.loadNoteCategory();
     });
   }
 }

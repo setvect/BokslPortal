@@ -23,7 +23,6 @@
   </div>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
 import knowledgeCommon from "./mixin-knowledge.js";
 import CKEditor from '@ckeditor/ckeditor5-vue';
 

@@ -51,7 +51,7 @@
               v-model="item.content"
               name="content"
               v-validate="{ required: true}"
-              :state="validateState('content')"
+              state="validateState('content')"
               id="input-content"
               data-vv-as="내용 "
             ></b-form-input>

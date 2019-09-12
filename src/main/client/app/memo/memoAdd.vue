@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
 import store from "../../store/index.js";
 
 export default {

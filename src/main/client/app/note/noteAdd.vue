@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
 import noteCommon from "./mixin-note.js";
 import CKEditor from '@ckeditor/ckeditor5-vue';
 

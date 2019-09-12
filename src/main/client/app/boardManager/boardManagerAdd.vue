@@ -45,7 +45,6 @@
   </div>
 </template>
 <script>
-import comFunction from '../commonFunction.js'
 import boardCommon from './mixin-boardManager.js'
 
 export default {

@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import comFunction from "../commonFunction.js";
 import boardCommon from "./mixin-board.js";
 // require styles
 import 'quill/dist/quill.core.css'
