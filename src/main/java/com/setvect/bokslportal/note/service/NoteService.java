@@ -12,7 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Log4j2
@@ -75,7 +77,7 @@ public class NoteService {
    * @return 분류 폴더 구조
    */
   public TreeNode<NoteCategoryVo> getCategoryTree() {
-    List<NoteCategoryVo> folderAll = categoryRepository.findAll();
+    List<NoteCategoryVo> folderAll = categoryRepository.listCategory();
 
     // 일련번호와 부모 아이디가 같은 경우는 root 폴더.
     Optional<NoteCategoryVo> data = folderAll.stream().filter(NoteCategoryVo::isRoot).findAny();
@@ -94,8 +96,8 @@ public class NoteService {
 
   /**
    * 전체 폴더에서 rootNode의 자식을 찾음
-   *  @param rootNode
-   *            트리구조 노드
+   *
+   * @param rootNode             트리구조 노드
    * @param folderListByParentId
    */
   private void findSubFolder(final TreeNode<NoteCategoryVo> rootNode,
@@ -110,4 +112,52 @@ public class NoteService {
       findSubFolder(currentNode, folderListByParentId);
     });
   }
+
+  /**
+   * 모튼 카테고리 정보를 변경. <br>
+   * 기존에 저장된 카테고리 중 category에 없는 카테고리는 삭제함.
+   *
+   * @param category 상하위 관계를 같는 카테고리
+   */
+  public void updateCategory(NoteCategoryVo category) {
+    List<NoteCategoryVo> allCategory = categoryRepository.listCategory();
+
+    category.setParent(category);
+    applyParent(category, category.getChildren());
+    categoryRepository.save(category);
+
+    Stream<NoteCategoryVo> categoryStream = flat(category);
+    Set<Integer> currentCategorySet = categoryStream.map(cat -> cat.getCategorySeq()).collect(Collectors.toSet());
+
+    List<NoteCategoryVo> deleteCategory = allCategory.stream().filter(cat -> !currentCategorySet.contains(cat.getCategorySeq())).map(cat -> {
+      cat.setDeleteF(true);
+      return cat;
+    }).collect(Collectors.toList());
+
+    categoryRepository.saveAll(deleteCategory);
+  }
+
+  /**
+   * @param category
+   * @return 계층형 카테고리를 선형적으로 나눔
+   */
+  private Stream<NoteCategoryVo> flat(NoteCategoryVo category) {
+    return Stream.concat(
+      Stream.of(category),
+      category.getChildren().stream().flatMap(cat -> flat(cat)));
+  }
+
+  /**
+   * 부모 카테고리 지정
+   *
+   * @param parent   부모 카테고리
+   * @param children
+   */
+  private void applyParent(NoteCategoryVo parent, List<NoteCategoryVo> children) {
+    children.forEach(category -> {
+      category.setParent(parent);
+      applyParent(category, category.getChildren());
+    });
+  }
+
 }

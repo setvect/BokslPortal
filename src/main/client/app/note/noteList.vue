@@ -30,8 +30,10 @@
             <div slot-scope="{data, store}">
               <template>
                 <strong v-if="data.children && data.children.length" @click="store.toggleOpen(data)">{{data.open ? '-' : '+'}}&nbsp;</strong>
-                <span>{{data.data.name}}</span>
-                <b-button @click="store.deleteNode(data)" class="btn-xs" type="button" variant="info" style="float:right;">삭제</b-button>
+                <span v-if="data.data">
+                  <input type="text" v-model="data.data.name" />
+                  <b-button @click="store.deleteNode(data)" class="btn-xs" type="button" variant="info" style="float:right;">삭제</b-button>
+                </span>
               </template>
             </div>
           </Tree>

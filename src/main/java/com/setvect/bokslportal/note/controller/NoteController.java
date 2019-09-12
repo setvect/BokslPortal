@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/note/")
@@ -49,14 +52,14 @@ public class NoteController {
 
 
   // ============== 수정 ==============
+
   /**
-   * @param category
-   *          할일
+   * @param category 할일
    * @return
    */
   @PutMapping("category")
   public ResponseEntity<Void> applyCategory(@RequestBody NoteCategoryVo category) {
-    System.out.println(category);
+    noteService.updateCategory(category);
     return ResponseEntity.noContent().build();
   }
 
