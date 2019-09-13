@@ -12,6 +12,11 @@
         <b-button @click="categoryForm()" size="sm" type="button" variant="outline-primary" style="float:right">카테고리</b-button>
       </b-form>
     </div>
+    <div>
+      <ol class="breadcrumb">
+        <li v-for="category in categoryPath" :key="category.categorySeq" class="breadcrumb-item" :class="{'active': category.categorySeq == currentCategorySeq}">{{category.name}}</li>
+      </ol>
+    </div>
     <b-table :bordered="true" hover :fields="fields" :items="listData">
       <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
       <template slot="title" slot-scope="data">
@@ -23,20 +28,20 @@
       </template>
     </b-table>
     <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
-    <category ref="categoryCmp" />
+    <note-category ref="categoryCmp" />
   </div>
 </template>
 
 <script>
 import noteCommon from "./mixin-note.js";
-import categoryComponent from "./noteCategory.vue";
+import noteCategoryComponent from "./noteCategory.vue";
 import store from "../../store/index.js";
 import { DraggableTree } from 'vue-draggable-nested-tree';
 
 export default {
   mixins: [noteCommon],
   components: {
-    category: categoryComponent
+    noteCategory: noteCategoryComponent
   },
   data() {
     return {
@@ -68,11 +73,14 @@ export default {
         total: 300,
         perPage: 10
       },
+      currentCategorySeq: 0,
+      categoryPath: []
     };
   },
   watch: {
     '$route.query.categorySeq'() {
-      console.log('this.$route.query.categorySeq :', this.$route.query.categorySeq);
+      this.currentCategorySeq = this.$route.query.categorySeq;
+      this.getCategoryPath();
     }
   },
   methods: {
@@ -88,8 +96,15 @@ export default {
     categoryForm() {
       this.$refs['categoryCmp'].open();
     },
+    getCategoryPath() {
+      VueUtil.get(`/note/category-path/${this.currentCategorySeq}`, {}, (res) => {
+        this.categoryPath = res.data;
+      });
+    }
   },
   mounted() {
+    this.currentCategorySeq = this.$route.query.categorySeq;
+    this.getCategoryPath();
   }
 };
 </script>

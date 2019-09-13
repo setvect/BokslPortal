@@ -45,11 +45,6 @@ export default {
       categoryTree: [],
     };
   },
-  watch: {
-    '$route.query.categorySeq'() {
-      console.log('this.$route.query.categorySeq :', this.$route.query.categorySeq);
-    }
-  },
   methods: {
     open() {
       store.dispatch('note/loadTree').then(() => {

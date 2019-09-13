@@ -13,8 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 @Log4j2
@@ -93,7 +96,6 @@ public class NoteService {
     return rootNode;
   }
 
-
   /**
    * 전체 폴더에서 rootNode의 자식을 찾음
    *
@@ -112,6 +114,20 @@ public class NoteService {
       findSubFolder(currentNode, folderListByParentId);
     });
   }
+
+  /**
+   * @param categorySeq 기준 카테고리
+   * @return ROOT부터 기준 카테고리 까지 경로 제공
+   */
+  public List<NoteCategoryVo> geCategoryPath(int categorySeq) {
+    TreeNode<NoteCategoryVo> tree = getCategoryTree();
+    Spliterator<TreeNode<NoteCategoryVo>> spliterator = Spliterators.spliteratorUnknownSize(tree.iterator(), Spliterator.ORDERED);
+    TreeNode<NoteCategoryVo> baseCategory = StreamSupport.stream(spliterator, false)
+      .filter(category -> category.getData().getCategorySeq() == categorySeq).findAny().get();
+
+    return baseCategory.getPath();
+  }
+
 
   /**
    * 모튼 카테고리 정보를 변경. <br>
