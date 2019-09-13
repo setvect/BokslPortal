@@ -53,7 +53,7 @@ public class NetworkController {
   // ------- 등록
 
   /**
-   * @param network 할일
+   * @param network 항목
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
@@ -67,7 +67,7 @@ public class NetworkController {
   // ------- 수정
 
   /**
-   * @param network 일일
+   * @param network 항목
    * @return 할일 정보
    */
   @PutMapping("item")

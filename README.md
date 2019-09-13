@@ -52,8 +52,9 @@ npm run build
 
 ```
 ### 빌드 방법
+1. `npm run prod`
 1. `gradle clean`
-2. `gradle bootWar` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 bootWar`
+1. `gradle bootWar` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 bootWar`
 
 ### 개발 실행
 
