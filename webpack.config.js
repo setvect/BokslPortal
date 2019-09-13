@@ -6,15 +6,21 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = env => {
   let clientPath = path.resolve(__dirname, "src/main/client");
-  let outputPath = path.resolve(__dirname, env == "production" ? "src/main/webapp/asserts" : "out");
+  let outputPath = path.resolve(__dirname, env == "production" ? "src/main/webapp/asserts/app/js" : "out");
   return {
     mode: !env ? "development" : env,
-    entry: {
-      "app/js/main": "./src/main/client/main.js"
-    },
+    entry:
+      env === "production"
+        ? {
+          "main": "./src/main/client/main.js"
+        }
+        : {
+          "app/js/main": "./src/main/client/main.js"
+        },
     devtool: false,
     output: {
       path: outputPath,
+      publicPath: env === "production" ? "/asserts/app/js/" : "/",
       filename: "[name].js",
       pathinfo: true
     },
@@ -43,15 +49,18 @@ module.exports = env => {
       hot: false
     },
     module: {
-      rules: [{
+      rules: [
+        {
           test: /\.js$/,
           exclude: /[\\/]node_modules[\\/]/,
-          use: [{
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/preset-env"]
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                presets: ["@babel/preset-env"]
+              }
             }
-          }]
+          ]
         },
         {
           test: /\.vue$/,
@@ -66,28 +75,34 @@ module.exports = env => {
           use: ["style-loader", "css-loader", "sass-loader"]
         }
       ].concat([
-        env === "production" ? {
-          test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
-          use: [{
-            loader: "url-loader",
-            options: {
-              limit: 1024 * 1024
-            }
-            // loader: "file-loader",
-            // options: {
-            //   name: "[name].[ext]",
-            //   outputPath: "images/"
-            // }
-          }]
-        } : {
-          test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
-          use: [{
-            loader: "url-loader",
-            options: {
-              limit: 1024 * 1024
-            }
-          }]
-        }
+        env === "production"
+          ? {
+            test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
+            use: [
+              {
+                loader: "url-loader",
+                options: {
+                  limit: 1024 * 1024
+                }
+                // loader: "file-loader",
+                // options: {
+                //   name: "[name].[ext]",
+                //   outputPath: "images/"
+                // }
+              }
+            ]
+          }
+          : {
+            test: /\.(jpe?g|png|gif|svg|ttf|woff|woff2|eot)$/i,
+            use: [
+              {
+                loader: "url-loader",
+                options: {
+                  limit: 1024 * 1024
+                }
+              }
+            ]
+          }
       ])
     },
     resolve: {
@@ -113,9 +128,9 @@ module.exports = env => {
         Swal: "sweetalert2",
         moment: "moment",
         // 직접 만든거
-        VueUtil: [path.resolve(__dirname, "src/main/client/utils/vue-util.js"), 'default'],
-        CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), 'default'],
-        comFunction: [path.resolve(__dirname, "src/main/client/app/commonFunction.js"), 'default'],
+        VueUtil: [path.resolve(__dirname, "src/main/client/utils/vue-util.js"), "default"],
+        CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), "default"],
+        comFunction: [path.resolve(__dirname, "src/main/client/app/commonFunction.js"), "default"]
       })
       // new HtmlWebpackPlugin({
       //   filename: "index.html",
