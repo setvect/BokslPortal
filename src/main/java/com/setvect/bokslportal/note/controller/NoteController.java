@@ -1,21 +1,28 @@
 package com.setvect.bokslportal.note.controller;
 
 import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.network.vo.NetworkVo;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
 import com.setvect.bokslportal.note.repository.NoteRepository;
+import com.setvect.bokslportal.note.service.NoteSearch;
 import com.setvect.bokslportal.note.service.NoteService;
 import com.setvect.bokslportal.note.vo.NoteCategoryVo;
+import com.setvect.bokslportal.note.vo.NoteVo;
 import com.setvect.bokslportal.util.TreeNode;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -55,14 +62,51 @@ public class NoteController {
   }
 
 
+  /**
+   * @param param 검색 조건
+   * @return 할일 목록
+   */
+  @GetMapping("page")
+  public ResponseEntity<String> page(NoteSearch param) {
+    GenericPage<NoteVo> page = noteRepository.getPagingList(param);
+    String json = ApplicationUtil.toJson(page, "**,list[**]");
+    return ResponseEntity.ok().body(json);
+  }
+
+
   // ============== 등록 ==============
 
+  /**
+   * @param note 항목
+   * @return 등록된 항목 일련번호
+   */
+  @PostMapping("item")
+  public ResponseEntity<String> addItem(NoteVo note) {
+    note.setRegDate(new Date());
+    note.setEditDate(new Date());
+    noteRepository.save(note);
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));
+  }
 
   // ============== 수정 ==============
 
   /**
-   * @param category 할일
-   * @return
+   * @param note 항목
+   * @return 할일 정보
+   */
+  @PutMapping("item")
+  public ResponseEntity<String> editItem(NoteVo note) {
+    NoteVo saveData = noteRepository.getOne(note.getNoteSeq());
+    saveData.setContent(note.getContent());
+    saveData.setTitle(note.getTitle());
+    saveData.setEditDate(new Date());
+    noteRepository.save(note);
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));
+  }
+
+  /**
+   * @param category 카테고리
+   * @return no content
    */
   @PutMapping("category")
   public ResponseEntity<Void> applyCategory(@RequestBody NoteCategoryVo category) {
@@ -71,4 +115,16 @@ public class NoteController {
   }
 
   // ============== 삭제 ==============
+
+  /**
+   * @param noteSeq 일련번호
+   * @return 성공여부
+   */
+  @DeleteMapping(value = "item/{id}")
+  public ResponseEntity<Void> deleteItem(@PathVariable("id") int noteSeq) {
+    NoteVo saveData = noteRepository.getOne(noteSeq);
+    saveData.setDeleteF(true);
+    noteRepository.save(saveData);
+    return ResponseEntity.noContent().build();
+  }
 }

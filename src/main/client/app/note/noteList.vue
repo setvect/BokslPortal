@@ -97,13 +97,17 @@ export default {
       this.$refs['categoryCmp'].open();
     },
     getCategoryPath() {
+      if (this.currentCategorySeq === 0) {
+        this.categoryPath = [{ name: "홈" }];
+        return;
+      }
       VueUtil.get(`/note/category-path/${this.currentCategorySeq}`, {}, (res) => {
-        this.categoryPath = res.data;
+        this.categoryPath = res.data.slice(1);
       });
     }
   },
   mounted() {
-    this.currentCategorySeq = this.$route.query.categorySeq;
+    this.currentCategorySeq = parseInt(this.$route.query.categorySeq);
     this.getCategoryPath();
   }
 };

@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(final WebSecurity web) throws Exception {
     web.ignoring()
+      .antMatchers("/")
       .antMatchers("/index.html")
       .antMatchers("/favicon.ico")
       .antMatchers("/user/logout")

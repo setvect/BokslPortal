@@ -52,8 +52,8 @@ public class NoteVo {
 	private String content;
 
 	/** 마지막 수정일 */
-	@Column(name = "UPT_DATE", nullable = true)
-	private Date uptDate;
+	@Column(name = "EDIT_DATE", nullable = true)
+	private Date editDate;
 
 	/** 처음 등록일 */
 	@Column(name = "REG_DATE", nullable = false)

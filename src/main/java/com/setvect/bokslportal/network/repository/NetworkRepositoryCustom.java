@@ -10,10 +10,10 @@ import com.setvect.bokslportal.network.vo.NetworkVo;
 public interface NetworkRepositoryCustom {
 
 	/**
-	 * @param pageCondition
+	 * @param searchCondition
 	 *            노트 검색 정보
 	 * @return 노트 목록
 	 */
-	public GenericPage<NetworkVo> getPagingList(NetworkSearch pageCondition);
+	public GenericPage<NetworkVo> getPagingList(NetworkSearch searchCondition);
 
 }

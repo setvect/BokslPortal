@@ -21,7 +21,7 @@ public class NoteRepositoryImpl implements NoteRepositoryCustom {
   private EntityManager em;
 
   @Override
-  public GenericPage<NoteVo> getNotePagingList(NoteSearch searchCondition) {
+  public GenericPage<NoteVo> getPagingList(NoteSearch searchCondition) {
     StringBuffer selectQuery = new StringBuffer("select note FROM NoteVo note");
     StringBuffer countQuery = new StringBuffer("select count(*) FROM NoteVo note");
 

@@ -85,10 +85,10 @@
           </ul>
         </li>
         <li>
-          <a>
-            <i class="fa fa-edit"></i> 복슬노트
+           <router-link :to="{name: 'note', query: { categorySeq: 0}}">
+            <i class="fa fa-edit"></i>복슬노트
             <span class="fa fa-chevron-down"></span>
-          </a>
+          </router-link>
           <note-tree-menu :list="noteCategoryTree" />
         </li>
         <li>

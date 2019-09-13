@@ -101,7 +101,7 @@ NOTE_SEQ|일련번호|PK|integer| |Y|
 CATEGORY_SEQ|카테고리 일련번호|FK|integer| |Y|TBCA_NOTE_CATEGORY 외래키
 TITLE|제목| |varchar|200|Y|
 CONTENT|본문| |TEXT| |Y|
-UPT_DATE|마지막 수정일| |datetime|1| |
+EDIT_DATE|마지막 수정일| |datetime|1| |
 REG_DATE|등록일| |datetime| |Y|
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 
