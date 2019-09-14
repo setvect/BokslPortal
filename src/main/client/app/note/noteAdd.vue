@@ -7,7 +7,7 @@
         <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
       </b-form-group>
       <b-form-group>
-        <textarea id="content" rows="10" cols="100" style="width: 100%; height: 350px;">aaaaaaaaaaaaaa</textarea>
+        <textarea id="content" rows="10" cols="100" style="width: 100%; height: 350px;"></textarea>
       </b-form-group>
       <b-form-group>
         <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일" />
@@ -18,12 +18,14 @@
         </b-col>
         <b-col cols="auto">
           <b-button @click="submitProc()" type="button" variant="info">확인</b-button>
+
+          <b-button @click="getContent()" type="button" variant="info">getContent</b-button>
+          <b-button @click="putContent()" type="button" variant="info">putContent</b-button>
         </b-col>
       </b-row>
     </form>
   </div>
 </template>
-<script type="text/javascript" src="/asserts/editor/js/HuskyEZCreator.js"></script>
 <script>
 import noteCommon from "./mixin-note.js";
 import CKEditor from '@ckeditor/ckeditor5-vue';
@@ -59,48 +61,38 @@ export default {
           }
         ]
       },
-      oEditors: null,
+      oEditors: [],
     };
   },
   methods: {
-    submitProc() {
-      console.log("submit");
+    initEditor() {
+      nhn.husky.EZCreator.createInIFrame({
+        oAppRef: this.oEditors,
+        elPlaceHolder: "content",
+        sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
+        fCreator: "createSEditorInIFrame",
+        fOnAppLoad: () => {
+          // 내용 변경 감지
+          $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
+            console.log('e :', e);
+          });
+        }
+      });
+      setTimeout(() => {
+        this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
+      }, 1000);
     },
-    onEditorBlur(quill) {
-      console.log('editor blur!', quill)
+    getContent() {
+      let sHTML = this.oEditors.getById["content"].getIR();
+      console.log('sHTML :', sHTML);
     },
-    onEditorFocus(quill) {
-      console.log('editor focus!', quill)
+    putContent() {
+      let sHTML = "<span style='color:#FF0000;'>이미지도 같은 방식으로 삽입합니다.<\/span>";
+      this.oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
     },
-    onEditorReady(quill) {
-      console.log('editor ready!', quill)
-    },
-    onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
-      this.item.content = html
-    }
   },
   mounted() {
-    console.log('nhn.husky.EZCreator.createInIFrame :', nhn.husky.EZCreator.createInIFrame);
-
-    nhn.husky.EZCreator.createInIFrame({
-      oAppRef: this.oEditors,
-      elPlaceHolder: "content",
-      sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
-      fCreator: "createSEditorInIFrame",
-      fOnAppLoad: function () {
-        // 자동저장을 수정일 경우만 함.
-        if ($scope.autoSave.run == false) {
-          return;
-        }
-        // 내용 변경 감지
-        $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(
-          function (e) {
-            $scope.resetAutoSaveTimer();
-          });
-        $scope.runAutoSaveTimer();
-      }
-    });
+    this.initEditor();
   }
 };
 </script>
