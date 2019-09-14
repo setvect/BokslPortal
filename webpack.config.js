@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = env => {
   let clientPath = path.resolve(__dirname, "src/main/client");
-  let outputPath = path.resolve(__dirname, env == "production" ? "src/main/webapp/asserts/app/js" : "out");
+  let outputPath = path.resolve(__dirname, env == "production" ? "src/main/webapp/app/js" : "out");
   return {
     mode: !env ? "development" : env,
     entry:
@@ -20,7 +20,7 @@ module.exports = env => {
     devtool: false,
     output: {
       path: outputPath,
-      publicPath: env === "production" ? "/asserts/app/js/" : "/",
+      publicPath: env === "production" ? "/app/js/" : "/",
       filename: "[name].js",
       pathinfo: true
     },

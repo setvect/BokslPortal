@@ -27,6 +27,7 @@
 
 ### web ##
 /node_modules/
+/src/main/webapp/app/js/
 /src/main/webapp/asserts/
 /src/main/webapp/vendors/
 npm-debug.log*
