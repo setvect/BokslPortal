@@ -3,12 +3,14 @@
     <div>
       <b-form autocomplete="off" @submit.stop.prevent>
         <b-form-group label="첨부파일로 업로드" label-for="input-content">
-          <b-form-file />
-          <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
+          <b-form-file accept="image/*" v-model="imageFile" />
+          <div style="text-align:right; margin-top:10px;">
+            <b-button variant="info" size="sm" @click="uploadImage()">확인</b-button>
+          </div>
         </b-form-group>
         <b-form-group label="클립보드에서 붙여 넣기" label-for="input-content">
           <b-form-file />
-          <canvas @click="applyImage()" style="border: 1px solid grey;" id="image_canvas" width="300" height="300"></canvas>
+          <canvas @click="attachClipboard()" style="border: 1px solid grey;" id="image_canvas" width="300" height="300"></canvas>
         </b-form-group>
       </b-form>
     </div>
@@ -23,6 +25,7 @@ export default {
       canvas: null,
       ctx: null,
       pasted: false,
+      imageFile: null,
     };
   },
   methods: {
@@ -33,22 +36,32 @@ export default {
     shownEvent(event) {
       this.imageClipboard();
     },
-    uploadFile(event) {
-      this.$validator.validateAll().then((result) => {
-        if (!result) {
-          return;
-        }
-        console.log("call uploadFile()");
-      });
+    uploadImage(event) {
+      console.log("call uploadImage()");
+      console.log('this.imageFile :', this.imageFile);
+      this.encodeBase64ImageFile(this.imageFile)
+        .then((data) => {
+          this.attachImage(data);
+        });
     },
-    attachClipboard() {
-      console.log("call attachClipboard()");
+    encodeBase64ImageFile(image) {
+      return new Promise((resolve, reject) => {
+        let reader = new FileReader()
+        // convert the file to base64 text
+        reader.readAsDataURL(image)
+        // on reader load somthing...
+        reader.onload = (event) => {
+          resolve(event.target.result)
+        }
+        reader.onerror = (error) => {
+          reject(error)
+        }
+      })
     },
     // 클립보드 이미지를 canvas에 붙어 넣을 수 있도록함.
     imageClipboard(autoresize) {
       this.canvas = document.getElementById("image_canvas");
       this.ctx = this.canvas.getContext("2d");
-
       //handlers
       document.addEventListener('paste', (e) => {
         this.pasteAuto(e);
@@ -86,12 +99,15 @@ export default {
       };
       pastedImage.src = source;
     },
-    // 이미지를 서버에 업로드하고 편집창에 적용
-    applyImage() {
+    attachClipboard() {
       if (!this.pasted) {
         return;
       }
       let data = $("#image_canvas")[0].toDataURL('image/jpeg');
+      this.attachImage(data);
+    },
+    // 이미지를  편집창에 적용
+    attachImage(data) {
       let html = "<img src='" + data + "'/>";
       this.$emit("pasted", html);
       this.$refs['imageUploadForm'].hide();
