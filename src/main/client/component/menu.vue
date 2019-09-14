@@ -171,7 +171,6 @@ export default {
   },
   methods: {
     loadNoteCategory() {
-      console.log("loadNoteCategory call.");
       store.dispatch('note/loadTree').then(() => {
         this.noteCategoryTree = store.state.note.categoryTree.children;
         this.$nextTick(() => {

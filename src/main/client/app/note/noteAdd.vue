@@ -24,27 +24,20 @@
         </b-col>
       </b-row>
     </form>
+    <impageUploadComponent @pasted="pasteImage" ref="imageUpload" />
   </div>
 </template>
 <script>
 import noteCommon from "./mixin-note.js";
-import CKEditor from '@ckeditor/ckeditor5-vue';
 import '../../asserts/lib/editor/js/HuskyEZCreator.js';
-
-// require styles
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
 export default {
   mixins: [comFunction, noteCommon],
   components: {
-    ckeditor: CKEditor.component
+    impageUploadComponent
   },
   data() {
     return {
-      editor: ClassicEditor,
-      editorConfig: {
-        // toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'fullscreen', '|', 'undo', 'redo'],
-      },
       item: {
         title: "BDAABB00",
         content: "우리집 강아지\n복슬강아지",
@@ -76,11 +69,13 @@ export default {
           $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
             console.log('e :', e);
           });
-        }
+          this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
+        },
       });
-      setTimeout(() => {
-        this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
-      }, 1000);
+    },
+    // 이미지 붙이기
+    pasteImage(html) {
+      this.oEditors.getById["content"].exec("PASTE_HTML", [html]);
     },
     getContent() {
       let sHTML = this.oEditors.getById["content"].getIR();
@@ -93,6 +88,9 @@ export default {
   },
   mounted() {
     this.initEditor();
+    window.openImageForm = (a) => {
+      this.$refs['imageUpload'].open();
+    }
   }
 };
 </script>
