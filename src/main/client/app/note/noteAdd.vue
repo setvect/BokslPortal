@@ -7,10 +7,10 @@
         <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
       </b-form-group>
       <b-form-group>
-        <ckeditor :editor="editor" v-model="item.content" :config="editorConfig"></ckeditor>
+        <textarea id="content" rows="10" cols="100" style="width: 100%; height: 350px;">aaaaaaaaaaaaaa</textarea>
       </b-form-group>
       <b-form-group>
-        <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일"/>
+        <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일" />
       </b-form-group>
       <b-row>
         <b-col>
@@ -23,13 +23,14 @@
     </form>
   </div>
 </template>
+<script type="text/javascript" src="/asserts/editor/js/HuskyEZCreator.js"></script>
 <script>
 import noteCommon from "./mixin-note.js";
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import '../../asserts/lib/editor/js/HuskyEZCreator.js';
 
 // require styles
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 
 export default {
   mixins: [comFunction, noteCommon],
@@ -58,6 +59,7 @@ export default {
           }
         ]
       },
+      oEditors: null,
     };
   },
   methods: {
@@ -79,7 +81,26 @@ export default {
     }
   },
   mounted() {
-    console.log('this is current quill instance object', this.editor)
+    console.log('nhn.husky.EZCreator.createInIFrame :', nhn.husky.EZCreator.createInIFrame);
+
+    nhn.husky.EZCreator.createInIFrame({
+      oAppRef: this.oEditors,
+      elPlaceHolder: "content",
+      sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
+      fCreator: "createSEditorInIFrame",
+      fOnAppLoad: function () {
+        // 자동저장을 수정일 경우만 함.
+        if ($scope.autoSave.run == false) {
+          return;
+        }
+        // 내용 변경 감지
+        $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(
+          function (e) {
+            $scope.resetAutoSaveTimer();
+          });
+        $scope.runAutoSaveTimer();
+      }
+    });
   }
 };
 </script>

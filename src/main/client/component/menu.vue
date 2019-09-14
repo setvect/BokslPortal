@@ -86,7 +86,7 @@
         </li>
         <li>
            <router-link :to="{name: 'note', query: { categorySeq: 0}}">
-            <i class="fa fa-edit"></i>복슬노트
+            <i class="fa fa-edit"></i> 복슬노트
             <span class="fa fa-chevron-down"></span>
           </router-link>
           <note-tree-menu :list="noteCategoryTree" />
@@ -132,7 +132,7 @@
         </li>
         <li>
           <a>
-            <i class="fa fa-lightbulb-o"></i>실험실
+            <i class="fa fa-lightbulb-o"></i> 실험실
             <span class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
@@ -189,3 +189,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.main_menu .fa{
+  text-align: left;
+}
+</style>

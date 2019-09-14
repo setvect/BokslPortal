@@ -97,7 +97,7 @@ export default {
       this.$refs['categoryCmp'].open();
     },
     getCategoryPath() {
-      if (this.currentCategorySeq === 0) {
+      if (!this.currentCategorySeq) {
         this.categoryPath = [{ name: "홈" }];
         return;
       }

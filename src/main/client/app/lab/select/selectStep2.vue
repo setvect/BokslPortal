@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import Winwheel from '../../../assert/lib/Winwheel/Winwhee.js';
+import Winwheel from '../../../asserts/lib/Winwheel/Winwhee.js';
 import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
 import { debuglog } from 'util';
 import cookies from 'js-cookie'
@@ -77,7 +77,7 @@ export default {
 </script>
 <style scoped>
 .the_wheel{
-  background-image: url("../../../assert/image/wheel_back.png");
+  background-image: url("../../../asserts/image/wheel_back.png");
   background-position: center;
 }
 .row-center {
