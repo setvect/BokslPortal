@@ -9,7 +9,6 @@
           </div>
         </b-form-group>
         <b-form-group label="클립보드에서 붙여 넣기" label-for="input-content">
-          <b-form-file />
           <canvas @click="attachClipboard()" style="border: 1px solid grey;" id="image_canvas" width="300" height="300"></canvas>
         </b-form-group>
       </b-form>

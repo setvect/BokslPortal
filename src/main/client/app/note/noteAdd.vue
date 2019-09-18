@@ -7,7 +7,7 @@
         <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
       </b-form-group>
       <b-form-group>
-        <textarea id="content" rows="10" cols="100" style="width: 100%; height: 350px;"></textarea>
+        <textarea id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
         <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일" />
