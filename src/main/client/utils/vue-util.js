@@ -103,7 +103,14 @@ VueUtil._ajaxCall = function (method, url, _param, _callback, _option) {
       sendParam = param;
       config.headers["Content-Type"] = "application/json; charset=utf-8";
     } else if (callType === "multipart") {
-      sendParam = param;
+      sendParam = new FormData();
+      $.each(param, function (key, value) {
+        if (Array.isArray(value)) {
+          value.forEach(v => sendParam.append(key, v));
+        } else {
+          sendParam.append(key, value);
+        }
+      });
       config.headers["Content-Type"] = "multipart/form-data";
     } else {
       sendParam = $.param(param, true);

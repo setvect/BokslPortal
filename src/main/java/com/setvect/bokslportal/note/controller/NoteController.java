@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -81,7 +83,7 @@ public class NoteController {
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
-  public ResponseEntity<String> addItem(NoteVo note) {
+  public ResponseEntity<String> addItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
     note.setRegDate(new Date());
     note.setEditDate(new Date());
     noteRepository.save(note);
@@ -95,7 +97,7 @@ public class NoteController {
    * @return 할일 정보
    */
   @PutMapping("item")
-  public ResponseEntity<String> editItem(NoteVo note) {
+  public ResponseEntity<String> editItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
     NoteVo saveData = noteRepository.getOne(note.getNoteSeq());
     saveData.setContent(note.getContent());
     saveData.setTitle(note.getTitle());
