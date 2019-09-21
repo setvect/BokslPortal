@@ -38,7 +38,7 @@ public class NoteCategoryVo {
    * 부모 카테고리 아이디
    */
   @ManyToOne
-  @JoinColumn(name = "PARENT_ID", nullable = false, insertable = false, updatable = false)
+  @JoinColumn(name = "PARENT_ID", nullable = false)
   private NoteCategoryVo parent;
 
   /**

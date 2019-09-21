@@ -37,9 +37,12 @@ public class NoteVo {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int noteSeq;
 
+  @Column(name = "CATEGORY_SEQ", nullable = false)
+  private int categorySeq;
+
 	/** 카테고리 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CATEGORY_SEQ", nullable = false)
+	@JoinColumn(name = "CATEGORY_SEQ", insertable = false, updatable = false)
 	private NoteCategoryVo category;
 
 	/** 제목 */

@@ -93,11 +93,7 @@ public class NoteController {
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
-  public ResponseEntity<String> addItem(NoteVo note, @RequestParam("categorySeq") int categorySeq, @RequestParam("attachList") MultipartFile[] attach) {
-    NoteCategoryVo category = noteCategoryRepository.findById(categorySeq).get();
-    category.setParent(null);
-    category.setChildren(null);
-    note.setCategory(category);
+  public ResponseEntity<String> addItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
     note.setRegDate(new Date());
     note.setEditDate(new Date());
     noteRepository.saveAndFlush(note);
