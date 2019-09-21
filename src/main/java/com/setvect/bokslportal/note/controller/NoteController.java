@@ -1,6 +1,8 @@
 package com.setvect.bokslportal.note.controller;
 
 import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.attach.service.AttachFileModule;
+import com.setvect.bokslportal.attach.service.AttachFileService;
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.network.vo.NetworkVo;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
@@ -9,6 +11,7 @@ import com.setvect.bokslportal.note.service.NoteSearch;
 import com.setvect.bokslportal.note.service.NoteService;
 import com.setvect.bokslportal.note.vo.NoteCategoryVo;
 import com.setvect.bokslportal.note.vo.NoteVo;
+import com.setvect.bokslportal.user.vo.UserVo;
 import com.setvect.bokslportal.util.TreeNode;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -32,12 +39,15 @@ import java.util.List;
 @Log4j2
 public class NoteController {
   @Autowired
-  private NoteCategoryRepository categoryRepository;
+  private NoteCategoryRepository noteCategoryRepository;
   @Autowired
   private NoteRepository noteRepository;
 
   @Autowired
   private NoteService noteService;
+
+  @Autowired
+  private AttachFileService attachFileService;
 
 
   // ============== 조회 ==============
@@ -83,10 +93,16 @@ public class NoteController {
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
-  public ResponseEntity<String> addItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
+  public ResponseEntity<String> addItem(NoteVo note, @RequestParam("categorySeq") int categorySeq, @RequestParam("attachList") MultipartFile[] attach) {
+    NoteCategoryVo category = noteCategoryRepository.findById(categorySeq).get();
+    category.setParent(null);
+    category.setChildren(null);
+    note.setCategory(category);
     note.setRegDate(new Date());
     note.setEditDate(new Date());
-    noteRepository.save(note);
+    noteRepository.saveAndFlush(note);
+
+    attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));
   }
 

@@ -1,8 +1,10 @@
 package com.setvect.bokslportal.attach.service;
 
+import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.attach.repository.AttachFileRepository;
 import com.setvect.bokslportal.attach.vo.AttachFileVo;
+import com.setvect.bokslportal.user.vo.UserVo;
 import com.setvect.bokslportal.util.FileUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,19 +29,18 @@ public class AttachFileService {
   /**
    * 첨부파일 저장
    *
-   * @param baseDir    저장 기본 디렉토리(일반적으로 웹루트 디렉토리)
    * @param attachFile 첨부파일
    * @param moduleName 모듈 이름
    * @param moduleId   모듈 데이터 항목 일련번호(키)
    * @param userId     사용자 ID
    * @return 업로드한 첨부파일 정보
    */
-  public AttachFileVo process(File baseDir, MultipartFile attachFile, AttachFileModule moduleName, int moduleId,
+  public AttachFileVo process(MultipartFile attachFile, AttachFileModule moduleName, int moduleId,
                               String userId) {
     if (attachFile == null) {
       return null;
     }
-    List<AttachFileVo> list = process(baseDir, new MultipartFile[]{attachFile}, moduleName, String.valueOf(moduleId),
+    List<AttachFileVo> list = process(new MultipartFile[]{attachFile}, moduleName, String.valueOf(moduleId),
       userId);
     if (list.size() != 1) {
       return null;
@@ -50,29 +51,40 @@ public class AttachFileService {
   /**
    * 첨부파일 저장
    *
-   * @param baseDir     저장 기본 디렉토리(일반적으로 웹루트 디렉토리)
    * @param attachFiles 첨부파일
    * @param moduleName  모듈 이름
    * @param moduleId    모듈 데이터 항목 일련번호(키)
-   * @param userId      사용자 ID
    * @return 업로드한 첨부파일 정보
    */
-  public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName, int moduleId,
-                                    String userId) {
-    return process(baseDir, attachFiles, moduleName, String.valueOf(moduleId), userId);
+  public List<AttachFileVo> process(MultipartFile[] attachFiles, AttachFileModule moduleName, int moduleId) {
+    UserVo user = ApplicationUtil.getLoginUser();
+    return process(attachFiles, moduleName, String.valueOf(moduleId), user.getUserId());
   }
 
   /**
    * 첨부파일 저장
    *
-   * @param baseDir     저장 기본 디렉토리(일반적으로 웹루트 디렉토리)
    * @param attachFiles 첨부파일
    * @param moduleName  모듈 이름
    * @param moduleId    모듈 데이터 항목 일련번호(키)
    * @param userId      사용자 ID
    * @return 업로드한 첨부파일 정보
    */
-  public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName, String moduleId,
+  public List<AttachFileVo> process(MultipartFile[] attachFiles, AttachFileModule moduleName, int moduleId,
+                                    String userId) {
+    return process(attachFiles, moduleName, String.valueOf(moduleId), userId);
+  }
+
+  /**
+   * 첨부파일 저장
+   *
+   * @param attachFiles 첨부파일
+   * @param moduleName  모듈 이름
+   * @param moduleId    모듈 데이터 항목 일련번호(키)
+   * @param userId      사용자 ID
+   * @return 업로드한 첨부파일 정보
+   */
+  public List<AttachFileVo> process(MultipartFile[] attachFiles, AttachFileModule moduleName, String moduleId,
                                     String userId) {
 
     if (attachFiles == null || attachFiles.length == 0) {

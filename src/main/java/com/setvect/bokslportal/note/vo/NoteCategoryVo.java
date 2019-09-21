@@ -38,7 +38,7 @@ public class NoteCategoryVo {
    * 부모 카테고리 아이디
    */
   @ManyToOne
-  @JoinColumn(name = "PARENT_ID", nullable = false)
+  @JoinColumn(name = "PARENT_ID", nullable = false, insertable = false, updatable = false)
   private NoteCategoryVo parent;
 
   /**
@@ -87,6 +87,9 @@ public class NoteCategoryVo {
    * @return true 루트 카테고리
    */
   public boolean isRoot() {
+    if (this.getParent() == null) {
+      return false;
+    }
     return this.getCategorySeq() == this.getParent().getCategorySeq();
   }
 }

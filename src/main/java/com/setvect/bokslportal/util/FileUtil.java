@@ -24,7 +24,7 @@ public class FileUtil extends FileUtils {
 
 	/**
 	 * 오늘 날짜(년/월/일)통해 디렉토리를 만듬
-	 * 
+	 *
 	 * @param path
 	 *            기준 디렉토리
 	 * @return 만들어진 디렉토리
@@ -35,7 +35,7 @@ public class FileUtil extends FileUtils {
 
 	/**
 	 * 기준 날짜(년/월/일)통해 디렉토리를 만듬
-	 * 
+	 *
 	 * @param path
 	 *            기준 디렉토리
 	 * @param baseDate
@@ -45,13 +45,13 @@ public class FileUtil extends FileUtils {
 	public static File makeDayDir(File path, Date baseDate) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(baseDate);
-		
+
 		String year = NumberFormat.getNumberString("0000", c.get(Calendar.YEAR));
 		String month = NumberFormat.getNumberString("00", c.get(Calendar.MONTH) + 1);
 		String day = NumberFormat.getNumberString("00", c.get(Calendar.DATE));
 		// 디렉토리가 있는지
 		if (!path.isDirectory()) {
-			throw new RuntimeException(path + " directory is not exist!");
+			throw new RuntimeException(path.getAbsolutePath() + " directory is not exist!");
 		}
 
 		File makedir = new File(path, year);
@@ -63,10 +63,10 @@ public class FileUtil extends FileUtils {
 
 	/**
 	 * 디렉토리를 탐색하여 원하는 파일을 찾음
-	 * 
+	 *
 	 * @param baseDir
 	 *            파일 탐색 시작 지점
-	 * 
+	 *
 	 * @param subDirectory
 	 *            하위 디렉토리 탐색 여부
 	 * @param exts
@@ -157,10 +157,10 @@ public class FileUtil extends FileUtils {
 
 	/**
 	 * file download method
-	 * 
+	 *
 	 * @param file
 	 *            다운로드할 파일 경로
-	 * 
+	 *
 	 * @param downloadFileName
 	 *            Download file name from client computer
 	 * @param request

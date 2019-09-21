@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     addPage() {
-      this.$router.push({ name: "noteAdd" });
+      this.$router.push({ name: "noteAdd", query: this.$route.query });
     },
     readPage() {
       this.$router.push({ name: "noteRead" });
