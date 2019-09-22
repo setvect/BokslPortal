@@ -15,25 +15,28 @@ import lombok.ToString;
 @Setter
 @ToString
 public class NoteSearch extends SearchListVo {
+  /**
+   * 정렬 방식
+   */
   public enum NoteSort {
-    REG, UPD;
+    /**
+     * 등록일 기준 내림차순
+     */
+    REG,
+    /**
+     * 마지막 수정 기준 내림차순(기본값)
+     */
+    EDIT;
+  }
+
+  public enum Field {
+    title,
+    content,
   }
 
   private int categorySeq;
-  private String title;
-  private String content;
+  private Field field;
+  private String word;
   private NoteSort sort;
 
-  /**
-   * @return 검색 단어중 값이 있는 하나를 반환. 아무도 없으면 null. 2개 이상 값이 있을 경우 어떤걸 반환 할지 모름
-   */
-  public String getWord() {
-    if (!StringUtils.isEmpty(title)) {
-      return title;
-    }
-    if (!StringUtils.isEmpty(content)) {
-      return content;
-    }
-    return null;
-  }
 }

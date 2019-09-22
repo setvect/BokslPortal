@@ -2,33 +2,34 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-form-select v-model="searchData.field" size="sm">
-          <option value="name">이름</option>
+        <b-form-select v-model="searchParam.field" size="sm">
+          <option value="title">제목</option>
           <option value="content">내용</option>
         </b-form-select>
-        <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
-        <b-button variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
+        <b-input @keypress.13="search()" v-model="searchParam.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
         <b-button @click="categoryForm()" size="sm" type="button" variant="outline-primary" style="float:right">카테고리</b-button>
       </b-form>
     </div>
     <div>
       <ol class="breadcrumb">
-        <li v-for="category in categoryPath" :key="category.categorySeq" class="breadcrumb-item" :class="{'active': category.categorySeq == currentCategorySeq}">{{category.name}}</li>
+        <li v-for="category in categoryPath" :key="category.categorySeq" class="breadcrumb-item" :class="{'active': category.categorySeq == searchParam.currentCategorySeq}">{{category.name}}</li>
       </ol>
     </div>
-    <b-table :bordered="true" hover :fields="fields" :items="listData">
+    <b-table :bordered="true" hover :fields="fields" :items="page.list">
       <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}</b-link>
       </template>
       <template slot="function" slot-scope="data">
-        <b-link @click="editPage(data.noteSeq)">수정</b-link>
-        <b-link @click="deleteProc(data.noteSeq)">삭제</b-link>
+        <b-link @click="editPage(data.item.noteSeq)">수정</b-link>
+        <b-link @click="deleteProc(data.item.noteSeq)">삭제</b-link>
       </template>
     </b-table>
-    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
+    <b-pagination v-model="searchParam.currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
     <note-category ref="categoryCmp" />
+    <div style="padding:5px 0"></div>
   </div>
 </template>
 
@@ -50,40 +51,36 @@ export default {
         { key: "title", label: "제목" },
         { key: "function", label: "기능", class: 'function-col' }
       ],
-      listData: [
-        {
-          noteSeq: 1,
-          title: "제목입니다1"
-        },
-        {
-          noteSeq: 2,
-          title: "제목입니다2"
-        },
-        {
-          noteSeq: 3,
-          title: "제목입니다31"
-        }
-      ],
-      searchData: {
-        field: "name",
+      searchParam: {
+        field: "title",
         word: null,
-        currentPage: 1
+        startCursor: 0,
+        currentPage: 1,
+        currentCategorySeq: 0
       },
       page: {
-        total: 300,
-        perPage: 10
+        total: 0,
+        list: []
       },
-      currentCategorySeq: 0,
       categoryPath: []
     };
   },
   watch: {
     '$route.query.categorySeq'() {
-      this.currentCategorySeq = this.$route.query.categorySeq;
+      this.searchParam.currentCategorySeq = this.$route.query.categorySeq;
       this.getCategoryPath();
     }
   },
   methods: {
+    listProc() {
+      VueUtil.get("/note/page", this.searchParam, (res) => {
+        this.page = res.data;
+      });
+    },
+    search() {
+      this.page.startCursor = 0;
+      this.listProc();
+    },
     addPage() {
       this.$router.push({ name: "noteAdd", query: this.$route.query });
     },
@@ -91,24 +88,42 @@ export default {
       this.$router.push({ name: "noteRead" });
     },
     changePage(page) {
-      console.log("page :", page);
+      this.searchParam.startCursor = this.page.returnCount * (page - 1)
+      this.listProc();
+    },
+    deleteProc(noteSeq) {
+      Swal.fire({
+        title: '삭제할거야?',
+        type: 'info',
+        showCloseButton: true,
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.value) {
+          return;
+        }
+        VueUtil.delete(`/note/item/${noteSeq}`, {}, (res) => {
+          this.listProc();
+        });
+      });
     },
     categoryForm() {
       this.$refs['categoryCmp'].open();
     },
     getCategoryPath() {
-      if (!this.currentCategorySeq) {
+      if (!this.searchParam.currentCategorySeq) {
         this.categoryPath = [{ name: "홈" }];
         return;
       }
-      VueUtil.get(`/note/category-path/${this.currentCategorySeq}`, {}, (res) => {
+      VueUtil.get(`/note/category-path/${this.searchParam.currentCategorySeq}`, {}, (res) => {
         this.categoryPath = res.data.slice(1);
       });
-    }
+    },
+
   },
   mounted() {
-    this.currentCategorySeq = parseInt(this.$route.query.categorySeq);
+    this.searchParam.currentCategorySeq = parseInt(this.$route.query.categorySeq);
     this.getCategoryPath();
+    this.listProc();
   }
 };
 </script>

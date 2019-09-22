@@ -22,11 +22,11 @@ public class NoteRepositoryImpl implements NoteRepositoryCustom {
 
   @Override
   public GenericPage<NoteVo> getPagingList(NoteSearch searchCondition) {
-    StringBuffer selectQuery = new StringBuffer("select note FROM NoteVo note");
-    StringBuffer countQuery = new StringBuffer("select count(*) FROM NoteVo note");
+    StringBuffer selectQuery = new StringBuffer("select n FROM NoteVo n");
+    StringBuffer countQuery = new StringBuffer("select count(*) FROM NoteVo n");
 
     Map<String, Object> bindParameter = new HashMap<>();
-    StringBuffer where = new StringBuffer(" WHERE note.deleteF = 'N'");
+    StringBuffer where = new StringBuffer(" WHERE n.deleteF = 'N'");
     where.append("and n.categorySeq in (select categorySeq from NoteCategoryVo c where c.deleteF = 'N')");
     if (searchCondition.getCategorySeq() != 0) {
       where.append(" and n.categorySeq = :category");
@@ -34,12 +34,13 @@ public class NoteRepositoryImpl implements NoteRepositoryCustom {
     }
 
     // 두개 이상 동시에 검색 조건에 포함 될 수 없음
-    if (!StringUtils.isEmpty(searchCondition.getTitle())) {
-      where.append(" and upper(n.title) like :word");
-      bindParameter.put("word", ApplicationUtil.makeLikeString(searchCondition.getTitle()).toUpperCase());
-    } else if (!StringUtils.isEmpty(searchCondition.getContent())) {
-      where.append(" and upper(n.content) like :word");
-      bindParameter.put("word", ApplicationUtil.makeLikeString(searchCondition.getContent()).toUpperCase());
+    if (!StringUtils.isEmpty(searchCondition.getWord())) {
+      if (searchCondition.getField() == NoteSearch.Field.title) {
+        where.append(" and upper(n.title) like :word");
+      } else {
+        where.append(" and upper(n.content) like :word");
+      }
+      bindParameter.put("word", ApplicationUtil.makeLikeString(searchCondition.getWord()).toUpperCase());
     }
 
     countQuery.append(where);
@@ -54,10 +55,10 @@ public class NoteRepositoryImpl implements NoteRepositoryCustom {
   }
 
   private String getOrder(NoteSearch searchCondition) {
-    if (searchCondition.getSort() == NoteSearch.NoteSort.UPD) {
-      return " order by note.uptDate desc";
+    if (searchCondition.getSort() == NoteSearch.NoteSort.REG) {
+      return " order by n.regDate desc";
     } else {
-      return " order by note.regDate asc";
+      return " order by n.editDate desc";
     }
   }
 }

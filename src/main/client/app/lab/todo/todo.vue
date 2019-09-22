@@ -119,7 +119,7 @@ export default {
         VueUtil.delete(`/todo/item/${item.todoSeq}`, {}, (res) => {
           this.page.list = this.page.list.filter(i => i !== item);
         });
-      });;
+      });
     },
     giveUpProc(item) {
       this.changeStatusProc(item.todoSeq, 'GIVEUP');

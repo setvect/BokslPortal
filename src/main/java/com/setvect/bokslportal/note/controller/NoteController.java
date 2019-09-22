@@ -81,7 +81,7 @@ public class NoteController {
   @GetMapping("page")
   public ResponseEntity<String> page(NoteSearch param) {
     GenericPage<NoteVo> page = noteRepository.getPagingList(param);
-    String json = ApplicationUtil.toJson(page, "**,list[**]");
+    String json = ApplicationUtil.toJson(page, "**,list[**,category[name]]");
     return ResponseEntity.ok().body(json);
   }
 

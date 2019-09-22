@@ -1,7 +1,9 @@
 package com.setvect.bokslportal.note.vo;
 
-import java.util.Date;
-import java.util.List;
+import com.setvect.bokslportal.attach.vo.AttachFileVo;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,13 +16,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Type;
-
-import com.setvect.bokslportal.attach.vo.AttachFileVo;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 노트 내용
