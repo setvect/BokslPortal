@@ -27,10 +27,9 @@ public class NoteRepositoryImpl implements NoteRepositoryCustom {
 
     Map<String, Object> bindParameter = new HashMap<>();
     StringBuffer where = new StringBuffer(" WHERE n.deleteF = 'N'");
-    where.append("and n.categorySeq in (select categorySeq from NoteCategoryVo c where c.deleteF = 'N')");
-    if (searchCondition.getCategorySeq() != 0) {
-      where.append(" and n.categorySeq = :category");
-      bindParameter.put("category", searchCondition.getCategorySeq());
+    if (!searchCondition.getCategorySeqSet().isEmpty()) {
+      where.append("and n.categorySeq in :category");
+      bindParameter.put("category", searchCondition.getCategorySeqSet());
     }
 
     // 두개 이상 동시에 검색 조건에 포함 될 수 없음

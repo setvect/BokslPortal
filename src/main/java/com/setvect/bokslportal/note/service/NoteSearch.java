@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Set;
+
 /**
  * 노트 페이징 및 검색 조건
  */
@@ -34,6 +36,10 @@ public class NoteSearch extends SearchListVo {
     content,
   }
 
+  /**
+   * 상위 카테고리를 포함한 정보
+   */
+  private Set<Integer> categorySeqSet;
   private int categorySeq;
   private Field field;
   private String word;

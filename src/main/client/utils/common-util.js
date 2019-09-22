@@ -33,6 +33,10 @@ CommonUtil.makePageOption = function (page, callback) {
   }
 }
 
+CommonUtil.clearHtml = function (html) {
+  return html.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
 // 기존 페이징 객체 제거
 CommonUtil.destroyPage = function (selector) {
   if ($(selector).data("twbs-pagination")) {

@@ -33,6 +33,8 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/note/")
@@ -80,11 +82,28 @@ public class NoteController {
    */
   @GetMapping("page")
   public ResponseEntity<String> page(NoteSearch param) {
+    int categorySeq = param.getCategorySeq();
+
+    Set<Integer> categorySeqSet = Collections.emptySet();
+    if (categorySeq != 0) {
+      categorySeqSet = noteService.getSubCategorySeq(categorySeq);
+    }
+    param.setCategorySeqSet(categorySeqSet);
+
     GenericPage<NoteVo> page = noteRepository.getPagingList(param);
     String json = ApplicationUtil.toJson(page, "**,list[**,category[name]]");
     return ResponseEntity.ok().body(json);
   }
 
+  /**
+   * @param noteSeq 일련번호
+   * @return 할일 목록
+   */
+  @GetMapping("item/{id}")
+  public ResponseEntity<String> getItem(@PathVariable("id") int noteSeq) {
+    NoteVo item = noteRepository.findById(noteSeq).get();
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,category[name]"));
+  }
 
   // ============== 등록 ==============
 
@@ -108,13 +127,15 @@ public class NoteController {
    * @param note 항목
    * @return 할일 정보
    */
-  @PutMapping("item")
+  @PostMapping("item-edit")
   public ResponseEntity<String> editItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
-    NoteVo saveData = noteRepository.getOne(note.getNoteSeq());
+    NoteVo saveData = noteRepository.findById(note.getNoteSeq()).get();
     saveData.setContent(note.getContent());
     saveData.setTitle(note.getTitle());
     saveData.setEditDate(new Date());
     noteRepository.save(note);
+
+    attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));
   }
 

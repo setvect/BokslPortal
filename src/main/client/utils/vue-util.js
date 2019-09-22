@@ -102,7 +102,8 @@ VueUtil._ajaxCall = function (method, url, _param, _callback, _option) {
     if (callType === "json") {
       sendParam = param;
       config.headers["Content-Type"] = "application/json; charset=utf-8";
-    } else if (callType === "multipart") {
+    } else if (callType === "multipart" && method === "post") {
+      // multipart는 post만 허용
       sendParam = new FormData();
       $.each(param, function (key, value) {
         if (Array.isArray(value)) {

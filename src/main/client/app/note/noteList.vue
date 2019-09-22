@@ -14,7 +14,7 @@
     </div>
     <div>
       <ol class="breadcrumb">
-        <li v-for="category in categoryPath" :key="category.categorySeq" class="breadcrumb-item" :class="{'active': category.categorySeq == searchParam.currentCategorySeq}">{{category.name}}</li>
+        <li v-for="category in categoryPath" :key="category.categorySeq" class="breadcrumb-item" :class="{'active': category.categorySeq == searchParam.categorySeq}">{{category.name}}</li>
       </ol>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="page.list">
@@ -48,6 +48,7 @@ export default {
     return {
       fields: [
         { key: "index", label: "#", class: 'index-col' },
+        { key: "category.name", label: "분류", class: 'category-col' },
         { key: "title", label: "제목" },
         { key: "function", label: "기능", class: 'function-col' }
       ],
@@ -56,7 +57,7 @@ export default {
         word: null,
         startCursor: 0,
         currentPage: 1,
-        currentCategorySeq: 0
+        categorySeq: 0,
       },
       page: {
         total: 0,
@@ -67,8 +68,11 @@ export default {
   },
   watch: {
     '$route.query.categorySeq'() {
-      this.searchParam.currentCategorySeq = this.$route.query.categorySeq;
+      this.searchParam.categorySeq = this.$route.query.categorySeq;
       this.getCategoryPath();
+      this.searchParam.word = "";
+      this.searchParam.field = "title";
+      this.search();
     }
   },
   methods: {
@@ -82,46 +86,33 @@ export default {
       this.listProc();
     },
     addPage() {
+      delete this.$route.query.noteSeq;
       this.$router.push({ name: "noteAdd", query: this.$route.query });
     },
-    readPage() {
-      this.$router.push({ name: "noteRead" });
+    readPage(noteSeq) {
+      this.$route.query.noteSeq = noteSeq;
+      this.$router.push({ name: "noteRead", query: this.$route.query });
     },
     changePage(page) {
       this.searchParam.startCursor = this.page.returnCount * (page - 1)
       this.listProc();
     },
-    deleteProc(noteSeq) {
-      Swal.fire({
-        title: '삭제할거야?',
-        type: 'info',
-        showCloseButton: true,
-        showCancelButton: true,
-      }).then((result) => {
-        if (!result.value) {
-          return;
-        }
-        VueUtil.delete(`/note/item/${noteSeq}`, {}, (res) => {
-          this.listProc();
-        });
-      });
-    },
     categoryForm() {
       this.$refs['categoryCmp'].open();
     },
     getCategoryPath() {
-      if (!this.searchParam.currentCategorySeq) {
+      if (!this.searchParam.categorySeq) {
         this.categoryPath = [{ name: "홈" }];
         return;
       }
-      VueUtil.get(`/note/category-path/${this.searchParam.currentCategorySeq}`, {}, (res) => {
+      VueUtil.get(`/note/category-path/${this.searchParam.categorySeq}`, {}, (res) => {
         this.categoryPath = res.data.slice(1);
       });
     },
 
   },
   mounted() {
-    this.searchParam.currentCategorySeq = parseInt(this.$route.query.categorySeq);
+    this.searchParam.categorySeq = parseInt(this.$route.query.categorySeq);
     this.getCategoryPath();
     this.listProc();
   }
@@ -131,6 +122,9 @@ export default {
 <style lang="scss">
 .index-col {
   width: 50px;
+}
+.category-col {
+  width: 150px;
 }
 .function-col {
   width: 140px;

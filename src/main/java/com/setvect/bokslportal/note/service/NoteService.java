@@ -23,13 +23,13 @@ import java.util.stream.StreamSupport;
 @Log4j2
 public class NoteService {
   @Autowired
-  private NoteCategoryRepository categoryRepository;
+  private NoteCategoryRepository noteCategoryRepository;
 
   /**
    * 기본 분류 정보를 넣는다.
    */
   public void init() {
-    List<NoteCategoryVo> categoryList = categoryRepository.findAll();
+    List<NoteCategoryVo> categoryList = noteCategoryRepository.findAll();
     if (categoryList.size() != 0) {
       return;
     }
@@ -72,7 +72,7 @@ public class NoteService {
     category3.setParent(root);
     allCategory.add(category3);
 
-    categoryRepository.saveAll(allCategory);
+    noteCategoryRepository.saveAll(allCategory);
   }
 
 
@@ -80,7 +80,7 @@ public class NoteService {
    * @return 분류 폴더 구조
    */
   public TreeNode<NoteCategoryVo> getCategoryTree() {
-    List<NoteCategoryVo> folderAll = categoryRepository.listCategory();
+    List<NoteCategoryVo> folderAll = noteCategoryRepository.listCategory();
 
     // 일련번호와 부모 아이디가 같은 경우는 root 폴더.
     Optional<NoteCategoryVo> data = folderAll.stream().filter(NoteCategoryVo::isRoot).findAny();
@@ -128,6 +128,18 @@ public class NoteService {
     return baseCategory.getPath();
   }
 
+  /**
+   * 해당 카테고리 하위에 포함된 모든 카테고리 반환
+   * @param categorySeq 기준 카테고리 일련번호
+   * @return 카테고리 일련번호
+   */
+  public Set<Integer> getSubCategorySeq(int categorySeq) {
+    NoteCategoryVo category = noteCategoryRepository.findById(categorySeq).get();
+    TreeNode<NoteCategoryVo> tree = getCategoryTree();
+    TreeNode<NoteCategoryVo> subTree = tree.getTreeNode(category);
+    List<TreeNode<NoteCategoryVo>> childList = subTree.exploreTree();
+    return childList.stream().map(c -> c.getData().getCategorySeq()).collect(Collectors.toSet());
+  }
 
   /**
    * 모튼 카테고리 정보를 변경. <br>
@@ -136,11 +148,11 @@ public class NoteService {
    * @param category 상하위 관계를 같는 카테고리
    */
   public void updateCategory(NoteCategoryVo category) {
-    List<NoteCategoryVo> allCategory = categoryRepository.listCategory();
+    List<NoteCategoryVo> allCategory = noteCategoryRepository.listCategory();
 
     category.setParent(category);
     applyParent(category, category.getChildren());
-    categoryRepository.save(category);
+    noteCategoryRepository.save(category);
 
     Stream<NoteCategoryVo> categoryStream = flat(category);
     Set<Integer> currentCategorySet = categoryStream.map(cat -> cat.getCategorySeq()).collect(Collectors.toSet());
@@ -150,7 +162,7 @@ public class NoteService {
       return cat;
     }).collect(Collectors.toList());
 
-    categoryRepository.saveAll(deleteCategory);
+    noteCategoryRepository.saveAll(deleteCategory);
   }
 
   /**
