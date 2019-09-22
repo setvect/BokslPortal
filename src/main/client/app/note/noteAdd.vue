@@ -12,6 +12,13 @@
       <b-form-group>
         <b-form-file @change="attachFile($event)" :multiple="true" placeholder="첨부파일" />
       </b-form-group>
+      <b-form-group>
+        <ul>
+          <li v-for="attach in item.attach" :key="attach.attachSeq">
+            <b-check v-model="deleteAttachFileSeq" :value="attach.attachFileSeq">{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-check>
+          </li>
+        </ul>
+      </b-form-group>
       <b-row>
         <b-col>
           <b-button @click="listPage()" type="button" variant="info">취소</b-button>
@@ -41,6 +48,7 @@ export default {
         attachList: [],
         categorySeq: 0,
       },
+      deleteAttachFileSeq: [],
       oEditors: [],
     };
   },
@@ -79,11 +87,11 @@ export default {
         if (!result) {
           return;
         }
-
         let url;
         // 수정
         if (this.$route.query.noteSeq) {
           url = "/note/item-edit";
+          this.item.deleteAttachFileSeq = this.deleteAttachFileSeq;
         }
         // 등록
         else {

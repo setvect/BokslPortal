@@ -20,7 +20,7 @@
     <b-table :bordered="true" hover :fields="fields" :items="page.list">
       <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
       <template slot="title" slot-scope="data">
-        <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}</b-link>
+        <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.item.noteSeq)">수정</b-link>

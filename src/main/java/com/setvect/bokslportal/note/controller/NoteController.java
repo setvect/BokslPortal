@@ -91,6 +91,10 @@ public class NoteController {
     param.setCategorySeqSet(categorySeqSet);
 
     GenericPage<NoteVo> page = noteRepository.getPagingList(param);
+    page.getList().forEach(note->{
+      List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.NOTE, note.getNoteSeq());
+      note.setAttach(attach);
+    });
     String json = ApplicationUtil.toJson(page, "**,list[**,category[name]]");
     return ResponseEntity.ok().body(json);
   }
@@ -111,7 +115,7 @@ public class NoteController {
 
   /**
    * @param note 항목
-   * @return 등록된 항목 일련번호
+   * @return 등록된 항목
    */
   @PostMapping("item")
   public ResponseEntity<String> addItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
@@ -126,11 +130,13 @@ public class NoteController {
   // ============== 수정 ==============
 
   /**
-   * @param note 항목
-   * @return 할일 정보
+   * @param note                노트
+   * @param deleteAttachFileSeq 삭제 첨부파일 번호
+   * @param attach              업로드 첨부파일 정보
+   * @return 수정된 항목
    */
   @PostMapping("item-edit")
-  public ResponseEntity<String> editItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
+  public ResponseEntity<String> editItem(NoteVo note, @RequestParam(name = "deleteAttachFileSeq", required = false) Set<Integer> deleteAttachFileSeq, @RequestParam("attachList") MultipartFile[] attach) {
     NoteVo saveData = noteRepository.findById(note.getNoteSeq()).get();
     saveData.setContent(note.getContent());
     saveData.setTitle(note.getTitle());
@@ -138,6 +144,9 @@ public class NoteController {
     noteRepository.save(note);
 
     attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());
+    if (deleteAttachFileSeq != null) {
+      attachFileService.deleteFile(deleteAttachFileSeq);
+    }
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));
   }
 

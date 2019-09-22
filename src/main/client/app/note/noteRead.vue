@@ -7,7 +7,14 @@
     <b-row>
       <b-col>
         <ul>
-          <li v-for="attach in item.attach" :key="attach.attachSeq"><b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button></li>
+          <li v-for="attach in item.attach" :key="attach.attachSeq">
+            <b-button
+              @click="downloadFile(attach.attachFileSeq, attach.originalName)"
+              type="button"
+              variant="outline-secondary"
+              size="sm"
+            >{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button>
+          </li>
         </ul>
       </b-col>
     </b-row>

@@ -17,8 +17,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("AttachFileService")
 public class AttachFileService {
@@ -161,23 +164,7 @@ public class AttachFileService {
    * @param attachFileSeq 첨부파일 일련번호
    */
   public void deleteFile(int attachFileSeq) {
-    deleteFile(new int[]{attachFileSeq});
-  }
-
-  /**
-   * 첨부파일 정보 삭제, 물리적인 첨부파일은 삭제 하지 않음
-   *
-   * @param fileSeq 첨부파일 일련번호
-   */
-  public void deleteFile(String[] fileSeq) {
-    if (fileSeq == null) {
-      return;
-    }
-    int[] attachFileSeq = new int[fileSeq.length];
-    for (int i = 0; i < fileSeq.length; i++) {
-      attachFileSeq[i] = Integer.parseInt(fileSeq[i]);
-    }
-    deleteFile(attachFileSeq);
+    deleteFile(new HashSet<>(Arrays.asList(attachFileSeq)));
   }
 
   /**
@@ -185,7 +172,7 @@ public class AttachFileService {
    *
    * @param attachFileSeq 첨부파일 일련번호
    */
-  public void deleteFile(int[] attachFileSeq) {
+  public void deleteFile(Set<Integer> attachFileSeq) {
     for (int seq : attachFileSeq) {
       removeAttachFile(seq);
     }
