@@ -79,9 +79,8 @@ public class AttachFileVo {
   /**
    * @return 웹루트를 기준으로 첨부파일 경로.(파일명 포함)
    */
-  public String getSavePath() {
-    final File f = new File(BokslPortalConstant.Attach.BASE_DIR, saveName);
-    return f.getPath();
+  public File getSavePath() {
+    return new File(BokslPortalConstant.Attach.BASE_DIR, saveName);
   }
 
 }

@@ -2,15 +2,12 @@
   <div>
     <h5>{{item.title}}</h5>
     <b-row>
-      <b-col sm="12" class="content" v-html="item.content" />
+      <b-col class="content" v-html="item.content" />
     </b-row>
     <b-row>
-      <b-col sm="2" class="head">
-        <label>첨부파일</label>
-      </b-col>
-      <b-col sm="10">
+      <b-col>
         <ul>
-          <li v-for="attach in item.attachList" :key="attach.attachSeq">{{attach.name}} (size: {{attach.size | numberFormat}} byte )</li>
+          <li v-for="attach in item.attach" :key="attach.attachSeq"><b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button></li>
         </ul>
       </b-col>
     </b-row>
@@ -31,7 +28,7 @@ import noteCommon from "./mixin-note.js";
 import "../../utils/vue-common.js";
 
 export default {
-  mixins: [noteCommon],
+  mixins: [comFunction, noteCommon],
   data() {
     return {
       item: {}

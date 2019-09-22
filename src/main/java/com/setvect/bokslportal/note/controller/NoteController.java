@@ -3,6 +3,7 @@ package com.setvect.bokslportal.note.controller;
 import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.attach.service.AttachFileModule;
 import com.setvect.bokslportal.attach.service.AttachFileService;
+import com.setvect.bokslportal.attach.vo.AttachFileVo;
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.network.vo.NetworkVo;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
@@ -75,7 +76,6 @@ public class NoteController {
     return ResponseEntity.ok().body(ApplicationUtil.toJson(categoryPath, "**,-parent,-children"));
   }
 
-
   /**
    * @param param 검색 조건
    * @return 할일 목록
@@ -102,7 +102,9 @@ public class NoteController {
   @GetMapping("item/{id}")
   public ResponseEntity<String> getItem(@PathVariable("id") int noteSeq) {
     NoteVo item = noteRepository.findById(noteSeq).get();
-    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,category[name]"));
+    List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.NOTE, noteSeq);
+    item.setAttach(attach);
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,category[name],attach[-savePath,-saveName]"));
   }
 
   // ============== 등록 ==============

@@ -149,9 +149,7 @@ public class AttachFileService {
 
       AttachFileVo file = getAttachFile(seq);
       if (file != null) {
-
-        File osFile = new File(destDir, file.getSavePath());
-        osFile.delete();
+        file.getSavePath().delete();
       }
       deleteFile(seq);
     }

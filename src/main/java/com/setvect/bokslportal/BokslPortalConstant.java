@@ -52,6 +52,15 @@ public final class BokslPortalConstant {
      * 파일 저장 기본 경로
      */
     public static final File BASE_DIR = new File(EnvirmentProperty.getString("com.setvect.bokslportal.attch.upload"));
+
+    /**
+     * 업로드 허용하는 확장자
+     */
+    public static final Set<String> ALLOW_EXT = new HashSet<>(Arrays.asList(EnvirmentProperty.getString("com.setvect.bokslportal.attch.allow_ext").split(",")));
+    /**
+     * 이미지 확장자
+     */
+    public static final Set<String> IMAGE_EXT = new HashSet<>(Arrays.asList(EnvirmentProperty.getString("com.setvect.bokslportal.attch.image_ext").split(",")));
   }
 
   /**
