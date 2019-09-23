@@ -7,6 +7,12 @@
         <span v-show="!validateState('title')" class="invalid-feedback">{{ veeErrors.first('title') }}</span>
       </b-form-group>
       <b-form-group>
+        <b-form-select v-model="item.categorySeq" size="sm">
+          <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
+        </b-form-select>
+      </b-form-group>
+
+      <b-form-group>
         <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
@@ -32,9 +38,13 @@
   </div>
 </template>
 <script>
+
 import noteCommon from "./mixin-note.js";
-import '../../asserts/lib/editor/js/HuskyEZCreator.js';
 import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
+import store from "../../store/index.js";
+import "../../utils/vue-common.js";
+import '../../asserts/lib/editor/js/HuskyEZCreator.js';
+
 export default {
   mixins: [comFunction, noteCommon],
   components: {
@@ -50,6 +60,7 @@ export default {
       },
       deleteAttachFileSeq: [],
       oEditors: [],
+      categoryList: []
     };
   },
   methods: {
@@ -111,6 +122,14 @@ export default {
         this.item.attachList.push(event.target.files[i]);
       }
     },
+    travelCategory(cList, level){
+      let space = '__'.repeat(level);
+      cList.forEach((c)=>{
+        c.data.name = space + c.data.name;
+        this.categoryList.push(c.data);
+        this.travelCategory(c.children, level + 1);
+      })
+    }
   },
   mounted() {
     // 수정
@@ -124,6 +143,11 @@ export default {
     else {
       this.initEditor();
     }
+    store.dispatch('note/loadTree').then(() => {
+      let cList = $.extend(true, [], store.state.note.categoryTree.children);
+      this.travelCategory(cList, 1);
+    });
+
     window.openImageForm = (a) => {
       this.$refs['imageUpload'].open();
     }
