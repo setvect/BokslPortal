@@ -6,7 +6,7 @@
           <option value="title">제목</option>
           <option value="content">내용</option>
         </b-form-select>
-        <b-input @keypress.13="search()" v-model="searchParam.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13="search()" v-model="searchWord" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
@@ -64,7 +64,8 @@ export default {
         total: 0,
         list: []
       },
-      categoryPath: []
+      categoryPath: [],
+      searchWord: ""
     };
   },
   watch: {
@@ -78,7 +79,6 @@ export default {
   },
   computed:{
     isSearch(){
-      console.log('this.searchParam.word :', this.searchParam.word);
       return this.searchParam.word;
     }
   },
@@ -89,10 +89,12 @@ export default {
       });
     },
     search() {
+      this.searchParam.word = this.searchWord;
       this.page.startCursor = 0;
       this.listProc();
     },
     searchCancel(){
+      this.searchWord = "";
       this.searchParam.word = "";
       this.search();
     },
