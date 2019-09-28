@@ -3,13 +3,13 @@
     <h5>등록</h5>
     <form autocomplete="off">
       <b-form-group>
-        <ckeditor :editor="editor" v-model="item.question" :config="editorConfig"></ckeditor>
+        <textarea v-model="item.question" id="question" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
-        <ckeditor :editor="editor" v-model="item.answer" :config="editorConfig"></ckeditor>
+        <textarea v-model="item.answer" id="answer" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
-        <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일"/>
+        <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일" />
       </b-form-group>
       <b-row>
         <b-col>
@@ -24,22 +24,18 @@
 </template>
 <script>
 import knowledgeCommon from "./mixin-knowledge.js";
-import CKEditor from '@ckeditor/ckeditor5-vue';
-
-// require styles
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
+import store from "../../store/index.js";
+import "../../utils/vue-common.js";
+import '../../asserts/lib/editor/js/HuskyEZCreator.js';
 
 export default {
   mixins: [comFunction, knowledgeCommon],
   components: {
-    ckeditor: CKEditor.component
+    impageUploadComponent
   },
   data() {
     return {
-      editor: ClassicEditor,
-      editorConfig: {
-        // toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'fullscreen', '|', 'undo', 'redo'],
-      },
       item: {
         knowledgeSeq: 1,
         question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
@@ -60,16 +56,52 @@ export default {
       },
       editorOption: {
         placeholder: '내용을 입력하세요.',
-      }
+      },
+      questionEdit: [],
+      answerEdit: [],
     };
   },
   methods: {
+    initEditor() {
+
+      nhn.husky.EZCreator.createInIFrame({
+        oAppRef: this.questionEdit,
+        elPlaceHolder: "question",
+        sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
+        fCreator: "createSEditorInIFrame",
+        fOnAppLoad: () => {
+          // 본문 내용 수정
+          $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
+            this.item.content = this.questionEdit.getById["question"].getIR();
+          });
+          this.questionEdit.getById["question"].setDefaultFont("나눔고딕", 10);
+        },
+      });
+
+      nhn.husky.EZCreator.createInIFrame({
+        oAppRef: this.answerEdit,
+        elPlaceHolder: "answer",
+        sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
+        fCreator: "createSEditorInIFrame",
+        fOnAppLoad: () => {
+          // 본문 내용 수정
+          $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
+            this.item.content = this.answerEdit.getById["answer"].getIR();
+          });
+          this.answerEdit.getById["answer"].setDefaultFont("나눔고딕", 10);
+        },
+      });
+    },
     submitProc() {
       console.log("submit");
     },
   },
   mounted() {
-    console.log('this is current quill instance object', this.editor)
+    this.initEditor();
+
+    window.openImageForm = (a) => {
+      this.$refs['imageUpload'].open();
+    }
   }
 };
 </script>
