@@ -13,10 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +40,8 @@ public class UserController {
   private AuthenticationManager authenticationManager;
   @Autowired
   private UserService userService;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   // ============== 조회 ==============
 
@@ -90,6 +95,27 @@ public class UserController {
   // ============== 등록 ==============
 
   // ============== 수정 ==============
+
+  /**
+   * 패스워드 변경
+   *
+   * @param currentPassword 현재 비밀번호
+   * @param changePassword  변경할 비밀번호
+   */
+  @PatchMapping(value = "/user-change-password")
+  public ResponseEntity<Void> edit(@RequestParam("currentPassword") final String currentPassword, @RequestParam("changePassword") final String changePassword) {
+    UserVo login = ApplicationUtil.getLoginUser();
+    UserVo user = userRepository.findById(login.getUserId()).get();
+
+    boolean match = passwordEncoder.matches(currentPassword, user.getPassword());
+    if (!match) {
+      throw new RuntimeException("Passwords do not match.");
+    }
+    user.setPassword(passwordEncoder.encode(changePassword));
+
+    userRepository.save(user);
+    return ResponseEntity.noContent().build();
+  }
 
   // ============== 삭제 ==============
 

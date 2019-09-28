@@ -15,7 +15,7 @@
             </a>
           </li>
           <li class="dropdown">
-            <a href="javascript:;" class="dropdown-toggle info-number _edit-my" data-toggle="dropdown" aria-expanded="false">
+            <a @click="chnagePassword()" href="javascript:;" class="dropdown-toggle info-number _edit-my" data-toggle="dropdown" aria-expanded="false">
               비밀번호 변경
               <i class="glyphicon glyphicon-cog"></i>
             </a>
@@ -23,16 +23,25 @@
         </ul>
       </nav>
     </div>
+    <password-change ref="password" />
   </div>
 </template>
 <script>
+import passwordChangeComponent from "./passwordChange.vue";
+
 export default {
+  components: {
+    "password-change": passwordChangeComponent
+  },
   methods: {
     logout() {
       this.$store.dispatch('LogOut').then(() => {
         location.reload()
       })
-    }
+    },
+    chnagePassword() {
+      this.$refs["password"].open();
+    },
   }
 }
 </script>
