@@ -2,6 +2,7 @@ package com.setvect.bokslportal;
 
 import java.net.URL;
 
+import com.setvect.bokslportal.code.service.CodeService;
 import com.setvect.bokslportal.memo.service.MemoService;
 import com.setvect.bokslportal.note.service.NoteService;
 import org.springframework.beans.factory.InitializingBean;
@@ -68,6 +69,10 @@ public class BokslPortalApplication {
 
       NoteService noteService = BeanUtils.getBean(NoteService.class);
       noteService.init();
+
+      CodeService codeService = BeanUtils.getBean(CodeService.class);
+      codeService.init();
+
     };
   }
 

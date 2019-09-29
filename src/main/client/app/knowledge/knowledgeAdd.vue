@@ -3,10 +3,17 @@
     <h5>등록</h5>
     <form autocomplete="off">
       <b-form-group>
-        <textarea v-model="item.question" id="question" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
+        <b-form-select v-model="item.classifyC" size="sm">
+          <option :value="null">== 선택 ==</option>
+          <option v-for="code in classifyList" :key="code.minorCode" :value="code.minorCode">{{code.codeValue}}</option>
+        </b-form-select>
+      </b-form-group>
+
+      <b-form-group>
+        <textarea v-model="item.question" id="question" rows="10" cols="100" style="width: 100%; height: 250px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
-        <textarea v-model="item.answer" id="answer" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
+        <textarea v-model="item.answer" id="answer" rows="10" cols="100" style="width: 100%; height: 250px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
         <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일" />
@@ -39,28 +46,14 @@ export default {
     return {
       item: {
         knowledgeSeq: 1,
-        question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
-        answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
-        regDate: 1561071320000,
-        attachList: [
-          {
-            attachSeq: 1,
-            name: "abc.ppt",
-            size: 500000
-          },
-          {
-            attachSeq: 2,
-            name: "bee.ppt",
-            size: 1000
-          }
-        ]
+        question: "",
+        answer: "",
+        attachList: [],
+        classifyC: null,
       },
-      editorOption: {
-        placeholder: '내용을 입력하세요.',
-      },
+      classifyList: [],
       questionEdit: [],
       answerEdit: [],
-      pastsImageAction: null,
       editor: null,
     };
   },
@@ -103,9 +96,15 @@ export default {
     submitProc() {
       console.log("submit");
     },
+    loadCodeList() {
+      VueUtil.get('/code/list/KNOW_TYPE', {}, (res) => {
+        this.classifyList = res.data;
+      });
+    }
   },
   mounted() {
     this.initEditor();
+    this.loadCodeList();
     window.openImageForm = (editor) => {
       this.editor = editor;
       this.$refs['imageUpload'].open();
