@@ -31,7 +31,7 @@ nhn.husky.SE2M_AttachQuickPhoto = jindo.$Class({
 	 * 포토 웹탑 오픈
 	 */
 	$ON_ATTACHPHOTO_OPEN_WINDOW : function(){
-		window.parent.openImageForm();
+		window.parent.openImageForm(this.oApp);
 	},
 
 	/**

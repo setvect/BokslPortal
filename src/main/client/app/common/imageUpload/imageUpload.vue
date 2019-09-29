@@ -36,8 +36,6 @@ export default {
       this.imageClipboard();
     },
     uploadImage(event) {
-      console.log("call uploadImage()");
-      console.log('this.imageFile :', this.imageFile);
       this.encodeBase64ImageFile(this.imageFile)
         .then((data) => {
           this.attachImage(data);

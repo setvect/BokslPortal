@@ -20,6 +20,7 @@
         </b-col>
       </b-row>
     </form>
+    <impageUploadComponent @pasted="pasteImage" ref="imageUpload" />
   </div>
 </template>
 <script>
@@ -59,11 +60,13 @@ export default {
       },
       questionEdit: [],
       answerEdit: [],
+      pastsImageAction: null,
+      editor: null,
     };
   },
   methods: {
     initEditor() {
-
+      // 질문
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: this.questionEdit,
         elPlaceHolder: "question",
@@ -78,6 +81,7 @@ export default {
         },
       });
 
+      // 답변
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: this.answerEdit,
         elPlaceHolder: "answer",
@@ -92,14 +96,18 @@ export default {
         },
       });
     },
+    // 이미지 붙이기
+    pasteImage(html) {
+      this.editor.exec("PASTE_HTML", [html]);
+    },
     submitProc() {
       console.log("submit");
     },
   },
   mounted() {
     this.initEditor();
-
-    window.openImageForm = (a) => {
+    window.openImageForm = (editor) => {
+      this.editor = editor;
       this.$refs['imageUpload'].open();
     }
   }
