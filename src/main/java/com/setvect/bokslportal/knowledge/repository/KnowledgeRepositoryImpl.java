@@ -24,7 +24,7 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
   private EntityManager em;
 
   @Override
-  public GenericPage<KnowledgeVo> getKnowledgePagingList(final KnowledgeSearch searchCondition) {
+  public GenericPage<KnowledgeVo> getPagingList(final KnowledgeSearch searchCondition) {
     StringBuffer selectQuery = new StringBuffer("select todo FROM TodoVo todo");
     StringBuffer countQuery = new StringBuffer("select count(*) FROM TodoVo todo");
 

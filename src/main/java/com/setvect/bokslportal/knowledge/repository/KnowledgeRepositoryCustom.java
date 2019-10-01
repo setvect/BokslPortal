@@ -11,5 +11,5 @@ public interface KnowledgeRepositoryCustom {
 	 *            게시물 검색 정보
 	 * @return 게시물 페이지 값
 	 */
-	public GenericPage<KnowledgeVo> getKnowledgePagingList(KnowledgeSearch pageCondition);
+	public GenericPage<KnowledgeVo> getPagingList(KnowledgeSearch pageCondition);
 }
