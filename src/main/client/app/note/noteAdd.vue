@@ -7,9 +7,11 @@
         <span v-show="!validateState('title')" class="invalid-feedback">{{ veeErrors.first('title') }}</span>
       </b-form-group>
       <b-form-group>
-        <b-form-select v-model="item.categorySeq" size="sm">
+        <b-form-select v-model="item.categorySeq" :state="validateState('categorySeq')" v-validate="{ required: true }" name="categorySeq" data-vv-as="분류" placeholder="분류 선택해라" size="sm">
+          <option :value="null">== 선택 ==</option>
           <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
         </b-form-select>
+        <span v-show="!validateState('categorySeq')" class="invalid-feedback">{{ veeErrors.first('categorySeq') }}</span>
       </b-form-group>
 
       <b-form-group>
@@ -108,7 +110,6 @@ export default {
         // 등록
         else {
           url = "/note/item";
-          this.item.categorySeq = this.$route.query.categorySeq;
         }
         delete this.item.category;
         delete this.item.attach;
@@ -133,6 +134,11 @@ export default {
     }
   },
   mounted() {
+    this.item.categorySeq = null;
+    if (this.$route.query.categorySeq && parseInt(this.$route.query.categorySeq) !== 0) {
+      this.item.categorySeq = parseInt(this.$route.query.categorySeq);
+    }
+
     // 수정
     if (this.$route.query.noteSeq) {
       VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, (res) => {
