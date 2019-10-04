@@ -7,7 +7,8 @@ export default {
   methods: {
     listPage() {
       this.$router.push({
-        name: "knowledgeList"
+        name: "knowledgeList",
+        query: this.$route.query
       })
     },
     loadCodeList() {

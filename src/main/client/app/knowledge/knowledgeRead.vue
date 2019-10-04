@@ -1,17 +1,25 @@
 <template>
   <div>
-    <h5>질문</h5>
+    <h5>분류: {{item.classifyC}}</h5>
+    <h5 style="padding-top:10px;">질문</h5>
     <b-row>
-      <b-col sm="12" v-html="item.question"/>
+      <b-col sm="12" v-html="item.problem" />
     </b-row>
     <h5 style="padding-top:30px;">답변</h5>
     <b-row>
-      <b-col sm="12" v-html="item.answer"/>
+      <b-col sm="12" v-html="item.solution" />
     </b-row>
-    <b-row style="padding-top:30px;">
-      <b-col sm="12">
+    <b-row>
+      <b-col>
         <ul>
-          <li v-for="attach in item.attachList" :key="attach.attachSeq">{{attach.name}} (size: {{attach.size | numberFormat}} byte )</li>
+          <li v-for="attach in item.attach" :key="attach.attachSeq">
+            <b-button
+              @click="downloadFile(attach.attachFileSeq, attach.originalName)"
+              type="button"
+              variant="outline-secondary"
+              size="sm"
+            >{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button>
+          </li>
         </ul>
       </b-col>
     </b-row>
@@ -20,8 +28,8 @@
         <b-button @click="listPage()" type="button" variant="info">목록</b-button>
       </b-col>
       <b-col cols="auto">
-        <b-button @click="editPage()" type="button" variant="info">수정</b-button>
-        <b-button @click="deleteProc()" type="button" variant="danger">삭제</b-button>
+        <b-button @click="editPage(item.knowledgeSeq)" type="button" variant="info">수정</b-button>
+        <b-button @click="deleteProc(item.knowledgeSeq)" type="button" variant="danger">삭제</b-button>
       </b-col>
     </b-row>
   </div>
@@ -32,33 +40,41 @@ import knowledgeCommon from "./mixin-knowledge.js";
 import "../../utils/vue-common.js";
 
 export default {
-  mixins: [knowledgeCommon],
+  mixins: [comFunction, knowledgeCommon],
   data() {
     return {
-      item: {
-        knowledgeSeq: 1,
-        question: "질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. 질문입니다. ",
-        answer: "답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. ",
-        regDate: 1561071320000,
-        attachList: [
-          {
-            attachSeq: 1,
-            name: "abc.ppt",
-            size: 500000
-          },
-          {
-            attachSeq: 2,
-            name: "bee.ppt",
-            size: 1000
-          }
-        ]
-      }
+      item: {}
     };
   },
   methods: {
-    listPage() {
-      this.$router.push({ name: "knowledgeList" });
-    }
+    init() {
+      VueUtil.get(`/knowledge/item/${this.$route.query.knowledgeSeq}`, {}, (res) => {
+        this.item = res.data;
+      });
+    },
+    editPage() {
+      this.$router.push({
+        name: "knowledgeAdd", query: this.$route.query
+      })
+    },
+    deleteProc(knowledgeSeq) {
+      Swal.fire({
+        title: '삭제할거야?',
+        type: 'info',
+        showCloseButton: true,
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.value) {
+          return;
+        }
+        VueUtil.delete(`/knowledge/item/${knowledgeSeq}`, {}, (res) => {
+          this.listPage();
+        });
+      });
+    },
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       item: {
-        knowledgeSeq: 1,
         problem: "",
         solution: "",
         attachList: [],
@@ -119,15 +118,16 @@ export default {
 
         let url;
         // 수정
-        if (this.$route.query.noteSeq) {
+        if (this.$route.query.knowledgeSeq) {
           url = "/knowledge/item-edit";
           this.item.deleteAttachFileSeq = this.deleteAttachFileSeq;
         }
         // 등록
         else {
           url = "/knowledge/item";
-          this.item.categorySeq = this.$route.query.categorySeq;
         }
+        delete this.item.attach;
+        delete this.item.classifyCode;
         VueUtil.post(url, this.item, (res) => {
           this.$router.push({ name: "knowledgeList", query: this.$route.query });
         }, { "call-type": "multipart" });
@@ -141,7 +141,17 @@ export default {
     },
   },
   mounted() {
-    this.initEditor();
+    // 수정
+    if (this.$route.query.knowledgeSeq) {
+      VueUtil.get(`/knowledge/item/${this.$route.query.knowledgeSeq}`, {}, (res) => {
+        this.item = res.data;
+        this.initEditor();
+      });
+    }
+    // 등록
+    else {
+      this.initEditor();
+    }
     window.openImageForm = (editor) => {
       this.editor = editor;
       this.$refs['imageUpload'].open();

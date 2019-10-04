@@ -122,7 +122,6 @@ export default {
   },
   mounted() {
     this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq);
-    console.log('this.$route.query.field :', this.$route.query.field);
     if (!this.$route.query.field) {
       this.$route.query.field = "title";
     }

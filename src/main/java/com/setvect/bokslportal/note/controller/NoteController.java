@@ -5,14 +5,12 @@ import com.setvect.bokslportal.attach.service.AttachFileModule;
 import com.setvect.bokslportal.attach.service.AttachFileService;
 import com.setvect.bokslportal.attach.vo.AttachFileVo;
 import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.network.vo.NetworkVo;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
 import com.setvect.bokslportal.note.repository.NoteRepository;
 import com.setvect.bokslportal.note.service.NoteSearch;
 import com.setvect.bokslportal.note.service.NoteService;
 import com.setvect.bokslportal.note.vo.NoteCategoryVo;
 import com.setvect.bokslportal.note.vo.NoteVo;
-import com.setvect.bokslportal.user.vo.UserVo;
 import com.setvect.bokslportal.util.TreeNode;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/note/")
@@ -121,7 +115,7 @@ public class NoteController {
   public ResponseEntity<String> addItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
     note.setRegDate(new Date());
     note.setEditDate(new Date());
-    noteRepository.saveAndFlush(note);
+      noteRepository.saveAndFlush(note);
 
     attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));

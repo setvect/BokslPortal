@@ -2,11 +2,11 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-form-select v-model="searchParam.classifyC" size="sm">
+        <b-form-select v-model="$route.query.classifyC" size="sm">
           <option :value="null">--전체--</option>
           <option v-for="code in classifyList" :key="code.minorCode" :value="code.minorCode">{{code.codeValue}}</option>
         </b-form-select>
-        <b-input @keypress.13="search()" v-model="searchWord" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
       </b-form>
@@ -20,9 +20,10 @@
       <template slot="solution" slot-scope="data">
         <b-link @click="readPage(data.item.knowledgeSeq)">{{clearHtml(data.item.solution)}}</b-link>
       </template>
+      <template slot="file" slot-scope="data">{{data.item.attach.length}}</template>
       <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
     </b-table>
-    <b-pagination v-model="searchParam.currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
+    <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
     <b-row>
       <b-col style="text-align:right">
         <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
@@ -44,53 +45,59 @@ export default {
         { key: "classifyC", label: "분류", class: 'classify-col' },
         { key: "problem", label: "질문", class: 'content-col' },
         { key: "solution", label: "답변", class: 'content-col' },
+        { key: "file", label: "파일", class: 'file-col' },
         { key: "regDate", label: "날짜", class: 'date-col' }
       ],
-      searchParam: {
-        classifyC: null,
-        word: null,
-        currentPage: 1
-      },
       page: {
         total: 0,
         list: []
       },
       categoryList: [],
-      searchWord: "",
+      currentPage: 1,
     };
   },
   computed: {
     isSearch() {
-      return this.searchParam.word;
+      return this.$route.query.word;
     }
   },
   methods: {
     listProc() {
-      VueUtil.get("/knowledge/page", this.searchParam, (res) => {
+      let currentPage = this.$route.query.currentPage;
+      VueUtil.get("/knowledge/page", this.$route.query, (res) => {
         this.page = res.data;
+        this.$nextTick(() => {
+          this.currentPage = currentPage;
+        });
       });
     },
     search() {
-      this.searchParam.word = this.searchWord;
       this.page.startCursor = 0;
       this.listProc();
     },
     searchCancel() {
-      this.searchWord = "";
-      this.searchParam.word = "";
+      this.$route.query.word = "";
       this.search();
     },
     addPage() {
-      this.$router.push({ name: "knowledgeAdd" });
+      delete this.$route.query.knowledgeSeq;
+      this.$router.push({ name: "knowledgeAdd", query: this.$route.query });
     },
-    readPage() {
-      this.$router.push({ name: "knowledgeRead" });
+    readPage(knowledgeSeq) {
+      this.$route.query.knowledgeSeq = knowledgeSeq;
+      this.$router.push({ name: "knowledgeRead", query: this.$route.query });
     },
     changePage(page) {
-      console.log("page :", page);
-    }
+      this.$route.query.startCursor = this.page.returnCount * (page - 1)
+      this.$route.query.currentPage = page;
+      this.listProc();
+    },
   },
   mounted() {
+    if (!this.$route.query.classifyC) {
+      this.$route.query.classifyC = null;
+    }
+    this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq);
     this.listProc();
   }
 };
@@ -108,6 +115,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .file-col{
+    width: 60px;
   }
   .date-col{
     width: 140px;

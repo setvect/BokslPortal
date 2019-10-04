@@ -9,6 +9,7 @@ import com.setvect.bokslportal.knowledge.repository.KnowledgeRepository;
 import com.setvect.bokslportal.knowledge.service.KnowledgeSearch;
 import com.setvect.bokslportal.knowledge.service.KnowledgeService;
 import com.setvect.bokslportal.knowledge.vo.KnowledgeVo;
+import com.setvect.bokslportal.note.vo.NoteVo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,17 +49,23 @@ public class KnowledgeController {
   @GetMapping("page")
   public ResponseEntity<String> page(KnowledgeSearch param) {
     GenericPage<KnowledgeVo> page = knowledgeRepository.getPagingList(param);
+
+    page.getList().forEach(note -> {
+      List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.KNOWLEDGE, note.getKnowledgeSeq());
+      note.setAttach(attach);
+    });
+
     String json = ApplicationUtil.toJsonWtihRemoveHibernate(page);
     return ResponseEntity.ok().body(json);
   }
 
   /**
-   * @param categorySeq 일련번호
+   * @param knowledgeSeq 일련번호
    * @return 할일 목록
    */
   @GetMapping("item/{id}")
-  public ResponseEntity<String> getItem(@PathVariable("id") int categorySeq) {
-    KnowledgeVo item = knowledgeRepository.findById(categorySeq).get();
+  public ResponseEntity<String> getItem(@PathVariable("id") int knowledgeSeq) {
+    KnowledgeVo item = knowledgeRepository.findById(knowledgeSeq).get();
     List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.KNOWLEDGE, item.getKnowledgeSeq());
     item.setAttach(attach);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,attach[-savePath,-saveName]"));
@@ -73,7 +80,7 @@ public class KnowledgeController {
   @PostMapping("item")
   public ResponseEntity<String> addItem(KnowledgeVo knowledge, @RequestParam("attachList") MultipartFile[] attach) {
     knowledge.setRegDate(new Date());
-    knowledgeRepository.save(knowledge);
+    knowledgeRepository.saveAndFlush(knowledge);
 
     attachFileService.process(attach, AttachFileModule.KNOWLEDGE, knowledge.getKnowledgeSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(knowledge));
