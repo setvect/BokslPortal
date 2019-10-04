@@ -75,7 +75,7 @@ public class KnowledgeController {
     knowledge.setRegDate(new Date());
     knowledgeRepository.save(knowledge);
 
-    attachFileService.process(attach, AttachFileModule.NOTE, knowledge.getKnowledgeSeq());
+    attachFileService.process(attach, AttachFileModule.KNOWLEDGE, knowledge.getKnowledgeSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(knowledge));
   }
 
@@ -94,7 +94,7 @@ public class KnowledgeController {
     saveData.setSolution(knowledgeVo.getSolution());
     knowledgeRepository.save(knowledgeVo);
 
-    attachFileService.process(attach, AttachFileModule.NOTE, knowledgeVo.getKnowledgeSeq());
+    attachFileService.process(attach, AttachFileModule.KNOWLEDGE, knowledgeVo.getKnowledgeSeq());
     if (deleteAttachFileSeq != null) {
       attachFileService.deleteFile(deleteAttachFileSeq);
     }

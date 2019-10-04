@@ -25,21 +25,21 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 
   @Override
   public GenericPage<KnowledgeVo> getPagingList(final KnowledgeSearch searchCondition) {
-    StringBuffer selectQuery = new StringBuffer("select todo FROM TodoVo todo");
-    StringBuffer countQuery = new StringBuffer("select count(*) FROM TodoVo todo");
+    StringBuffer selectQuery = new StringBuffer("select knowledge FROM KnowledgeVo knowledge");
+    StringBuffer countQuery = new StringBuffer("select count(*) FROM KnowledgeVo knowledge");
 
-    StringBuffer where = new StringBuffer(" WHERE todo.deleteF = 'N'");
+    StringBuffer where = new StringBuffer(" WHERE knowledge.deleteF = 'N'");
     Map<String, Object> bindParameter = new HashMap<>();
 
     String searchWord = searchCondition.getWord();
     String searchClassify = searchCondition.getClassifyC();
 
     if (StringUtils.isNotBlank(searchWord)) {
-      where.append(" and ( upper(b.problem) like :word OR upper(b.solution) like :word)");
-      bindParameter.put("word", ApplicationUtil.makeLikeString(searchWord));
+      where.append(" and ( upper(knowledge.problem) like :word OR upper(knowledge.solution) like :word)");
+      bindParameter.put("word", ApplicationUtil.makeLikeString(searchWord.toUpperCase()));
     }
     if (StringUtils.isNotEmpty(searchClassify)) {
-      where.append("  and b.classifyC = :classify");
+      where.append("  and knowledge.classifyC = :classify");
       bindParameter.put("classify", searchClassify);
     }
 

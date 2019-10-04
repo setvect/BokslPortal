@@ -57,6 +57,7 @@ export default {
         content: "",
         attachList: [],
         categorySeq: 0,
+        attach: [],
       },
       deleteAttachFileSeq: [],
       oEditors: [],
@@ -122,9 +123,9 @@ export default {
         this.item.attachList.push(event.target.files[i]);
       }
     },
-    travelCategory(cList, level){
+    travelCategory(cList, level) {
       let space = '__'.repeat(level);
-      cList.forEach((c)=>{
+      cList.forEach((c) => {
         c.data.name = space + c.data.name;
         this.categoryList.push(c.data);
         this.travelCategory(c.children, level + 1);

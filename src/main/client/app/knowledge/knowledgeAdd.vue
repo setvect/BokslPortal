@@ -3,20 +3,27 @@
     <h5>등록</h5>
     <form autocomplete="off">
       <b-form-group>
-        <b-form-select v-model="item.classifyC" size="sm">
+        <b-form-select v-model="item.classifyC" :state="validateState('classifyC')" v-validate="{ required: true }" name="classifyC" data-vv-as="분류" placeholder="분류 선택해라" size="sm">
           <option :value="null">== 선택 ==</option>
           <option v-for="code in classifyList" :key="code.minorCode" :value="code.minorCode">{{code.codeValue}}</option>
         </b-form-select>
-      </b-form-group>
-
-      <b-form-group>
-        <textarea v-model="item.question" id="question" rows="10" cols="100" style="width: 100%; height: 250px; display:none"></textarea>
+        <span v-show="!validateState('classifyC')" class="invalid-feedback">{{ veeErrors.first('classifyC') }}</span>
       </b-form-group>
       <b-form-group>
-        <textarea v-model="item.answer" id="answer" rows="10" cols="100" style="width: 100%; height: 250px; display:none"></textarea>
+        <textarea v-model="item.problem" id="problem" rows="10" cols="100" style="width: 100%; height: 250px; display:none"></textarea>
       </b-form-group>
       <b-form-group>
-        <b-form-file v-model="item.attach" :multiple="true" placeholder="첨부파일" />
+        <textarea v-model="item.solution" id="solution" rows="10" cols="100" style="width: 100%; height: 250px; display:none"></textarea>
+      </b-form-group>
+      <b-form-group>
+        <b-form-file @change="attachFile($event)" :multiple="true" placeholder="첨부파일" />
+      </b-form-group>
+      <b-form-group v-show="item.attach.length !== 0">
+        <ul>
+          <li v-for="attach in item.attach" :key="attach.attachSeq">
+            <b-check v-model="deleteAttachFileSeq" :value="attach.attachFileSeq">{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-check>
+          </li>
+        </ul>
       </b-form-group>
       <b-row>
         <b-col>
@@ -46,12 +53,13 @@ export default {
     return {
       item: {
         knowledgeSeq: 1,
-        question: "",
-        answer: "",
+        problem: "",
+        solution: "",
         attachList: [],
         classifyC: null,
+        attach: [],
       },
-      classifyList: [],
+      deleteAttachFileSeq: [],
       questionEdit: [],
       answerEdit: [],
       editor: null,
@@ -62,30 +70,30 @@ export default {
       // 질문
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: this.questionEdit,
-        elPlaceHolder: "question",
+        elPlaceHolder: "problem",
         sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
         fCreator: "createSEditorInIFrame",
         fOnAppLoad: () => {
           // 본문 내용 수정
           $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
-            this.item.content = this.questionEdit.getById["question"].getIR();
+            this.item.problem = this.questionEdit.getById["problem"].getIR();
           });
-          this.questionEdit.getById["question"].setDefaultFont("나눔고딕", 10);
+          this.questionEdit.getById["problem"].setDefaultFont("나눔고딕", 10);
         },
       });
 
       // 답변
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: this.answerEdit,
-        elPlaceHolder: "answer",
+        elPlaceHolder: "solution",
         sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
         fCreator: "createSEditorInIFrame",
         fOnAppLoad: () => {
           // 본문 내용 수정
           $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
-            this.item.content = this.answerEdit.getById["answer"].getIR();
+            this.item.solution = this.answerEdit.getById["solution"].getIR();
           });
-          this.answerEdit.getById["answer"].setDefaultFont("나눔고딕", 10);
+          this.answerEdit.getById["solution"].setDefaultFont("나눔고딕", 10);
         },
       });
     },
@@ -94,17 +102,46 @@ export default {
       this.editor.exec("PASTE_HTML", [html]);
     },
     submitProc() {
-      console.log("submit");
-    },
-    loadCodeList() {
-      VueUtil.get('/code/list/KNOW_TYPE', {}, (res) => {
-        this.classifyList = res.data;
+      let problem = CommonUtil.clearHtml(this.item.problem);
+      if (CommonUtil.isEmpty(problem)) {
+        Swal.fire(
+          '안내',
+          '질문을 입력해',
+          'error'
+        )
+        return;
+      }
+
+      this.$validator.validateAll().then((result) => {
+        if (!result) {
+          return;
+        }
+
+        let url;
+        // 수정
+        if (this.$route.query.noteSeq) {
+          url = "/knowledge/item-edit";
+          this.item.deleteAttachFileSeq = this.deleteAttachFileSeq;
+        }
+        // 등록
+        else {
+          url = "/knowledge/item";
+          this.item.categorySeq = this.$route.query.categorySeq;
+        }
+        VueUtil.post(url, this.item, (res) => {
+          this.$router.push({ name: "knowledgeList", query: this.$route.query });
+        }, { "call-type": "multipart" });
       });
-    }
+    },
+    attachFile(event) {
+      this.item.attachList = [];
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.item.attachList.push(event.target.files[i]);
+      }
+    },
   },
   mounted() {
     this.initEditor();
-    this.loadCodeList();
     window.openImageForm = (editor) => {
       this.editor = editor;
       this.$refs['imageUpload'].open();

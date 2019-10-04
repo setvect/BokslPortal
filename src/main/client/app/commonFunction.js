@@ -49,5 +49,8 @@ export default {
       document.body.appendChild(link);
       link.click();
     },
+    clearHtml(html) {
+      return CommonUtil.clearHtml(html);
+    }
   }
 };
