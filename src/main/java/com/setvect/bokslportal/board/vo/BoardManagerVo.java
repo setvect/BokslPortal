@@ -17,7 +17,7 @@ import lombok.Setter;
 @Table(name = "TBBA_BOARD_MANAGER")
 @Getter
 @Setter
-public class BoardVo {
+public class BoardManagerVo {
 	/** 게시판 코드 */
 	@Id
 	@Column(name = "BOARD_CODE", nullable = false, length = 20)

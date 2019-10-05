@@ -3,7 +3,7 @@
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
         <b-form-select v-model="searchData.field" size="sm">
-          <option value="name">이름</option>
+          <option value="title">제목</option>
           <option value="content">내용</option>
         </b-form-select>
         <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
@@ -20,7 +20,7 @@
         <b-link @click="deleteProc(data.boardSeq)">삭제</b-link>
       </template>
     </b-table>
-    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
+    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
     <b-row>
       <b-col style="text-align:right">
         <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
@@ -68,16 +68,23 @@ export default {
   },
   methods: {
     addPage() {
-      this.$router.push({ name: "boardAdd" });
+      this.$route.query.mode = 'add';
+      this.$router.push({
+        name: "boardAdd",
+        query: this.$route.query
+      });
     },
     readPage() {
-      this.$router.push({ name: "boardRead" });
+      this.$router.push({
+        name: "boardRead",
+        query: this.$route.query
+      });
     },
     changePage(page) {
       console.log("page :", page);
     }
   },
-  mounted(){
+  mounted() {
   }
 };
 </script>

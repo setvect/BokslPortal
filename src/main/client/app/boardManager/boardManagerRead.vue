@@ -42,8 +42,8 @@
         <b-button @click="listPage()" type="button" variant="info">목록</b-button>
       </b-col>
       <b-col cols="auto">
-        <b-button @click="editPage()" type="button" variant="info">수정</b-button>
-        <b-button @click="deleteProc()" type="button" variant="danger">삭제</b-button>
+        <b-button @click="editPage(item.boardCode)" type="button" variant="info">수정</b-button>
+        <b-button @click="deleteProc(item.boardCode)" type="button" variant="danger">삭제</b-button>
       </b-col>
     </b-row>
   </div>
@@ -57,8 +57,8 @@ export default {
   data() {
     return {
       item: {
-        boardCode: "BDAABB00",
-        name: '공지사항',
+        boardCode: "",
+        name: '',
         uploadLimit: 1000,
         commentF: false,
         attachF: true,
@@ -67,9 +67,14 @@ export default {
     }
   },
   methods: {
-    listPage() {
-      this.$router.push({ name: 'boardManagerList' })
-    },
+    init() {
+      VueUtil.get(`/board-manager/item/${this.$route.query.boardCode}`, {}, (res) => {
+        this.item = res.data;
+      });
+    }
+  },
+  mounted() {
+    this.init();
   }
 }
 </script>

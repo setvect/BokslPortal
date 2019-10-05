@@ -39,7 +39,7 @@ public class BoardArticleVo {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BOARD_CODE", nullable = false)
-	private BoardVo board;
+	private BoardManagerVo board;
 
 	/** */
 	@ManyToOne(fetch = FetchType.LAZY)

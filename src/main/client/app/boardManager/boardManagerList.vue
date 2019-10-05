@@ -2,30 +2,27 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-form-select v-model="searchData.field" size="sm">
+        <b-form-select v-model="$route.query.field" size="sm">
           <option value="name">이름</option>
           <option value="code">게시판코드</option>
         </b-form-select>
-        <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button variant="primary" size="sm">검색</b-button>
+        <b-button @click="search()" variant="primary" size="sm">검색</b-button>
+        <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
+        <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
       </b-form>
     </div>
-    <b-table :bordered="true" hover :fields="fields" :items="listData">
-      <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
+    <b-table :bordered="true" hover :fields="fields" :items="page.list">
       <template slot="boardCode" slot-scope="data">
-        <b-link @click="readPage(data.item.boardManagerSeq)">{{ data.item.boardCode }}</b-link>
+        <b-link @click="readPage(data.item.boardCode)">{{ data.item.boardCode }}</b-link>
       </template>
       <template slot="function" slot-scope="data">
-        <b-link @click="editPage(data.boardManagerSeq)">수정</b-link>
-        <b-link @click="deleteProc(data.boardManagerSeq)">삭제</b-link>
+        <b-link @click="editPage(data.item.boardCode)">수정</b-link>
+        <b-link @click="deleteProc(data.item.boardCode)">삭제</b-link>
       </template>
     </b-table>
-    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center"/>
-    <b-row>
-      <b-col style="text-align:right">
-        <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
-      </b-col>
-    </b-row>
+    <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
   </div>
 </template>
 
@@ -37,45 +34,59 @@ export default {
   data() {
     return {
       fields: [
-        { key: 'index', label: "#" },
         { key: 'boardCode', label: "코드" },
         { key: 'name', label: "게시판이름" },
         { key: 'function', label: "기능" },
       ],
-      listData: [{
-        boardManagerSeq: 1,
-        boardCode: 'BDAAAA01',
-        name: '메인화면',
-      }, {
-        boardManagerSeq: 2,
-        boardCode: 'BDAAAA02',
-        name: '글',
-      }, {
-        boardManagerSeq: 3,
-        boardCode: 'BDAAAA03',
-        name: '꿈',
-      }],
-      searchData: {
-        field: "name",
-        word: null,
-        currentPage: 1
-      },
       page: {
-        total: 300,
-        perPage: 10
-      }
+        totalCount: 0,
+        list: []
+      },
+      currentPage: 1,
+    }
+  },
+  computed: {
+    isSearch() {
+      return this.$route.query.word;
     }
   },
   methods: {
-    addPage() {
-      this.$router.push({ name: 'boardManagerAdd' })
+    listProc() {
+      let currentPage = this.$route.query.currentPage;
+      VueUtil.get("/board-manager/page", this.$route.query, (res) => {
+        this.page = res.data;
+        this.$nextTick(() => {
+          this.currentPage = currentPage;
+        });
+      });
     },
-    readPage() {
-      this.$router.push({ name: 'boardManagerRead' })
+    search() {
+      this.$route.query.startCursor = 0;
+      this.listProc();
+    },
+    searchCancel() {
+      this.$route.query.word = "";
+      this.search();
+    },
+    addPage() {
+      delete this.$route.query.boardCode;
+      this.$router.push({ name: 'boardManagerAdd', query: this.$route.query })
+    },
+    readPage(boardCode) {
+      this.$route.query.boardCode = boardCode;
+      this.$router.push({ name: "boardManagerRead", query: this.$route.query });
     },
     changePage(page) {
-      console.log('page :', page);
+      this.$route.query.startCursor = this.page.returnCount * (page - 1)
+      this.$route.query.currentPage = page;
+      this.listProc();
     }
+  },
+  mounted() {
+    if (!this.$route.query.field) {
+      this.$route.query.field = "name";
+    }
+    this.listProc();
   }
 }
 </script>

@@ -12,7 +12,7 @@ export default {
       this.$router.push({
         name: "noteAdd",
         query: this.$route.query
-      })
+      });
     },
     deleteProc(noteSeq) {
       Swal.fire({
