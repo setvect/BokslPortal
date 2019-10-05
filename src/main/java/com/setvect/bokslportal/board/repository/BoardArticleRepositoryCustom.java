@@ -14,13 +14,6 @@ public interface BoardArticleRepositoryCustom {
 	 *            게시물 검색 정보
 	 * @return 게시물 페이지 값
 	 */
-	public GenericPage<BoardArticleVo> getArticlePagingList(BoardArticleSearch pageCondition);
-
-	/**
-	 * 게시물 저장
-	 *
-	 * @param article
-	 */
-	public void insertArticle(BoardArticleVo article);
+	public GenericPage<BoardArticleVo> getPagingList(BoardArticleSearch pageCondition);
 
 }

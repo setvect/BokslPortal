@@ -35,32 +35,16 @@ public class BoardArticleVo {
 	@Id
 	@Column(name = "ARTICLE_SEQ", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int articleSeq;
+	private int boardArticleSeq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BOARD_CODE", nullable = false)
-	private BoardManagerVo board;
+	private BoardManagerVo boardManager;
 
 	/** */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID", nullable = false)
 	private UserVo user;
-
-	/** */
-	@Column(name = "IDX1", nullable = false)
-	private int idx1;
-
-	/** */
-	@Column(name = "IDX2", nullable = false)
-	private int idx2;
-
-	/** */
-	@Column(name = "IDX3", nullable = false)
-	private int idx3;
-
-	/** 깊이 1부터 시작 */
-	@Column(name = "DEPTH_LEVEL", nullable = false)
-	private int depthLevel;
 
 	/** 제목 */
 	@Column(name = "TITLE", nullable = false, length = 200)

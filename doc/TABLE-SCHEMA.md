@@ -42,10 +42,6 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ARTICLE_SEQ|키|PK|integer|4|Y|
 BOARD_CODE|게시판 코드|FK|varchar|20|Y|TBBA_BOARD_MANAGER 외래키
 USER_ID|아이디| |varchar|20|Y|TBAA_USER 외래키
-IDX1|인덱스1| |integer|4|Y|
-IDX2|인덱스2| |integer|4|Y|
-IDX3|인덱스3| |integer|4|Y|1 부터 시작
-DEPTH_LEV|깊이| |integer|4|Y|답변 깊이 1부터시작
 TITLE|제목| |varchar|200|Y|
 CONTENT|본문| |TEXT| |Y|
 IP|아이피| |varchar|20|Y|
