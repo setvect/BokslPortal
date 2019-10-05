@@ -6,6 +6,7 @@ import com.setvect.bokslportal.attach.service.AttachFileService;
 import com.setvect.bokslportal.attach.vo.AttachFileVo;
 import com.setvect.bokslportal.board.repository.BoardArticleRepository;
 import com.setvect.bokslportal.board.service.BoardArticleSearch;
+import com.setvect.bokslportal.board.service.BoardService;
 import com.setvect.bokslportal.board.vo.BoardArticleVo;
 import com.setvect.bokslportal.common.GenericPage;
 import lombok.extern.log4j.Log4j2;
@@ -34,8 +35,11 @@ public class BoardArticleController {
   @Autowired
   private AttachFileService attachFileService;
 
+  @Autowired
+  private BoardService boardService;
 
   // ============== 조회 ==============
+
   /**
    * @param param 검색 조건
    * @return 할일 목록
@@ -66,14 +70,17 @@ public class BoardArticleController {
   // ============== 등록 ==============
 
   /**
-   * @param boardArticleVo 항목
-   * @return 등록된 항목
+   * @param boardArticleVo 게시물
+   * @param attach         첨부파일
+   * @param encrypt        암호화 문자열
+   * @return 등록된 게시물
    */
   @PostMapping("item")
-  public ResponseEntity<String> addItem(BoardArticleVo boardArticleVo, @RequestParam("attachList") MultipartFile[] attach) {
+  public ResponseEntity<String> addItem(BoardArticleVo boardArticleVo, @RequestParam("attachList") MultipartFile[] attach, @RequestParam("encrypt") String encrypt) {
     boardArticleVo.setRegDate(new Date());
-    boardArticleRepository.saveAndFlush(boardArticleVo);
+    boardService.processEncrypt(boardArticleVo, encrypt);
 
+    boardArticleRepository.saveAndFlush(boardArticleVo);
     attachFileService.process(attach, AttachFileModule.BOARD, boardArticleVo.getBoardArticleSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(boardArticleVo));
   }
@@ -84,13 +91,16 @@ public class BoardArticleController {
    * @param boardArticleVo      게시물
    * @param deleteAttachFileSeq 삭제 첨부파일 번호
    * @param attach              업로드 첨부파일 정보
+   * @param encrypt             암호화 문자열
    * @return 수정된 항목
    */
   @PostMapping("item-edit")
-  public ResponseEntity<String> editItem(BoardArticleVo boardArticleVo, @RequestParam(name = "deleteAttachFileSeq", required = false) Set<Integer> deleteAttachFileSeq, @RequestParam("attachList") MultipartFile[] attach) {
+  public ResponseEntity<String> editItem(BoardArticleVo boardArticleVo, @RequestParam(name = "deleteAttachFileSeq", required = false) Set<Integer> deleteAttachFileSeq, @RequestParam("attachList") MultipartFile[] attach, @RequestParam("encrypt") String encrypt) {
     BoardArticleVo saveData = boardArticleRepository.findById(boardArticleVo.getBoardArticleSeq()).get();
     saveData.setContent(boardArticleVo.getContent());
     saveData.setTitle(boardArticleVo.getTitle());
+    boardService.processEncrypt(boardArticleVo, encrypt);
+
     boardArticleRepository.save(boardArticleVo);
 
     attachFileService.process(attach, AttachFileModule.BOARD, boardArticleVo.getBoardArticleSeq());
@@ -113,4 +123,5 @@ public class BoardArticleController {
     boardArticleRepository.save(saveData);
     return ResponseEntity.noContent().build();
   }
+
 }
