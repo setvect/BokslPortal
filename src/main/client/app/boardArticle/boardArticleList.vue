@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import boardCommon from "./mixin-board.js";
+import boardCommon from "./mixin-boardArticle.js";
 
 export default {
   mixins: [boardCommon],
@@ -70,13 +70,13 @@ export default {
     addPage() {
       this.$route.query.mode = 'add';
       this.$router.push({
-        name: "boardAdd",
+        name: "boardArticleAdd",
         query: this.$route.query
       });
     },
     readPage() {
       this.$router.push({
-        name: "boardRead",
+        name: "boardArticleRead",
         query: this.$route.query
       });
     },

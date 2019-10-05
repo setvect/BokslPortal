@@ -47,25 +47,25 @@ export const constantRouterMap = [
         ]
       },
       {
-        path: "board",
+        path: "boardArticle",
         component: () => import("./app/index.vue"),
-        name: "board",
-        redirect: "/main/board/list",
+        name: "boardArticle",
+        redirect: "/main/boardArticle/list",
         children: [
           {
             path: "list",
-            component: () => import("./app/board/boardList.vue"),
-            name: "boardList"
+            component: () => import("./app/boardArticle/boardArticleList.vue"),
+            name: "boardArticleList"
           },
           {
             path: "read",
-            component: () => import("./app/board/boardRead.vue"),
-            name: "boardRead"
+            component: () => import("./app/boardArticle/boardArticleRead.vue"),
+            name: "boardArticleRead"
           },
           {
             path: "add",
-            component: () => import("./app/board/boardAdd.vue"),
-            name: "boardAdd"
+            component: () => import("./app/boardArticle/boardArticleAdd.vue"),
+            name: "boardArticleAdd"
           }
         ]
       },

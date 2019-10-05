@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/note/")
+@RequestMapping(value = "/board-article/")
 @Log4j2
 public class BoardArticleController {
   @Autowired

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import boardCommon from "./mixin-board.js";
+import boardCommon from "./mixin-boardArticle.js";
 import "../../utils/vue-common.js";
 
 export default {

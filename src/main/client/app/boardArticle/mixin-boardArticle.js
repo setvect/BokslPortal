@@ -1,20 +1,20 @@
 export default {
   methods: {
     listPage() {
-      delete this.$route.query.boardCode;
+      delete this.$route.query.boardArticleSeq;
       this.$router.push({
-        name: "boardList",
+        name: "boardArticleList",
         query: this.$route.query
       });
     },
-    editPage(boardCode) {
-      this.$route.query.boardCode = boardCode;
+    editPage(boardArticleSeq) {
+      this.$route.query.boardArticleSeq = boardArticleSeq;
       this.$router.push({
-        name: "boardAdd",
+        name: "boardArticleAdd",
         query: this.$route.query
       })
     },
-    deleteProc(boardCode) {
+    deleteProc(boardArticleSeq) {
       Swal.fire({
         title: '삭제할거야?',
         type: 'info',
@@ -24,7 +24,7 @@ export default {
         if (!result.value) {
           return;
         }
-        VueUtil.delete(`/board-article/item/${boardCode}`, {}, (res) => {
+        VueUtil.delete(`/board-article/item/${boardArticleSeq}`, {}, (res) => {
           this.listPage();
         });
       });
