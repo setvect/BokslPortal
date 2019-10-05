@@ -2,38 +2,39 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-form-select v-model="searchData.field" size="sm">
+        <b-form-select v-model="$route.query.field" size="sm">
           <option value="title">제목</option>
           <option value="content">내용</option>
         </b-form-select>
-        <b-input v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
-        <b-button variant="primary" size="sm">검색</b-button>
+        <b-input @keypress.13="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-button @click="search()" variant="primary" size="sm">검색</b-button>
+        <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
+        <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
       </b-form>
     </div>
-    <b-table :bordered="true" hover :fields="fields" :items="listData">
+    <b-table :bordered="true" hover :fields="fields" :items="page.list">
       <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
       <template slot="title" slot-scope="data">
-        <b-link @click="readPage(data.item.boardSeq)">{{ data.item.title }}</b-link>
+        <b-link @click="readPage(data.item.boardSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.boardSeq)">수정</b-link>
         <b-link @click="deleteProc(data.boardSeq)">삭제</b-link>
       </template>
     </b-table>
-    <b-pagination v-model="searchData.currentPage" :total-rows="page.total" :per-page="page.perPage" @change="changePage" limit="10" align="center" />
-    <b-row>
-      <b-col style="text-align:right">
-        <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
-      </b-col>
-    </b-row>
+    <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
   </div>
 </template>
 
 <script>
 import boardCommon from "./mixin-boardArticle.js";
+import boardArticleEncryptComponent from "./boardArticleEncrypt.vue";
 
 export default {
   mixins: [boardCommon],
+  components: {
+    boardArticleEncrypt: boardArticleEncryptComponent
+  },
   data() {
     return {
       fields: [
@@ -41,50 +42,55 @@ export default {
         { key: "title", label: "제목" },
         { key: "function", label: "기능", class: 'function-col' }
       ],
-      listData: [
-        {
-          boardSeq: 1,
-          title: "제목입니다1"
-        },
-        {
-          boardSeq: 2,
-          title: "제목입니다2"
-        },
-        {
-          boardSeq: 3,
-          title: "제목입니다31"
-        }
-      ],
-      searchData: {
-        field: "name",
-        word: null,
-        currentPage: 1
-      },
       page: {
-        total: 300,
-        perPage: 10
-      }
+        totalCount: 0,
+        list: []
+      },
+      currentPage: 1,
     };
   },
+  computed: {
+    isSearch() {
+      return this.$route.query.word;
+    }
+  },
   methods: {
-    addPage() {
-      this.$route.query.mode = 'add';
-      this.$router.push({
-        name: "boardArticleAdd",
-        query: this.$route.query
+    listProc() {
+      let currentPage = this.$route.query.currentPage;
+      VueUtil.get("/board-article/page", this.$route.query, (res) => {
+        this.page = res.data;
+        this.$nextTick(() => {
+          this.currentPage = currentPage;
+        });
       });
     },
-    readPage() {
-      this.$router.push({
-        name: "boardArticleRead",
-        query: this.$route.query
-      });
+    search() {
+      this.$route.query.startCursor = 0;
+      this.listProc();
+    },
+    searchCancel() {
+      this.$route.query.word = "";
+      this.search();
+    },
+    addPage() {
+      delete this.$route.query.boardArticleSeq;
+      this.$router.push({ name: "boardArticleAdd", query: this.$route.query });
+    },
+    readPage(boardArticleSeq) {
+      this.$route.query.boardArticleSeq = boardArticleSeq;
+      this.$router.push({ name: "boardArticleRead", query: this.$route.query });
     },
     changePage(page) {
-      console.log("page :", page);
+      this.$route.query.startCursor = this.page.returnCount * (page - 1)
+      this.$route.query.currentPage = page;
+      this.listProc();
     }
   },
   mounted() {
+    if (!this.$route.query.field) {
+      this.$route.query.field = "title";
+    }
+    this.listProc();
   }
 };
 </script>

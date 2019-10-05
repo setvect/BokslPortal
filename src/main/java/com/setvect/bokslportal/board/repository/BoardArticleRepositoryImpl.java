@@ -47,7 +47,7 @@ public class BoardArticleRepositoryImpl implements BoardArticleRepositoryCustom 
     }
 
     countQuery.append(where);
-    selectQuery.append(where + "order by b.boardCode ");
+    selectQuery.append(where + " order by b.boardArticleSeq ");
 
     PageQueryCondition pageQuery = new PageQueryCondition(bindParameter, searchCondition);
     pageQuery.setCountQuery(countQuery.toString());
