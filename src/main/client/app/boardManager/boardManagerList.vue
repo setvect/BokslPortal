@@ -17,6 +17,9 @@
       <template slot="boardCode" slot-scope="data">
         <b-link @click="readPage(data.item.boardCode)">{{ data.item.boardCode }}</b-link>
       </template>
+      <template slot="move" slot-scope="data">
+        <router-link :to="{name: 'boardArticle', query: { boardCode: data.item.boardCode }}" target="_blank">바로가기</router-link>
+      </template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.item.boardCode)">수정</b-link>
         <b-link @click="deleteProc(data.item.boardCode)">삭제</b-link>
@@ -35,6 +38,7 @@ export default {
     return {
       fields: [
         { key: 'boardCode', label: "코드" },
+        { key: 'move', label: "바로가기" },
         { key: 'name', label: "게시판이름" },
         { key: 'function', label: "기능" },
       ],
