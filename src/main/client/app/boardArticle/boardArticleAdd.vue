@@ -7,10 +7,17 @@
         <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
       </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="2" label="내용">
-        <quill-editor v-model="item.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)" style="height:300px; margin-bottom: 30px;"></quill-editor>
+        <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="2" label="첨부파일">
-        <b-form-file v-model="item.attach" :multiple="true"/>
+        <b-form-file @change="attachFile($event)" :multiple="true" placeholder="첨부파일" />
+      </b-form-group>
+      <b-form-group>
+        <ul>
+          <li v-for="attach in item.attach" :key="attach.attachSeq">
+            <b-check v-model="deleteAttachFileSeq" :value="attach.attachFileSeq">{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-check>
+          </li>
+        </ul>
       </b-form-group>
       <b-row>
         <b-col>
@@ -25,18 +32,10 @@
 </template>
 <script>
 import boardCommon from "./mixin-boardArticle.js";
-// require styles
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-
-import { quillEditor } from 'vue-quill-editor'
-
+import "../../utils/vue-common.js";
+import '../../asserts/lib/editor/js/HuskyEZCreator.js';
 export default {
   mixins: [comFunction, boardCommon],
-  components: {
-    quillEditor
-  },
   data() {
     return {
       item: {
@@ -55,36 +54,82 @@ export default {
           }
         ]
       },
-      editorOption: {
-        // some quill options
-      }
+      deleteAttachFileSeq: [],
+      oEditors: [],
     };
   },
-  computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill
-    }
-  },
   methods: {
+    initEditor() {
+      nhn.husky.EZCreator.createInIFrame({
+        oAppRef: this.oEditors,
+        elPlaceHolder: "content",
+        sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
+        fCreator: "createSEditorInIFrame",
+        fOnAppLoad: () => {
+          // 본문 내용 수정
+          $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
+            this.item.content = this.oEditors.getById["content"].getIR();
+          });
+          this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
+        },
+      });
+    },
+    // 이미지 붙이기
+    pasteImage(html) {
+      this.oEditors.getById["content"].exec("PASTE_HTML", [html]);
+    },
     submitProc() {
-      console.log("submit");
+      let html = CommonUtil.clearHtml(this.item.content);
+      if (CommonUtil.isEmpty(html)) {
+        Swal.fire(
+          '안내',
+          '내용을 입력해',
+          'error'
+        )
+        return;
+      }
+      this.$validator.validateAll().then((result) => {
+        if (!result) {
+          return;
+        }
+        let url;
+        // 수정
+        if (this.$route.query.boardArticleSeq) {
+          url = "/board-article/item-edit";
+          this.item.deleteAttachFileSeq = this.deleteAttachFileSeq;
+        }
+        // 등록
+        else {
+          url = "/board-article/item";
+        }
+        VueUtil.post(url, this.item, (res) => {
+          this.$router.push({ name: "boardArticleList", query: this.$route.query });
+        }, { "call-type": "multipart" });
+      });
     },
-    onEditorBlur(quill) {
-      console.log('editor blur!', quill)
+    attachFile(event) {
+      this.item.attachList = [];
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.item.attachList.push(event.target.files[i]);
+      }
     },
-    onEditorFocus(quill) {
-      console.log('editor focus!', quill)
-    },
-    onEditorReady(quill) {
-      console.log('editor ready!', quill)
-    },
-    onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
-      this.item.content = html
-    }
+
   },
   mounted() {
-    console.log('this is current quill instance object', this.editor)
+    // 수정
+    if (this.$route.query.boardArticleSeq) {
+      VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
+        this.item = res.data;
+        this.initEditor();
+      });
+    }
+    // 등록
+    else {
+      this.initEditor();
+    }
+    window.openImageForm = (a) => {
+      this.$refs['imageUpload'].open();
+    }
   }
 };
 </script>
