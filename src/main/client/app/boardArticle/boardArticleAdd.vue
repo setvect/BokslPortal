@@ -32,8 +32,10 @@
 </template>
 <script>
 import boardCommon from "./mixin-boardArticle.js";
+import store from "../../store/index.js";
 import "../../utils/vue-common.js";
 import '../../asserts/lib/editor/js/HuskyEZCreator.js';
+
 export default {
   mixins: [comFunction, boardCommon],
   data() {
@@ -116,6 +118,8 @@ export default {
 
   },
   mounted() {
+    this.loadBoardManager();
+
     // 수정
     if (this.$route.query.boardArticleSeq) {
       VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
@@ -127,6 +131,7 @@ export default {
     else {
       this.initEditor();
     }
+
     window.openImageForm = (a) => {
       this.$refs['imageUpload'].open();
     }

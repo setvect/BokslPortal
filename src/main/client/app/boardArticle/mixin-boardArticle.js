@@ -1,4 +1,13 @@
+import store from "../../store/index.js";
+
 export default {
+  data() {
+    return {
+      item: {
+        boardManager: null
+      },
+    };
+  },
   methods: {
     listPage() {
       delete this.$route.query.boardArticleSeq;
@@ -28,7 +37,16 @@ export default {
           this.listPage();
         });
       });
-
+    },
+    // 게시판 정보
+    loadBoardManager() {
+      if (this.boardManager != null && this.boardManager.boardCode == this.$route.query.boardCode) {
+        return;
+      }
+      store.dispatch('board/loadBoardManager', this.$route.query.boardCode).then(() => {
+        this.boardManager = store.state.board.boardManager;
+        console.log('this.boardManager :', this.boardManager);
+      });
     }
   }
 }

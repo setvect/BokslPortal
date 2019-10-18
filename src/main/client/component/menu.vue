@@ -23,7 +23,7 @@
                   <router-link :to="{name: 'boardArticle', query: { boardCode: 'BAAABB01' }}">글</router-link>
                 </li>
                 <li>
-                  <a href="#">꿈</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BAAABB02' }}">꿈</router-link>
                 </li>
                 <li>
                   <a href="#">책</a>
