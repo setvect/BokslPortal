@@ -5,7 +5,7 @@
         <b-form-select v-model="searchData.categorySeq" size="sm" style="width: 150px;" @change="loadListProc(searchData.categorySeq)">
           <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
         </b-form-select>
-        <b-input @keypress.13="search()" v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13.prevent="search()" v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>

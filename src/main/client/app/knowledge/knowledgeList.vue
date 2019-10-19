@@ -6,7 +6,7 @@
           <option :value="null">--전체--</option>
           <option v-for="code in classifyList" :key="code.minorCode" :value="code.minorCode">{{code.codeValue}}</option>
         </b-form-select>
-        <b-input @keypress.13="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
       </b-form>
@@ -54,12 +54,8 @@ export default {
       },
       categoryList: [],
       currentPage: 1,
+      isSearch: false
     };
-  },
-  computed: {
-    isSearch() {
-      return this.$route.query.word;
-    }
   },
   methods: {
     listProc() {
@@ -73,6 +69,7 @@ export default {
     },
     search() {
       this.page.startCursor = 0;
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
       this.listProc();
     },
     searchCancel() {

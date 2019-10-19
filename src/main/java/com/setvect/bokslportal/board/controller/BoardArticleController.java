@@ -70,10 +70,11 @@ public class BoardArticleController {
     BoardArticleVo item = boardArticleRepository.findById(boardArticleSeq).get();
     List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.BOARD, boardArticleSeq);
     item.setAttach(attach);
-    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,boardManager[boardCode,name],attach[-savePath,-saveName]"));
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,boardManager[boardCode,name],attach[-savePath,-saveName],user[name,userId]"));
   }
 
   // ============== 등록 ==============
+
   /**
    * @param boardArticleVo 게시물
    * @param attach         첨부파일
@@ -107,13 +108,13 @@ public class BoardArticleController {
    * @return 수정된 항목
    */
   @PostMapping("item-edit")
-  public ResponseEntity<String> editItem(BoardArticleVo boardArticleVo, @RequestParam(name = "deleteAttachFileSeq", required = false) Set<Integer> deleteAttachFileSeq, @RequestParam("attachList") MultipartFile[] attach, @RequestParam("encrypt") String encrypt) {
+  public ResponseEntity<String> editItem(BoardArticleVo boardArticleVo, @RequestParam(name = "deleteAttachFileSeq", required = false) Set<Integer> deleteAttachFileSeq, @RequestParam("attachList") MultipartFile[] attach, @RequestParam(value = "encrypt", required = false) String encrypt) {
     BoardArticleVo saveData = boardArticleRepository.findById(boardArticleVo.getBoardArticleSeq()).get();
     saveData.setContent(boardArticleVo.getContent());
     saveData.setTitle(boardArticleVo.getTitle());
-    boardService.processEncrypt(boardArticleVo, encrypt);
+    boardService.processEncrypt(saveData, encrypt);
 
-    boardArticleRepository.save(boardArticleVo);
+    boardArticleRepository.save(saveData);
 
     attachFileService.process(attach, AttachFileModule.BOARD, boardArticleVo.getBoardArticleSeq());
     if (deleteAttachFileSeq != null) {
@@ -126,7 +127,7 @@ public class BoardArticleController {
 
   /**
    * @param boardArticleSeq 일련번호
-   * @return 성공여부
+   * @return void
    */
   @DeleteMapping(value = "item/{id}")
   public ResponseEntity<Void> deleteItem(@PathVariable("id") int boardArticleSeq) {

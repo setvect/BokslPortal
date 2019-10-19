@@ -40,7 +40,11 @@ export default {
           return;
         }
         VueUtil.delete(`/board-article/item/${boardArticleSeq}`, {}, (res) => {
-          this.listPage();
+          if (this.$route.name === "boardArticleList") {
+            this.listProc();
+          } else {
+            this.listPage();
+          }
         });
       });
     },

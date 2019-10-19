@@ -6,7 +6,7 @@
           <option value="title">제목</option>
           <option value="content">내용</option>
         </b-form-select>
-        <b-input @keypress.13="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
@@ -15,11 +15,12 @@
     <b-table :bordered="true" hover :fields="fields" :items="page.list">
       <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
       <template slot="title" slot-scope="data">
-        <b-link @click="readPage(data.item.boardSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
+        <b-link @click="readPage(data.item.boardArticleSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
       <template slot="function" slot-scope="data">
-        <b-link @click="editPage(data.boardSeq)">수정</b-link>
-        <b-link @click="deleteProc(data.boardSeq)">삭제</b-link>
+        <b-link @click="editPage(data.item.boardArticleSeq)">수정</b-link>
+        <b-link @click="deleteProc(data.item.boardArticleSeq)">삭제</b-link>
       </template>
     </b-table>
     <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
@@ -40,6 +41,7 @@ export default {
       fields: [
         { key: "index", label: "#", class: 'index-col' },
         { key: "title", label: "제목" },
+        { key: "regDate", label: "날짜", class: 'date-col' },
         { key: "function", label: "기능", class: 'function-col' }
       ],
       page: {
@@ -47,12 +49,10 @@ export default {
         list: []
       },
       currentPage: 1,
+      isSearch: false
     };
   },
   computed: {
-    isSearch() {
-      return this.$route.query.word;
-    }
   },
   methods: {
     listProc() {
@@ -66,6 +66,7 @@ export default {
     },
     search() {
       this.$route.query.startCursor = 0;
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
       this.listProc();
     },
     searchCancel() {
@@ -101,6 +102,9 @@ export default {
     width: 50px;
   }
   .function-col{
+    width: 140px;
+  }
+  .date-col {
     width: 140px;
   }
 </style>

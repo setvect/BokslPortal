@@ -6,7 +6,7 @@
           <option value="title">제목</option>
           <option value="content">내용</option>
         </b-form-select>
-        <b-input @keypress.13="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
@@ -23,6 +23,7 @@
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.item.noteSeq)">수정</b-link>
         <b-link @click="deleteProc(data.item.noteSeq)">삭제</b-link>
@@ -39,6 +40,7 @@ import noteCommon from "./mixin-note.js";
 import noteCategoryComponent from "./noteCategory.vue";
 import store from "../../store/index.js";
 import { DraggableTree } from 'vue-draggable-nested-tree';
+import '../../utils/vue-common.js'
 
 export default {
   mixins: [noteCommon],
@@ -51,6 +53,7 @@ export default {
         { key: "index", label: "#", class: 'index-col' },
         { key: "category.name", label: "분류", class: 'category-col' },
         { key: "title", label: "제목" },
+        { key: "regDate", label: "날짜", class: 'date-col' },
         { key: "function", label: "기능", class: 'function-col' }
       ],
       page: {
@@ -59,6 +62,7 @@ export default {
       },
       categoryPath: [],
       currentPage: 1,
+      isSearch: false
     };
   },
   watch: {
@@ -68,11 +72,6 @@ export default {
       this.$route.query.word = "";
       this.$route.query.field = "title";
       this.search();
-    }
-  },
-  computed: {
-    isSearch() {
-      return this.$route.query.word;
     }
   },
   methods: {
@@ -87,6 +86,7 @@ export default {
     },
     search() {
       this.$route.query.startCursor = 0;
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
       this.listProc();
     },
     searchCancel() {
@@ -139,6 +139,9 @@ export default {
   width: 150px;
 }
 .function-col {
+  width: 140px;
+}
+.date-col {
   width: 140px;
 }
 </style>

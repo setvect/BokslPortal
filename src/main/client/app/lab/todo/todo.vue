@@ -6,7 +6,7 @@
         <b-form-group>
           <b-form-checkbox-group v-model="searchParam.statusType" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
-        <b-input @keypress.13="nextProc()" v-model="searchParam.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
+        <b-input @keypress.13.prevent="nextProc()" v-model="searchParam.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
         <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
       </b-form>

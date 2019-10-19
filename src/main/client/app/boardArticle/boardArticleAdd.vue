@@ -97,6 +97,7 @@ export default {
         else {
           url = "/board-article/item";
         }
+        delete this.item.attach;
         VueUtil.post(url, this.item, (res) => {
           this.$router.push({ name: "boardArticleList", query: this.$route.query });
         }, { "call-type": "multipart" });

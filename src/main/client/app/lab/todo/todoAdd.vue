@@ -5,7 +5,7 @@
         <b-form-group label="내용" label-for="input-content">
           <b-form-input
             ref="content-input"
-            @keypress.13="confirmEvent"
+            @keypress.13.prevent="confirmEvent"
             v-model="item.content"
             name="content"
             v-validate="{ required: true}"

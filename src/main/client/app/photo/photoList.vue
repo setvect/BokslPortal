@@ -6,7 +6,7 @@
         <b-form-radio v-model="searchParam.dateType" value="NOTHING" class="mb-2 mr-sm-2 mb-sm-0">기간정보없음</b-form-radio>
         <b-form-radio v-model="searchParam.dateType" value="SELECT" class="mb-2 mr-sm-2 mb-sm-0">기간선택</b-form-radio>
         <input type="text" class="form-control _datepicker" readonly="readonly" style="margin-right:10px;" :style="{'background':!isDateRange ? '#ccc' : ''}" :disabled="!isDateRange" />
-        <b-input @keypress.13="nextProc()" v-model="searchParam.memo" style="margin-right:5px;" size="sm" placeholder="메모"></b-input>
+        <b-input @keypress.13.prevent="nextProc()" v-model="searchParam.memo" style="margin-right:5px;" size="sm" placeholder="메모"></b-input>
         <b-button variant="primary" size="sm" @click="nextProc()">검색</b-button>
       </b-form>
     </div>

@@ -6,8 +6,7 @@
           <option value="name">이름</option>
           <option value="code">게시판코드</option>
         </b-form-select>
-        <b-input v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
-        <b-button variant="primary" size="sm">검색</b-button>
+        <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
         <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
@@ -47,11 +46,7 @@ export default {
         list: []
       },
       currentPage: 1,
-    }
-  },
-  computed: {
-    isSearch() {
-      return this.$route.query.word;
+      isSearch: false
     }
   },
   methods: {
@@ -66,6 +61,8 @@ export default {
     },
     search() {
       this.$route.query.startCursor = 0;
+      console.log('this.$route.query.word :', this.$route.query.word);
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
       this.listProc();
     },
     searchCancel() {

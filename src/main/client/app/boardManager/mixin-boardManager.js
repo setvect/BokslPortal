@@ -2,7 +2,8 @@ export default {
   methods: {
     listPage() {
       this.$router.push({
-        name: "boardManagerList"
+        name: "boardManagerList",
+        query: this.$route.query
       })
     },
     editPage(boardCode) {
