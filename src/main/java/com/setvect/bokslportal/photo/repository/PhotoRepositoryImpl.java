@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.setvect.bokslportal.util.StringEtcUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import com.setvect.bokslportal.common.GenericPage;
@@ -32,7 +33,7 @@ public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
 
     if (StringUtils.isNotBlank(searchCondition.getMemo())) {
       where.append(" AND photo.memo like :memo");
-      bindParameter.put("word", "%" + searchCondition.getMemo() + "%");
+      bindParameter.put("memo", StringEtcUtil.getSqlStringLike(searchCondition.getMemo()));
     }
 
     if (searchCondition.getDateType() == PhotoSearch.DateType.NOTHING) {
