@@ -5,6 +5,7 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
+- NEW-20191019: 매뉴 클릭 후 매뉴 사라지게 함.
 - NEW-20191005: 코멘트 구현
 - NEW-20191005: 게시판 목록 메뉴에 표시 
 - NEW-20191004: 게시판 구현

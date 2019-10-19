@@ -81,4 +81,8 @@ public class BoardArticleVo {
 	@Transient
 	private List<AttachFileVo> attach;
 
+  /** 암호화 문자열 */
+  @Transient
+  private String encrypt;
+
 }

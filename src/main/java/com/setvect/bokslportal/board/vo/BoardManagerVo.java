@@ -47,9 +47,9 @@ public class BoardManagerVo {
 	private boolean attachF;
 
 	/** 암호화 게시물 허용 여부 */
-	@Column(name = "ENCODE_F", nullable = false, length = 1)
+	@Column(name = "ENCRYPT_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
-	private boolean encodeF;
+	private boolean encryptF;
 
 	/** 게시판 삭제 여부 */
 	@Column(name = "DELETE_F", nullable = false, length = 1)

@@ -9,6 +9,9 @@
       <b-form-group label-cols="2" label-cols-lg="2" label="내용">
         <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
+      <b-form-group v-if="isEncrypt" abel-cols="2" label-cols-lg="2" label="암호 문자열">
+        <b-form-input v-model="item.encode"></b-form-input>
+      </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="2" label="첨부파일">
         <b-form-file @change="attachFile($event)" :multiple="true" placeholder="첨부파일" />
       </b-form-group>
@@ -32,7 +35,6 @@
 </template>
 <script>
 import boardCommon from "./mixin-boardArticle.js";
-import store from "../../store/index.js";
 import "../../utils/vue-common.js";
 import '../../asserts/lib/editor/js/HuskyEZCreator.js';
 
@@ -119,7 +121,6 @@ export default {
   },
   mounted() {
     this.loadBoardManager();
-
     // 수정
     if (this.$route.query.boardArticleSeq) {
       VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
@@ -131,7 +132,6 @@ export default {
     else {
       this.initEditor();
     }
-
     window.openImageForm = (a) => {
       this.$refs['imageUpload'].open();
     }

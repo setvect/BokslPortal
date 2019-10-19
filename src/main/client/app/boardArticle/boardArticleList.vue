@@ -90,6 +90,7 @@ export default {
     if (!this.$route.query.field) {
       this.$route.query.field = "title";
     }
+    this.loadBoardManager();
     this.listProc();
   }
 };
