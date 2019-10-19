@@ -64,9 +64,9 @@ public class BoardArticleVo {
 	private int hitCount;
 
 	/** 암호화된 글 여부 */
-	@Column(name = "ENCODE_F", nullable = false, length = 1)
+	@Column(name = "ENCRYPT_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
-	private boolean encodeF;
+	private boolean encryptF;
 
 	/** */
 	@Column(name = "REG_DATE", nullable = false)
@@ -80,9 +80,5 @@ public class BoardArticleVo {
 	/** 첨부파일 */
 	@Transient
 	private List<AttachFileVo> attach;
-
-  /** 암호화 문자열 */
-  @Transient
-  private String encrypt;
 
 }

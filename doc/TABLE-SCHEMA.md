@@ -32,7 +32,7 @@ UPLOAD_LIMIT|업로드 제한| |integer|4|Y|단위 Kbyte<br>0 이면 제안 없�
 REPLY_F|답변 여부| |varchar|1|Y|Y, N
 COMMENT_F|코멘트 여부| |varchar|1|Y|Y, N
 ATTACH_F|자료실 여부| |varchar|1|Y|Y, N
-ENCODE_F|암호화 사용여부| |varchar|1|Y|Y, N
+ENCRYPT_F|암호화 사용여부| |varchar|1|Y|Y, N
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 
 - TBBB_BOARD_ARTICLE: 게시판 항목
@@ -46,7 +46,7 @@ TITLE|제목| |varchar|200|Y|
 CONTENT|본문| |TEXT| |Y|
 IP|아이피| |varchar|20|Y|
 HIT_COUNT|조회수| |integer| |Y|
-ENCODE_F|암호화 여부| |varchar|1|Y|Y, N
+ENCRYPT_F|암호화 여부| |varchar|1|Y|Y, N
 REG_DATE|등록일| |datetime| |Y|
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 

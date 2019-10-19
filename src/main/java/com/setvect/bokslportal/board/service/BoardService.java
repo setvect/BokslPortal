@@ -18,9 +18,9 @@ public class BoardService {
     // 암호화 글
     if (StringUtils.isNotBlank(encrypt)) {
       article.setContent(StringEncrypt.encodeJ(article.getContent(), encrypt));
-      article.setEncodeF(true);
+      article.setEncryptF(true);
     } else {
-      article.setEncodeF(false);
+      article.setEncryptF(false);
     }
   }
 }

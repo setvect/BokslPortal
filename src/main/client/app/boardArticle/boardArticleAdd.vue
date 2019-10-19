@@ -3,14 +3,14 @@
     <h5>게시판 만들기</h5>
     <form autocomplete="off">
       <b-form-group abel-cols="2" label-cols-lg="2" label="제목">
-        <b-form-input v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('item.title')" name="item.title" data-vv-as="제목"></b-form-input>
-        <span v-show="!validateState('item.title')" class="invalid-feedback">{{ veeErrors.first('item.title') }}</span>
+        <b-form-input v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('title')" name="title" data-vv-as="제목"></b-form-input>
+        <span v-show="!validateState('title')" class="invalid-feedback">{{ veeErrors.first('title') }}</span>
       </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="2" label="내용">
         <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
       <b-form-group v-if="isEncrypt" abel-cols="2" label-cols-lg="2" label="암호 문자열">
-        <b-form-input v-model="item.encode"></b-form-input>
+        <b-form-input v-model="item.encrypt"></b-form-input>
       </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="2" label="첨부파일">
         <b-form-file @change="attachFile($event)" :multiple="true" placeholder="첨부파일" />
@@ -43,20 +43,11 @@ export default {
   data() {
     return {
       item: {
-        title: "BDAABB00",
-        content: "우리집 강아지\n복슬강아지",
-        attachList: [
-          {
-            attachSeq: 1,
-            name: "abc.ppt",
-            size: 500000
-          },
-          {
-            attachSeq: 2,
-            name: "bee.ppt",
-            size: 1000
-          }
-        ]
+        title: "",
+        content: "",
+        boardCode: this.$route.query.boardCode,
+        attachList: [],
+        attach: [],
       },
       deleteAttachFileSeq: [],
       oEditors: [],

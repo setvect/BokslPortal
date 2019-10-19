@@ -5,9 +5,11 @@ import com.setvect.bokslportal.attach.service.AttachFileModule;
 import com.setvect.bokslportal.attach.service.AttachFileService;
 import com.setvect.bokslportal.attach.vo.AttachFileVo;
 import com.setvect.bokslportal.board.repository.BoardArticleRepository;
+import com.setvect.bokslportal.board.repository.BoardManagerRepository;
 import com.setvect.bokslportal.board.service.BoardArticleSearch;
 import com.setvect.bokslportal.board.service.BoardService;
 import com.setvect.bokslportal.board.vo.BoardArticleVo;
+import com.setvect.bokslportal.board.vo.BoardManagerVo;
 import com.setvect.bokslportal.common.GenericPage;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +34,9 @@ import java.util.Set;
 public class BoardArticleController {
   @Autowired
   private BoardArticleRepository boardArticleRepository;
+
+  @Autowired
+  private BoardManagerRepository boardManagerRepository;
 
   @Autowired
   private AttachFileService attachFileService;
@@ -51,7 +57,7 @@ public class BoardArticleController {
       List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.BOARD, board.getBoardArticleSeq());
       board.setAttach(attach);
     });
-    String json = ApplicationUtil.toJson(page, "**,list[**,boardManager[boardCode,name],attach[-savePath,-saveName]]");
+    String json = ApplicationUtil.toJson(page, "**,list[**,boardManager[boardCode,name],attach[-savePath,-saveName],user[name,userId]]");
     return ResponseEntity.ok().body(json);
   }
 
@@ -68,16 +74,22 @@ public class BoardArticleController {
   }
 
   // ============== 등록 ==============
-
   /**
    * @param boardArticleVo 게시물
    * @param attach         첨부파일
+   * @param boardCode      게시판 코드
    * @param encrypt        암호화 문자열
+   * @param request
    * @return 등록된 게시물
    */
   @PostMapping("item")
-  public ResponseEntity<String> addItem(BoardArticleVo boardArticleVo, @RequestParam("attachList") MultipartFile[] attach, @RequestParam("encrypt") String encrypt) {
+  public ResponseEntity<String> addItem(BoardArticleVo boardArticleVo, @RequestParam("attachList") MultipartFile[] attach, @RequestParam("boardCode") String boardCode, @RequestParam(value = "encrypt", required = false) String encrypt, HttpServletRequest request) {
+    BoardManagerVo board = boardManagerRepository.findById(boardCode).get();
+    boardArticleVo.setBoardManager(board);
+    boardArticleVo.setUser(ApplicationUtil.getLoginUser());
     boardArticleVo.setRegDate(new Date());
+    boardArticleVo.setIp(request.getRemoteAddr());
+
     boardService.processEncrypt(boardArticleVo, encrypt);
 
     boardArticleRepository.saveAndFlush(boardArticleVo);
