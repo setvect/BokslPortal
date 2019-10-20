@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-table :bordered="true" hover :fields="fields" :items="codeList">
-      <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
+      <template slot="index" slot-scope="data">{{ data.index | indexSeq(page) }}</template>
       <template slot="orderNo" slot-scope="data">
         <b-form-input id="input-1" v-model.number="data.item.orderNo " type="number" size="sm" required/>
       </template>

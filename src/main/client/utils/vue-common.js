@@ -24,7 +24,7 @@ Vue.filter("dateFormat", (value, format) => {
 });
 
 // 목록 번호 계산. 내림차순(높은 번호 부터)으로 표시
-Vue.filter("indexSeq", (index, page) => page.totalCount - (page.currentPage - 1) * page.returnCount - index);
+Vue.filter("indexSeq", (index, page) => page.totalCount - page.startCursor - index );
 
 /*
  * 전역적으로 사용할 디렉티브 정의

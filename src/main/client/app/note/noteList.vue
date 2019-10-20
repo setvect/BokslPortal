@@ -19,7 +19,7 @@
       </ol>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="page.list">
-      <template slot="index" slot-scope="data" style>{{ data.index + 1 }}</template>
+      <template slot="index" slot-scope="data" style>{{ data.index | indexSeq(page) }}</template>
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>

@@ -12,7 +12,7 @@
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="page.list">
-      <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
+      <template slot="index" slot-scope="data">{{ data.index | indexSeq(page) }}</template>
       <template slot="classifyC" slot-scope="data">{{data.item.classifyC}}</template>
       <template slot="problem" slot-scope="data">
         <b-link @click="readPage(data.item.knowledgeSeq)">{{clearHtml(data.item.problem)}}</b-link>

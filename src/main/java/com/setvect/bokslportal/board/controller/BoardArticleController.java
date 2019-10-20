@@ -50,7 +50,7 @@ public class BoardArticleController {
 
   /**
    * @param param 검색 조건
-   * @return 할일 목록
+   * @return 목록
    */
   @GetMapping("page")
   public ResponseEntity<String> page(BoardArticleSearch param) {
@@ -65,7 +65,7 @@ public class BoardArticleController {
 
   /**
    * @param boardArticleSeq 일련번호
-   * @return 할일 목록
+   * @return 게시물
    */
   @GetMapping("item/{id}")
   public ResponseEntity<String> getItem(@PathVariable("id") int boardArticleSeq) {
@@ -80,7 +80,8 @@ public class BoardArticleController {
 
   /**
    * @param boardArticleSeq 일련번호
-   * @return 할일 목록
+   * @param encrypt         암호화 문자열
+   * @return 본문 디코딩 결과
    */
   @PostMapping("/decode/{id}")
   public ResponseEntity<String> getItem(@PathVariable("id") int boardArticleSeq, @RequestParam(value = "encrypt", required = false) String encrypt) {
