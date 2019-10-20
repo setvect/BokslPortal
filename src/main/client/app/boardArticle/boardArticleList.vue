@@ -54,6 +54,12 @@ export default {
   },
   computed: {
   },
+  watch: {
+    '$route.query.boardCode'() {
+      this.$route.query.field = "title";
+      this.search();
+    }
+  },
   methods: {
     listProc() {
       let currentPage = this.$route.query.currentPage;
