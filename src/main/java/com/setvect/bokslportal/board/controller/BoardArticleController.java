@@ -11,7 +11,9 @@ import com.setvect.bokslportal.board.service.BoardService;
 import com.setvect.bokslportal.board.vo.BoardArticleVo;
 import com.setvect.bokslportal.board.vo.BoardManagerVo;
 import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.util.StringEncrypt;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,10 +72,22 @@ public class BoardArticleController {
     BoardArticleVo item = boardArticleRepository.findById(boardArticleSeq).get();
     List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.BOARD, boardArticleSeq);
     item.setAttach(attach);
+
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,boardManager[boardCode,name],attach[-savePath,-saveName],user[name,userId]"));
   }
 
   // ============== 등록 ==============
+
+  /**
+   * @param boardArticleSeq 일련번호
+   * @return 할일 목록
+   */
+  @PostMapping("/decode/{id}")
+  public ResponseEntity<String> getItem(@PathVariable("id") int boardArticleSeq, @RequestParam(value = "encrypt", required = false) String encrypt) {
+    BoardArticleVo item = boardArticleRepository.findById(boardArticleSeq).get();
+    String c = StringEncrypt.decodeJ(item.getContent(), encrypt);
+    return ResponseEntity.ok().body(c);
+  }
 
   /**
    * @param boardArticleVo 게시물

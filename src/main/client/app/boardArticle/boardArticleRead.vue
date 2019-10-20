@@ -1,11 +1,24 @@
 <template>
   <div>
     <h5>{{item.title}}</h5>
-    <b-row>
+    <b-row v-if="!isEncryptInput">
       <b-col sm="2" class="head">
         <label>내용</label>
       </b-col>
       <b-col sm="10" v-html="item.content" />
+    </b-row>
+    <b-row v-if="isEncryptInput">
+      <b-col sm="2" class="head">
+        <label>암호문자</label>
+      </b-col>
+      <b-col sm="10">
+        <b-input-group class="mt-3">
+          <b-form-input @keypress.13.prevent="encryptProc()" v-model="encrypt" placeholder="암호문자를 입력해라."></b-form-input>
+          <b-input-group-append>
+            <b-button variant="outline-success">확인</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-col>
     </b-row>
     <b-row>
       <b-col sm="2" class="head">
@@ -44,15 +57,16 @@ export default {
   mixins: [comFunction, boardCommon],
   data() {
     return {
-      item: {}
     };
+  },
+  computed: {
   },
   methods: {
     init() {
       VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
         this.item = res.data;
       });
-    }
+    },
   },
   mounted() {
     this.init();

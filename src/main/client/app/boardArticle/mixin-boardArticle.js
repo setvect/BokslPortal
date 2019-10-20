@@ -3,7 +3,10 @@ import store from "../../store/index.js";
 export default {
   data() {
     return {
-      boardManager: null
+      boardManager: null,
+      item: {},
+      encrypt: "",
+      isEncryptProc: false
     };
   },
   computed: {
@@ -12,6 +15,9 @@ export default {
         return false;
       }
       return this.boardManager.encryptF;
+    },
+    isEncryptInput() {
+      return this.item.encryptF && !this.isEncryptProc;
     }
   },
   methods: {
@@ -58,6 +64,17 @@ export default {
       store.dispatch('board/loadBoardManager', this.$route.query.boardCode).then(() => {
         console.log("loadded");
         this.boardManager = store.state.board.boardManager;
+      });
+    },
+    encryptProc(callback) {
+      VueUtil.post(`/board-article/decode/${this.$route.query.boardArticleSeq}`, {
+        encrypt: this.encrypt
+      }, (res) => {
+        this.item.content = res.data;
+        this.isEncryptProc = true;
+        if (callback) {
+          callback();
+        }
       });
     }
   }

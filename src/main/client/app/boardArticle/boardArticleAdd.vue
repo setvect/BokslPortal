@@ -1,14 +1,23 @@
 <template>
   <div>
-    <h5>게시판 만들기</h5>
+    <h5>글쓰기</h5>
     <form autocomplete="off">
       <b-form-group abel-cols="2" label-cols-lg="2" label="제목">
         <b-form-input v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('title')" name="title" data-vv-as="제목"></b-form-input>
         <span v-show="!validateState('title')" class="invalid-feedback">{{ veeErrors.first('title') }}</span>
       </b-form-group>
-      <b-form-group label-cols="2" label-cols-lg="2" label="내용">
+      <b-form-group v-if="!isEncryptInput" label-cols="2" label-cols-lg="2" label="내용">
         <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
+      <b-form-group v-if="isEncryptInput" label-cols="2" label-cols-lg="2" label="암호문자">
+        <b-input-group class="mt-3">
+          <b-form-input @keypress.13.prevent="encryptRun()" v-model="encrypt" placeholder="암호문자를 입력해라."></b-form-input>
+          <b-input-group-append>
+            <b-button @click="encryptRun()" variant="outline-success">확인</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form-group>
+
       <b-form-group v-if="isEncrypt" abel-cols="2" label-cols-lg="2" label="암호 문자열">
         <b-form-input v-model="item.encrypt"></b-form-input>
       </b-form-group>
@@ -109,7 +118,13 @@ export default {
         this.item.attachList.push(event.target.files[i]);
       }
     },
-
+    encryptRun() {
+      this.encryptProc(() => {
+        this.$nextTick(() => {
+          this.initEditor();
+        });
+      });
+    }
   },
   mounted() {
     this.loadBoardManager();
@@ -117,7 +132,9 @@ export default {
     if (this.$route.query.boardArticleSeq) {
       VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
         this.item = res.data;
-        this.initEditor();
+        if (!this.item.encryptF) {
+          this.initEditor();
+        }
       });
     }
     // 등록
