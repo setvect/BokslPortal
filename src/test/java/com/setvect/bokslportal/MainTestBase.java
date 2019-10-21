@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest(classes = { BokslPortalApplication.class })
-@TestPropertySource(locations = "classpath:application.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @Rollback(false)
 public class MainTestBase {
 	static {

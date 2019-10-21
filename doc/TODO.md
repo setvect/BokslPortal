@@ -5,21 +5,19 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
-- NEW-20191019: 매뉴 클릭 후 매뉴 사라지게 함.
 - NEW-20191005: 코멘트 구현
-- NEW-20191005: 게시판 목록 메뉴에 표시 
-- NEW-20190928: 안 쓰는 package 제거
+- NEW-20191005: 게시판 목록 메뉴에 표시
 - NEW-20190913: DB 마이그레이션
 - NEW-20190828: 복슬포토 메타정보 입력(촬영일, 메모)
 - NEW-20190825: 복슬 포토 썸내일 이미지 처리 시 인증 토큰 받을 수 있게.
-- NEW-20190626: PhotoRepositoryImpl 사용하지 않는 테이블 정리
 - NEW-20190626: PageQueryCondition Builder 형태로 만들어 보는 거 고려
 - NEW-20190626: 게시판 CLOB Lazy loadding
-- NEW-20190607: 페이지 접근 시 왼쪽 메뉴 활성화
 - NEW-20190607: 로그인 세션 기록하기(remember-me)
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20190928(?): 안 쓰는 package 제거
+- NEW-20190626(?): PhotoRepositoryImpl 사용하지 않는 테이블 정리
 - NEW-20191004(20191020): 게시판 구현
 - NEW-20191004(20191005): 게시판 관리 구현
 - NEW-20190815(20191004): 복슬지식 구현
@@ -62,6 +60,8 @@
 - PBM-20190602: 왼쪽 메뉴 2단계 확장 시 블릿 이미지 들어 쓰기 오류
 
 ### 안함
+- NEW-20190607: 페이지 접근 시 왼쪽 메뉴 활성화
+- NEW-20191019: 매뉴 클릭 후 매뉴 사라지게 함.
 - NEW-20190622: ckeditor5-vue 높이 조절
 - NEW-20190616: quill-editor fullscreen
 - NEW-20190616: quill-editor 들어쓰기 단축기 적용
