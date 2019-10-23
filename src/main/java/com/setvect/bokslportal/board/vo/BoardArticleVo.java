@@ -34,7 +34,7 @@ public class BoardArticleVo {
 	/** */
 	@Id
 	@Column(name = "ARTICLE_SEQ", nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int boardArticleSeq;
 
 	@ManyToOne(fetch = FetchType.LAZY)

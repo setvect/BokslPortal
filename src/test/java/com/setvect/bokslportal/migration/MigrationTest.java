@@ -1,6 +1,9 @@
 package com.setvect.bokslportal.migration;
 
 import com.setvect.bokslportal.MainTestBase;
+import com.setvect.bokslportal.attach.repository.AttachFileRepository;
+import com.setvect.bokslportal.attach.service.AttachFileModule;
+import com.setvect.bokslportal.attach.vo.AttachFileVo;
 import com.setvect.bokslportal.board.repository.BoardArticleRepository;
 import com.setvect.bokslportal.board.repository.BoardManagerRepository;
 import com.setvect.bokslportal.board.vo.BoardArticleVo;
@@ -26,6 +29,8 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private BoardArticleRepository boardArticleRepository;
 
+  @Autowired
+  private AttachFileRepository attachFileRepository;
 
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
@@ -74,6 +79,8 @@ public class MigrationTest extends MainTestBase {
         article.setTitle(rs1.getString("TITLE"));
         article.setUser(user);
 
+        addAttachFile(conn, AttachFileModule.BOARD, article.getBoardArticleSeq());
+
         if (count % 100 == 0) {
           System.out.println("BoardCode: " + board.getBoardCode() + ", count: " + count);
         }
@@ -87,6 +94,34 @@ public class MigrationTest extends MainTestBase {
     ps.close();
     conn.close();
     System.out.println(" 게시판 마이그레이션 끝 ");
+  }
+
+  /**
+   * 첨부파일 등록
+   *
+   * @param conn
+   * @param type
+   * @param articleSeq
+   */
+  private void addAttachFile(Connection conn, AttachFileModule type, int articleSeq) throws SQLException {
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBYA_ATTACH_FILE where MODULE_NAME =? AND MODULE_ID = ?");
+    ps.setString(1, type.name());
+    ps.setString(2, String.valueOf(articleSeq));
+    ResultSet rs = ps.executeQuery();
+
+    while (rs.next()) {
+      AttachFileVo attach = new AttachFileVo();
+      attach.setModuleName(type);
+      attach.setModuleId(String.valueOf(articleSeq));
+      attach.setOriginalName(rs.getString("ORIGINAL_NAME"));
+      attach.setSaveName(rs.getString("SAVE_NAME"));
+      attach.setSize(rs.getInt("SIZE"));
+      attach.setRegDate(rs.getDate("REG_DATE"));
+      attachFileRepository.save(attach);
+    }
+
+    rs.close();
+    ps.close();
   }
 
 
