@@ -78,15 +78,16 @@ public class MigrationTest extends MainTestBase {
         article.setRegDate(rs1.getDate("REG_DATE"));
         article.setTitle(rs1.getString("TITLE"));
         article.setUser(user);
+        boardArticleRepository.save(article);
 
         addAttachFile(conn, AttachFileModule.BOARD, article.getBoardArticleSeq());
 
         if (count % 100 == 0) {
           System.out.println("BoardCode: " + board.getBoardCode() + ", count: " + count);
         }
-        System.out.println("BoardCode: " + board.getBoardCode() + " 끝.");
       }
-      rs.close();
+      System.out.println("BoardCode: " + board.getBoardCode() + ", count: " + count + " 끝.");
+      rs1.close();
       ps1.close();
 
     }

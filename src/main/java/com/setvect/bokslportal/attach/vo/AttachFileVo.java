@@ -59,22 +59,10 @@ public class AttachFileVo {
   private int size;
 
   /**
-   * 아이디
-   */
-  @Column(name = "USER_ID", nullable = false, length = 20)
-  private String userId;
-
-  /**
    * 등록일
    */
   @Column(name = "REG_DATE", nullable = false)
   private Date regDate;
-
-  /**
-   * 등록자
-   */
-  @Transient
-  private UserVo user;
 
   /**
    * @return 웹루트를 기준으로 첨부파일 경로.(파일명 포함)

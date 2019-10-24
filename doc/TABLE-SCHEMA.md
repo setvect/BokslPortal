@@ -161,7 +161,6 @@ Column Name | Attribute Name | Key | Type | Len | Not Null | Description
 ATTACH_FIlE_SEQ|키|PK|integer|4|Y|
 MODULE_NAME|모듈이름| |varchar|20|Y|예: 게시판, 포토갤러리, …
 MODULE_ID|모듈내 항목 번호| |varchar|50|Y|모듈내 항목의 관계를 알 수 있는 값
-USER_ID|아이디|FK|varchar|20|Y|TBAA_USER
 ORIGINAL_NAME|원본파일명| |varchar|250|Y|복슬이_일상.hwp
 SAVE_NAME|저장파일명| |varchar|250|Y|기본 베이스 경로에서 시작되는 경로 포함<br>시작을 ‘/’시작하지 않음<br>Ex)2010/02/03/issue_232.gif
 SIZE|파일 사이즈| |integer|4|Y|

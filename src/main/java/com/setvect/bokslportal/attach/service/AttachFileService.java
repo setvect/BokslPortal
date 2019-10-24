@@ -121,7 +121,6 @@ public class AttachFileService {
       attach.setSaveName(dayPath + destination.getName());
       attach.setSize((int) file.getSize());
       attach.setRegDate(new Date());
-      attach.setUserId(userId);
       createAttachFile(attach);
       result.add(attach);
     }
