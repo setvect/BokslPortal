@@ -7,10 +7,14 @@
       roles:
       <span v-for="role in roles" :key="role">{{ role }}</span>
     </div>
+    <div>
+      <comment moduleName="main" moduleId="1"/>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import commentComponent from "../app/comment/comment.vue";
 
 export default {
   computed: {
@@ -18,7 +22,11 @@ export default {
       'name',
       'roles'
     ])
-  }, mounted() {
+  },
+  components:{
+    comment: commentComponent
+  },
+  mounted() {
   }
 }
 </script>

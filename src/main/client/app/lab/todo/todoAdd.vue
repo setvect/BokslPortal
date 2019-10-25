@@ -8,7 +8,7 @@
             @keypress.13.prevent="confirmEvent"
             v-model="item.content"
             name="content"
-            v-validate="{ required: true}"
+            v-validate="{required: true}"
             :state="validateState('content')"
             id="input-content"
             data-vv-as="내용 "
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import '../../../utils/vue-common.js'
 import _ from "lodash";
 
 export default {

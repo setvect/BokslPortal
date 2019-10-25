@@ -48,7 +48,6 @@
 <script>
 import todoAddComponent from "./todoAdd.vue";
 import _ from "lodash";
-import '../../../utils/vue-common.js'
 
 export default {
   mixins: [comFunction],
