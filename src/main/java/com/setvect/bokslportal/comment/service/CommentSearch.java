@@ -11,12 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentSearch extends SearchListVo {
-
-	private final CommentModule moduleName;
-
-	public CommentSearch(CommentModule moduleName, int startCursor, int returnCount) {
-		super(startCursor, returnCount);
-		this.moduleName = moduleName;
-	}
-
+  private CommentModule moduleName;
+  private String moduleId;
 }

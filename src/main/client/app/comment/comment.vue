@@ -9,7 +9,6 @@
         <b-col sm="2">
           <b-button @click="addProc()" type="button" variant="primary">확인</b-button>
         </b-col>
-
       </b-row>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="page.list" thead-class="hidden_header">
@@ -22,6 +21,9 @@
         <b-link @click="deleteProc(data.item.boardArticleSeq)">삭제</b-link>
       </template>
     </b-table>
+    <div style="padding-bottom: 20px;">
+      <b-button @click="nextProc()" block variant="outline-secondary" size="sm">더보기({{page.list.length | numberFormat}}/{{page.totalCount | numberFormat}})</b-button>
+    </div>
   </div>
 </template>
 
@@ -76,7 +78,9 @@ export default {
         if (!result) {
           return;
         }
-        console.log("add");
+        VueUtil.post("/comment/item", this.item, (res) => {
+          this.page.list.unshift(res.data);
+        });
       });
     },
 
