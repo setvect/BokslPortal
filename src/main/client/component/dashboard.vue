@@ -8,7 +8,7 @@
       <span v-for="role in roles" :key="role">{{ role }}</span>
     </div>
     <div>
-      <comment moduleName="main" moduleId="1"/>
+      <comment moduleName="MAIN" moduleId="1"/>
     </div>
   </div>
 </template>

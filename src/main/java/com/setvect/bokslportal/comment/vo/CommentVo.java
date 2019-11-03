@@ -38,7 +38,7 @@ public class CommentVo {
 	/** 모듈이름 */
 	@Column(name = "MODULE_NAME", nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
-	private CommentModule moduleType;
+	private CommentModule moduleName;
 
 	/** 모듈 아이디 */
 	@Column(name = "MODULE_ID", nullable = false, length = 50)

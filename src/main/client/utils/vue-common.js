@@ -32,7 +32,7 @@ Vue.filter("indexSeq", (index, page) => page.totalCount - page.startCursor - ind
 
 // 줄바꿈 -> br 태그 적용
 Vue.directive("br", {
-  update: (el, binding) => {
+  bind: (el, binding) => {
     $(el).html(CommonUtil.toBr(binding.value));
   }
 });

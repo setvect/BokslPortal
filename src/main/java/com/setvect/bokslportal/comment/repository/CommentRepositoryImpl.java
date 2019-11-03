@@ -20,17 +20,17 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
   @Override
   public GenericPage<CommentVo> getPagingList(CommentSearch searchCondition) {
-    StringBuffer selectQuery = new StringBuffer("select todo FROM CommentVo comment");
+    StringBuffer selectQuery = new StringBuffer("select comment FROM CommentVo comment");
     StringBuffer countQuery = new StringBuffer("select count(*) FROM CommentVo comment");
 
     StringBuffer where = new StringBuffer(" WHERE ");
     Map<String, Object> bindParameter = new HashMap<>();
 
-    where.append(" comment.moduleType = :moduleType");
-    bindParameter.put("moduleType", searchCondition.getModuleName());
+    where.append(" comment.moduleName = :moduleName");
+    bindParameter.put("moduleName", searchCondition.getModuleName());
 
     where.append(" AND comment.moduleId = :moduleId");
-    bindParameter.put("moduleType", searchCondition.getModuleId());
+    bindParameter.put("moduleId", searchCondition.getModuleId());
 
     countQuery.append(where);
     selectQuery.append(where + " ORDER BY comment.commentSeq DESC");

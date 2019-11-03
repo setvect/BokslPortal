@@ -3,7 +3,7 @@
     <div style="margin-bottom:20px;">
       <b-row>
         <b-col sm="10">
-          <b-textarea v-model="content" v-validate="{required: true}" :state="validateState('content')" name="content" placeholder="써라" data-vv-as="내용 "></b-textarea>
+          <b-textarea v-model="content" v-validate="{required: true}" :state="validateState('content')" class="_content" name="content" placeholder="써라" data-vv-as="내용 "></b-textarea>
           <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
         </b-col>
         <b-col sm="2">
@@ -11,16 +11,30 @@
         </b-col>
       </b-row>
     </div>
-    <b-table :bordered="true" hover :fields="fields" :items="page.list" thead-class="hidden_header">
-      <template slot="index" slot-scope="data">{{ data.index | indexSeq(page) }}</template>
-      <template slot="content" slot-scope="data">
-        <span v-br="data.item.content"></span>
-      </template>
-      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
-      <template slot="function" slot-scope="data">
-        <b-link @click="deleteProc(data.item.boardArticleSeq)">삭제</b-link>
-      </template>
-    </b-table>
+
+    <table role="table" aria-busy="false" aria-colcount="4" class="table b-table table-hover table-bordered" id="__BVID__37">
+      <thead role="rowgroup" class="hidden_header">
+        <tr role="row" class>
+          <th role="columnheader" scope="col" aria-colindex="1" class="index-col">#</th>
+          <th role="columnheader" scope="col" aria-colindex="2" class>글</th>
+          <th role="columnheader" scope="col" aria-colindex="3" class="date-col">날짜</th>
+          <th role="columnheader" scope="col" aria-colindex="4" class="function-col">기능</th>
+        </tr>
+      </thead>
+      <tbody role="rowgroup">
+        <tr v-for="(item, index) in page.list" :key="item.commentSeq" role="row">
+          <td role="cell" aria-colindex="1" class="index-col">{{ index | indexSeq(page) }}</td>
+          <td role="cell" aria-colindex="2" class>
+            <span v-br="item.content"></span>
+          </td>
+          <td role="cell" aria-colindex="3" class="date-col">{{item.regDate | dateFormat('YYYY-MM-DD')}}</td>
+          <td role="cell" aria-colindex="4" class="function-col">
+            <b-link @click="deleteProc(item)">삭제</b-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <div style="padding-bottom: 20px;">
       <b-button @click="nextProc()" block variant="outline-secondary" size="sm">더보기({{page.list.length | numberFormat}}/{{page.totalCount | numberFormat}})</b-button>
     </div>
@@ -40,23 +54,11 @@ export default {
         { key: "function", label: "기능", class: 'function-col' }
       ],
       page: {
-        totalCount: 100,
+        list: [],
+        totalCount: -1,
         startCursor: 0,
-        list: [
-          {
-            content: "복슬이\n바보1",
-            regDate: 1561071320000
-          },
-          {
-            content: "복슬이\n바보2",
-            regDate: 1561071320000
-          },
-          {
-            content: "복슬이\n바보3",
-            regDate: 1561071320000
-          },
-        ]
-      }
+      },
+      startCursor: 0,
     };
   },
   props: {
@@ -72,20 +74,60 @@ export default {
       this.page.list = [];
       this.page.totalCount = -1;
     },
+    nextProc() {
+      this.startCursor = this.page.list.length;
+      if (this.startCursor == this.page.totalCount) {
+        this.$notify({
+          group: 'message-noti',
+          type: 'warn',
+          text: '더 이상 없다.'
+        });
+      };
+      let param = {
+        startCursor: this.startCursor,
+        moduleName: this.moduleName,
+        moduleId: this.moduleId
+      };
+      VueUtil.get("/comment/page", param, (res) => {
+        this.page.totalCount = res.data.totalCount;
+        this.page.list = this.page.list.concat(res.data.list);
+      });
+    },
     addProc(event) {
       this.$validator.validate().then((result) => {
-        console.log('result :', result);
         if (!result) {
           return;
         }
-        VueUtil.post("/comment/item", this.item, (res) => {
+        VueUtil.post("/comment/item", {
+          content: this.content,
+          moduleName: this.moduleName,
+          moduleId: this.moduleId,
+        }, (res) => {
           this.page.list.unshift(res.data);
+          this.page.totalCount++;
+          // this.content = "";
         });
       });
     },
-
+    deleteProc(item) {
+      Swal.fire({
+        title: '삭제할거야?',
+        type: 'info',
+        showCloseButton: true,
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.value) {
+          return;
+        }
+        VueUtil.delete(`/comment/item/${item.commentSeq}`, {}, (res) => {
+          this.page.list = this.page.list.filter(i => i !== item);
+          this.page.totalCount--;
+        });
+      });
+    },
   },
   mounted() {
+    this.nextProc();
   }
 };
 </script>

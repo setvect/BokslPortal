@@ -5,7 +5,6 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
-- NEW-20191005: 코멘트 구현
 - NEW-20191005: 게시판 목록 메뉴에 표시
 - NEW-20190913: DB 마이그레이션
 - NEW-20190828: 복슬포토 메타정보 입력(촬영일, 메모)
@@ -16,6 +15,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20191005(20191103): 코멘트 구현
 - NEW-20190928(?): 안 쓰는 package 제거
 - NEW-20190626(?): PhotoRepositoryImpl 사용하지 않는 테이블 정리
 - NEW-20191004(20191020): 게시판 구현
