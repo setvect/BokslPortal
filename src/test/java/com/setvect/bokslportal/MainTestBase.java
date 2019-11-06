@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * spring과 연관된 테스트는 해당 클래스를 상속 한다.
  */
 @RunWith(SpringRunner.class)
-@Transactional
+@Transactional(Transactional.TxType.NEVER) // not rollback
 @SpringBootTest(classes = { BokslPortalApplication.class })
 @TestPropertySource(locations = "classpath:test.properties")
 @Rollback(false)
