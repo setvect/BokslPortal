@@ -8,6 +8,9 @@ import com.setvect.bokslportal.board.repository.BoardArticleRepository;
 import com.setvect.bokslportal.board.repository.BoardManagerRepository;
 import com.setvect.bokslportal.board.vo.BoardArticleVo;
 import com.setvect.bokslportal.board.vo.BoardManagerVo;
+import com.setvect.bokslportal.comment.repository.CommentRepository;
+import com.setvect.bokslportal.comment.service.CommentModule;
+import com.setvect.bokslportal.comment.vo.CommentVo;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.vo.UserVo;
 import org.junit.Test;
@@ -32,10 +35,39 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private AttachFileRepository attachFileRepository;
 
+  @Autowired
+  private CommentRepository commentRepository;
+
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
     migrationBoard();
+    migrationComment();
     return;
+  }
+
+  private void migrationComment() throws SQLException, ClassNotFoundException {
+    commentRepository.deleteAll();
+    Connection conn = connection();
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBGA_COMMENT ORDER BY COMMENT_SEQ ASC");
+    ResultSet rs = ps.executeQuery();
+
+    UserVo user = getUserVo();
+    int count = 0;
+    while (rs.next()) {
+      CommentVo comment = new CommentVo();
+      comment.setUser(user);
+      comment.setContent(rs.getString("CONTENT"));
+      comment.setModuleName(CommentModule.MAIN);
+      comment.setModuleId("1");
+      comment.setRegDate(null);
+
+      commentRepository.saveAndFlush(comment);
+      count++;
+    }
+    rs.close();
+    ps.close();
+    conn.close();
+    System.out.println("코멘트 마이그레이션 끝 " + count);
   }
 
   private void migrationBoard() throws ClassNotFoundException, SQLException {
@@ -46,7 +78,7 @@ public class MigrationTest extends MainTestBase {
     PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBBA_BOARD_MANAGER");
     ResultSet rs = ps.executeQuery();
 
-    UserVo user = userRepository.findById("boksl").get();
+    UserVo user = getUserVo();
 
     while (rs.next()) {
       BoardManagerVo board = new BoardManagerVo();
@@ -68,7 +100,8 @@ public class MigrationTest extends MainTestBase {
       while (rs1.next()) {
         count++;
         BoardArticleVo article = new BoardArticleVo();
-        article.setBoardArticleSeq(rs1.getInt("ARTICLE_SEQ"));
+        int articleSeq = rs1.getInt("ARTICLE_SEQ");
+        article.setBoardArticleSeq(articleSeq);
         article.setBoardManager(board);
         article.setContent(rs1.getString("CONTENT"));
         article.setIp(rs1.getString("IP"));
@@ -80,7 +113,7 @@ public class MigrationTest extends MainTestBase {
         article.setUser(user);
         boardArticleRepository.save(article);
 
-        addAttachFile(conn, AttachFileModule.BOARD, article.getBoardArticleSeq());
+        addAttachFile(conn, AttachFileModule.BOARD, article.getBoardArticleSeq(), articleSeq);
 
         if (count % 100 == 0) {
           System.out.println("BoardCode: " + board.getBoardCode() + ", count: " + count);
@@ -97,23 +130,28 @@ public class MigrationTest extends MainTestBase {
     System.out.println(" 게시판 마이그레이션 끝 ");
   }
 
+  private UserVo getUserVo() {
+    return userRepository.findById("boksl").get();
+  }
+
   /**
    * 첨부파일 등록
    *
    * @param conn
    * @param type
-   * @param articleSeq
+   * @param newSeq 새로운 일련번호
+   * @param orgSeq 이전 일련번호
    */
-  private void addAttachFile(Connection conn, AttachFileModule type, int articleSeq) throws SQLException {
+  private void addAttachFile(Connection conn, AttachFileModule type, int newSeq, int orgSeq) throws SQLException {
     PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBYA_ATTACH_FILE where MODULE_NAME =? AND MODULE_ID = ?");
     ps.setString(1, type.name());
-    ps.setString(2, String.valueOf(articleSeq));
+    ps.setString(2, String.valueOf(orgSeq));
     ResultSet rs = ps.executeQuery();
 
     while (rs.next()) {
       AttachFileVo attach = new AttachFileVo();
       attach.setModuleName(type);
-      attach.setModuleId(String.valueOf(articleSeq));
+      attach.setModuleId(String.valueOf(newSeq));
       attach.setOriginalName(rs.getString("ORIGINAL_NAME"));
       attach.setSaveName(rs.getString("SAVE_NAME"));
       attach.setSize(rs.getInt("SIZE"));
