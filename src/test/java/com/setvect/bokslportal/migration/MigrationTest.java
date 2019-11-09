@@ -8,6 +8,8 @@ import com.setvect.bokslportal.board.repository.BoardArticleRepository;
 import com.setvect.bokslportal.board.repository.BoardManagerRepository;
 import com.setvect.bokslportal.board.vo.BoardArticleVo;
 import com.setvect.bokslportal.board.vo.BoardManagerVo;
+import com.setvect.bokslportal.code.repository.CodeRepository;
+import com.setvect.bokslportal.code.vo.CodeVo;
 import com.setvect.bokslportal.comment.repository.CommentRepository;
 import com.setvect.bokslportal.comment.service.CommentModule;
 import com.setvect.bokslportal.comment.vo.CommentVo;
@@ -65,14 +67,40 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private NoteService noteService;
 
+  @Autowired
+  private CodeRepository codeRepository;
+
 
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
 //    migrationBoard();
 //    migrationComment();
 //    migrationKnowledge();
-    migrationNote();
+//    migrationNote();
+    migrationCode();
     return;
+  }
+
+  private void migrationCode() throws SQLException, ClassNotFoundException {
+    codeRepository.deleteAll();
+    Connection conn = connection();
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBYC_CODE ORDER BY CODE_SEQ ASC ");
+    ResultSet rs = ps.executeQuery();
+    int count = 0;
+    while (rs.next()) {
+      CodeVo code = new CodeVo();
+      code.setMajorCode(rs.getString("MAJOR_CODE"));
+      code.setMinorCode(rs.getString("MINOR_CODE"));
+      code.setCodeValue(rs.getString("CODE_VALUE"));
+      code.setOrderNo(rs.getInt("ORDER_NO"));
+      codeRepository.save(code);
+      count++;
+    }
+    rs.close();
+    ps.close();
+    conn.close();
+    System.out.println("코드 마이그레이션 끝 " + count);
+
   }
 
   private void migrationNote() throws SQLException, ClassNotFoundException {
