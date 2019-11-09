@@ -26,6 +26,8 @@ import com.setvect.bokslportal.note.repository.NoteRepository;
 import com.setvect.bokslportal.note.service.NoteService;
 import com.setvect.bokslportal.note.vo.NoteCategoryVo;
 import com.setvect.bokslportal.note.vo.NoteVo;
+import com.setvect.bokslportal.photo.repository.PhotoRepository;
+import com.setvect.bokslportal.photo.vo.PhotoVo;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.vo.UserVo;
 import com.setvect.bokslportal.util.TreeNode;
@@ -83,6 +85,9 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private NetworkRepository networkRepository;
 
+  @Autowired
+  private PhotoRepository photoRepository;
+
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
 //    migrationBoard();
@@ -91,9 +96,38 @@ public class MigrationTest extends MainTestBase {
 //    migrationNote();
 //    migrationCode();
 //    migrationMemo();
-    migrationNetwork();
+//    migrationNetwork();
+    migrationPhoto();
 
     return;
+  }
+
+  private void migrationPhoto() throws SQLException, ClassNotFoundException {
+    photoRepository.deleteAll();
+    Connection conn = connectionPhoto();
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBBA_PHOTO ");
+    ResultSet rs = ps.executeQuery();
+    int count = 0;
+    while (rs.next()) {
+      PhotoVo photo = new PhotoVo();
+      photo.setShotDate(rs.getDate("SHOT_DATE"));
+      photo.setShotDateType(PhotoVo.ShotDateType.valueOf(rs.getString("SHOT_DATE_TYPE")) );
+      photo.setDirectory(rs.getString("DIRECTORY"));
+      photo.setLatitude(rs.getDouble("LATITUDE"));
+      photo.setLongitude(rs.getDouble("LONGITUDE"));
+      photo.setMemo(rs.getString("MEMO"));
+      photo.setName(rs.getString("NAME"));
+      photo.setOrientation(rs.getInt("ORIENTATION"));
+      photo.setPhotoId(rs.getString("PHOTO_ID"));
+      photo.setRegData(rs.getDate("REG_DATE"));
+
+      photoRepository.saveAndFlush(photo);
+      count++;
+    }
+    rs.close();
+    ps.close();
+    conn.close();
+    System.out.println("네트워크 마이그레이션 끝 " + count);
   }
 
   private void migrationNetwork() throws SQLException, ClassNotFoundException {
@@ -432,4 +466,12 @@ public class MigrationTest extends MainTestBase {
     Connection conn = DriverManager.getConnection(url, "sa", "");
     return conn;
   }
+
+  public Connection connectionPhoto() throws ClassNotFoundException, SQLException {
+    Class.forName("org.h2.Driver");
+    String url = "jdbc:h2:file:D:/intellij-project/BokslPortal/temp/photo/bokslPhoto";
+    Connection conn = DriverManager.getConnection(url, "sa", "qhrtmf123");
+    return conn;
+  }
+
 }
