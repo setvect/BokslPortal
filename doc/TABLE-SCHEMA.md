@@ -123,6 +123,7 @@ NETWORK_SEQ|키|PK|integer|4|Y|
 TITLE|제목| |varchar|200|Y|
 CONTENT|JSON_DATA| |TEXT| |Y|
 REG_DATE|등록일| |datetime| |Y|
+EDIT_DATE|마지막 수정일| |datetime|1| |
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 
 ### 복슬포토

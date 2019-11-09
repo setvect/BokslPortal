@@ -19,6 +19,8 @@ import com.setvect.bokslportal.memo.repository.MemoCategoryRepository;
 import com.setvect.bokslportal.memo.repository.MemoRepository;
 import com.setvect.bokslportal.memo.vo.MemoCategoryVo;
 import com.setvect.bokslportal.memo.vo.MemoVo;
+import com.setvect.bokslportal.network.repository.NetworkRepository;
+import com.setvect.bokslportal.network.vo.NetworkVo;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
 import com.setvect.bokslportal.note.repository.NoteRepository;
 import com.setvect.bokslportal.note.service.NoteService;
@@ -78,6 +80,9 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private MemoCategoryRepository memoCategoryRepository;
 
+  @Autowired
+  private NetworkRepository networkRepository;
+
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
 //    migrationBoard();
@@ -85,9 +90,33 @@ public class MigrationTest extends MainTestBase {
 //    migrationKnowledge();
 //    migrationNote();
 //    migrationCode();
-    migrationMemo();
+//    migrationMemo();
+    migrationNetwork();
 
     return;
+  }
+
+  private void migrationNetwork() throws SQLException, ClassNotFoundException {
+    codeRepository.deleteAll();
+    Connection conn = connection();
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBFA_NETWORK ORDER BY NETWORK_SEQ ASC ");
+    ResultSet rs = ps.executeQuery();
+    int count = 0;
+    while (rs.next()) {
+      NetworkVo network = new NetworkVo();
+      network.setContent(rs.getString("CONTENT"));
+      network.setDeleteF(rs.getString("DELETE_F").equals("Y"));
+      network.setTitle(rs.getString("TITLE"));
+      network.setRegDate(rs.getDate("REG_DATE"));
+      network.setEditDate(rs.getDate("EDIT_DATE"));
+
+      networkRepository.saveAndFlush(network);
+      count++;
+    }
+    rs.close();
+    ps.close();
+    conn.close();
+    System.out.println("네트워크 마이그레이션 끝 " + count);
   }
 
   private void migrationMemo() throws SQLException, ClassNotFoundException {
@@ -149,7 +178,7 @@ public class MigrationTest extends MainTestBase {
       code.setMinorCode(rs.getString("MINOR_CODE"));
       code.setCodeValue(rs.getString("CODE_VALUE"));
       code.setOrderNo(rs.getInt("ORDER_NO"));
-      codeRepository.save(code);
+      codeRepository.saveAndFlush(code);
       count++;
     }
     rs.close();
