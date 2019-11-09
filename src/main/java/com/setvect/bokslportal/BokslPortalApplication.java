@@ -64,14 +64,14 @@ public class BokslPortalApplication {
       UserService userService = BeanUtils.getBean(UserService.class);
       userService.init();
 
-      MemoService memoService = BeanUtils.getBean(MemoService.class);
-      memoService.init();
+//      MemoService memoService = BeanUtils.getBean(MemoService.class);
+//      memoService.init();
 
-      NoteService noteService = BeanUtils.getBean(NoteService.class);
-      noteService.init();
+//      NoteService noteService = BeanUtils.getBean(NoteService.class);
+//      noteService.init();
 
-      CodeService codeService = BeanUtils.getBean(CodeService.class);
-      codeService.init();
+//      CodeService codeService = BeanUtils.getBean(CodeService.class);
+//      codeService.init();
 
     };
   }

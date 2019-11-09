@@ -84,6 +84,9 @@ public class NoteService {
 
     // 일련번호와 부모 아이디가 같은 경우는 root 폴더.
     Optional<NoteCategoryVo> data = folderAll.stream().filter(NoteCategoryVo::isRoot).findAny();
+    if(!data.isPresent()){
+      return null;
+    }
     NoteCategoryVo rootData = data.get();
 
     Map<NoteCategoryVo, List<NoteCategoryVo>> folderListByParentId = folderAll.stream()

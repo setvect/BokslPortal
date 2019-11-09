@@ -1,6 +1,5 @@
 package com.setvect.bokslportal.util;
 
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -27,11 +26,11 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
 	/**
 	 * 최초 루트 만들 때
 	 *
-	 * @param data
+	 * @param root
 	 *            최상의 루트 항목
 	 */
-	public TreeNode(final T data) {
-		this.data = data;
+	public TreeNode(final T root) {
+		this.data = root;
 		this.children = new ArrayList<>();
 	}
 
