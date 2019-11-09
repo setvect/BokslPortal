@@ -72,7 +72,7 @@ WIDTH|넓이(픽셀)| |varchar|1|Y|
 HEIGHT|높이(픽셀)| |varchar|1|Y|
 POSITION_X|좌표 X| |integer|1|Y|레이어 left 속성 값
 POSITION_Y|좌표 Y| |integer|1|Y|레이어 top 소성 값
-UPT_DATE|마지막 수정일| |DATE|1| |
+EDIT_DATE|마지막 수정일| |DATE|1| |
 REG_DATE|처음 등록일| |DATE|1| |
 DELETE_F|삭제여부| |varchar|1|Y|Y, N
 CATEGORY_SEQ|카테고리 일련번호| |integer| |Y|

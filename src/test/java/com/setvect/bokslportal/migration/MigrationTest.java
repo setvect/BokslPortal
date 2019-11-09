@@ -15,6 +15,10 @@ import com.setvect.bokslportal.comment.service.CommentModule;
 import com.setvect.bokslportal.comment.vo.CommentVo;
 import com.setvect.bokslportal.knowledge.repository.KnowledgeRepository;
 import com.setvect.bokslportal.knowledge.vo.KnowledgeVo;
+import com.setvect.bokslportal.memo.repository.MemoCategoryRepository;
+import com.setvect.bokslportal.memo.repository.MemoRepository;
+import com.setvect.bokslportal.memo.vo.MemoCategoryVo;
+import com.setvect.bokslportal.memo.vo.MemoVo;
 import com.setvect.bokslportal.note.repository.NoteCategoryRepository;
 import com.setvect.bokslportal.note.repository.NoteRepository;
 import com.setvect.bokslportal.note.service.NoteService;
@@ -23,7 +27,6 @@ import com.setvect.bokslportal.note.vo.NoteVo;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.vo.UserVo;
 import com.setvect.bokslportal.util.TreeNode;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +36,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +72,11 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private CodeRepository codeRepository;
 
+  @Autowired
+  private MemoRepository memoRepository;
+
+  @Autowired
+  private MemoCategoryRepository memoCategoryRepository;
 
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
@@ -77,8 +84,57 @@ public class MigrationTest extends MainTestBase {
 //    migrationComment();
 //    migrationKnowledge();
 //    migrationNote();
-    migrationCode();
+//    migrationCode();
+    migrationMemo();
+
     return;
+  }
+
+  private void migrationMemo() throws SQLException, ClassNotFoundException {
+    memoRepository.deleteAll();
+    memoCategoryRepository.deleteAll();
+
+    Connection conn = connection();
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBCB_WORKSPACE ORDER BY WORKSPACE_SEQ");
+    ResultSet rs = ps.executeQuery();
+
+
+    int count = 0;
+    while (rs.next()) {
+      MemoCategoryVo category = new MemoCategoryVo();
+      category.setName(rs.getString("TITLE"));
+      memoCategoryRepository.save(category);
+
+      PreparedStatement ps1 = conn.prepareStatement("SELECT * FROM TBCA_CTMEMO WHERE WORKSPACE_SEQ = ? ORDER BY CTMEMO_SEQ ASC");
+      ps1.setInt(1, rs.getInt("WORKSPACE_SEQ"));
+      ResultSet rs1 = ps1.executeQuery();
+
+      while (rs1.next()) {
+        count++;
+        MemoVo article = new MemoVo();
+        article.setCategory(category);
+        article.setContent(rs1.getString("CONTENT"));
+        article.setDeleteF(rs1.getString("DELETE_F").equals("Y"));
+        article.setBgCss(rs1.getString("BG_CSS"));
+        article.setFontCss(rs1.getString("FONT_CSS"));
+        article.setWidth(rs1.getInt("WIDTH"));
+        article.setHeight(rs1.getInt("HEIGHT"));
+        article.setPositionX(rs1.getInt("POSITION_X"));
+        article.setPositionY(rs1.getInt("POSITION_Y"));
+        article.setZIndex(rs1.getInt("Z_INDEX"));
+        article.setEditDate(rs1.getDate("UPT_DATE"));
+        article.setRegDate(rs1.getDate("REG_DATE"));
+        memoRepository.saveAndFlush(article);
+      }
+      rs1.close();
+      ps1.close();
+
+    }
+    rs.close();
+    ps.close();
+    conn.close();
+
+    System.out.println("메모 마이그레이션 끝 " + count);
   }
 
   private void migrationCode() throws SQLException, ClassNotFoundException {

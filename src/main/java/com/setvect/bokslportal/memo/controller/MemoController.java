@@ -1,7 +1,7 @@
 package com.setvect.bokslportal.memo.controller;
 
 import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.memo.repository.CategoryRepository;
+import com.setvect.bokslportal.memo.repository.MemoCategoryRepository;
 import com.setvect.bokslportal.memo.repository.MemoRepository;
 import com.setvect.bokslportal.memo.service.MemoConstrant;
 import com.setvect.bokslportal.memo.vo.MemoCategoryVo;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Log4j2
 public class MemoController {
   @Autowired
-  private CategoryRepository categoryRepository;
+  private MemoCategoryRepository categoryRepository;
 
   @Autowired
   private MemoRepository memoRepository;
@@ -76,7 +76,7 @@ public class MemoController {
   @PostMapping("item")
   public ResponseEntity<String> addMemo(MemoVo memo, @RequestParam("categorySeq") int categorySeq) {
     memo.setRegDate(new Date());
-    memo.setUptDate(memo.getRegDate());
+    memo.setEditDate(memo.getRegDate());
     if (StringUtils.isEmpty(memo.getBgCss())) {
       memo.setBgCss(MemoConstrant.BGSTYLE_1);
     }
@@ -93,7 +93,7 @@ public class MemoController {
    */
   @PutMapping("item")
   public ResponseEntity<String> editMemo(MemoVo memo, @RequestParam("categorySeq") int categorySeq) {
-    memo.setUptDate(new Date());
+    memo.setEditDate(new Date());
 
     return saveMemo(memo, categorySeq);
   }

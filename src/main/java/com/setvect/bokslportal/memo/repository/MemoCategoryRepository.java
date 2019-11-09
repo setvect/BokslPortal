@@ -7,6 +7,6 @@ import com.setvect.bokslportal.memo.vo.MemoCategoryVo;
 /**
  * 메모장 Repository
  */
-public interface CategoryRepository extends JpaRepository<MemoCategoryVo, Integer> {
+public interface MemoCategoryRepository extends JpaRepository<MemoCategoryVo, Integer> {
 
 }

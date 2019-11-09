@@ -64,8 +64,8 @@ public class MemoVo {
 	private int positionY;
 
 	/** 마지막 수정일 */
-	@Column(name = "UPT_DATE", nullable = false)
-	private Date uptDate;
+	@Column(name = "EDIT_DATE", nullable = false)
+	private Date editDate;
 
 	/** 처음 등록일 */
 	@Column(name = "REG_DATE", nullable = false)

@@ -11,6 +11,6 @@ import com.setvect.bokslportal.memo.vo.MemoVo;
  * 메모장 Repository
  */
 public interface MemoRepository extends JpaRepository<MemoVo, Integer>, MemoRepositoryCustom {
-  @Query("select memo from MemoVo memo where memo.category.categorySeq =?1 and memo.deleteF = 'N' order by memo.uptDate desc")
+  @Query("select memo from MemoVo memo where memo.category.categorySeq =?1 and memo.deleteF = 'N' order by memo.editDate desc")
   List<MemoVo> findByCategorySeq(int categorySeq);
 }

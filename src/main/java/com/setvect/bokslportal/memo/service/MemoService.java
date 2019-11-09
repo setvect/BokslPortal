@@ -1,7 +1,7 @@
 package com.setvect.bokslportal.memo.service;
 
 import com.setvect.bokslportal.memo.repository.MemoRepository;
-import com.setvect.bokslportal.memo.repository.CategoryRepository;
+import com.setvect.bokslportal.memo.repository.MemoCategoryRepository;
 import com.setvect.bokslportal.memo.vo.MemoCategoryVo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 @Log4j2
 public class MemoService {
   @Autowired
-  private CategoryRepository categoryRepository;
+  private MemoCategoryRepository categoryRepository;
 
   @Autowired
   private MemoRepository memoRepository;
