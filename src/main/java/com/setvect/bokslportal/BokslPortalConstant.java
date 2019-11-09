@@ -35,7 +35,7 @@ public final class BokslPortalConstant {
     /**
      * 로그인 아이디(고정)
      */
-    public static final String ID = "boksl";
+    public static final String ID = "setvect";
     /**
      * remember 관련.
      */

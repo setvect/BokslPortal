@@ -5,8 +5,10 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
+- NEW-20191109: 게시판에 이미지가 본문에 이미지 표시
+- NEW-20191109: 게시판에 이미지가 첨부되면 목록에 이미지 표시
+- PBM-20191109: 페이지 이동 시 URL 반영. 현재는 뒤로 가기가 안됨.  
 - NEW-20191005: 게시판 목록 메뉴에 표시
-- NEW-20190913: DB 마이그레이션
 - NEW-20190828: 복슬포토 메타정보 입력(촬영일, 메모)
 - NEW-20190825: 복슬 포토 썸내일 이미지 처리 시 인증 토큰 받을 수 있게.
 - NEW-20190626: PageQueryCondition Builder 형태로 만들어 보는 거 고려
@@ -15,6 +17,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20190913(20191109): DB 마이그레이션
 - NEW-20191005(20191103): 코멘트 구현
 - NEW-20190928(?): 안 쓰는 package 제거
 - NEW-20190626(?): PhotoRepositoryImpl 사용하지 않는 테이블 정리

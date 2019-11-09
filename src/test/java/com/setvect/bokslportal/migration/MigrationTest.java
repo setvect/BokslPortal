@@ -1,5 +1,6 @@
 package com.setvect.bokslportal.migration;
 
+import com.setvect.bokslportal.BokslPortalConstant;
 import com.setvect.bokslportal.MainTestBase;
 import com.setvect.bokslportal.attach.repository.AttachFileRepository;
 import com.setvect.bokslportal.attach.service.AttachFileModule;
@@ -90,13 +91,13 @@ public class MigrationTest extends MainTestBase {
 
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
-//    migrationBoard();
-//    migrationComment();
-//    migrationKnowledge();
-//    migrationNote();
-//    migrationCode();
-//    migrationMemo();
-//    migrationNetwork();
+    migrationBoard();
+    migrationComment();
+    migrationKnowledge();
+    migrationNote();
+    migrationCode();
+    migrationMemo();
+    migrationNetwork();
     migrationPhoto();
 
     return;
@@ -127,7 +128,7 @@ public class MigrationTest extends MainTestBase {
     rs.close();
     ps.close();
     conn.close();
-    System.out.println("네트워크 마이그레이션 끝 " + count);
+    System.out.println("포토 마이그레이션 끝 " + count);
   }
 
   private void migrationNetwork() throws SQLException, ClassNotFoundException {
@@ -427,7 +428,7 @@ public class MigrationTest extends MainTestBase {
   }
 
   private UserVo getUserVo() {
-    return userRepository.findById("boksl").get();
+    return userRepository.findById(BokslPortalConstant.Login.ID).get();
   }
 
   /**

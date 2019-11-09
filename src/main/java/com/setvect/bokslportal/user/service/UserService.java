@@ -29,7 +29,7 @@ public class UserService {
 		}
 		// 계정이 없으면, 기본 계정 생성
 		user = new UserVo();
-		user.setName("복슬이");
+		user.setName("setvect");
 		user.setDeleteFlag(false);
 		user.setUserId(BokslPortalConstant.Login.ID);
 		user.setPassword(passwordEncoder.encode("boksl"));
