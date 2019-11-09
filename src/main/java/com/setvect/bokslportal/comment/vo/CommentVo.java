@@ -29,32 +29,44 @@ import lombok.Setter;
 @Setter
 public class CommentVo {
 
-	/** 일련번호 */
-	@Id
-	@Column(name = "COMMENT_SEQ")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int commentSeq;
+  /**
+   * 일련번호
+   */
+  @Id
+  @Column(name = "COMMENT_SEQ")
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int commentSeq;
 
-	/** 모듈이름 */
-	@Column(name = "MODULE_NAME", nullable = false, length = 20)
-	@Enumerated(EnumType.STRING)
-	private CommentModule moduleName;
+  /**
+   * 모듈이름
+   */
+  @Column(name = "MODULE_NAME", nullable = false, length = 20)
+  @Enumerated(EnumType.STRING)
+  private CommentModule moduleName;
 
-	/** 모듈 아이디 */
-	@Column(name = "MODULE_ID", nullable = false, length = 50)
-	private String moduleId;
+  /**
+   * 모듈 아이디
+   */
+  @Column(name = "MODULE_ID", nullable = false, length = 50)
+  private String moduleId;
 
-	/** 아이디 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER", nullable = false)
-	private UserVo user;
+  /**
+   * 아이디
+   */
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "USER", nullable = false)
+  private UserVo user;
 
-	/** 내용 */
-	@Column(name = "CONTENT", nullable = false, length = 4000)
-	private String content;
+  /**
+   * 내용
+   */
+  @Column(name = "CONTENT", nullable = false, length = 4000)
+  private String content;
 
-	/** 등록일 */
-	@Column(name = "REG_DATE")
-	private Date regDate;
+  /**
+   * 등록일
+   */
+  @Column(name = "REG_DATE", nullable = false)
+  private Date regDate;
 
 }

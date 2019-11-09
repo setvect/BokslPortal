@@ -11,6 +11,8 @@ import com.setvect.bokslportal.board.vo.BoardManagerVo;
 import com.setvect.bokslportal.comment.repository.CommentRepository;
 import com.setvect.bokslportal.comment.service.CommentModule;
 import com.setvect.bokslportal.comment.vo.CommentVo;
+import com.setvect.bokslportal.knowledge.repository.KnowledgeRepository;
+import com.setvect.bokslportal.knowledge.vo.KnowledgeVo;
 import com.setvect.bokslportal.user.repository.UserRepository;
 import com.setvect.bokslportal.user.vo.UserVo;
 import org.junit.Test;
@@ -38,11 +40,38 @@ public class MigrationTest extends MainTestBase {
   @Autowired
   private CommentRepository commentRepository;
 
+  @Autowired
+  private KnowledgeRepository knowledgeRepository;
+
   @Test
   public void migration() throws SQLException, ClassNotFoundException {
-    migrationBoard();
-    migrationComment();
+//    migrationBoard();
+//    migrationComment();
+    migrationKnowledge();
     return;
+  }
+
+  private void migrationKnowledge() throws SQLException, ClassNotFoundException {
+    knowledgeRepository.deleteAll();
+    Connection conn = connection();
+    PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBEA_KNOWLEDGE WHERE DELETE_F = 'N' ORDER BY KNOWLEDGE_SEQ ASC ");
+    ResultSet rs = ps.executeQuery();
+    int count = 0;
+    while (rs.next()) {
+      KnowledgeVo knowledgeVo = new KnowledgeVo();
+      knowledgeVo.setProblem(rs.getString("PROBLEM"));
+      knowledgeVo.setSolution(rs.getString("SOLUTION"));
+      knowledgeVo.setRegDate(rs.getDate("REG_DATE"));
+      knowledgeVo.setClassifyC(rs.getString("CLASSIFY_C"));
+
+      knowledgeRepository.save(knowledgeVo);
+      count++;
+    }
+    rs.close();
+    ps.close();
+    conn.close();
+    System.out.println("지식 마이그레이션 끝 " + count);
+
   }
 
   private void migrationComment() throws SQLException, ClassNotFoundException {
@@ -59,7 +88,7 @@ public class MigrationTest extends MainTestBase {
       comment.setContent(rs.getString("CONTENT"));
       comment.setModuleName(CommentModule.MAIN);
       comment.setModuleId("1");
-      comment.setRegDate(null);
+      comment.setRegDate(rs.getDate("REG_DATE"));
 
       commentRepository.saveAndFlush(comment);
       count++;

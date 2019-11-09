@@ -1,7 +1,9 @@
 package com.setvect.bokslportal.knowledge.vo;
 
-import java.util.Date;
-import java.util.List;
+import com.setvect.bokslportal.attach.vo.AttachFileVo;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,14 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.setvect.bokslportal.attach.vo.AttachFileVo;
-import org.hibernate.annotations.Type;
-
-import com.setvect.bokslportal.code.vo.CodeVo;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 지식정보
@@ -41,12 +37,6 @@ public class KnowledgeVo {
    */
   @Column(name = "CLASSIFY_C", nullable = false, length = 20)
   private String classifyC;
-
-  /**
-   * 분류 코드
-   */
-  @Transient
-  private CodeVo classifyCode;
 
   /**
    * 문제
