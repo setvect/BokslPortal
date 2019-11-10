@@ -39,7 +39,7 @@ export default {
       listData: [
       ],
       searchData: {
-        categorySeq: 2,
+        categorySeq: null,
         word: null,
       },
       filterWord: "",
@@ -65,7 +65,11 @@ export default {
     },
     loadCategoryProc() {
       this.categoryList = store.state.memo.categoryList;
+      if (this.searchData.categorySeq == null) {
+        this.searchData.categorySeq = this.categoryList[0].categorySeq;
+      }
       this.searchData.categorySeq = this.$route.query.categorySeq || this.searchData.categorySeq;
+      console.log('this.categoryList :', this.categoryList);
       this.loadListProc();
     },
     loadListProc() {
