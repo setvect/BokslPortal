@@ -111,7 +111,7 @@ public class MigrationTest extends MainTestBase {
     int count = 0;
     while (rs.next()) {
       PhotoVo photo = new PhotoVo();
-      photo.setShotDate(rs.getDate("SHOT_DATE"));
+      photo.setShotDate(rs.getTimestamp("SHOT_DATE"));
       photo.setShotDateType(PhotoVo.ShotDateType.valueOf(rs.getString("SHOT_DATE_TYPE")) );
       photo.setDirectory(rs.getString("DIRECTORY"));
       photo.setLatitude(rs.getDouble("LATITUDE"));
@@ -120,7 +120,7 @@ public class MigrationTest extends MainTestBase {
       photo.setName(rs.getString("NAME"));
       photo.setOrientation(rs.getInt("ORIENTATION"));
       photo.setPhotoId(rs.getString("PHOTO_ID"));
-      photo.setRegData(rs.getDate("REG_DATE"));
+      photo.setRegData(rs.getTimestamp("REG_DATE"));
 
       photoRepository.saveAndFlush(photo);
       count++;
@@ -142,8 +142,8 @@ public class MigrationTest extends MainTestBase {
       network.setContent(rs.getString("CONTENT"));
       network.setDeleteF(rs.getString("DELETE_F").equals("Y"));
       network.setTitle(rs.getString("TITLE"));
-      network.setRegDate(rs.getDate("REG_DATE"));
-      network.setEditDate(rs.getDate("EDIT_DATE"));
+      network.setRegDate(rs.getTimestamp("REG_DATE"));
+      network.setEditDate(rs.getTimestamp("EDIT_DATE"));
 
       networkRepository.saveAndFlush(network);
       count++;
@@ -186,8 +186,8 @@ public class MigrationTest extends MainTestBase {
         article.setPositionX(rs1.getInt("POSITION_X"));
         article.setPositionY(rs1.getInt("POSITION_Y"));
         article.setZIndex(rs1.getInt("Z_INDEX"));
-        article.setEditDate(rs1.getDate("UPT_DATE"));
-        article.setRegDate(rs1.getDate("REG_DATE"));
+        article.setEditDate(rs1.getTimestamp("UPT_DATE"));
+        article.setRegDate(rs1.getTimestamp("REG_DATE"));
         memoRepository.saveAndFlush(article);
       }
       rs1.close();
@@ -261,10 +261,10 @@ public class MigrationTest extends MainTestBase {
         NoteVo note = new NoteVo();
         note.setCategory(noteCategory);
         note.setCategorySeq(noteCategory.getCategorySeq());
-        note.setEditDate(rs.getDate("UPT_DATE"));
+        note.setEditDate(rs.getTimestamp("UPT_DATE"));
         note.setContent(rs.getString("CONTENT"));
         note.setDeleteF(rs.getString("DELETE_F").equals("Y"));
-        note.setRegDate(rs.getDate("REG_DATE"));
+        note.setRegDate(rs.getTimestamp("REG_DATE"));
         note.setTitle(rs.getString("TITLE"));
 
         noteRepository.saveAndFlush(note);
@@ -294,7 +294,7 @@ public class MigrationTest extends MainTestBase {
     while (rs.next()) {
       CategoryTemp category = new CategoryTemp();
       category.setName(rs.getString("NAME"));
-      category.setRegDate(rs.getDate("REG_DATE"));
+      category.setRegDate(rs.getTimestamp("REG_DATE"));
       category.setDeleteF(rs.getString("DELETE_F").equals("Y"));
       category.setCategorySeq(rs.getInt("CATEGORY_SEQ"));
       category.setParentId(rs.getInt("PARENT_ID"));
@@ -329,7 +329,7 @@ public class MigrationTest extends MainTestBase {
       KnowledgeVo knowledgeVo = new KnowledgeVo();
       knowledgeVo.setProblem(rs.getString("PROBLEM"));
       knowledgeVo.setSolution(rs.getString("SOLUTION"));
-      knowledgeVo.setRegDate(rs.getDate("REG_DATE"));
+      knowledgeVo.setRegDate(rs.getTimestamp("REG_DATE"));
       knowledgeVo.setClassifyC(rs.getString("CLASSIFY_C"));
       knowledgeVo.setDeleteF(rs.getString("DELETE_F").equals("Y"));
 
@@ -357,7 +357,7 @@ public class MigrationTest extends MainTestBase {
       comment.setContent(rs.getString("CONTENT"));
       comment.setModuleName(CommentModule.MAIN);
       comment.setModuleId("1");
-      comment.setRegDate(rs.getDate("REG_DATE"));
+      comment.setRegDate(rs.getTimestamp("REG_DATE"));
 
       commentRepository.saveAndFlush(comment);
       count++;
@@ -404,7 +404,7 @@ public class MigrationTest extends MainTestBase {
         article.setEncryptF(rs1.getBoolean("ENCODE_F"));
         article.setDeleteF(rs1.getBoolean("DELETE_F"));
         article.setHitCount(rs1.getInt("HIT_COUNT"));
-        article.setRegDate(rs1.getDate("REG_DATE"));
+        article.setRegDate(rs1.getTimestamp("REG_DATE"));
         article.setTitle(rs1.getString("TITLE"));
         article.setUser(user);
         boardArticleRepository.save(article);
@@ -452,7 +452,7 @@ public class MigrationTest extends MainTestBase {
       attach.setOriginalName(rs.getString("ORIGINAL_NAME"));
       attach.setSaveName(rs.getString("SAVE_NAME"));
       attach.setSize(rs.getInt("SIZE"));
-      attach.setRegDate(rs.getDate("REG_DATE"));
+      attach.setRegDate(rs.getTimestamp("REG_DATE"));
       attachFileRepository.save(attach);
     }
 
