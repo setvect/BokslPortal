@@ -5,6 +5,7 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
+- NEW-20191110: 로그인 유지
 - NEW-20191110: 메모 - 카테고리 선택정보 쿠키에 저장
 - NEW-20191109: 게시판에 이미지가 본문에 이미지 표시
 - NEW-20191109: 게시판에 이미지가 첨부되면 목록에 이미지 표시
