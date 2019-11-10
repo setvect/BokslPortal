@@ -104,9 +104,7 @@ export default {
       let param = $.extend({}, this.$route.query);
       param["startCursor"] = this.page.returnCount * (page - 1);
       param["currentPage"] = page;
-      this.$router.push({ name: "noteList", query: param }).catch(err => {
-        console.log('err :', err);
-      });
+      this.$router.push({ name: "noteList", query: param }).catch(err => {});
     },
     categoryForm() {
       this.$refs['categoryCmp'].open();

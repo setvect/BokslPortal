@@ -78,15 +78,20 @@ export default {
       this.$router.push({ name: "boardManagerRead", query: this.$route.query });
     },
     changePage(page) {
-      this.$route.query.startCursor = this.page.returnCount * (page - 1)
-      this.$route.query.currentPage = page;
-      this.listProc();
+      let param = $.extend({}, this.$route.query);
+      param["startCursor"] = this.page.returnCount * (page - 1);
+      param["currentPage"] = page;
+      this.$router.push({ name: "boardManagerList", query: param }).catch(err => {});
     }
   },
   mounted() {
     if (!this.$route.query.field) {
       this.$route.query.field = "name";
     }
+    this.listProc();
+  },
+  beforeRouteUpdate(to, from, next) {
+    next();
     this.listProc();
   }
 }

@@ -85,9 +85,10 @@ export default {
       this.$router.push({ name: "knowledgeRead", query: this.$route.query });
     },
     changePage(page) {
-      this.$route.query.startCursor = this.page.returnCount * (page - 1)
-      this.$route.query.currentPage = page;
-      this.listProc();
+      let param = $.extend({}, this.$route.query);
+      param["startCursor"] = this.page.returnCount * (page - 1);
+      param["currentPage"] = page;
+      this.$router.push({ name: "knowledgeList", query: param }).catch(err => {});
     },
   },
   mounted() {
@@ -95,6 +96,10 @@ export default {
       this.$route.query.classifyC = null;
     }
     this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq);
+    this.listProc();
+  },
+  beforeRouteUpdate(to, from, next) {
+    next();
     this.listProc();
   }
 };
