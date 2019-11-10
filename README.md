@@ -17,7 +17,8 @@
 * JPA
 * H2 Database
 * lombok
-* [UI 템플릿 - vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+* [UI 템플릿 - bootstrap](https://bootstrap-vue.js.org/)
+* [UI 템플릿 - gentelella](https://github.com/ColorlibHQ/gentelella)
 
 
 ### IDE 셋팅 방법
@@ -55,6 +56,8 @@ npm run build
 1. `npm run prod`
 1. `gradle clean`
 1. `gradle bootWar` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 bootWar`
+
+잘 되면 _build/libs/bokslportal-x.x.x.war_ 이렇게 만들어짐
 
 ### 개발 실행
 

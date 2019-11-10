@@ -29,8 +29,8 @@ export default {
   data() {
     return {
       form: {
-        username: 'boksl',
-        password: 'boksl',
+        username: '',
+        password: '',
         'remember-me': ''
       },
       redirect: undefined
