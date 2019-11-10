@@ -93,9 +93,9 @@ public class MigrationTest extends MainTestBase {
   public void migration() throws SQLException, ClassNotFoundException {
     migrationBoard();
     migrationComment();
+    migrationCode();
     migrationKnowledge();
     migrationNote();
-    migrationCode();
     migrationMemo();
     migrationNetwork();
     migrationPhoto();
@@ -132,7 +132,7 @@ public class MigrationTest extends MainTestBase {
   }
 
   private void migrationNetwork() throws SQLException, ClassNotFoundException {
-    codeRepository.deleteAll();
+    networkRepository.deleteAll();
     Connection conn = connection();
     PreparedStatement ps = conn.prepareStatement("SELECT * FROM TBFA_NETWORK ORDER BY NETWORK_SEQ ASC ");
     ResultSet rs = ps.executeQuery();

@@ -20,51 +20,37 @@
               </a>
               <ul class="nav child_menu">
                 <li>
-                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BAAABB01' }}">글</router-link>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA01' }}">글</router-link>
                 </li>
                 <li>
-                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BAAABB02' }}">꿈</router-link>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA02' }}">책</router-link>
                 </li>
                 <li>
-                  <a href="#">책</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA03' }}">음악</router-link>
                 </li>
                 <li>
-                  <a href="#">음악</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA04' }}">영화</router-link>
                 </li>
                 <li>
-                  <a href="#">영화</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA05' }}">사진</router-link>
                 </li>
                 <li>
-                  <a href="#">사진</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA06' }}">기억</router-link>
                 </li>
                 <li>
-                  <a href="#">잡담</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA07' }}">인연</router-link>
                 </li>
                 <li>
-                  <a href="#">기억</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA08' }}">잡답</router-link>
                 </li>
                 <li>
-                  <a href="#">인연</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA09' }}">꿈</router-link>
                 </li>
                 <li>
-                  <a href="#">소설</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA10' }}">기술사</router-link>
                 </li>
                 <li>
-                  <a href="#">기술사</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>
-                게시판 유형 #1
-                <span class="fa fa-chevron-down"></span>
-              </a>
-              <ul class="nav child_menu">
-                <li>
-                  <a href="#">메인화면</a>
-                </li>
-                <li>
-                  <a href="#">기타</a>
+                  <router-link :to="{name: 'boardArticle', query: { boardCode: 'BDAAAA11' }}">소설</router-link>
                 </li>
               </ul>
             </li>
@@ -85,7 +71,7 @@
           </ul>
         </li>
         <li>
-           <router-link :to="{name: 'note', query: { categorySeq: 0}}">
+          <router-link :to="{name: 'note', query: { categorySeq: 0}}">
             <i class="fa fa-edit"></i> 복슬노트
             <span class="fa fa-chevron-down"></span>
           </router-link>
