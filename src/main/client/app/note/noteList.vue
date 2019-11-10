@@ -72,15 +72,14 @@ export default {
       this.$route.query.word = "";
       this.$route.query.field = "title";
       this.search();
-    }
+    },
   },
   methods: {
     listProc() {
-      let currentPage = this.$route.query.currentPage;
       VueUtil.get("/note/page", this.$route.query, (res) => {
         this.page = res.data;
         this.$nextTick(() => {
-          this.currentPage = currentPage;
+          this.currentPage = this.$route.query.currentPage;
         });
       });
     },
@@ -102,15 +101,18 @@ export default {
       this.$router.push({ name: "noteRead", query: this.$route.query });
     },
     changePage(page) {
-      this.$route.query.startCursor = this.page.returnCount * (page - 1)
-      this.$route.query.currentPage = page;
-      this.listProc();
+      let param = $.extend({}, this.$route.query);
+      param["startCursor"] = this.page.returnCount * (page - 1);
+      param["currentPage"] = page;
+      this.$router.push({ name: "noteList", query: param }).catch(err => {
+        console.log('err :', err);
+      });
     },
     categoryForm() {
       this.$refs['categoryCmp'].open();
     },
     getCategoryPath() {
-      if (!this.$route.query.categorySeq) {
+      if (!this.$route.query.categorySeq || this.$route.query.categorySeq == "0") {
         this.categoryPath = [{ name: "홈" }];
         return;
       }
@@ -118,7 +120,6 @@ export default {
         this.categoryPath = res.data.slice(1);
       });
     },
-
   },
   mounted() {
     this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq);
@@ -127,7 +128,12 @@ export default {
     }
     this.getCategoryPath();
     this.listProc();
+  },
+  beforeRouteUpdate(to, from, next) {
+    next();
+    this.listProc();
   }
+
 };
 </script>
 
