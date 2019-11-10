@@ -25,6 +25,11 @@ test {
   exclude '**/*'
 }
 
+// war task skip 방지
+war {
+  enabled = true
+}
+
 configurations {
   // 안 빼면 stackover flow 발생
   compile.exclude module: 'log4j-slf4j-impl'

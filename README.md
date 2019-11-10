@@ -55,9 +55,20 @@ npm run build
 ### 빌드 방법
 1. `npm run prod`
 1. `gradle clean`
-1. `gradle bootWar` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 bootWar`
+1. war 파일 만들기
+    1. `gradle bootWar` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 bootWar`
+    1. `gradle war` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 war`
 
 잘 되면 _build/libs/bokslportal-x.x.x.war_ 이렇게 만들어짐
+
+### 실행방법
+- 일반 war 방식
+    - 톰켓에 webapps디렉토리에 war 파일을 복사
+
+- bootWar 방식
+```
+java -jar bokslportal-x.x.x.war
+```
 
 ### 개발 실행
 

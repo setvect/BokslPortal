@@ -8,6 +8,7 @@ import com.setvect.bokslportal.note.service.NoteService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
@@ -17,7 +18,7 @@ import com.setvect.bokslportal.util.BeanUtils;
 @SpringBootApplication
 // @ImportResource({ "classpath:/spring/context-transaction.xml" })
 @ImportResource({"classpath:/spring/context-transaction.xml", "classpath:/spring/context-beans.xml"})
-public class BokslPortalApplication {
+public class BokslPortalApplication extends SpringBootServletInitializer {
   /**
    * 설정 파일 경로.
    */
@@ -64,15 +65,14 @@ public class BokslPortalApplication {
       UserService userService = BeanUtils.getBean(UserService.class);
       userService.init();
 
-//      MemoService memoService = BeanUtils.getBean(MemoService.class);
-//      memoService.init();
+      MemoService memoService = BeanUtils.getBean(MemoService.class);
+      memoService.init();
 
-//      NoteService noteService = BeanUtils.getBean(NoteService.class);
-//      noteService.init();
+      NoteService noteService = BeanUtils.getBean(NoteService.class);
+      noteService.init();
 
-//      CodeService codeService = BeanUtils.getBean(CodeService.class);
-//      codeService.init();
-
+      CodeService codeService = BeanUtils.getBean(CodeService.class);
+      codeService.init();
     };
   }
 
