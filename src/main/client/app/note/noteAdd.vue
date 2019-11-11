@@ -13,7 +13,6 @@
         </b-form-select>
         <span v-show="!validateState('categorySeq')" class="invalid-feedback">{{ veeErrors.first('categorySeq') }}</span>
       </b-form-group>
-
       <b-form-group>
         <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
       </b-form-group>
@@ -31,6 +30,9 @@
         <b-col>
           <b-button @click="listPage()" type="button" variant="info">취소</b-button>
         </b-col>
+        <b-col>
+          <span>{{autoSave.label}}</span>
+        </b-col>
         <b-col cols="auto">
           <b-button @click="submitProc()" type="button" variant="info">확인</b-button>
         </b-col>
@@ -46,7 +48,8 @@ import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
 import store from "../../store/index.js";
 import "../../utils/vue-common.js";
 import '../../asserts/lib/editor/js/HuskyEZCreator.js';
-
+const DEFAULT_AUTO_SAVE_TIME = 15;
+const INTERVAL_TIME = 3;
 export default {
   mixins: [comFunction, noteCommon],
   components: {
@@ -63,7 +66,13 @@ export default {
       },
       deleteAttachFileSeq: [],
       oEditors: [],
-      categoryList: []
+      categoryList: [],
+      autoSave: {
+        run: false,
+        save: false,
+        time: DEFAULT_AUTO_SAVE_TIME,
+        label: "",
+      }
     };
   },
   methods: {
@@ -77,8 +86,14 @@ export default {
           // 본문 내용 수정
           $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
             this.item.content = this.oEditors.getById["content"].getIR();
+            this.resetAutoSaveTimer();
           });
           this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
+          // 자동저장을 수정일 경우만 함.
+          if (this.autoSave.run == false) {
+            return;
+          }
+          this.runAutoSaveTimer();
         },
       });
     },
@@ -118,6 +133,31 @@ export default {
         }, { "call-type": "multipart" });
       });
     },
+    // 자동 저장 리플래시
+    resetAutoSaveTimer() {
+      this.autoSave.time = DEFAULT_AUTO_SAVE_TIME;
+      this.autoSave.save = false;
+    },
+    runAutoSaveTimer() {
+      setInterval(() => {
+        if (this.autoSave.time > 0) {
+          this.autoSave.label = this.autoSave.time + "초 후 자동 저장";
+          this.autoSave.time -= INTERVAL_TIME;
+        } else {
+          if (!this.autoSave.save) {
+            this.autoSave.save = true;
+            this.runAutoSave();
+          }
+        }
+      }, INTERVAL_TIME * 1000);
+    },
+    runAutoSave() {
+      VueUtil.post("/note/item-edit",
+        { noteSeq: this.item.noteSeq, title: this.item.title, content: this.item.content },
+        (res) => {
+          this.autoSave.label = "자동 저장 완료";
+        }, { "call-type": "multipart" });
+    },
     attachFile(event) {
       this.item.attachList = [];
       for (let i = 0; i < event.target.files.length; i++) {
@@ -144,6 +184,7 @@ export default {
       VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, (res) => {
         this.item = res.data;
         this.initEditor();
+        this.autoSave.run = true
       });
     }
     // 등록
