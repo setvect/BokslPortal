@@ -3,6 +3,7 @@ package com.setvect.bokslportal;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,11 +57,11 @@ public final class BokslPortalConstant {
     /**
      * 업로드 허용하는 확장자
      */
-    public static final Set<String> ALLOW_EXT = new HashSet<>(Arrays.asList(EnvirmentProperty.getString("com.setvect.bokslportal.attch.allow_ext").split(",")));
+    public static final List<String> ALLOW_EXT = EnvirmentProperty.getList("com.setvect.bokslportal.attch.allow_ext");
     /**
      * 이미지 확장자
      */
-    public static final Set<String> IMAGE_EXT = new HashSet<>(Arrays.asList(EnvirmentProperty.getString("com.setvect.bokslportal.attch.image_ext").split(",")));
+    public static final List<String> IMAGE_EXT = EnvirmentProperty.getList("com.setvect.bokslportal.attch.image_ext");
   }
 
   /**

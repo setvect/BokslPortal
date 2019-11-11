@@ -85,7 +85,7 @@ public class NoteController {
     param.setCategorySeqSet(categorySeqSet);
 
     GenericPage<NoteVo> page = noteRepository.getPagingList(param);
-    page.getList().forEach(note->{
+    page.getList().forEach(note -> {
       List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.NOTE, note.getNoteSeq());
       note.setAttach(attach);
     });
@@ -115,7 +115,7 @@ public class NoteController {
   public ResponseEntity<String> addItem(NoteVo note, @RequestParam("attachList") MultipartFile[] attach) {
     note.setRegDate(new Date());
     note.setEditDate(new Date());
-      noteRepository.saveAndFlush(note);
+    noteRepository.saveAndFlush(note);
 
     attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(note));

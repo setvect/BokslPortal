@@ -126,9 +126,10 @@ export default {
         else {
           url = "/note/item";
         }
-        delete this.item.category;
-        delete this.item.attach;
-        VueUtil.post(url, this.item, (res) => {
+        let copyItem = $.extend(true, {}, this.item);
+        delete copyItem.category;
+        delete copyItem.attach;
+        VueUtil.post(url, copyItem, (res) => {
           this.$router.push({ name: "noteList", query: this.$route.query });
         }, { "call-type": "multipart" });
       });

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,5 +212,18 @@ public abstract class ApplicationUtil {
       throw new RuntimeException(e);
     }
     return md5;
+  }
+
+  /**
+   * 파일 업로드 체크. 허용된 확장자가 아니면 예외 발생
+   * @param filename 파일명
+   */
+  public static void checkAllowUploadFile(String filename) {
+    String ext = FilenameUtils.getExtension(filename).toLowerCase();
+
+    boolean deny = !BokslPortalConstant.Attach.ALLOW_EXT.contains(ext);
+    if (deny) {
+      throw new RuntimeException("[" + filename + "] is not an authorized file.");
+    }
   }
 }

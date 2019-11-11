@@ -104,8 +104,8 @@ public class AttachFileService {
         continue;
       }
       String fileName = moduleName + "_" + moduleId + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-
-//      ApplicationUtil.checkAllowUploadFile(file.getOriginalFilename());
+      // 허용 확장자 체크
+      ApplicationUtil.checkAllowUploadFile(file.getOriginalFilename());
 
       File destination;
       try {
