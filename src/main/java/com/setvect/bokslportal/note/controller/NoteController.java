@@ -135,7 +135,7 @@ public class NoteController {
     saveData.setContent(note.getContent());
     saveData.setTitle(note.getTitle());
     saveData.setEditDate(new Date());
-    noteRepository.save(note);
+    noteRepository.save(saveData);
 
     attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());
     if (deleteAttachFileSeq != null) {
