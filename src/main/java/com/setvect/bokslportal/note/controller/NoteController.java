@@ -89,7 +89,7 @@ public class NoteController {
       List<AttachFileVo> attach = attachFileService.listAttachFile(AttachFileModule.NOTE, note.getNoteSeq());
       note.setAttach(attach);
     });
-    String json = ApplicationUtil.toJson(page, "**,list[**,category[name]]");
+    String json = ApplicationUtil.toJson(page, "**,list[**,-content,category[name]]");
     return ResponseEntity.ok().body(json);
   }
 

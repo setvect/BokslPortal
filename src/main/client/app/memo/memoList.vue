@@ -11,7 +11,7 @@
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="filterListData">
-      <template slot="index" slot-scope="data">{{ data.index + 1 }}</template>
+      <template slot="index" slot-scope="data">{{ listData.length - data.index }}</template>
       <template slot="content" slot-scope="data">
         <b-link @click="readPage(data.item.memoSeq)">{{ data.item.content }}</b-link>
       </template>
@@ -111,7 +111,7 @@ export default {
 
 <style >
   .index-col{
-    width: 50px;
+    width: 30px;
   }
   .content-col{
      max-width: 100px;
@@ -120,9 +120,9 @@ export default {
     white-space: nowrap;
   }
   .date-col{
-    width: 140px;
+    width: 100px;
   }
   .delete-col{
-    width: 100px;
+    width: 60px;
   }
 </style>
