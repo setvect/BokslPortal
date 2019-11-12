@@ -75,21 +75,12 @@
             <i class="fa fa-edit"></i> 복슬노트
             <span class="fa fa-chevron-down"></span>
           </router-link>
-          <note-tree-menu :list="noteCategoryTree" />
         </li>
         <li>
-          <a>
+          <router-link :to="{name: 'memoList'}">
             <i class="fa fa-clipboard"></i> 복슬메모
             <span class="fa fa-chevron-down"></span>
-          </a>
-          <ul class="nav child_menu">
-            <li>
-              <router-link :to="{name: 'memoList'}">메모 보기</router-link>
-            </li>
-            <!-- <li>
-              <router-link :to="{name: 'memoLayer'}">레이어 보기</router-link>
-            </li>-->
-          </ul>
+          </router-link>
         </li>
         <li>
           <a>
@@ -142,7 +133,6 @@
 <script>
 import Vue from "vue";
 import store from "../store/index.js";
-import noteTreeMenu from "./noteTreeMenu";
 import pageBody from '../custom.js';
 import EventBus from "../utils/event-bus.js";
 
@@ -151,9 +141,6 @@ export default {
     return {
       noteCategoryTree: [],
     }
-  },
-  components: {
-    noteTreeMenu
   },
   methods: {
     loadNoteCategory() {

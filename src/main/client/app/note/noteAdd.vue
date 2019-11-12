@@ -45,7 +45,6 @@
 
 import noteCommon from "./mixin-note.js";
 import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
-import store from "../../store/index.js";
 import "../../utils/vue-common.js";
 import '../../asserts/lib/editor/js/HuskyEZCreator.js';
 const DEFAULT_AUTO_SAVE_TIME = 15;
@@ -66,7 +65,6 @@ export default {
       },
       deleteAttachFileSeq: [],
       oEditors: [],
-      categoryList: [],
       autoSave: {
         run: false,
         save: false,
@@ -165,14 +163,6 @@ export default {
         this.item.attachList.push(event.target.files[i]);
       }
     },
-    travelCategory(cList, level) {
-      let space = '__'.repeat(level);
-      cList.forEach((c) => {
-        c.data.name = space + c.data.name;
-        this.categoryList.push(c.data);
-        this.travelCategory(c.children, level + 1);
-      })
-    }
   },
   mounted() {
     this.item.categorySeq = null;
@@ -192,11 +182,7 @@ export default {
     else {
       this.initEditor();
     }
-    store.dispatch('note/loadTree').then(() => {
-      let cList = $.extend(true, [], store.state.note.categoryTree.children);
-      this.travelCategory(cList, 1);
-    });
-
+    this.loadCategory();
     window.openImageForm = (a) => {
       this.$refs['imageUpload'].open();
     }

@@ -134,7 +134,9 @@ public class NoteController {
     NoteVo saveData = noteRepository.findById(note.getNoteSeq()).get();
     saveData.setContent(note.getContent());
     saveData.setTitle(note.getTitle());
+    saveData.setCategorySeq(note.getCategorySeq());
     saveData.setEditDate(new Date());
+
     noteRepository.save(saveData);
 
     attachFileService.process(attach, AttachFileModule.NOTE, note.getNoteSeq());

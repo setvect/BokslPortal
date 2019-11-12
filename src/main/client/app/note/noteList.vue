@@ -2,6 +2,11 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
+        <b-form-select @change="changeCategory()" v-model="currentCategorySeq" name="categorySeq" size="sm">
+          <option :value="0">==전체==</option>
+          <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
+        </b-form-select>
+
         <b-form-select v-model="$route.query.field" size="sm">
           <option value="title">제목</option>
           <option value="content">내용</option>
@@ -62,17 +67,9 @@ export default {
       },
       categoryPath: [],
       currentPage: 1,
-      isSearch: false
+      isSearch: false,
+      currentCategorySeq: 0
     };
-  },
-  watch: {
-    '$route.query.categorySeq'() {
-      this.$route.query.categorySeq = this.$route.query.categorySeq;
-      this.getCategoryPath();
-      this.$route.query.word = "";
-      this.$route.query.field = "title";
-      this.search();
-    },
   },
   methods: {
     listProc() {
@@ -104,28 +101,39 @@ export default {
       let param = $.extend({}, this.$route.query);
       param["startCursor"] = this.page.returnCount * (page - 1);
       param["currentPage"] = page;
-      this.$router.push({ name: "noteList", query: param }).catch(err => {});
+      this.$router.push({ name: "noteList", query: param }).catch(err => { });
     },
     categoryForm() {
       this.$refs['categoryCmp'].open();
     },
     getCategoryPath() {
       if (!this.$route.query.categorySeq || this.$route.query.categorySeq == "0") {
-        this.categoryPath = [{ name: "홈" }];
+        this.categoryPath = [{ name: "전체" }];
         return;
       }
       VueUtil.get(`/note/category-path/${this.$route.query.categorySeq}`, {}, (res) => {
         this.categoryPath = res.data.slice(1);
       });
     },
+    // 카테고리 변경
+    changeCategory() {
+      let param = $.extend({}, this.$route.query);
+      param["startCursor"] = 0;
+      param["currentPage"] = 1;
+      param["categorySeq"] = this.currentCategorySeq;
+      this.$router.push({ name: "noteList", query: param }).catch(err => { });
+      this.getCategoryPath();
+    }
   },
   mounted() {
-    this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq);
+    this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq || 0);
+    this.currentCategorySeq = this.$route.query.categorySeq;
     if (!this.$route.query.field) {
       this.$route.query.field = "title";
     }
     this.getCategoryPath();
     this.listProc();
+    this.loadCategory();
   },
   beforeRouteUpdate(to, from, next) {
     next();
