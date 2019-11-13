@@ -24,7 +24,7 @@
         class="mb-2"
       >
         <b-card-text>
-          {{item.editDate | relativeDate }}
+          {{item.regDate | relativeDate }}
           <span>{{item.checkType}}</span>
           <span v-show="item.checkDate != null" style="padding-left:20px; float:right">{{item.checkDate | relativeDate}}</span>
         </b-card-text>
