@@ -21,7 +21,7 @@
         <b-link @click="readPage(data.item.knowledgeSeq)">{{clearHtml(data.item.solution)}}</b-link>
       </template>
       <template slot="file" slot-scope="data">{{data.item.attach.length}}</template>
-      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
     </b-table>
     <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
     <b-row>

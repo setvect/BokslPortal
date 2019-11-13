@@ -27,7 +27,7 @@
           <td role="cell" aria-colindex="2" class>
             <span v-br="item.content"></span>
           </td>
-          <td role="cell" aria-colindex="3" class="date-col">{{item.regDate | dateFormat('YYYY-MM-DD')}}</td>
+          <td role="cell" aria-colindex="3" class="date-col">{{item.regDate | relativeDate}}</td>
           <td role="cell" aria-colindex="4" class="function-col">
             <b-link @click="deleteProc(item)">삭제</b-link>
           </td>

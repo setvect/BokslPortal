@@ -17,7 +17,7 @@
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.boardArticleSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}{{data.item.encryptF ? "(암호화)" : ""}}</b-link>
       </template>
-      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.item.boardArticleSeq)">수정</b-link>
         <b-link @click="deleteProc(data.item.boardArticleSeq)">삭제</b-link>

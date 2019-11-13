@@ -28,7 +28,7 @@
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>
-      <template slot="regDate" slot-scope="data">{{data.item.regDate | dateFormat('YYYY-MM-DD')}}</template>
+      <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.item.noteSeq)">수정</b-link>
         <b-link @click="deleteProc(data.item.noteSeq)">삭제</b-link>

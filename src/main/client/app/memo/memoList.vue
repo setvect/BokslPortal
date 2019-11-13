@@ -15,7 +15,7 @@
       <template slot="content" slot-scope="data">
         <b-link @click="readPage(data.item.memoSeq)">{{ data.item.content }}</b-link>
       </template>
-      <template slot="editDate" slot-scope="data">{{data.item.editDate | dateFormat('YYYY-MM-DD')}}</template>
+      <template slot="editDate" slot-scope="data">{{data.item.editDate | relativeDate}}</template>
       <template slot="delete" slot-scope="data">
         <b-link @click="deleteProc(data.item.memoSeq)">삭제</b-link>
       </template>

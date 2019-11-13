@@ -24,9 +24,9 @@
         class="mb-2"
       >
         <b-card-text>
-          {{item.editDate | dateFormat('YYYY-MM-DD') }}
+          {{item.editDate | relativeDate }}
           <span>{{item.checkType}}</span>
-          <span v-show="item.checkDate != null" style="padding-left:20px; float:right">{{item.checkDate | dateFormat('YYYY-MM-DD')}}</span>
+          <span v-show="item.checkDate != null" style="padding-left:20px; float:right">{{item.checkDate | relativeDate}}</span>
         </b-card-text>
         <div slot="footer">
           <b-button href="#" variant="outline-danger" size="sm" @click="deleteProc(item)">삭제</b-button>

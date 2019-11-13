@@ -17,7 +17,7 @@
         class="mb-2"
         @click="readPage(item.networkSeq)"
       >
-        <b-card-text>수정일: {{item.editDate | dateFormat('YYYY-MM-DD') }}</b-card-text>
+        <b-card-text>수정일: {{item.editDate | relativeDate }}</b-card-text>
       </b-card>
     </b-row>
     <div>
