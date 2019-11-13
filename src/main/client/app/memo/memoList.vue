@@ -2,7 +2,7 @@
   <div>
     <div>
       <b-form inline style="display:block; margin-bottom: 10px;">
-        <b-form-select v-model="searchData.categorySeq" size="sm" style="width: 150px;" @change="loadListProc(searchData.categorySeq)">
+        <b-form-select v-model="searchData.categorySeq" size="sm" style="width: 150px;" @change="loadListProc()">
           <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
         </b-form-select>
         <b-input @keypress.13.prevent="search()" v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
@@ -24,8 +24,9 @@
 </template>
 
 <script>
-import '../../utils/vue-common.js'
+import '../../utils/vue-common.js';
 import store from "../../store/index.js";
+import cookies from 'js-cookie';
 
 export default {
   data() {
@@ -69,10 +70,10 @@ export default {
         this.searchData.categorySeq = this.categoryList[0].categorySeq;
       }
       this.searchData.categorySeq = this.$route.query.categorySeq || this.searchData.categorySeq;
-      console.log('this.categoryList :', this.categoryList);
       this.loadListProc();
     },
     loadListProc() {
+      cookies.set("BokslMemoCategory", this.searchData.categorySeq, { expires: 100 });
       VueUtil.get(`/memo/list/${this.searchData.categorySeq}`, {}, (res) => {
         this.listData = res.data;
       });
@@ -97,6 +98,7 @@ export default {
     },
   },
   mounted() {
+    this.searchData.categorySeq = cookies.get("BokslMemoCategory");
     if (store.state.memo.categoryList) {
       this.loadCategoryProc();
     }
