@@ -6,7 +6,7 @@
           <b-form>
             <h1>복슬 포털</h1>
             <div>
-              <b-form-input v-model="form.username" placeholder="Username"></b-form-input>
+              <b-form-input ref="username" v-model="form.username" placeholder="Username"></b-form-input>
             </div>
             <div>
               <b-form-input type="password" v-model="form.password" placeholder="Password" @keypress.13.prevent="loginProc"></b-form-input>
@@ -58,5 +58,8 @@ export default {
       })
     }
   },
+  mounted(){
+    this.$refs.username.$el.focus();
+  }
 }
 </script>
