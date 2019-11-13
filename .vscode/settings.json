@@ -30,7 +30,6 @@
 	"vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
 	"javascript.format.enable": false,
 	"vetur.format.defaultFormatter.ts": "none",
-	"prettier.printWidth": 500,
 	"html.format.wrapLineLength": 0,
 	"vetur.format.defaultFormatter.css": "none",
 	"vetur.format.defaultFormatter.js": "vscode-typescript",
