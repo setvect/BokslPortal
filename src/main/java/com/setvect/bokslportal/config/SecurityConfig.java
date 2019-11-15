@@ -1,5 +1,7 @@
 package com.setvect.bokslportal.config;
 
+import com.setvect.bokslportal.BokslPortalConstant;
+import com.setvect.bokslportal.user.vo.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
-
-import com.setvect.bokslportal.BokslPortalConstant;
-import com.setvect.bokslportal.user.vo.RoleName;
 
 
 /**

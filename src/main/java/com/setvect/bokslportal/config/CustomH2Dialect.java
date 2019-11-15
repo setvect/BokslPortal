@@ -8,11 +8,11 @@ import org.hibernate.type.StandardBasicTypes;
  * 추가 함수 정의
  */
 public class CustomH2Dialect extends H2Dialect {
-	/**
-	 *
-	 */
-	public CustomH2Dialect() {
-		super();
-		registerFunction("dateformat", new StandardSQLFunction("formatdatetime", StandardBasicTypes.STRING));
-	}
+  /**
+   *
+   */
+  public CustomH2Dialect() {
+    super();
+    registerFunction("dateformat", new StandardSQLFunction("formatdatetime", StandardBasicTypes.STRING));
+  }
 }

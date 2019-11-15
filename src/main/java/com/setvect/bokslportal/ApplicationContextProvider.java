@@ -9,18 +9,20 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class ApplicationContextProvider implements ApplicationContextAware {
 
-	/** Spring application context */
-	private static ApplicationContext ctx = null;
+  /**
+   * Spring application context
+   */
+  private static ApplicationContext ctx = null;
 
-	/**
-	 * @return Spring application context
-	 */
-	public static ApplicationContext getApplicationContext() {
-		return ctx;
-	}
+  /**
+   * @return Spring application context
+   */
+  public static ApplicationContext getApplicationContext() {
+    return ctx;
+  }
 
-	@Override
-	public void setApplicationContext(final ApplicationContext ctx) throws BeansException {
-		ApplicationContextProvider.ctx = ctx;
-	}
+  @Override
+  public void setApplicationContext(final ApplicationContext ctx) throws BeansException {
+    ApplicationContextProvider.ctx = ctx;
+  }
 }

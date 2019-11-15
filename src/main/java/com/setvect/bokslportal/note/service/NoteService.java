@@ -84,7 +84,7 @@ public class NoteService {
 
     // 일련번호와 부모 아이디가 같은 경우는 root 폴더.
     Optional<NoteCategoryVo> data = folderAll.stream().filter(NoteCategoryVo::isRoot).findAny();
-    if(!data.isPresent()){
+    if (!data.isPresent()) {
       return null;
     }
     NoteCategoryVo rootData = data.get();
@@ -133,6 +133,7 @@ public class NoteService {
 
   /**
    * 해당 카테고리 하위에 포함된 모든 카테고리 반환
+   *
    * @param categorySeq 기준 카테고리 일련번호
    * @return 카테고리 일련번호
    */

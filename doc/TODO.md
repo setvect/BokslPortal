@@ -5,6 +5,8 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
+- NEW-20191116: 오류 페이지 만들기
+- PBM-20191116: 복슬 노트 오류 ["FKA8H5JCRTGNHWWBNVR89HUIXS2: PUBLIC.TBDB_NOTE FOREIGN KEY(CATEGORY_SEQ) REFERENCES PUBLIC.TBDA_NOTE_CATEGORY(CATEGORY_SEQ) (0)"; SQL statement: update tbdb_note set category_seq=?, content=?, delete_f=?, edit_date=?, reg_date=?, title=? where note_seq=? [23506-199]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
 - NEW-20191113: 코멘트 표 사용 안 하기
 - NEW-20191113: 모바일 스크롤 주소창 안 사라지는 문제 해결
 - NEW-20191111: route 변경 시 페이지 상단으로 스크롤 이동(예: 노트 읽기->수정으로 이동할 때)
@@ -23,6 +25,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- REF-20191116: 모든 자바 파일 포맷팅, import 정리
 - NEW-20191112(20191113): 할일, 등록일 표시
 - NEW-20191111(20191113): 상대 날짜
 - NEW-20191110(20191113): 메모 - 카테고리 선택정보 쿠키에 저장

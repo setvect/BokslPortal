@@ -1,20 +1,19 @@
 package com.setvect.bokslportal.lotto.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/lab/lotto/")
@@ -27,8 +26,7 @@ public class LottoController {
   }
 
   /**
-   * @param seed
-   *          랜덤 씨드
+   * @param seed 랜덤 씨드
    * @return 운명의 번호
    */
   public static List<Set<Integer>> makeLottoNumber(int seed) {

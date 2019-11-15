@@ -1,5 +1,24 @@
 package com.setvect.bokslportal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.bohnman.squiggly.Squiggly;
+import com.github.bohnman.squiggly.util.SquigglyUtils;
+import com.setvect.bokslportal.user.vo.UserVo;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,27 +29,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.bohnman.squiggly.Squiggly;
-import com.github.bohnman.squiggly.util.SquigglyUtils;
-import com.setvect.bokslportal.user.vo.UserVo;
 
 /**
  * 어플리케이션 전반에 사용되는 공통 함수 제공.
@@ -73,7 +71,7 @@ public abstract class ApplicationUtil {
   public static String makeSqlString(String word) {
     word = StringUtils.replace(word, "'", "''");
     word = word.trim();
-    return new String("'" + word + "'");
+    return "'" + word + "'";
   }
 
   /**
@@ -89,7 +87,7 @@ public abstract class ApplicationUtil {
     String fileName = URLEncoder.encode(downloadFileName.replace(" ", "_"), "UTF-8");
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-    try (FileInputStream fis = new FileInputStream(targetFile); OutputStream os = response.getOutputStream();) {
+    try (FileInputStream fis = new FileInputStream(targetFile); OutputStream os = response.getOutputStream()) {
       FileCopyUtils.copy(fis, os);
     }
   }
@@ -106,7 +104,7 @@ public abstract class ApplicationUtil {
                                   final String downloadFileName) throws IOException {
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment;filename=" + downloadFileName);
-    try (OutputStream os = response.getOutputStream();) {
+    try (OutputStream os = response.getOutputStream()) {
       FileCopyUtils.copy(is, os);
     }
   }
@@ -141,7 +139,7 @@ public abstract class ApplicationUtil {
    * val 객체를 json 문자열로 변환 한다.<br>
    * 하이버네이트 관련 proxy 객체를 제거함
    *
-   * @param val    객체
+   * @param val          객체
    * @param appendFilter 추가 필터 조건
    * @return json
    */
@@ -206,7 +204,7 @@ public abstract class ApplicationUtil {
    */
   public static String getMd5(final File file) {
     String md5 = null;
-    try (FileInputStream fis = new FileInputStream(file);) {
+    try (FileInputStream fis = new FileInputStream(file)) {
       md5 = DigestUtils.md5Hex(fis);
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -216,6 +214,7 @@ public abstract class ApplicationUtil {
 
   /**
    * 파일 업로드 체크. 허용된 확장자가 아니면 예외 발생
+   *
    * @param filename 파일명
    */
   public static void checkAllowUploadFile(String filename) {

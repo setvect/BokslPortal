@@ -38,8 +38,8 @@ public class NoteVo {
 
   /**
    * 본 필드 필요하다. 지우지 마라<br>
-   *   NoteCategoryVo 값 넣어도 Insert 시점에서 등록 안된다.
-     */
+   * NoteCategoryVo 값 넣어도 Insert 시점에서 등록 안된다.
+   */
   @Column(name = "CATEGORY_SEQ", nullable = false)
   private int categorySeq;
 

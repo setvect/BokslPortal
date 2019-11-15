@@ -1,9 +1,6 @@
 package com.setvect.bokslportal.board.service;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.setvect.bokslportal.common.SearchListVo;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +14,7 @@ public class BoardArticleSearch extends SearchListVo {
     title,
     content,
   }
+
   private Field field;
   private String word;
 

@@ -112,7 +112,7 @@ public class MigrationTest extends MainTestBase {
     while (rs.next()) {
       PhotoVo photo = new PhotoVo();
       photo.setShotDate(rs.getTimestamp("SHOT_DATE"));
-      photo.setShotDateType(PhotoVo.ShotDateType.valueOf(rs.getString("SHOT_DATE_TYPE")) );
+      photo.setShotDateType(PhotoVo.ShotDateType.valueOf(rs.getString("SHOT_DATE_TYPE")));
       photo.setDirectory(rs.getString("DIRECTORY"));
       photo.setLatitude(rs.getDouble("LATITUDE"));
       photo.setLongitude(rs.getDouble("LONGITUDE"));

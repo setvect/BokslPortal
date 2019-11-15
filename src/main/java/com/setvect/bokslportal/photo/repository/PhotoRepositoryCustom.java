@@ -10,10 +10,9 @@ import com.setvect.bokslportal.photo.vo.PhotoVo;
 public interface PhotoRepositoryCustom {
 
   /**
-   * @param pageCondition
-   *          조회 조건
+   * @param pageCondition 조회 조건
    * @return 사진 목록
    */
-  public GenericPage<PhotoVo> getPagingList(PhotoSearch pageCondition);
+  GenericPage<PhotoVo> getPagingList(PhotoSearch pageCondition);
 
 }

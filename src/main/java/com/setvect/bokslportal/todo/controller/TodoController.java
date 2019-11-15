@@ -1,7 +1,12 @@
 package com.setvect.bokslportal.todo.controller;
 
-import java.util.Date;
-
+import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.todo.repository.TodoRepository;
+import com.setvect.bokslportal.todo.service.TodoSearch;
+import com.setvect.bokslportal.todo.vo.TodoVo;
+import com.setvect.bokslportal.todo.vo.TodoVo.StatusType;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,14 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.todo.repository.TodoRepository;
-import com.setvect.bokslportal.todo.service.TodoSearch;
-import com.setvect.bokslportal.todo.vo.TodoVo;
-import com.setvect.bokslportal.todo.vo.TodoVo.StatusType;
-
-import lombok.extern.log4j.Log4j2;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/todo/")
@@ -33,8 +31,7 @@ public class TodoController {
   // ============== 조회 ==============
 
   /**
-   * @param param
-   *          검색 조건
+   * @param param 검색 조건
    * @return 할일 목록
    */
   @GetMapping("page")
@@ -45,8 +42,7 @@ public class TodoController {
   }
 
   /**
-   * @param todoSeq
-   *          일련번호
+   * @param todoSeq 일련번호
    * @return 할일 목록
    */
   @GetMapping("item/{id}")
@@ -58,8 +54,7 @@ public class TodoController {
   // ------- 등록
 
   /**
-   * @param todo
-   *          할일
+   * @param todo 할일
    * @return 등록된 항목 일련번호
    */
   @PostMapping("item")
@@ -71,15 +66,13 @@ public class TodoController {
   }
 
   /**
-   * @param todoSeq
-   *          일련번호
-   * @param statusType
-   *          유형
+   * @param todoSeq    일련번호
+   * @param statusType 유형
    * @return 할일 정보
    */
   @PatchMapping("check")
   public ResponseEntity<String> addCheck(@RequestParam("todoSeq") int todoSeq,
-      @RequestParam("statusType") TodoVo.StatusType statusType) {
+                                         @RequestParam("statusType") TodoVo.StatusType statusType) {
     TodoVo todo = todoRepository.getOne(todoSeq);
     todo.setCheckDate(statusType == StatusType.PLAN ? null : new Date());
     todo.setStatusType(statusType);
@@ -90,8 +83,7 @@ public class TodoController {
   // ------- 수정
 
   /**
-   * @param todo
-   *          일일
+   * @param todo 일일
    * @return 할일 정보
    */
   @PutMapping("item")
@@ -103,8 +95,7 @@ public class TodoController {
   // ------- 삭제
 
   /**
-   * @param todoSeq
-   *          일련번호
+   * @param todoSeq 일련번호
    * @return 성공여부
    */
   @DeleteMapping(value = "item/{id}")

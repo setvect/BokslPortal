@@ -1,8 +1,7 @@
 package com.setvect.bokslportal.board.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.setvect.bokslportal.board.vo.BoardManagerVo;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * 게시판 관리

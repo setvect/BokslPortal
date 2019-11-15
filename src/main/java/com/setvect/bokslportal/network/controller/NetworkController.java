@@ -1,7 +1,11 @@
 package com.setvect.bokslportal.network.controller;
 
-import java.util.Date;
-
+import com.setvect.bokslportal.ApplicationUtil;
+import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.network.repository.NetworkRepository;
+import com.setvect.bokslportal.network.service.NetworkSearch;
+import com.setvect.bokslportal.network.vo.NetworkVo;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.setvect.bokslportal.ApplicationUtil;
-import com.setvect.bokslportal.common.GenericPage;
-import com.setvect.bokslportal.network.repository.NetworkRepository;
-import com.setvect.bokslportal.network.service.NetworkSearch;
-import com.setvect.bokslportal.network.vo.NetworkVo;
-
-import lombok.extern.log4j.Log4j2;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/network/")

@@ -1,8 +1,7 @@
 package com.setvect.bokslportal.photo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.setvect.bokslportal.photo.vo.PhotoVo;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
 /**

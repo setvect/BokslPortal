@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface AttachFileRepository extends JpaRepository<AttachFileVo, Integer> {
 
-  public List<AttachFileVo> findByModuleNameAndModuleId(AttachFileModule moduleName, String moduleId);
+  List<AttachFileVo> findByModuleNameAndModuleId(AttachFileModule moduleName, String moduleId);
 
 }

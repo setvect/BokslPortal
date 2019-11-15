@@ -1,13 +1,12 @@
 package com.setvect.bokslportal.todo.service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.setvect.bokslportal.common.SearchListVo;
 import com.setvect.bokslportal.todo.vo.TodoVo.StatusType;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter

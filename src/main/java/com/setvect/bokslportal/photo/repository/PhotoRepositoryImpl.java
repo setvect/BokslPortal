@@ -1,25 +1,25 @@
 package com.setvect.bokslportal.photo.repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import com.setvect.bokslportal.util.StringEtcUtil;
-import org.apache.commons.lang3.StringUtils;
-
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.photo.service.PhotoSearch;
 import com.setvect.bokslportal.photo.vo.PhotoVo;
+import com.setvect.bokslportal.util.StringEtcUtil;
 import com.setvect.bokslportal.util.page.PageQueryCondition;
 import com.setvect.bokslportal.util.page.PageUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 사진 검색 조건
  */
 public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
-  /** JPA DB 세션 */
+  /**
+   * JPA DB 세션
+   */
   @PersistenceContext
   private EntityManager em;
 

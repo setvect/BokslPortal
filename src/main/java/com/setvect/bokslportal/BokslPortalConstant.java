@@ -15,7 +15,6 @@ public final class BokslPortalConstant {
    * 테스트 실행 여부을 알수 있는 System property 이름
    */
   public static final String TEST_CHECK_PROPERTY_NAME = "test_run";
-  ;
 
   /**
    * not instance.

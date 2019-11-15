@@ -1,12 +1,11 @@
 package com.setvect.bokslportal.util.page;
 
-import java.util.List;
-import java.util.Map;
+import com.setvect.bokslportal.common.GenericPage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
-import com.setvect.bokslportal.common.GenericPage;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 패이징 처리

@@ -1,9 +1,6 @@
 package com.setvect.bokslportal.note.service;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.setvect.bokslportal.common.SearchListVo;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,7 +25,7 @@ public class NoteSearch extends SearchListVo {
     /**
      * 마지막 수정 기준 내림차순(기본값)
      */
-    EDIT;
+    EDIT
   }
 
   public enum Field {

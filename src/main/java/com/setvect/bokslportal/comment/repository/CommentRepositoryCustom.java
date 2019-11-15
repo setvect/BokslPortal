@@ -9,6 +9,6 @@ public interface CommentRepositoryCustom {
    * @param pageCondition
    * @return 코맨트
    */
-  public GenericPage<CommentVo> getPagingList(CommentSearch pageCondition);
+  GenericPage<CommentVo> getPagingList(CommentSearch pageCondition);
 
 }

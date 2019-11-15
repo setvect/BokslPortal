@@ -9,11 +9,10 @@ import com.setvect.bokslportal.common.GenericPage;
  */
 public interface BoardArticleRepositoryCustom {
 
-	/**
-	 * @param pageCondition
-	 *            게시물 검색 정보
-	 * @return 게시물 페이지 값
-	 */
-	public GenericPage<BoardArticleVo> getPagingList(BoardArticleSearch pageCondition);
+  /**
+   * @param pageCondition 게시물 검색 정보
+   * @return 게시물 페이지 값
+   */
+  GenericPage<BoardArticleVo> getPagingList(BoardArticleSearch pageCondition);
 
 }

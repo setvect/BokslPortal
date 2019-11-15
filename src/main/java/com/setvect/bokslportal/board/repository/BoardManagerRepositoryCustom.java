@@ -8,10 +8,10 @@ import com.setvect.bokslportal.common.GenericPage;
  * 게시판 관리
  */
 public interface BoardManagerRepositoryCustom {
-	/**
-	 * @param pageCondition
-	 * @return 게시판생성 정보 항목
-	 */
-	public GenericPage<BoardManagerVo> getPagingList(BoardManagerSearch pageCondition);
+  /**
+   * @param pageCondition
+   * @return 게시판생성 정보 항목
+   */
+  GenericPage<BoardManagerVo> getPagingList(BoardManagerSearch pageCondition);
 
 }

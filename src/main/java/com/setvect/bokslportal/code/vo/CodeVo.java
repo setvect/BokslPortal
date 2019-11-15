@@ -1,14 +1,14 @@
 package com.setvect.bokslportal.code.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * 코드
@@ -18,26 +18,36 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CodeVo {
-	/** 일련번호 */
-	@Id
-	@Column(name = "CODE_SEQ", nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int codeSeq;
+  /**
+   * 일련번호
+   */
+  @Id
+  @Column(name = "CODE_SEQ", nullable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int codeSeq;
 
-	/** 메인코드 */
-	@Column(name = "MAJOR_CODE", nullable = false, length = 20)
-	private String majorCode;
+  /**
+   * 메인코드
+   */
+  @Column(name = "MAJOR_CODE", nullable = false, length = 20)
+  private String majorCode;
 
-	/** 코드 */
-	@Column(name = "MINOR_CODE", nullable = false, length = 20)
-	private String minorCode;
+  /**
+   * 코드
+   */
+  @Column(name = "MINOR_CODE", nullable = false, length = 20)
+  private String minorCode;
 
-	/** 코드값 */
-	@Column(name = "CODE_VALUE", nullable = false, length = 100)
-	private String codeValue;
+  /**
+   * 코드값
+   */
+  @Column(name = "CODE_VALUE", nullable = false, length = 100)
+  private String codeValue;
 
-	/** 순서 */
-	@Column(name = "ORDER_NO", nullable = false)
-	private int orderNo;
+  /**
+   * 순서
+   */
+  @Column(name = "ORDER_NO", nullable = false)
+  private int orderNo;
 
 }

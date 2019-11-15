@@ -13,7 +13,6 @@ import com.setvect.bokslportal.board.vo.BoardManagerVo;
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.util.StringEncrypt;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,8 +1,8 @@
 package com.setvect.bokslportal.common;
 
-import java.util.List;
-
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * Page에서 검색된 객체들의 타입을 지정함
@@ -16,12 +16,9 @@ public class GenericPage<T> {
   private final int returnCount;
 
   /**
-   * @param list
-   *          리스트
-   * @param startCursor
-   *          시작 항목(1부터 시작)
-   * @param totalCount
-   *          전체 항목 수
+   * @param list        리스트
+   * @param startCursor 시작 항목(1부터 시작)
+   * @param totalCount  전체 항목 수
    */
   public GenericPage(List<T> list, int startCursor, int totalCount) {
     this.list = list;
@@ -31,12 +28,9 @@ public class GenericPage<T> {
   }
 
   /**
-   * @param list
-   *          리스트
-   * @param startCursor
-   *          시작 항목(1부터 시작)
-   * @param totalCount
-   *          전체 항목 수
+   * @param list        리스트
+   * @param startCursor 시작 항목(1부터 시작)
+   * @param totalCount  전체 항목 수
    */
   public GenericPage(List<T> list, int startCursor, int totalCount, int returnCount) {
     this.list = list;

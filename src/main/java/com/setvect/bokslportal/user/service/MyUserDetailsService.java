@@ -1,15 +1,14 @@
 package com.setvect.bokslportal.user.service;
 
-import java.util.Optional;
-
+import com.setvect.bokslportal.user.repository.UserRepository;
+import com.setvect.bokslportal.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.setvect.bokslportal.user.repository.UserRepository;
-import com.setvect.bokslportal.user.vo.UserVo;
+import java.util.Optional;
 
 /**
  * Spring security에 사용할 사용자 데이터를 조회 하는 서비스

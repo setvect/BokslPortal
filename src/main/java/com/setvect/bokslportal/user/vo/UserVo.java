@@ -1,9 +1,13 @@
 package com.setvect.bokslportal.user.vo;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,17 +16,10 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 사용자
@@ -31,32 +28,44 @@ import lombok.ToString;
 @Table(name = "TBAA_USER")
 @Setter
 @Getter
-@ToString(exclude = { "password", "userRole" })
+@ToString(exclude = {"password", "userRole"})
 public class UserVo implements UserDetails {
 
-  /** */
+  /**
+   *
+   */
   private static final long serialVersionUID = 1344718828637691374L;
 
-  /** 사용자 아이디 */
+  /**
+   * 사용자 아이디
+   */
   @Id
   @Column(name = "USER_ID", unique = true, nullable = false, length = 20)
   private String userId;
 
-  /** 이름 */
+  /**
+   * 이름
+   */
   @Column(name = "NAME", nullable = false, length = 50)
   private String name;
 
-  /** 비밀번호 */
+  /**
+   * 비밀번호
+   */
   @Column(name = "PASSWD", nullable = false, length = 60)
   @JsonIgnore
   private String password;
 
-  /** 삭제 여부 */
+  /**
+   * 삭제 여부
+   */
   @Column(name = "DELETE_FLAG", nullable = false, length = 1)
   @Type(type = "yes_no")
   private boolean deleteFlag;
 
-  /** 보유 권한 */
+  /**
+   * 보유 권한
+   */
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
   private Set<UserRoleVo> userRole;
 
@@ -69,8 +78,7 @@ public class UserVo implements UserDetails {
   }
 
   /**
-   * @param role
-   *            비교할 role
+   * @param role 비교할 role
    * @return 사용자가 해당 role를 가지고 있는지 판단
    */
   public boolean hasRole(final RoleName role) {

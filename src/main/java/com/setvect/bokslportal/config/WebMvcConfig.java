@@ -12,14 +12,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	/**
-	 * HandlerInterceptor.
-	 */
-	@Autowired
-	private HandlerInterceptor interceptor;
+  /**
+   * HandlerInterceptor.
+   */
+  @Autowired
+  private HandlerInterceptor interceptor;
 
-	@Override
-	public void addInterceptors(final InterceptorRegistry registry) {
-		registry.addInterceptor(interceptor);
-	}
+  @Override
+  public void addInterceptors(final InterceptorRegistry registry) {
+    registry.addInterceptor(interceptor);
+  }
 }

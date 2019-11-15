@@ -9,6 +9,6 @@ public interface TodoRepositoryCustom {
    * @param pageCondition
    * @return TODO 정보 항목
    */
-  public GenericPage<TodoVo> getPagingList(TodoSearch pageCondition);
+  GenericPage<TodoVo> getPagingList(TodoSearch pageCondition);
 
 }

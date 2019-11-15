@@ -1,11 +1,11 @@
 package com.setvect.bokslportal.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.security.MessageDigest;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -21,7 +21,7 @@ public class StringEtcUtil {
     word = null2str(word);
     word = StringUtils.replace(word, "'", "''");
     word = word.trim();
-    return new String("%" + word + "%");
+    return "%" + word + "%";
   }
 
   /**
@@ -33,7 +33,7 @@ public class StringEtcUtil {
     word = null2str(word);
     word = StringUtils.replace(word, "'", "''");
     word = word.trim();
-    return new String("%" + word);
+    return "%" + word;
   }
 
   /**
@@ -45,7 +45,7 @@ public class StringEtcUtil {
     word = null2str(word);
     word = StringUtils.replace(word, "'", "''");
     word = word.trim();
-    return new String(word + "%'");
+    return word + "%'";
   }
 
   /**

@@ -9,7 +9,6 @@ import com.setvect.bokslportal.knowledge.repository.KnowledgeRepository;
 import com.setvect.bokslportal.knowledge.service.KnowledgeSearch;
 import com.setvect.bokslportal.knowledge.service.KnowledgeService;
 import com.setvect.bokslportal.knowledge.vo.KnowledgeVo;
-import com.setvect.bokslportal.note.vo.NoteVo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

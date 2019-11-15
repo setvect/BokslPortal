@@ -20,17 +20,17 @@ import java.io.IOException;
 @Controller
 @RequestMapping(value = "/attach/")
 public class AttachFileController {
-	@Autowired
-	private AttachFileService attachFileService;
+  @Autowired
+  private AttachFileService attachFileService;
 
-	@GetMapping("/download/{id}")
-	public void process(@PathVariable("id") int attachFileSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
+  @GetMapping("/download/{id}")
+  public void process(@PathVariable("id") int attachFileSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
     AttachFileVo attach = attachFileService.getAttachFile(attachFileSeq);
-		File attachFile = attach.getSavePath();
-		try {
-			FileUtil.fileDown(attachFile, attach.getOriginalName(), request, response);
-		} catch (Exception e) {
-			throw new IOException(e.getMessage());
-		}
-	}
+    File attachFile = attach.getSavePath();
+    try {
+      FileUtil.fileDown(attachFile, attach.getOriginalName(), request, response);
+    } catch (Exception e) {
+      throw new IOException(e.getMessage());
+    }
+  }
 }

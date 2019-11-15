@@ -1,6 +1,9 @@
 package com.setvect.bokslportal.comment.vo;
 
-import java.util.Date;
+import com.setvect.bokslportal.comment.service.CommentModule;
+import com.setvect.bokslportal.user.vo.UserVo;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,12 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.setvect.bokslportal.comment.service.CommentModule;
-import com.setvect.bokslportal.user.vo.UserVo;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
 /**
  * 코멘트

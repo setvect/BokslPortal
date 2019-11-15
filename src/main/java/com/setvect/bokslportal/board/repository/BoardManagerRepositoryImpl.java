@@ -1,26 +1,24 @@
 package com.setvect.bokslportal.board.repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import com.setvect.bokslportal.util.page.PageQueryCondition;
-import com.setvect.bokslportal.util.page.PageUtil;
-import org.apache.commons.lang3.StringUtils;
-
 import com.setvect.bokslportal.ApplicationUtil;
 import com.setvect.bokslportal.board.service.BoardManagerSearch;
 import com.setvect.bokslportal.board.vo.BoardManagerVo;
 import com.setvect.bokslportal.common.GenericPage;
+import com.setvect.bokslportal.util.page.PageQueryCondition;
+import com.setvect.bokslportal.util.page.PageUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 게시판관리 Repository
  */
 class BoardManagerRepositoryImpl implements BoardManagerRepositoryCustom {
-	@PersistenceContext
-	private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
   @Override
   public GenericPage<BoardManagerVo> getPagingList(BoardManagerSearch searchCondition) {

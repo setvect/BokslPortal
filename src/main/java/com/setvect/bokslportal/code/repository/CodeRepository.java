@@ -1,10 +1,9 @@
 package com.setvect.bokslportal.code.repository;
 
-import java.util.List;
-
+import com.setvect.bokslportal.code.vo.CodeVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.setvect.bokslportal.code.vo.CodeVo;
+import java.util.List;
 
 
 /**
@@ -12,6 +11,6 @@ import com.setvect.bokslportal.code.vo.CodeVo;
  */
 public interface CodeRepository extends JpaRepository<CodeVo, Integer> {
 
-	public List<CodeVo> findByMajorCodeOrderByOrderNoAsc(String majorCode);
+  List<CodeVo> findByMajorCodeOrderByOrderNoAsc(String majorCode);
 
 }

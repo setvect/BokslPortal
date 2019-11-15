@@ -20,26 +20,26 @@ import java.util.Date;
 @Getter
 @Setter
 public class NetworkVo {
-	@Id
-	@Column(name = "NETWORK_SEQ", nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int networkSeq;
-	@Column(name = "TITLE", nullable = false, length = 200)
-	private String title;
+  @Id
+  @Column(name = "NETWORK_SEQ", nullable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int networkSeq;
+  @Column(name = "TITLE", nullable = false, length = 200)
+  private String title;
 
-	@Column(name = "CONTENT", nullable = false)
-	@Lob
-  @Basic(fetch= FetchType.LAZY)
+  @Column(name = "CONTENT", nullable = false)
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
   private String content;
 
-	@Column(name = "REG_DATE", nullable = false)
-	private Date regDate;
+  @Column(name = "REG_DATE", nullable = false)
+  private Date regDate;
 
-	@Column(name = "EDIT_DATE", nullable = false)
-	private Date editDate;
+  @Column(name = "EDIT_DATE", nullable = false)
+  private Date editDate;
 
-	@Column(name = "DELETE_F", nullable = false, length = 1)
-	@Type(type = "yes_no")
-	private boolean deleteF;
+  @Column(name = "DELETE_F", nullable = false, length = 1)
+  @Type(type = "yes_no")
+  private boolean deleteF;
 
 }

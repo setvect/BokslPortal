@@ -46,7 +46,7 @@ public class CommentController {
   @GetMapping("item/{id}")
   public ResponseEntity<String> getItem(@PathVariable("id") int commentSeq) {
     CommentVo item = commentRepository.getOne(commentSeq);
-    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item,"**,user[userId,name]"));
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(item, "**,user[userId,name]"));
   }
 
   // ------- 등록
@@ -60,7 +60,7 @@ public class CommentController {
     comment.setRegDate(new Date());
     comment.setUser(ApplicationUtil.getLoginUser());
     commentRepository.save(comment);
-    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(comment,"**,user[userId,name]"));
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(comment, "**,user[userId,name]"));
   }
 
   // ------- 수정
@@ -72,7 +72,7 @@ public class CommentController {
   @PutMapping("item")
   public ResponseEntity<String> editItem(CommentVo comment) {
     commentRepository.save(comment);
-    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(comment,"**,user[userId,name]"));
+    return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(comment, "**,user[userId,name]"));
   }
 
   // ------- 삭제

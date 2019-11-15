@@ -27,7 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -243,7 +247,7 @@ public class PhotoService {
       photoFile = photo.getFullPath();
     }
 
-    try (InputStream in = new FileInputStream(photoFile);) {
+    try (InputStream in = new FileInputStream(photoFile)) {
       return IOUtils.toByteArray(in);
     }
   }
@@ -293,7 +297,7 @@ public class PhotoService {
       ThumbnailImageConvert.makeThumbnail(photoFile, toThumbnailFile, width, height);
     }
 
-    try (InputStream in = new FileInputStream(toThumbnailFile);) {
+    try (InputStream in = new FileInputStream(toThumbnailFile)) {
       return IOUtils.toByteArray(in);
     }
   }

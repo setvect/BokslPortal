@@ -1,7 +1,7 @@
 package com.setvect.bokslportal.memo.service;
 
-import com.setvect.bokslportal.memo.repository.MemoRepository;
 import com.setvect.bokslportal.memo.repository.MemoCategoryRepository;
+import com.setvect.bokslportal.memo.repository.MemoRepository;
 import com.setvect.bokslportal.memo.vo.MemoCategoryVo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

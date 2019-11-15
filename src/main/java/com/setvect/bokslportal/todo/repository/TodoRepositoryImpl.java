@@ -1,19 +1,17 @@
 package com.setvect.bokslportal.todo.repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import com.setvect.bokslportal.ApplicationUtil;
-import org.apache.commons.lang3.StringUtils;
-
 import com.setvect.bokslportal.common.GenericPage;
 import com.setvect.bokslportal.todo.service.TodoSearch;
 import com.setvect.bokslportal.todo.vo.TodoVo;
 import com.setvect.bokslportal.util.page.PageQueryCondition;
 import com.setvect.bokslportal.util.page.PageUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TodoRepositoryImpl implements TodoRepositoryCustom {
   /**

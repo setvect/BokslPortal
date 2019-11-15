@@ -1,11 +1,10 @@
 package com.setvect.bokslportal.memo.repository;
 
-import java.util.List;
-
+import com.setvect.bokslportal.memo.vo.MemoVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.setvect.bokslportal.memo.vo.MemoVo;
+import java.util.List;
 
 /**
  * 메모장 Repository

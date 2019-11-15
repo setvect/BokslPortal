@@ -1,10 +1,10 @@
 package com.setvect.bokslportal;
 
-import java.net.URL;
-
 import com.setvect.bokslportal.code.service.CodeService;
 import com.setvect.bokslportal.memo.service.MemoService;
 import com.setvect.bokslportal.note.service.NoteService;
+import com.setvect.bokslportal.user.service.UserService;
+import com.setvect.bokslportal.util.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +12,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
-import com.setvect.bokslportal.user.service.UserService;
-import com.setvect.bokslportal.util.BeanUtils;
+import java.net.URL;
 
 @SpringBootApplication
 // @ImportResource({ "classpath:/spring/context-transaction.xml" })

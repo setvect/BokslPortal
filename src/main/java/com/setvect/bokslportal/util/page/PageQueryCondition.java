@@ -1,13 +1,12 @@
 package com.setvect.bokslportal.util.page;
 
-import java.util.Map;
-
 import com.setvect.bokslportal.common.SearchListVo;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.Map;
 
 /**
  * 페이징 조건
