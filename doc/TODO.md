@@ -9,7 +9,6 @@
 - NEW-20191113: 모바일 스크롤 주소창 안 사라지는 문제 해결
 - NEW-20191111: route 변경 시 페이지 상단으로 스크롤 이동(예: 노트 읽기->수정으로 이동할 때)
 - NEW-20191111: 읽기 화면, 등록일, 수정일 표시
-- NEW-20191111: js 리소스 캐시(지금은 처음 부터 다시 다운로드 받음)
 - NEW-20191111: 이미지 폭 사이즈 크면 자동으로 줄이기
 - NEW-20191110: 할일 검색취소 버튼
 - NEW-20191110: 노트 검색취소 버튼
@@ -23,6 +22,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- PBM-20191116(20191117): 복슬지식 오류. 검색 시 파라미터 전달 오류 ../page?categorySeq=NaN
 - NEW-20191113(20191116): 코멘트 표 사용 안 하기
 - PBM-20191116: 복슬 노트 오류 ["FKA8H5JCRTGNHWWBNVR89HUIXS2: PUBLIC.TBDB_NOTE FOREIGN KEY(CATEGORY_SEQ) REFERENCES PUBLIC.TBDA_NOTE_CATEGORY(CATEGORY_SEQ) (0)"; SQL statement: update tbdb_note set category_seq=?, content=?, delete_f=?, edit_date=?, reg_date=?, title=? where note_seq=? [23506-199]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
 - REF-20191116: 모든 자바 파일 포맷팅, import 정리
@@ -83,6 +83,10 @@
 - NEW-20190623(20190626): JPA VO 관계 구조 변경. FK 사용
 - PBM-20190602: 왼쪽 메뉴 확장 시 블릿 이미지 표시가 메뉴를 덮어 버리는 문제
 - PBM-20190602: 왼쪽 메뉴 2단계 확장 시 블릿 이미지 들어 쓰기 오류
+
+### 못함
+- NEW-20191111: js 리소스 캐시(지금은 처음 부터 다시 다운로드 받음)<br/>
+  => 인증서 오류가 있는 https인 경우 크롬브라우저에서 캐시를 안함. 엣지는 함.
 
 ### 안함
 - NEW-20190626: PageQueryCondition Builder 형태로 만들어 보는 거 고려

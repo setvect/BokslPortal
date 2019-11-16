@@ -95,7 +95,6 @@ export default {
     if (!this.$route.query.classifyC) {
       this.$route.query.classifyC = null;
     }
-    this.$route.query.categorySeq = parseInt(this.$route.query.categorySeq);
     this.listProc();
   },
   beforeRouteUpdate(to, from, next) {
