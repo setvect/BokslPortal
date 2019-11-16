@@ -15,21 +15,18 @@
     <table role="table" aria-busy="false" aria-colcount="4" class="table b-table table-hover table-bordered" id="__BVID__37">
       <thead role="rowgroup" class="hidden_header">
         <tr role="row" class>
-          <th role="columnheader" scope="col" aria-colindex="1" class="index-col">#</th>
           <th role="columnheader" scope="col" aria-colindex="2" class>글</th>
-          <th role="columnheader" scope="col" aria-colindex="3" class="date-col">날짜</th>
           <th role="columnheader" scope="col" aria-colindex="4" class="function-col">기능</th>
         </tr>
       </thead>
       <tbody role="rowgroup">
-        <tr v-for="(item, index) in page.list" :key="item.commentSeq" role="row">
-          <td role="cell" aria-colindex="1" class="index-col">{{ index | indexSeq(page) }}</td>
+        <tr v-for="(item) in page.list" :key="item.commentSeq" role="row">
           <td role="cell" aria-colindex="2" class>
             <span v-br="item.content"></span>
+            <span style="float:right">{{item.regDate | relativeDate}}</span>
           </td>
-          <td role="cell" aria-colindex="3" class="date-col">{{item.regDate | relativeDate}}</td>
           <td role="cell" aria-colindex="4" class="function-col">
-            <b-link @click="deleteProc(item)">삭제</b-link>
+            <b-link @click="deleteProc(item)"><i class="fa fa-trash"></i></b-link>
           </td>
         </tr>
       </tbody>
@@ -133,14 +130,9 @@ export default {
 </script>
 
 <style>
-  .index-col{
-    width: 50px;
-  }
   .function-col{
-    width: 140px;
-  }
-  .date-col {
-    width: 140px;
+    text-align: center;
+    width: 35px;
   }
   .hidden_header {
     display: none;
