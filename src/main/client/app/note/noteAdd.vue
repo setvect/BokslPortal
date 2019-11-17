@@ -164,7 +164,7 @@ export default {
         res => {
           this.autoSave.label = "자동 저장 완료";
         },
-        { "call-type": "multipart" }
+        { "call-type": "multipart", wait: false }
       );
     },
     attachFile(event) {
