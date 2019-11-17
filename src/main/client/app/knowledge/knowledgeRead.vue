@@ -1,5 +1,14 @@
 <template>
   <div>
+    <b-row>
+      <b-col></b-col>
+      <b-col cols="auto">
+        <b-button @click="listPage()" size="sm" type="button" variant="info">목록</b-button>
+        <b-button @click="editPage(item.noteSeq)" size="sm" type="button" variant="info">수정</b-button>
+        <b-button @click="deleteProc(item.noteSeq)" size="sm" type="button" variant="danger">삭제</b-button>
+      </b-col>
+    </b-row>
+
     <h5>
       분류: {{ item.classifyC }} <span class="reg-edit-date">등록일: {{ item.regDate | relativeDate }}</span>
     </h5>
