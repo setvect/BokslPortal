@@ -5,7 +5,6 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
-- NEW-20191116: 오류 페이지 만들기
 - NEW-20191113: 모바일 스크롤 주소창 안 사라지는 문제 해결
 - NEW-20191111: route 변경 시 페이지 상단으로 스크롤 이동(예: 노트 읽기->수정으로 이동할 때)
 - NEW-20191111: 읽기 화면, 등록일, 수정일 표시
@@ -22,6 +21,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20191116(20191117): 오류 페이지 만들기
 - PBM-20191116(20191117): 복슬지식 오류. 검색 시 파라미터 전달 오류 ../page?categorySeq=NaN
 - NEW-20191113(20191116): 코멘트 표 사용 안 하기
 - PBM-20191116: 복슬 노트 오류 ["FKA8H5JCRTGNHWWBNVR89HUIXS2: PUBLIC.TBDB_NOTE FOREIGN KEY(CATEGORY_SEQ) REFERENCES PUBLIC.TBDA_NOTE_CATEGORY(CATEGORY_SEQ) (0)"; SQL statement: update tbdb_note set category_seq=?, content=?, delete_f=?, edit_date=?, reg_date=?, title=? where note_seq=? [23506-199]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
