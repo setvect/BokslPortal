@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     open() {
+      this.pasted = false;
       this.$refs['imageUploadForm'].show();
     },
     // 입력 창 오픈시
