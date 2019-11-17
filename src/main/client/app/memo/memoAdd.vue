@@ -9,6 +9,7 @@
       </b-form-group>
 
       <b-form-group label="내용">
+        <span class="reg-edit-date" style="margin-top:-26px;">등록일: {{ item.regDate | relativeDate }}, 수정일: {{ item.editDate | relativeDate }}</span>
         <b-form-textarea v-model="item.content" v-validate="{ required: true}" :state="validateState('content')" name="content" data-vv-as="내용" placeholder="내용 넣어라" style="height:300px;"></b-form-textarea>
         <span v-show="!validateState('content')" class="invalid-feedback">{{ veeErrors.first('content') }}</span>
       </b-form-group>

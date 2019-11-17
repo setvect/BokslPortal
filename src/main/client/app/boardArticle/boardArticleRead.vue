@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>{{item.title}}</h5>
+    <h5>{{ item.title }} <span class="reg-edit-date">등록일: {{item.regDate | relativeDate}}</span></h5>
     <b-row v-if="!isEncryptInput">
       <b-col sm="2" class="head">
         <label>내용</label>
@@ -27,12 +27,7 @@
       <b-col sm="10">
         <ul>
           <li v-for="attach in item.attach" :key="attach.attachSeq">
-            <b-button
-              @click="downloadFile(attach.attachFileSeq, attach.originalName)"
-              type="button"
-              variant="outline-secondary"
-              size="sm"
-            >{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button>
+            <b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">{{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )</b-button>
           </li>
         </ul>
       </b-col>
@@ -56,17 +51,15 @@ import "../../utils/vue-common.js";
 export default {
   mixins: [comFunction, boardCommon],
   data() {
-    return {
-    };
+    return {};
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     init() {
-      VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
+      VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, res => {
         this.item = res.data;
       });
-    },
+    }
   },
   mounted() {
     this.init();

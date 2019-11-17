@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h5>분류: {{item.classifyC}}</h5>
+    <h5>
+      분류: {{ item.classifyC }} <span class="reg-edit-date">등록일: {{ item.regDate | relativeDate }}</span>
+    </h5>
     <h5 style="padding-top:10px;">질문</h5>
     <b-row>
       <b-col sm="12" v-html="item.problem" />
@@ -13,12 +15,7 @@
       <b-col>
         <ul>
           <li v-for="attach in item.attach" :key="attach.attachSeq">
-            <b-button
-              @click="downloadFile(attach.attachFileSeq, attach.originalName)"
-              type="button"
-              variant="outline-secondary"
-              size="sm"
-            >{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button>
+            <b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">{{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )</b-button>
           </li>
         </ul>
       </b-col>
@@ -48,30 +45,31 @@ export default {
   },
   methods: {
     init() {
-      VueUtil.get(`/knowledge/item/${this.$route.query.knowledgeSeq}`, {}, (res) => {
+      VueUtil.get(`/knowledge/item/${this.$route.query.knowledgeSeq}`, {}, res => {
         this.item = res.data;
       });
     },
     editPage() {
       this.$router.push({
-        name: "knowledgeAdd", query: this.$route.query
-      })
+        name: "knowledgeAdd",
+        query: this.$route.query
+      });
     },
     deleteProc(knowledgeSeq) {
       Swal.fire({
-        title: '삭제할거야?',
-        type: 'info',
+        title: "삭제할거야?",
+        type: "info",
         showCloseButton: true,
-        showCancelButton: true,
-      }).then((result) => {
+        showCancelButton: true
+      }).then(result => {
         if (!result.value) {
           return;
         }
-        VueUtil.delete(`/knowledge/item/${knowledgeSeq}`, {}, (res) => {
+        VueUtil.delete(`/knowledge/item/${knowledgeSeq}`, {}, res => {
           this.listPage();
         });
       });
-    },
+    }
   },
   mounted() {
     this.init();

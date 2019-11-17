@@ -9,7 +9,7 @@
       </b-col>
     </b-row>
 
-    <h5>{{item.title}}</h5>
+    <h5>{{item.title}} <span class="reg-edit-date">등록일: {{ item.regDate | relativeDate }}, 수정일: {{ item.editDate | relativeDate }}</span></h5>
     <b-row>
       <b-col class="content" v-html="item.content" />
     </b-row>

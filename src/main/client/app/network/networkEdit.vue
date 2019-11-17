@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h5>등록</h5>
+      <h5>등록<span class="reg-edit-date">등록일: {{ item.regDate | relativeDate }}, 수정일: {{ item.editDate | relativeDate }}</span></h5>
       <b-form data-vv-scope="main-form" autocomplete="off" @submit.stop.prevent>
         <div class="row">
           <div class="col-sm-10">

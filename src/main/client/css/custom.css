@@ -538,3 +538,8 @@ a.user-profile {
   font-size:0.7rem !important;
   padding: 0.20rem 0.3rem !important;
 }
+.reg-edit-date{
+  float:right;
+  font-size:14px;
+  margin-top:7px;
+}
