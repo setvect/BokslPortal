@@ -1,5 +1,6 @@
-package com.setvect.bokslportal.common;
+package com.setvect.bokslportal.common.controller;
 
+import com.setvect.bokslportal.common.DatePropertyEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
