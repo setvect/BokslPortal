@@ -80,10 +80,7 @@ export default {
             .contents()
             .find("#se2_iframe")
             .contents()
-            .find("body")
-            .keyup(e => {
-              this.item.content = this.oEditors.getById["content"].getIR();
-            });
+            .find("body");
           this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
         }
       });
@@ -93,6 +90,7 @@ export default {
       this.oEditors.getById["content"].exec("PASTE_HTML", [html]);
     },
     submitProc() {
+      this.item.content = this.oEditors.getById["content"].getIR();
       let html = CommonUtil.clearHtml(this.item.content);
       if (CommonUtil.isEmpty(html)) {
         Swal.fire("안내", "내용을 입력해", "error");
@@ -113,6 +111,7 @@ export default {
           url = "/board-article/item";
         }
         delete this.item.attach;
+
         VueUtil.post(
           url,
           this.item,

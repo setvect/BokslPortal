@@ -104,6 +104,7 @@ export default {
       this.oEditors.getById["content"].exec("PASTE_HTML", [html]);
     },
     submitProc() {
+      this.item.content = this.oEditors.getById["content"].getIR();
       let html = CommonUtil.clearHtml(this.item.content);
       if (CommonUtil.isEmpty(html)) {
         Swal.fire("안내", "내용을 입력해", "error");
@@ -127,6 +128,7 @@ export default {
         let copyItem = $.extend(true, {}, this.item);
         delete copyItem.category;
         delete copyItem.attach;
+
         VueUtil.post(
           url,
           copyItem,
