@@ -9,20 +9,19 @@
       </b-col>
     </b-row>
 
-    <h5>{{item.title}} <span class="reg-edit-date">등록일: {{ item.regDate | relativeDate }}, 수정일: {{ item.editDate | relativeDate }}</span></h5>
+    <h5>
+      {{ item.title }} <span class="reg-edit-date">등록일: {{ item.regDate | relativeDate }}, 수정일: {{ item.editDate | relativeDate }}</span>
+    </h5>
     <b-row>
-      <b-col class="content" v-html="item.content" />
+      <b-col class="_content" v-html="item.content" />
     </b-row>
     <b-row>
       <b-col>
         <ul>
           <li v-for="attach in item.attach" :key="attach.attachSeq">
-            <b-button
-              @click="downloadFile(attach.attachFileSeq, attach.originalName)"
-              type="button"
-              variant="outline-secondary"
-              size="sm"
-            >{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-button>
+            <b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">
+              {{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )
+            </b-button>
           </li>
         </ul>
       </b-col>
@@ -52,10 +51,11 @@ export default {
   },
   methods: {
     init() {
-      VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, (res) => {
+      VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, res => {
         this.item = res.data;
+        this.fitImage("._content img");
       });
-    }
+    },
   },
   mounted() {
     this.init();
@@ -66,7 +66,7 @@ export default {
 .head {
   font-weight: bold;
 }
-.content{
-  border:1px solid #ccc!important
+.content {
+  border: 1px solid #ccc !important;
 }
 </style>

@@ -4,7 +4,7 @@
     <form autocomplete="off">
       <b-form-group abel-cols="2" label-cols-lg="2" label="제목">
         <b-form-input v-model="item.title" v-validate="{ required: true, max: 100 }" :state="validateState('title')" name="title" data-vv-as="제목"></b-form-input>
-        <span v-show="!validateState('title')" class="invalid-feedback">{{ veeErrors.first('title') }}</span>
+        <span v-show="!validateState('title')" class="invalid-feedback">{{ veeErrors.first("title") }}</span>
       </b-form-group>
       <b-form-group v-if="!isEncryptInput" label-cols="2" label-cols-lg="2" label="내용">
         <textarea v-model="item.content" id="content" rows="10" cols="100" style="width: 100%; height: 350px; display:none"></textarea>
@@ -27,7 +27,7 @@
       <b-form-group>
         <ul>
           <li v-for="attach in item.attach" :key="attach.attachSeq">
-            <b-check v-model="deleteAttachFileSeq" :value="attach.attachFileSeq">{{attach.originalName}} (size: {{attach.size | numberFormat}} byte )</b-check>
+            <b-check v-model="deleteAttachFileSeq" :value="attach.attachFileSeq">{{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )</b-check>
           </li>
         </ul>
       </b-form-group>
@@ -40,15 +40,20 @@
         </b-col>
       </b-row>
     </form>
+    <impageUploadComponent @pasted="pasteImage" ref="imageUpload" />
   </div>
 </template>
 <script>
 import boardCommon from "./mixin-boardArticle.js";
+import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
 import "../../utils/vue-common.js";
-import '../../asserts/lib/editor/js/HuskyEZCreator.js';
+import "../../asserts/lib/editor/js/HuskyEZCreator.js";
 
 export default {
   mixins: [comFunction, boardCommon],
+  components: {
+    impageUploadComponent
+  },
   data() {
     return {
       item: {
@@ -56,10 +61,10 @@ export default {
         content: "",
         boardCode: this.$route.query.boardCode,
         attachList: [],
-        attach: [],
+        attach: []
       },
       deleteAttachFileSeq: [],
-      oEditors: [],
+      oEditors: []
     };
   },
   methods: {
@@ -71,11 +76,16 @@ export default {
         fCreator: "createSEditorInIFrame",
         fOnAppLoad: () => {
           // 본문 내용 수정
-          $("iframe").contents().find('#se2_iframe').contents().find("body").keyup(e => {
-            this.item.content = this.oEditors.getById["content"].getIR();
-          });
+          $("iframe")
+            .contents()
+            .find("#se2_iframe")
+            .contents()
+            .find("body")
+            .keyup(e => {
+              this.item.content = this.oEditors.getById["content"].getIR();
+            });
           this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
-        },
+        }
       });
     },
     // 이미지 붙이기
@@ -85,14 +95,10 @@ export default {
     submitProc() {
       let html = CommonUtil.clearHtml(this.item.content);
       if (CommonUtil.isEmpty(html)) {
-        Swal.fire(
-          '안내',
-          '내용을 입력해',
-          'error'
-        )
+        Swal.fire("안내", "내용을 입력해", "error");
         return;
       }
-      this.$validator.validateAll().then((result) => {
+      this.$validator.validateAll().then(result => {
         if (!result) {
           return;
         }
@@ -107,9 +113,14 @@ export default {
           url = "/board-article/item";
         }
         delete this.item.attach;
-        VueUtil.post(url, this.item, (res) => {
-          this.$router.push({ name: "boardArticleList", query: this.$route.query });
-        }, { "call-type": "multipart" });
+        VueUtil.post(
+          url,
+          this.item,
+          res => {
+            this.$router.push({ name: "boardArticleList", query: this.$route.query });
+          },
+          { "call-type": "multipart" }
+        );
       });
     },
     attachFile(event) {
@@ -130,7 +141,7 @@ export default {
     this.loadBoardManager();
     // 수정
     if (this.$route.query.boardArticleSeq) {
-      VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, (res) => {
+      VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, res => {
         this.item = res.data;
         if (!this.item.encryptF) {
           this.initEditor();
@@ -141,11 +152,10 @@ export default {
     else {
       this.initEditor();
     }
-    window.openImageForm = (a) => {
-      this.$refs['imageUpload'].open();
-    }
+    window.openImageForm = a => {
+      this.$refs["imageUpload"].open();
+    };
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

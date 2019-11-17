@@ -51,6 +51,20 @@ export default {
     },
     clearHtml(html) {
       return CommonUtil.clearHtml(html);
+    },
+    // 특정 조건의 이미지가 크면 화면에 맞추기
+    // selectCondition이미지 셀렉트 조건
+    fitImage(selectCondition) {
+      this.$nextTick(() => {
+        // 타임아웃을 안 주면 이미지가 안 보이는 경우가 있음.
+        setTimeout(() => {
+          $(selectCondition).each(function() {
+            let oImgWidth = $(this).width();
+            let oImgHeight = $(this).height();
+            $(this).css({ "max-width": oImgWidth + "px", "max-height": oImgHeight + "px", width: "100%", height: "100%" });
+          });
+        }, 50);
+      });
     }
   }
 };

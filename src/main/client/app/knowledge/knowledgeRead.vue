@@ -5,11 +5,11 @@
     </h5>
     <h5 style="padding-top:10px;">질문</h5>
     <b-row>
-      <b-col sm="12" v-html="item.problem" />
+      <b-col sm="12" v-html="item.problem" class="_content" />
     </b-row>
     <h5 style="padding-top:30px;">답변</h5>
     <b-row>
-      <b-col sm="12" v-html="item.solution" />
+      <b-col sm="12" v-html="item.solution" class="_content" />
     </b-row>
     <b-row>
       <b-col>
@@ -47,6 +47,7 @@ export default {
     init() {
       VueUtil.get(`/knowledge/item/${this.$route.query.knowledgeSeq}`, {}, res => {
         this.item = res.data;
+        this.fitImage("._content img");
       });
     },
     editPage() {

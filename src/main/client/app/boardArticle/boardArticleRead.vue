@@ -2,16 +2,13 @@
   <div>
     <h5>{{ item.title }} <span class="reg-edit-date">등록일: {{item.regDate | relativeDate}}</span></h5>
     <b-row v-if="!isEncryptInput">
-      <b-col sm="2" class="head">
-        <label>내용</label>
-      </b-col>
-      <b-col sm="10" v-html="item.content" />
+      <b-col v-html="item.content" class="_content"/>
     </b-row>
     <b-row v-if="isEncryptInput">
       <b-col sm="2" class="head">
         <label>암호문자</label>
       </b-col>
-      <b-col sm="10">
+      <b-col>
         <b-input-group class="mt-3">
           <b-form-input @keypress.13.prevent="encryptProc()" v-model="encrypt" placeholder="암호문자를 입력해라."></b-form-input>
           <b-input-group-append>
@@ -21,10 +18,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col sm="2" class="head">
-        <label>첨부파일</label>
-      </b-col>
-      <b-col sm="10">
+      <b-col>
         <ul>
           <li v-for="attach in item.attach" :key="attach.attachSeq">
             <b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">{{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )</b-button>
@@ -58,6 +52,7 @@ export default {
     init() {
       VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, res => {
         this.item = res.data;
+        this.fitImage("._content img");
       });
     }
   },
