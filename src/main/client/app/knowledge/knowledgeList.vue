@@ -9,6 +9,7 @@
         <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
+        <b-button @click="addPage()" variant="info" size="sm" style="margin-left:30px;">만들기</b-button>
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="page.list">
@@ -24,11 +25,6 @@
       <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
     </b-table>
     <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
-    <b-row>
-      <b-col style="text-align:right">
-        <b-button @click="addPage()" type="button" variant="info">만들기</b-button>
-      </b-col>
-    </b-row>
   </div>
 </template>
 
