@@ -7,8 +7,9 @@
           <b-form-checkbox-group v-model="searchParam.statusType" :options="options" switches></b-form-checkbox-group>
         </b-form-group>
         <b-input @keypress.13.prevent="search()" v-model="searchParam.word" style="margin-right:5px;" size="sm" placeholder="검색어"></b-input>
-        <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
-        <b-button @click="addForm()" size="sm" type="button" variant="info">만들기</b-button>
+        <b-button @click="search()" variant="primary" size="sm">검색</b-button>
+        <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm" style="margin-left:10px;">검색 취소</b-button>
+        <b-button @click="addForm()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
       </b-form>
     </div>
     <b-row style="margin:0px;">
@@ -76,6 +77,7 @@ export default {
         statusType: ['PLAN'],
         startCursor: 0,
       },
+      isSearch: false,
     };
   },
   methods: {
@@ -96,7 +98,12 @@ export default {
     search() {
       this.page.list = [];
       this.page.totalCount = -1;
+      this.isSearch = !CommonUtil.isEmpty(this.searchParam.word)
       this.nextProc();
+    },
+    searchCancel() {
+      this.searchParam.word = "";
+      this.search();
     },
     addForm() {
       this.$refs["addCmp"].openAdd();
