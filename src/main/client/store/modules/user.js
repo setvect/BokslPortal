@@ -32,7 +32,7 @@ const user = {
           },
           result => {
             const data = result.data;
-            setToken(data.token);
+            setToken(data.token, userInfo["remember-me"] == "on");
             commit("SET_TOKEN", data.token);
             resolve();
           },
