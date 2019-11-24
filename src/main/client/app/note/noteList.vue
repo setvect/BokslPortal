@@ -73,6 +73,7 @@ export default {
   },
   methods: {
     listProc() {
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
       VueUtil.get("/note/page", this.$route.query, (res) => {
         this.page = res.data;
         this.$nextTick(() => {
@@ -81,9 +82,10 @@ export default {
       });
     },
     search() {
-      this.$route.query.startCursor = 0;
-      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
-      this.listProc();
+      let param = $.extend({}, this.$route.query);
+      this.$route.query.startCursor = -1;
+      param["startCursor"] = 0;
+      this.$router.push({ name: "noteList", query: param }).catch(err => { });
     },
     searchCancel() {
       this.$route.query.word = "";

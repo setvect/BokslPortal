@@ -15,7 +15,7 @@
       </b-form-group>
       <b-row>
         <b-col>
-          <b-button @click="listPage($route.query.categorySeq)" type="button" variant="info">취소</b-button>
+          <b-button @click="listPage()" type="button" variant="info">취소</b-button>
         </b-col>
         <b-col cols="auto">
           <b-button @click="submitProc()" type="button" variant="info">확인</b-button>
@@ -51,7 +51,7 @@ export default {
       }
     },
     listPage(categorySeq) {
-      this.$router.push({ name: "memoList", query: { categorySeq: categorySeq } });
+      this.$router.push({ name: "memoList", query: this.$route.query });
     },
 
     submitProc() {

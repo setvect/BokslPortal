@@ -6,8 +6,9 @@
           <option v-for="category in categoryList" :key="category.categorySeq" :value="category.categorySeq">{{category.name}}</option>
         </b-form-select>
         <b-input @keypress.13.prevent="search()" v-model="searchData.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
-        <b-button @click="search()" variant="primary" size="sm" style="margin-right:30px;">검색</b-button>
-        <b-button @click="addPage()" size="sm" type="button" variant="info">만들기</b-button>
+        <b-button @click="search()" variant="primary" size="sm">검색</b-button>
+        <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
+        <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
       </b-form>
     </div>
     <b-table :bordered="true" hover :fields="fields" :items="filterListData">
@@ -44,6 +45,7 @@ export default {
         word: null,
       },
       filterWord: "",
+      isSearch: false,
       page: {
         total: 300,
         perPage: 10
@@ -54,15 +56,20 @@ export default {
   },
   computed: {
     filterListData() {
-      return this.listData.filter(item => item.content.includes(this.filterWord));
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.filterWord);
+      let filter = this.$route.query.filterWord || "";
+      return this.listData.filter(item => item.content.includes(filter));
     }
   },
   methods: {
     addPage() {
-      this.$router.push({ name: "memoAdd", query: { categorySeq: this.searchData.categorySeq } });
+      this.$route.query.categorySeq = this.searchData.categorySeq;
+      this.$router.push({ name: "memoAdd", query: this.$route.query });
     },
     readPage(seq) {
-      this.$router.push({ name: "memoAdd", query: { categorySeq: this.searchData.categorySeq, memoSeq: seq } });
+      this.$route.query.memoSeq = seq;
+      this.$route.query.categorySeq = this.searchData.categorySeq;
+      this.$router.push({ name: "memoAdd", query: this.$route.query });
     },
     loadCategoryProc() {
       this.categoryList = store.state.memo.categoryList;
@@ -79,7 +86,11 @@ export default {
       });
     },
     search() {
-      this.filterWord = this.searchData.word;
+      this.$router.push({ name: "memoList", query: { filterWord: this.searchData.word } }).catch(err => { });
+    },
+    searchCancel() {
+      this.searchData.word = "";
+      this.search();
     },
     deleteProc(memoSeq) {
       Swal.fire({
@@ -99,6 +110,10 @@ export default {
   },
   mounted() {
     this.searchData.categorySeq = cookies.get("BokslMemoCategory");
+    if (!this.$route.query.filterWord) {
+      this.$route.query.filterWord = "";
+    }
+
     if (store.state.memo.categoryList) {
       this.loadCategoryProc();
     }

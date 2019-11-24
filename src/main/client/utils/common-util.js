@@ -62,7 +62,7 @@ CommonUtil.toBr = function (text) {
 
 // null 또는 빈 공백이면 true 반환
 CommonUtil.isEmpty = function (val) {
-  return val === undefined || val == null || val.length <= 0
+  return val === undefined || val == null || val.length <= 0 || val == "";
 }
 
 // 공백제거

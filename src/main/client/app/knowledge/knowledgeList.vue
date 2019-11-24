@@ -4,7 +4,7 @@
       <b-form inline style="display:block; margin-bottom: 10px;">
         <b-form-select v-model="$route.query.classifyC" size="sm">
           <option :value="null">--전체--</option>
-          <option v-for="code in classifyList" :key="code.minorCode" :value="code.minorCode">{{code.codeValue}}</option>
+          <option v-for="code in classifyList" :key="code.minorCode" :value="code.minorCode">{{ code.codeValue }}</option>
         </b-form-select>
         <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import '../../utils/vue-common.js'
+import "../../utils/vue-common.js";
 import knowledgeCommon from "./mixin-knowledge.js";
 
 export default {
@@ -37,12 +37,12 @@ export default {
   data() {
     return {
       fields: [
-        { key: "index", label: "#", class: 'index-col' },
-        { key: "classifyC", label: "분류", class: 'classify-col' },
-        { key: "problem", label: "질문", class: 'content-col' },
-        { key: "solution", label: "답변", class: 'content-col' },
-        { key: "file", label: "파일", class: 'file-col' },
-        { key: "regDate", label: "날짜", class: 'date-col' }
+        { key: "index", label: "#", class: "index-col" },
+        { key: "classifyC", label: "분류", class: "classify-col" },
+        { key: "problem", label: "질문", class: "content-col" },
+        { key: "solution", label: "답변", class: "content-col" },
+        { key: "file", label: "파일", class: "file-col" },
+        { key: "regDate", label: "날짜", class: "date-col" }
       ],
       page: {
         total: 0,
@@ -55,8 +55,12 @@ export default {
   },
   methods: {
     listProc() {
+      if (!this.$route.query.classifyC) {
+        this.$route.query.classifyC = null;
+      }
+      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word);
       let currentPage = this.$route.query.currentPage;
-      VueUtil.get("/knowledge/page", this.$route.query, (res) => {
+      VueUtil.get("/knowledge/page", this.$route.query, res => {
         this.page = res.data;
         this.$nextTick(() => {
           this.currentPage = currentPage;
@@ -64,9 +68,12 @@ export default {
       });
     },
     search() {
-      this.page.startCursor = 0;
-      this.isSearch = !CommonUtil.isEmpty(this.$route.query.word)
-      this.listProc();
+      let param = $.extend({}, this.$route.query);
+      this.$route.query.startCursor = -1;
+      param["startCursor"] = 0;
+      this.$router
+        .push({ name: "knowledgeList", query: param })
+        .catch(err => { });
     },
     searchCancel() {
       this.$route.query.word = "";
@@ -84,13 +91,10 @@ export default {
       let param = $.extend({}, this.$route.query);
       param["startCursor"] = this.page.returnCount * (page - 1);
       param["currentPage"] = page;
-      this.$router.push({ name: "knowledgeList", query: param }).catch(err => {});
-    },
+      this.$router.push({ name: "knowledgeList", query: param }).catch(err => { });
+    }
   },
   mounted() {
-    if (!this.$route.query.classifyC) {
-      this.$route.query.classifyC = null;
-    }
     this.listProc();
   },
   beforeRouteUpdate(to, from, next) {
@@ -100,23 +104,23 @@ export default {
 };
 </script>
 
-<style >
-  .index-col{
-    width: 50px;
-  }
-  .classify-col{
-    width: 100px;
-  }
-  .content-col{
-     max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .file-col{
-    width: 60px;
-  }
-  .date-col{
-    width: 140px;
-  }
+<style>
+.index-col {
+  width: 50px;
+}
+.classify-col {
+  width: 100px;
+}
+.content-col {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-col {
+  width: 60px;
+}
+.date-col {
+  width: 140px;
+}
 </style>
