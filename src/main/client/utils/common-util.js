@@ -34,6 +34,9 @@ CommonUtil.makePageOption = function (page, callback) {
 }
 
 CommonUtil.clearHtml = function (html) {
+  if (!html) {
+    return
+  }
   return html.replace(/<\/?[^>]+(>|$)/g, "");
 }
 
