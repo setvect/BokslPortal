@@ -18,6 +18,7 @@
           <b-button @click="listPage()" type="button" variant="info">취소</b-button>
         </b-col>
         <b-col cols="auto">
+          <b-button v-if="item.memoSeq" @click="deleteProc(item.memoSeq)" type="button" variant="warning">삭제</b-button>
           <b-button @click="submitProc()" type="button" variant="info">확인</b-button>
         </b-col>
       </b-row>
@@ -26,9 +27,10 @@
 </template>
 <script>
 import store from "../../store/index.js";
+import memoCommon from "./mixin-memo.js";
 
 export default {
-  mixins: [comFunction],
+  mixins: [memoCommon, comFunction],
   data() {
     return {
       item: {},

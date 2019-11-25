@@ -26,10 +26,12 @@
 
 <script>
 import '../../utils/vue-common.js';
+import memoCommon from "./mixin-memo.js";
 import store from "../../store/index.js";
 import cookies from 'js-cookie';
 
 export default {
+  mixins: [memoCommon],
   data() {
     return {
       fields: [
@@ -40,10 +42,6 @@ export default {
       ],
       listData: [
       ],
-      searchData: {
-        categorySeq: null,
-        word: null,
-      },
       filterWord: "",
       isSearch: false,
       page: {
@@ -71,6 +69,14 @@ export default {
       this.$route.query.categorySeq = this.searchData.categorySeq;
       this.$router.push({ name: "memoAdd", query: this.$route.query });
     },
+    loadListProc() {
+      cookies.set("BokslMemoCategory", this.searchData.categorySeq, {
+        expires: 100
+      });
+      VueUtil.get(`/memo/list/${this.searchData.categorySeq}`, {}, (res) => {
+        this.listData = res.data;
+      });
+    },
     loadCategoryProc() {
       this.categoryList = store.state.memo.categoryList;
       if (this.searchData.categorySeq == null) {
@@ -79,33 +85,12 @@ export default {
       this.searchData.categorySeq = this.$route.query.categorySeq || this.searchData.categorySeq;
       this.loadListProc();
     },
-    loadListProc() {
-      cookies.set("BokslMemoCategory", this.searchData.categorySeq, { expires: 100 });
-      VueUtil.get(`/memo/list/${this.searchData.categorySeq}`, {}, (res) => {
-        this.listData = res.data;
-      });
-    },
     search() {
       this.$router.push({ name: "memoList", query: { filterWord: this.searchData.word } }).catch(err => { });
     },
     searchCancel() {
       this.searchData.word = "";
       this.search();
-    },
-    deleteProc(memoSeq) {
-      Swal.fire({
-        title: '삭제할거야?',
-        type: 'info',
-        showCloseButton: true,
-        showCancelButton: true,
-      }).then((result) => {
-        if (!result.value) {
-          return;
-        }
-        VueUtil.delete(`/memo/item/${memoSeq}`, {}, (res) => {
-          this.loadListProc(this.searchData.categorySeq);
-        });
-      });
     },
   },
   mounted() {
@@ -122,7 +107,12 @@ export default {
         this.loadCategoryProc();
       });
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    next();
+    this.loadListProc();
   }
+
 };
 </script>
 
