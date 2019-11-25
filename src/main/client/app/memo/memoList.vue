@@ -62,6 +62,7 @@ export default {
   methods: {
     addPage() {
       this.$route.query.categorySeq = this.searchData.categorySeq;
+      delete this.$route.query.memoSeq;
       this.$router.push({ name: "memoAdd", query: this.$route.query });
     },
     readPage(seq) {
