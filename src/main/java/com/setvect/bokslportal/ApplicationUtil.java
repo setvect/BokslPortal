@@ -3,9 +3,12 @@ package com.setvect.bokslportal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bohnman.squiggly.Squiggly;
 import com.github.bohnman.squiggly.util.SquigglyUtils;
+import com.setvect.bokslportal.photo.service.ThumbnailImageConvert;
 import com.setvect.bokslportal.user.vo.UserVo;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +31,20 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 어플리케이션 전반에 사용되는 공통 함수 제공.
  */
+@Log4j2
 public abstract class ApplicationUtil {
+  /**
+   * 허용 이미지 파일 확장자.
+   */
+  public static final Set<String> IMAGE_EXT = new HashSet<>(Arrays.asList("jpg", "jpge", "png", "gif"));
 
   /**
    * 로깅
@@ -224,5 +235,64 @@ public abstract class ApplicationUtil {
     if (deny) {
       throw new RuntimeException("[" + filename + "] is not an authorized file.");
     }
+  }
+
+
+  /**
+   * @param imagePath 이미지 경로
+   * @param prefix    섬네일 이미지 파일명  prefix
+   * @param width     최대 넓이
+   * @param height    최대 높이
+   * @return 섬네일 이미지 byte
+   * @throws IOException
+   */
+  public static byte[] makeImageThumbimage(File imagePath, String prefix, int width, int height) throws IOException {
+    // 파일이 존재 하지 않으면 그냥 종료
+    if (!imagePath.exists()) {
+      log.warn("{} not exist.", imagePath);
+      return null;
+    }
+
+    // 섬네일 이미지 파일이름 만들기
+    // e.g) imagename_w33_h44.jpg
+    String name = imagePath.getName();
+    String tempImg = prefix + "_w" + width + "_h" + height + "." + FilenameUtils.getExtension(name);
+
+    if (!BokslPortalConstant.Photo.THUMBNAIL_DIR.exists()) {
+      BokslPortalConstant.Photo.THUMBNAIL_DIR.mkdirs();
+      log.info("make thumbnail directory: ", BokslPortalConstant.Photo.THUMBNAIL_DIR.getAbsolutePath());
+    }
+
+    // 섬네일 버전된 경로
+    File toThumbnailFile = new File(BokslPortalConstant.Photo.THUMBNAIL_DIR, tempImg);
+    boolean thumbnailExist = toThumbnailFile.exists();
+    boolean oldThumbnail = toThumbnailFile.lastModified() < imagePath.lastModified();
+
+    // 기존에 섬네일로 변환된 파일이 있는냐?
+    // 섬네일로 변환된 파일이 없거나, 파일이 수정되었을 경우 섬네일 다시 만들기
+    if (!thumbnailExist || oldThumbnail) {
+      ThumbnailImageConvert.makeThumbnail(imagePath, toThumbnailFile, width, height);
+    }
+
+    try (InputStream in = new FileInputStream(toThumbnailFile)) {
+      return IOUtils.toByteArray(in);
+    }
+  }
+
+  /**
+   * @param file
+   * @return 이미지 확장자면 true, 아니면 false
+   */
+  public static boolean isImage(File file){
+    return isImage(file.getName());
+  }
+
+  /**
+   * @param fileName
+   * @return 이미지 확장자면 true, 아니면 false
+   */
+  public static boolean isImage(String fileName){
+    String ext = FilenameUtils.getExtension(fileName);
+    return IMAGE_EXT.contains(ext);
   }
 }

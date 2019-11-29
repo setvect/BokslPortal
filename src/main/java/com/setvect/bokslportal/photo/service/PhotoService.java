@@ -269,37 +269,7 @@ public class PhotoService {
     }
 
     File photoFile = photo.getFullPath();
-
-    // 파일이 존재 하지 않으면 그냥 종료
-    if (!photoFile.exists()) {
-      log.warn("{} not exist.", photoFile);
-      return null;
-    }
-
-    // 섬네일 이미지 파일이름 만들기
-    // e.g) imagename_w33_h44.jpg
-    String name = photoFile.getName();
-    String tempImg = photo.getPhotoId() + "_w" + width + "_h" + height + "." + FilenameUtils.getExtension(name);
-
-    if (!BokslPortalConstant.Photo.THUMBNAIL_DIR.exists()) {
-      BokslPortalConstant.Photo.THUMBNAIL_DIR.mkdirs();
-      log.info("make thumbnail directory: ", BokslPortalConstant.Photo.THUMBNAIL_DIR.getAbsolutePath());
-    }
-
-    // 섬네일 버전된 경로
-    File toThumbnailFile = new File(BokslPortalConstant.Photo.THUMBNAIL_DIR, tempImg);
-    boolean thumbnailExist = toThumbnailFile.exists();
-    boolean oldThumbnail = toThumbnailFile.lastModified() < photoFile.lastModified();
-
-    // 기존에 섬네일로 변환된 파일이 있는냐?
-    // 섬네일로 변환된 파일이 없거나, 파일이 수정되었을 경우 섬네일 다시 만들기
-    if (!thumbnailExist || oldThumbnail) {
-      ThumbnailImageConvert.makeThumbnail(photoFile, toThumbnailFile, width, height);
-    }
-
-    try (InputStream in = new FileInputStream(toThumbnailFile)) {
-      return IOUtils.toByteArray(in);
-    }
+    return ApplicationUtil.makeImageThumbimage(photoFile, photo.getPhotoId(), width, height);
   }
 
   /**

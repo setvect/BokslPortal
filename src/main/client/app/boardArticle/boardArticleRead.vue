@@ -1,8 +1,11 @@
 <template>
   <div>
-    <h5>{{ item.title }} <span class="reg-edit-date">등록일: {{item.regDate | relativeDate}}</span></h5>
+    <h5>
+      {{ item.title }}
+      <span class="reg-edit-date">등록일: {{item.regDate | relativeDate}}</span>
+    </h5>
     <b-row v-if="!isEncryptInput">
-      <b-col v-html="item.content" class="_content"/>
+      <b-col v-html="item.content" class="_content" />
     </b-row>
     <b-row v-if="isEncryptInput">
       <b-col sm="2" class="head">
@@ -20,8 +23,22 @@
     <b-row>
       <b-col>
         <ul>
+          <li v-for="attach in filterImageFiles(item.attach)" :key="attach.attachSeq">
+            <b-img thumbnail fluid :src="getThumUrl(attach)" :title="attach.originalName" @click="openImage(attach)"></b-img>
+          </li>
+        </ul>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <ul>
           <li v-for="attach in item.attach" :key="attach.attachSeq">
-            <b-button @click="downloadFile(attach.attachFileSeq, attach.originalName)" type="button" variant="outline-secondary" size="sm">{{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )</b-button>
+            <b-button
+              @click="downloadFile(attach.attachFileSeq, attach.originalName)"
+              type="button"
+              variant="outline-secondary"
+              size="sm"
+            >{{ attach.originalName }} (size: {{ attach.size | numberFormat }} byte )</b-button>
           </li>
         </ul>
       </b-col>
@@ -45,16 +62,19 @@ import "../../utils/vue-common.js";
 export default {
   mixins: [comFunction, boardCommon],
   data() {
-    return {};
+    return {
+      item: {
+        attach: []
+      }
+    };
   },
-  computed: {},
   methods: {
     init() {
       VueUtil.get(`/board-article/item/${this.$route.query.boardArticleSeq}`, {}, res => {
         this.item = res.data;
         this.fitImage("._content img");
       });
-    }
+    },
   },
   mounted() {
     this.init();

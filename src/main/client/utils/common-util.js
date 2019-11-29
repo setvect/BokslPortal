@@ -65,6 +65,11 @@ CommonUtil.isEmpty = function (val) {
   return val === undefined || val == null || val.length <= 0 || val == "";
 }
 
+// 섬네일 만들 수 있는 이미지 파일 확장자 체크
+CommonUtil.isImage = function(filename){
+  return (/\.(gif|jpg|jpeg|png)$/i).test(filename)
+}
+
 // 공백제거
 CommonUtil.removeWhiteSpace = function (val) {
   if (CommonUtil.isEmpty(val)) {

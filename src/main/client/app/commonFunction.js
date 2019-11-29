@@ -65,6 +65,20 @@ export default {
           });
         }, 50);
       });
+    },
+    // 섬네일 이미지 경로
+    getThumUrl(attach){
+      return `/attach/thumbimage?attachFileSeq=${attach.attachFileSeq}&w=300&h=300`;
+    },
+    filterImageFiles(attachList) {
+      return attachList.filter((attach) => CommonUtil.isImage(attach.originalName));
+    },
+    openImage(attach){
+      Swal.fire({
+        imageUrl: `/attach/image?attachFileSeq=${attach.attachFileSeq}`,
+        imageAlt: attach.originalName,
+        showCloseButton: true
+      })
     }
   }
 };

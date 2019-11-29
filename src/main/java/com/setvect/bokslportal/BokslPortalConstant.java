@@ -84,11 +84,6 @@ public final class BokslPortalConstant {
     public static final File ROTATE_DIR = new File(EnvirmentProperty.getString("com.setvect.bokslportal.photo.rotate"));
 
     /**
-     * 허용 이미지 파일 확장자.
-     */
-    public static final Set<String> ALLOW = new HashSet<>(Arrays.asList("jpg", "png", "gif"));
-
-    /**
      * GPS 좌표 추출 정규식
      */
     public static final String GPS_REGEX = "^(\\d*)\\W*(\\d*)\\W*((?:\\d|\\.)*)";
