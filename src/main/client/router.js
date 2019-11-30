@@ -58,6 +58,11 @@ export const constantRouterMap = [
             name: "boardArticleList"
           },
           {
+            path: "listContent",
+            component: () => import("./app/boardArticle/boardArticleListContent.vue"),
+            name: "boardArticleListContent"
+          },
+          {
             path: "read",
             component: () => import("./app/boardArticle/boardArticleRead.vue"),
             name: "boardArticleRead"

@@ -12,34 +12,22 @@
         <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
       </b-form>
     </div>
-    <b-table :bordered="true" hover :fields="fields" :items="page.list">
-      <template slot="index" slot-scope="data">{{ data.index | indexSeq(page) }}</template>
-      <template slot="title" slot-scope="data">
-        <b-link @click="readPage(data.item.boardArticleSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}{{data.item.encryptF ? "(암호화)" : ""}}</b-link>
-      </template>
-      <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
-      <template slot="function" slot-scope="data">
-        <b-link @click="editPage(data.item.boardArticleSeq)">수정</b-link>
-        <b-link @click="deleteProc(data.item.boardArticleSeq)">삭제</b-link>
-      </template>
-    </b-table>
+    <enumLayout :page="page" v-if="!isContentList" />
+    <contentLayout :page="page" v-if="isContentList" />
     <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
   </div>
 </template>
 
 <script>
 import boardCommon from "./mixin-boardArticle.js";
-
+import enumLayout from "./boardArticleListEnum.vue";
+import contentLayout from "./boardArticleListContent.vue";
+// 내용 표시형
+const CONTENT_VIEW_BOARD = ["BDAAAA02", "BDAAAA04", "BDAAAA05",];
 export default {
   mixins: [boardCommon],
   data() {
     return {
-      fields: [
-        { key: "index", label: "#", class: 'index-col' },
-        { key: "title", label: "제목" },
-        { key: "regDate", label: "날짜", class: 'date-col' },
-        { key: "function", label: "기능", class: 'function-col' }
-      ],
       page: {
         totalCount: 0,
         list: []
@@ -48,7 +36,14 @@ export default {
       isSearch: false
     };
   },
+  components: {
+    enumLayout, contentLayout
+  },
   computed: {
+    // true: 내용 표시형, false: 일반 목록형
+    isContentList() {
+      return CONTENT_VIEW_BOARD.includes(this.$route.query.boardCode);
+    }
   },
   watch: {
     '$route.query.boardCode'() {
@@ -81,10 +76,6 @@ export default {
     addPage() {
       delete this.$route.query.boardArticleSeq;
       this.$router.push({ name: "boardArticleAdd", query: this.$route.query });
-    },
-    readPage(boardArticleSeq) {
-      this.$route.query.boardArticleSeq = boardArticleSeq;
-      this.$router.push({ name: "boardArticleRead", query: this.$route.query });
     },
     changePage(page) {
       let param = $.extend({}, this.$route.query);

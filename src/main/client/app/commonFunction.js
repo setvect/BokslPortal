@@ -58,22 +58,33 @@ export default {
       this.$nextTick(() => {
         // 타임아웃을 안 주면 이미지가 안 보이는 경우가 있음.
         setTimeout(() => {
-          $(selectCondition).each(function() {
+          $(selectCondition).each(function () {
             let oImgWidth = $(this).width();
             let oImgHeight = $(this).height();
-            $(this).css({ "max-width": oImgWidth + "px", "max-height": oImgHeight + "px", width: "100%", height: "100%" });
+            $(this).css({
+              "max-width": oImgWidth + "px",
+              "max-height": oImgHeight + "px",
+              width: "100%",
+              height: "100%"
+            });
           });
         }, 50);
       });
     },
     // 섬네일 이미지 경로
-    getThumUrl(attach){
-      return `/attach/thumbimage?attachFileSeq=${attach.attachFileSeq}&w=300&h=300`;
+    getThumUrl(attach, w, h) {
+      if (!w) {
+        w = 300;
+      }
+      if (!h) {
+        h = 300;
+      }
+      return `/attach/thumbimage?attachFileSeq=${attach.attachFileSeq}&w=${w}&h=${h}`;
     },
     filterImageFiles(attachList) {
       return attachList.filter((attach) => CommonUtil.isImage(attach.originalName));
     },
-    openImage(attach){
+    openImage(attach) {
       Swal.fire({
         imageUrl: `/attach/image?attachFileSeq=${attach.attachFileSeq}`,
         imageAlt: attach.originalName,
