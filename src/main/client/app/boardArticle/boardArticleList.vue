@@ -29,13 +29,9 @@
 
 <script>
 import boardCommon from "./mixin-boardArticle.js";
-import boardArticleEncryptComponent from "./boardArticleEncrypt.vue";
 
 export default {
   mixins: [boardCommon],
-  components: {
-    boardArticleEncrypt: boardArticleEncryptComponent
-  },
   data() {
     return {
       fields: [
