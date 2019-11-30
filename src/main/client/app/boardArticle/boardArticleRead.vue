@@ -15,7 +15,7 @@
         <b-input-group class="mt-3">
           <b-form-input @keypress.13.prevent="encryptProc()" v-model="encrypt" placeholder="암호문자를 입력해라."></b-form-input>
           <b-input-group-append>
-            <b-button variant="outline-success">확인</b-button>
+            <b-button @click="encryptProc()" variant="outline-success">확인</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-col>
