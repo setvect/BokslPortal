@@ -23,10 +23,12 @@ export default {
   methods: {
     listPage() {
       delete this.$route.query.boardArticleSeq;
+      let param = $.extend({}, this.$route.query);
+      param["_dummy"] = new Date().getTime();
       this.$router.push({
         name: "boardArticleList",
-        query: this.$route.query
-      });
+        query: param
+      }).catch(err => {});
     },
     editPage(boardArticleSeq) {
       this.$route.query.boardArticleSeq = boardArticleSeq;
@@ -46,11 +48,7 @@ export default {
           return;
         }
         VueUtil.delete(`/board-article/item/${boardArticleSeq}`, {}, (res) => {
-          if (this.$route.name === "boardArticleList") {
-            this.listProc();
-          } else {
-            this.listPage();
-          }
+          this.listPage();
         });
       });
     },
