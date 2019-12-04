@@ -74,7 +74,7 @@ public class NetworkController {
     saveData.setContent(network.getContent());
     saveData.setTitle(network.getTitle());
     saveData.setEditDate(new Date());
-    networkRepository.save(network);
+    networkRepository.save(saveData);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(network));
   }
 

@@ -75,7 +75,6 @@ public class BoardManagerController {
    */
   @PutMapping("item")
   public ResponseEntity<String> editItem(BoardManagerVo board) {
-
     boardRepository.save(board);
     return ResponseEntity.ok().body(ApplicationUtil.toJsonWtihRemoveHibernate(board));
   }
