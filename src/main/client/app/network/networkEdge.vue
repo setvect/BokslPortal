@@ -56,6 +56,10 @@ export default {
       if (edge) {
         // edge 값이 있으면 수정
         this.edge = edge;
+        if (!this.edge.color) {
+          this.edge.color = { color: this.colorOption[0] };
+          this.edge.dashes = false;
+        }
         this.update = true;
       } else {
         // 신규 추가인 경우 임의 랜덤 값을 아이디로 함
