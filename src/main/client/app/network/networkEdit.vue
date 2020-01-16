@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import vis from 'vis/dist/vis.js';
+import vis from 'vis-network/dist/vis-network.js';
 import { VueContext } from 'vue-context';
 import networkNode from './networkNode.vue';
 import networkEdge from './networkEdge.vue';
-import "vis/dist/vis.css";
+import "vis-network/dist/vis-network.css";
 
 export default {
   mixins: [comFunction],
@@ -195,8 +195,8 @@ export default {
     addNode(node, edgeLable) {
       this.undoHistory.push(this.getJson());
       this.redoHistory = [];
-
       this.nodes.add(node);
+
       let selectNodeId = this.getSelectNodeId();
       if (selectNodeId) {
         this.edges.add({
@@ -206,6 +206,10 @@ export default {
           color: { color: '#777777', highlight: '#777777' }
         });
       }
+      // 노드 추가시 이전 노드 스타일을 덮어 쒸우는 문제가 있어 아래 코드 처럼 네트워크를 다시 그림
+      this.item.content = this.getJson();
+      this.display()
+
       this.saveProc();
     },
     editNode(node) {

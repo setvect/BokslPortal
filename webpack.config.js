@@ -119,19 +119,19 @@ module.exports = env => {
       new webpack.DefinePlugin({
         "global.GENTLY": false
       }),
-      new webpack.ProvidePlugin({
-        // node_moudles
-        $: "jquery",
-        jquery: "jquery",
-        "window.jQuery": "jquery",
-        jQuery: "jquery",
-        Swal: "sweetalert2",
-        moment: "moment",
-        // 직접 만든거
-        VueUtil: [path.resolve(__dirname, "src/main/client/utils/vue-util.js"), "default"],
-        CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), "default"],
-        comFunction: [path.resolve(__dirname, "src/main/client/app/commonFunction.js"), "default"]
-      })
+        new webpack.ProvidePlugin({
+          // node_moudles
+          $: "jquery",
+          jquery: "jquery",
+          "window.jQuery": "jquery",
+          jQuery: "jquery",
+          Swal: "sweetalert2",
+          moment: "moment",
+          // 직접 만든거
+          VueUtil: [path.resolve(__dirname, "src/main/client/utils/vue-util.js"), "default"],
+          CommonUtil: [path.resolve(__dirname, "src/main/client/utils/common-util.js"), "default"],
+          comFunction: [path.resolve(__dirname, "src/main/client/app/commonFunction.js"), "default"]
+        })
       // new HtmlWebpackPlugin({
       //   filename: "index.html",
       //   template: clientPath + "/index.html",

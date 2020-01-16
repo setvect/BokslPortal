@@ -76,7 +76,7 @@
     "shims": "^1.0.0",
     "sweetalert2": "^8.17.1",
     "vee-validate": "^2.2.15",
-    "vis": "^4.21.0",
+    "vis-network": "^6.5.2",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-context": "^4.0.3",
