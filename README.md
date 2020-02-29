@@ -59,7 +59,11 @@ npm run build
     1. `gradle bootWar` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 bootWar`
     1. `gradle war` 이게 잘 안되면 `gradlew wrapper --gradle-version 4.10 war`
 
-잘 되면 _build/libs/bokslportal-x.x.x.war_ 이렇게 만들어짐
+잘 되면
+ - gradle bootWar 경우 _build/libs/bokslportal-x.x.x.war_ 
+ - gradle war 경우 _build/libs/ROOT.war_ 
+ 
+ 이렇게 만들어짐
 
 ### 실행방법
 - 일반 war 방식

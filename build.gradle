@@ -28,6 +28,7 @@ test {
 // war task skip 방지
 war {
   enabled = true
+  archiveFileName = 'ROOT.war'
 }
 
 configurations {
@@ -60,4 +61,5 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.security:spring-security-test'
   testCompile 'org.springframework.boot:spring-boot-test'
+  testCompile 'junit:junit'
 }

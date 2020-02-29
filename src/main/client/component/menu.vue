@@ -46,6 +46,9 @@
               <router-link :to="{ name: 'boardArticle', query: { boardCode: 'BDAAAA11' } }">소설</router-link>
             </li>
             <li>
+              <router-link :to="{ name: 'boardArticle', query: { boardCode: 'BDAAAA12' } }">운동</router-link>
+            </li>
+            <li>
               <router-link :to="{ name: 'code' }">코드관리</router-link>
             </li>
           </ul>

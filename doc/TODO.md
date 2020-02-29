@@ -5,6 +5,7 @@
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
 
 ### 진행예정.
+- NEW-20200118: 복슬네트워크에서 노드 추가시 이전 노드 스타일을 덮어 쒸우는 문제(종전 해결책은 또다른 문제가 발생해 다시 원복했음.)
 - NEW-20191129: 복슬포토 삭제 기능 추가
 - NEW-20191113: 모바일 스크롤 주소창 안 사라지는 문제 해결
 - NEW-20191111: route 변경 시 페이지 상단으로 스크롤 이동(예: 노트 읽기->수정으로 이동할 때). 추가설명: 불특정하게 나타남.
