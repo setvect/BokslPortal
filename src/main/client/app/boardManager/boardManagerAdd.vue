@@ -27,7 +27,7 @@
         </b-form-radio-group>
       </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="2" label="암호화 글 등록">
-        <b-form-radio-group v-model="item.encodeF" name="encodeF">
+        <b-form-radio-group v-model="item.encryptF" name="encryptF">
           <b-form-radio value="true">예</b-form-radio>
           <b-form-radio value="false">아니오</b-form-radio>
         </b-form-radio-group>
