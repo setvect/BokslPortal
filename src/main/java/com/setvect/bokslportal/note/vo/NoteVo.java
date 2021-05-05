@@ -76,6 +76,13 @@ public class NoteVo {
   private Date regDate;
 
   /**
+   * 마크다운 문서 여부
+   */
+  @Column(name = "MARKDOWN_F", nullable = false, length = 1)
+  @Type(type = "yes_no")
+  private boolean markdownF;
+
+  /**
    * 삭제여부
    */
   @Column(name = "DELETE_F", nullable = false, length = 1)

@@ -14,7 +14,8 @@
         <b-input @keypress.13.prevent="search()" v-model="$route.query.word" id="inline-form-input-name" size="sm" placeholder="검색어"></b-input>
         <b-button @click="search()" variant="primary" size="sm">검색</b-button>
         <b-button v-show="isSearch" @click="searchCancel()" variant="primary" size="sm">검색 취소</b-button>
-        <b-button @click="addPage()" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
+        <b-button @click="addPage(false)" size="sm" type="button" variant="info" style="margin-left:30px;">만들기</b-button>
+        <b-button @click="addPage(true)" size="sm" type="button" variant="info" style="margin-left:10px;">만들기(마크다운)</b-button>
         <b-button @click="categoryForm()" size="sm" type="button" variant="outline-primary" style="float:right">카테고리</b-button>
       </b-form>
     </div>
@@ -28,6 +29,7 @@
       <template slot="title" slot-scope="data">
         <b-link @click="readPage(data.item.noteSeq)">{{ data.item.title }}{{data.item.attach.length === 0 ? "" : " [" + data.item.attach.length + "]" }}</b-link>
       </template>
+      <template slot="markdown" slot-scope="data">{{data.item.markdownF ? "예" : "아니오"}}</template>
       <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
       <template slot="function" slot-scope="data">
         <b-link @click="editPage(data.item.noteSeq)">수정</b-link>
@@ -58,6 +60,7 @@ export default {
         { key: "index", label: "#", class: 'index-col' },
         { key: "category.name", label: "분류", class: 'category-col' },
         { key: "title", label: "제목" },
+        { key: "markdown", label: "마크다운" },
         { key: "regDate", label: "날짜", class: 'date-col' },
         { key: "function", label: "기능", class: 'function-col' }
       ],
@@ -91,9 +94,9 @@ export default {
       this.$route.query.word = "";
       this.search();
     },
-    addPage() {
+    addPage(markdown) {
       delete this.$route.query.noteSeq;
-      this.$router.push({ name: "noteAdd", query: this.$route.query });
+      this.$router.push({ name: "noteAdd", query: {...this.$route.query, markdown} });
     },
     readPage(noteSeq) {
       this.$route.query.noteSeq = noteSeq;
