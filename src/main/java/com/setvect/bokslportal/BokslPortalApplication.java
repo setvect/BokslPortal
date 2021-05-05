@@ -5,6 +5,7 @@ import com.setvect.bokslportal.memo.service.MemoService;
 import com.setvect.bokslportal.note.service.NoteService;
 import com.setvect.bokslportal.user.service.UserService;
 import com.setvect.bokslportal.util.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
 import java.net.URL;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 // @ImportResource({ "classpath:/spring/context-transaction.xml" })
@@ -27,10 +30,22 @@ public class BokslPortalApplication extends SpringBootServletInitializer {
    */
   private static final String CONFIG_PROPERTIES_TEST = "/test.properties";
 
+  private static final String FILE_LOCATION_OPTION_PREFIX = "--spring.config.location=";
+  private static String configPath;
+
   public static void main(String[] args) {
     // spring boot에서 클래스가 및 properties 변경되었을 때 restart 안되게 함.
     // 즉 reload 효과
     System.setProperty("spring.devtools.restart.enabled", "false");
+
+    Optional<String> configOption = Stream.of(args)
+      .filter(arg -> arg.startsWith(FILE_LOCATION_OPTION_PREFIX))
+      .map(arg -> StringUtils.substringAfter(arg, FILE_LOCATION_OPTION_PREFIX)).findAny();
+
+    if (configOption.isPresent()) {
+      configPath = configOption.get();
+      System.out.printf("config file path: %s \n", configPath);
+    }
 
     SpringApplication.run(BokslPortalApplication.class, args);
   }
@@ -57,6 +72,8 @@ public class BokslPortalApplication extends SpringBootServletInitializer {
       URL configUrl;
       if (Boolean.parseBoolean(testEnv)) {
         configUrl = BokslPortalApplication.class.getResource(CONFIG_PROPERTIES_TEST);
+      } else if (configPath != null) {
+        configUrl = new URL(configPath);
       } else {
         configUrl = BokslPortalApplication.class.getResource(CONFIG_PROPERTIES);
       }
