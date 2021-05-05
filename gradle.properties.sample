@@ -2,6 +2,6 @@
 remortHost=127.0.0.1
 remortPort=22
 remortUser=userid
-remortPassword=1234
 remortDir=/home/boksl/web
+authFile=C:/Users/Administrator/.ssh/id_rsa
 restartCommand=cd /home/home/boksl/bin;./BokslPortal.sh restart

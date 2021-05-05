@@ -122,7 +122,7 @@ task deployRemort(dependsOn: makeInstallFile) {
         host = project.properties["remortHost"]
         port = project.properties["remortPort"].toInteger()
         user = project.properties["remortUser"]
-        password = project.properties["remortPassword"]
+        identity = new File(project.properties["authFile"])
         knownHosts = allowAnyHosts //알 수 없는 호스트라도 접속 가능
       }
     }
