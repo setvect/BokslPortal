@@ -3,8 +3,10 @@
 ### 메모
 
 - 멀티폼 validation: https://codesandbox.io/s/y3504yr0l1?initialpath=%2F%23%2Fscopes&module=%2Fsrc%2Fcomponents%2FScopes.vue
+- JDBC URL: jdbc:h2:file:.//db/BokslPortal_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 ### 진행예정.
+- NEW-20210505: 복슬 노트 위키 편집 기능 추가
 - NEW-20200118: 복슬네트워크에서 노드 추가시 이전 노드 스타일을 덮어 쒸우는 문제(종전 해결책은 또다른 문제가 발생해 다시 원복했음.)
 - NEW-20191129: 복슬포토 삭제 기능 추가
 - NEW-20191113: 모바일 스크롤 주소창 안 사라지는 문제 해결
@@ -13,6 +15,7 @@
 - NEW-20190607: eslint 적용
 
 ### 완료
+- NEW-20210505: 데몬 형태로 실행, 스크립트 추가
 - NEW-20200116: 복슬네트워크에서 노드 추가시 이전 노드 스타일을 덮어 쒸우는 문제
 - PBM-20191204: 복슬관계 수정 시 정렬 순서 안 바뀜
 - PBM-20191204: 노드 수정 시 레이블 변경 안 됨
