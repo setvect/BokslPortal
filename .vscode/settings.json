@@ -6,7 +6,6 @@
 	"java.errors.incompleteClasspath.severity": "ignore",
 	"editor.fontFamily": "D2Coding,나눔고딕코딩, 'Courier New'",
 	"window.zoomLevel": 0,
-	"editor.fontSize": 16,
 	"terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
 	"git.confirmSync": false,
 	"git.autofetch": false,
@@ -44,5 +43,6 @@
 	"html.format.wrapAttributes": "preserve",
 	"editor.fontLigatures": true,
 	"debug.console.fontSize": 16,
-	"terminal.integrated.fontSize": 16
+	"terminal.integrated.fontSize": 16,
+	"editor.fontSize": 15
 }

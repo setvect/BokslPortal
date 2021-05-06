@@ -38,7 +38,7 @@
           veeErrors.first("categorySeq")
         }}</span>
       </b-form-group>
-      <b-form-group>
+      <b-form-group v-if="!markdown">
         <textarea
           v-model="item.content"
           id="content"
@@ -47,15 +47,7 @@
           style="width: 100%; height: 350px; display: none"
         ></textarea>
       </b-form-group>
-      <b-form-group v-if="markdown">
-        <div class="p-text-editor">
-          <codemirror
-            ref="editor"
-            v-model="item.content"
-            :options="cmOption"
-          />
-        </div>
-      </b-form-group>
+      <noteMarkdown v-if="markdown" v-model="item.content" />
       <b-form-group>
         <b-form-file
           @change="attachFile($event)"
@@ -95,31 +87,13 @@
 <script>
 import noteCommon from "./mixin-note.js";
 import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
-import { codemirror } from 'vue-codemirror'
+import noteMarkdown from "./noteAddMarkdown.vue";
 import "../../utils/vue-common.js";
 import "../../asserts/lib/editor/js/HuskyEZCreator.js";
-
-// base style
-import 'codemirror/lib/codemirror.css'
-// theme css
-import 'codemirror/theme/eclipse.css'
-import 'codemirror/theme/night.css'
-// active-line.js
-import 'codemirror/addon/selection/active-line.js'
-
-import 'codemirror/addon/edit/continuelist.js'
-import 'codemirror/mode/markdown/markdown.js'
 
 const DEFAULT_AUTO_SAVE_TIME = 15;
 const INTERVAL_TIME = 3;
 export default {
-  mixins: [comFunction, noteCommon],
-  components: {
-    impageUploadComponent,
-    codemirror
-  },
-  computed: {
-  },
   data() {
     return {
       item: {
@@ -138,14 +112,43 @@ export default {
         label: ""
       },
       markdown: false,
-      cmOption: {
-        tabSize: 2,
-        lineNumbers: true,
-        styleActiveLine: true,
-        mode: 'markdown',
-        theme: "eclipse",
-        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
-      },
+    };
+  },
+  mixins: [comFunction, noteCommon],
+  components: {
+    impageUploadComponent,
+    noteMarkdown,
+  },
+  computed: {
+  },
+  mounted() {
+    this.item.categorySeq = null;
+    if (this.$route.query.categorySeq && parseInt(this.$route.query.categorySeq) !== 0) {
+      this.item.categorySeq = parseInt(this.$route.query.categorySeq);
+    }
+    // 수정
+    if (this.$route.query.noteSeq) {
+      VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, res => {
+        this.item = res.data;
+        this.markdown = this.item.markdown;
+        this.initEditor();
+        this.autoSave.run = true;
+      });
+    }
+    // 등록
+    else {
+      console.log('this.$route.query.markdown :>> ', this.$route.query.markdown);
+      this.markdown = this.$route.query.markdown;
+      if (this.markdown) {
+        this.item.content = "# ㅋㅋㅋ";
+        // markdown
+      } else {
+        this.initEditor();
+      }
+    }
+    this.loadCategory();
+    window.openImageForm = a => {
+      this.$refs["imageUpload"].open();
     };
   },
   methods: {
@@ -248,37 +251,7 @@ export default {
       for (let i = 0; i < event.target.files.length; i++) {
         this.item.attachList.push(event.target.files[i]);
       }
-    }
-  },
-  mounted() {
-    this.item.categorySeq = null;
-    if (this.$route.query.categorySeq && parseInt(this.$route.query.categorySeq) !== 0) {
-      this.item.categorySeq = parseInt(this.$route.query.categorySeq);
-    }
-
-    // 수정
-    if (this.$route.query.noteSeq) {
-      VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, res => {
-        this.item = res.data;
-        this.markdown = this.item.markdown;
-        this.initEditor();
-        this.autoSave.run = true;
-      });
-    }
-    // 등록
-    else {
-      console.log('this.$route.query.markdown :>> ', this.$route.query.markdown);
-      this.markdown = this.$route.query.markdown;
-      if (this.markdown) {
-        // markdown
-      } else {
-        this.initEditor();
-      }
-    }
-    this.loadCategory();
-    window.openImageForm = a => {
-      this.$refs["imageUpload"].open();
-    };
+    },
   }
 };
 </script>

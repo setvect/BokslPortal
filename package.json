@@ -71,6 +71,7 @@
     "js-cookie": "^2.2.1",
     "jszip": "^3.2.2",
     "lodash": "^4.17.15",
+    "markdown-it-vue": "^1.1.6",
     "moment": "^2.24.0",
     "raw-loader": "^0.5.1",
     "shims": "^1.0.0",
