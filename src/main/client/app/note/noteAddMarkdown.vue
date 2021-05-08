@@ -1,10 +1,12 @@
 <template>
-  <b-form-group>
+  <b-form-group :class="{ fullscreen: fullscreen }">
     <b-row style="margin-left: 30px">
       <b-checkbox v-model="preview" @change="toggle($event)">
         미리보기
       </b-checkbox>
-      <b-checkbox style="margin-left: 10px">전체화면</b-checkbox>
+      <b-checkbox v-model="fullscreen" style="margin-left: 10px">
+        전체화면
+      </b-checkbox>
     </b-row>
     <b-row>
       <b-col :cols="editorWidth">
@@ -18,7 +20,7 @@
       <b-col cols="6" v-show="preview">
         <MarkdownItVue
           class="preview"
-          :style="{ height: getEditAreaHeight() + 'px' }"
+          :style="{ height: editAreaHeight + 'px' }"
           :option="markdownItOption"
           :content="value"
         />
@@ -75,12 +77,27 @@ export default {
         }
       },
       preview: false,
+      editAreaHeight: 100,
+      fullscreen: false,
     };
   },
   props: {
     value: {
       type: String,
       require: true,
+    }
+  },
+  watch: {
+    fullscreen: {
+      handler: function (newValue, oldValue) {
+        if (this.fullscreen) {
+          this.editAreaHeight = $(window).height() - 50;
+          this.$refs.editor.codemirror.setSize(null, this.editAreaHeight);
+        } else {
+          this.editAreaHeight = Math.max($(window).height() - 450, 400);
+          this.$refs.editor.codemirror.setSize(null, this.editAreaHeight);
+        }
+      }
     }
   },
   components: {
@@ -94,11 +111,12 @@ export default {
   },
   mounted() {
     this.preview = cookies.get("noteMarkdownPreview") === "true";
+    this.editAreaHeight = Math.max($(window).height() - 450, 400);
     this.reiszeEditor();
   },
   methods: {
     reiszeEditor() {
-      this.$refs.editor.codemirror.setSize(null, this.getEditAreaHeight());
+      this.$refs.editor.codemirror.setSize(null, this.editAreaHeight);
     },
     toggle(pre) {
       cookies.set("noteMarkdownPreview", pre, { expires: 365 });
@@ -106,12 +124,21 @@ export default {
     chnage(value) {
       this.$emit('input', value);
     },
-    getEditAreaHeight() {
-      return Math.max($(window).height() - 450, 400);
-    }
   }
 };
 </script>
+
+<style scoped>
+.fullscreen {
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+}
+</style>
 
 <style>
 .CodeMirror {
@@ -122,3 +149,4 @@ export default {
   overflow: auto;
 }
 </style>
+
