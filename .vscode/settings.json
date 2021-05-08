@@ -4,7 +4,7 @@
 			"suppressShowKeyBindingsNotice": true
 	},
 	"java.errors.incompleteClasspath.severity": "ignore",
-	"editor.fontFamily": "D2Coding,나눔고딕코딩, 'Courier New'",
+	"editor.fontFamily": "D2Coding ligature,나눔고딕코딩, 'Courier New'",
 	"window.zoomLevel": 0,
 	"terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
 	"git.confirmSync": false,

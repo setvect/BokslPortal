@@ -7,7 +7,7 @@
       <b-checkbox style="margin-left: 10px">전체화면</b-checkbox>
     </b-row>
     <b-row>
-      <b-col>
+      <b-col :cols="editorWidth">
         <codemirror
           ref="editor"
           :value="value"
@@ -15,7 +15,14 @@
           @input="chnage($event)"
         />
       </b-col>
-      <b-col>ㅋㅋㅋ</b-col>
+      <b-col cols="6" v-show="preview">
+        <MarkdownItVue
+          class="preview"
+          :style="{ height: getEditAreaHeight() + 'px' }"
+          :option="markdownItOption"
+          :content="value"
+        />
+      </b-col>
     </b-row>
   </b-form-group>
 </template>
@@ -24,15 +31,13 @@ import cookies from 'js-cookie'
 import { codemirror } from 'vue-codemirror'
 import "../../utils/vue-common.js";
 
-// base style
-import 'codemirror/lib/codemirror.css'
-// theme css
-import 'codemirror/theme/eclipse.css'
-import 'codemirror/theme/night.css'
-// active-line.js
-import 'codemirror/addon/selection/active-line.js'
+import 'jquery-ui/ui/widgets/resizable.js';
+import 'jquery-ui/themes/base/core.css';
+import 'jquery-ui/themes/base/theme.css';
 
+import 'codemirror/addon/selection/active-line.js'
 import 'codemirror/addon/edit/continuelist.js'
+import 'codemirror/addon/scroll/simplescrollbars.js'
 import 'codemirror/mode/markdown/markdown.js'
 import 'codemirror/mode/meta.js'
 import 'codemirror/mode/javascript/javascript.js'
@@ -42,6 +47,13 @@ import 'codemirror/mode/vue/vue.js'
 import 'codemirror/mode/shell/shell.js'
 import 'codemirror/mode/clike/clike.js'
 import 'codemirror/mode/gfm/gfm.js'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/eclipse.css'
+import 'codemirror/theme/night.css'
+import 'codemirror/addon/scroll/simplescrollbars.css'
+
+import MarkdownItVue from 'markdown-it-vue'
+import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 
 export default {
   data() {
@@ -52,10 +64,21 @@ export default {
         styleActiveLine: true,
         mode: 'gfm',
         theme: "default",
-        lineWrapping: true,
+        scrollbarStyle: "simple",
         extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
       },
-      preview: true
+      markdownItOption: {
+        markdownIt: {
+          linkify: true
+        },
+        linkAttributes: {
+          attrs: {
+            target: '_blank',
+            rel: 'noopener'
+          }
+        }
+      },
+      preview: false,
     };
   },
   props: {
@@ -65,22 +88,50 @@ export default {
     }
   },
   components: {
-    codemirror
+    codemirror,
+    MarkdownItVue
   },
   computed: {
+    editorWidth() {
+      return this.preview ? 6 : 12;
+    },
   },
   mounted() {
-    this.preview = cookies.get("noteMarkdownPreview") || false;
+    this.preview = cookies.get("noteMarkdownPreview") === "true";
+    this.reiszeEditor();
+    $('.CodeMirror').resizable({
+      resize: (event) => {
+        // notthing
+      }
+    });
+
+    window.addEventListener('resize', this.reiszeEditor);
   },
   methods: {
+    reiszeEditor() {
+      console.log('this.editAreaHeight :>> ', this.getEditAreaHeight());
+      this.$refs.editor.codemirror.setSize(null, this.getEditAreaHeight());
+    },
     toggle(pre) {
-      console.log('pre :>> ', pre);
       cookies.set("noteMarkdownPreview", pre, { expires: 365 });
     },
     chnage(value) {
-      console.log('value :>> ', value);
       this.$emit('input', value);
+    },
+    getEditAreaHeight() {
+      console.log('$(window).height() :>> ', $(window).height());
+      return Math.max($(window).height() - 500, 400);
     }
   }
 };
 </script>
+
+<style>
+.CodeMirror {
+  font-family: D2Coding ligature, D2Coding, NanumGothicCoding, Arial, monospace;
+  font-size: 1.3em;
+}
+.preview{
+  overflow: auto;
+}
+</style>
