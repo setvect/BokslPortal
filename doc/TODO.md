@@ -6,6 +6,7 @@
 - JDBC URL: jdbc:h2:file:.//db/BokslPortal_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 ### 진행예정.
+- NEW-20210508: markdown 편집기에서 클립보드에 있는 이미지 붙여 넣기(gitlab wiki 처럼)
 - NEW-20210505: bootstrap-vue 최신 버전 변경
 - NEW-20210505: QueryDSL 사용
 - NEW-20210505: Entity 정리

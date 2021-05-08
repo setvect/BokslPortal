@@ -97,7 +97,7 @@ export default {
       deleteAttachFileSeq: [],
       autoSave: {
         run: false,
-        save: false,
+        save: true,
         time: DEFAULT_AUTO_SAVE_TIME,
         label: ""
       },
@@ -113,9 +113,11 @@ export default {
   },
   watch: {
     item: {
-      immediate: true,
       deep: true,
       handler: function (newData, oldData) {
+        if (!oldData.content) {
+          return;
+        }
         this.resetAutoSaveTimer();
       }
     }
@@ -131,10 +133,6 @@ export default {
         this.item = res.data;
         this.markdown = this.item.markdownF;
         this.autoSave.run = true;
-        // 자동저장을 수정일 경우만 함.
-        if (this.autoSave.run === false) {
-          return;
-        }
         this.runAutoSaveTimer();
       });
     }
@@ -142,12 +140,6 @@ export default {
     else {
       console.log('this.$route.query.markdown :>> ', this.$route.query.markdown);
       this.markdown = this.$route.query.markdown;
-      if (this.markdown) {
-        this.item.content = "# ㅋㅋㅋ\n```java\npublic static String aaa;\n````";
-        // markdown
-      } else {
-        // this.initEditor();
-      }
     }
     this.loadCategory();
     window.openImageForm = a => {
@@ -198,14 +190,17 @@ export default {
     },
     runAutoSaveTimer() {
       setInterval(() => {
+        if (this.autoSave.save) {
+          return;
+        }
+
         if (this.autoSave.time > 0) {
           this.autoSave.label = this.autoSave.time + "초 후 자동 저장";
           this.autoSave.time -= INTERVAL_TIME;
         } else {
-          if (!this.autoSave.save) {
-            this.autoSave.save = true;
-            this.runAutoSave();
-          }
+
+          this.autoSave.save = true;
+          this.runAutoSave();
         }
       }, INTERVAL_TIME * 1000);
     },
