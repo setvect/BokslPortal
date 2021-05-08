@@ -1,9 +1,9 @@
 <template>
   <b-form-group>
     <b-row style="margin-left: 30px">
-      <b-checkbox v-model="preview" @change="toggle($event)"
-        >미리보기</b-checkbox
-      >
+      <b-checkbox v-model="preview" @change="toggle($event)">
+        미리보기
+      </b-checkbox>
       <b-checkbox style="margin-left: 10px">전체화면</b-checkbox>
     </b-row>
     <b-row>
@@ -31,29 +31,25 @@ import cookies from 'js-cookie'
 import { codemirror } from 'vue-codemirror'
 import "../../utils/vue-common.js";
 
-import 'jquery-ui/ui/widgets/resizable.js';
-import 'jquery-ui/themes/base/core.css';
-import 'jquery-ui/themes/base/theme.css';
+import "codemirror/addon/selection/active-line.js";
+import "codemirror/addon/edit/continuelist.js";
+import "codemirror/addon/scroll/simplescrollbars.js";
+import "codemirror/mode/markdown/markdown.js";
+import "codemirror/mode/meta.js";
+import "codemirror/mode/javascript/javascript.js";
+import "codemirror/mode/css/css.js";
+import "codemirror/mode/sql/sql.js";
+import "codemirror/mode/vue/vue.js";
+import "codemirror/mode/shell/shell.js";
+import "codemirror/mode/clike/clike.js";
+import "codemirror/mode/gfm/gfm.js";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/eclipse.css";
+import "codemirror/theme/night.css";
+import "codemirror/addon/scroll/simplescrollbars.css";
 
-import 'codemirror/addon/selection/active-line.js'
-import 'codemirror/addon/edit/continuelist.js'
-import 'codemirror/addon/scroll/simplescrollbars.js'
-import 'codemirror/mode/markdown/markdown.js'
-import 'codemirror/mode/meta.js'
-import 'codemirror/mode/javascript/javascript.js'
-import 'codemirror/mode/css/css.js'
-import 'codemirror/mode/sql/sql.js'
-import 'codemirror/mode/vue/vue.js'
-import 'codemirror/mode/shell/shell.js'
-import 'codemirror/mode/clike/clike.js'
-import 'codemirror/mode/gfm/gfm.js'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/eclipse.css'
-import 'codemirror/theme/night.css'
-import 'codemirror/addon/scroll/simplescrollbars.css'
-
-import MarkdownItVue from 'markdown-it-vue'
-import 'markdown-it-vue/dist/markdown-it-vue-light.css'
+import MarkdownItVue from "markdown-it-vue";
+import "markdown-it-vue/dist/markdown-it-vue.css";
 
 export default {
   data() {
@@ -99,17 +95,9 @@ export default {
   mounted() {
     this.preview = cookies.get("noteMarkdownPreview") === "true";
     this.reiszeEditor();
-    $('.CodeMirror').resizable({
-      resize: (event) => {
-        // notthing
-      }
-    });
-
-    window.addEventListener('resize', this.reiszeEditor);
   },
   methods: {
     reiszeEditor() {
-      console.log('this.editAreaHeight :>> ', this.getEditAreaHeight());
       this.$refs.editor.codemirror.setSize(null, this.getEditAreaHeight());
     },
     toggle(pre) {
@@ -119,8 +107,7 @@ export default {
       this.$emit('input', value);
     },
     getEditAreaHeight() {
-      console.log('$(window).height() :>> ', $(window).height());
-      return Math.max($(window).height() - 500, 400);
+      return Math.max($(window).height() - 450, 400);
     }
   }
 };

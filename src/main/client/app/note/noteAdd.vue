@@ -38,15 +38,7 @@
           veeErrors.first("categorySeq")
         }}</span>
       </b-form-group>
-      <b-form-group v-if="!markdown">
-        <textarea
-          v-model="item.content"
-          id="content"
-          rows="10"
-          cols="100"
-          style="width: 100%; height: 350px; display: none"
-        ></textarea>
-      </b-form-group>
+      <noteAddWysiwyg v-if="!markdown" v-model="item.content" />
       <noteMarkdown v-if="markdown" v-model="item.content" />
       <b-form-group>
         <b-form-file
@@ -81,13 +73,12 @@
         </b-col>
       </b-row>
     </form>
-    <impageUploadComponent @pasted="pasteImage" ref="imageUpload" />
   </div>
 </template>
 <script>
 import noteCommon from "./mixin-note.js";
-import impageUploadComponent from "../common/imageUpload/imageUpload.vue";
 import noteMarkdown from "./noteAddMarkdown.vue";
+import noteAddWysiwyg from "./noteAddWysiwyg.vue";
 import "../../utils/vue-common.js";
 import "../../asserts/lib/editor/js/HuskyEZCreator.js";
 
@@ -104,7 +95,6 @@ export default {
         attach: []
       },
       deleteAttachFileSeq: [],
-      oEditors: [],
       autoSave: {
         run: false,
         save: false,
@@ -116,10 +106,19 @@ export default {
   },
   mixins: [comFunction, noteCommon],
   components: {
-    impageUploadComponent,
+    noteAddWysiwyg,
     noteMarkdown,
   },
   computed: {
+  },
+  watch: {
+    item: {
+      immediate: true,
+      deep: true,
+      handler: function (newData, oldData) {
+        this.resetAutoSaveTimer();
+      }
+    }
   },
   mounted() {
     this.item.categorySeq = null;
@@ -130,9 +129,13 @@ export default {
     if (this.$route.query.noteSeq) {
       VueUtil.get(`/note/item/${this.$route.query.noteSeq}`, {}, res => {
         this.item = res.data;
-        this.markdown = this.item.markdown;
-        this.initEditor();
+        this.markdown = this.item.markdownF;
         this.autoSave.run = true;
+        // 자동저장을 수정일 경우만 함.
+        if (this.autoSave.run === false) {
+          return;
+        }
+        this.runAutoSaveTimer();
       });
     }
     // 등록
@@ -143,7 +146,7 @@ export default {
         this.item.content = "# ㅋㅋㅋ\n```java\npublic static String aaa;\n````";
         // markdown
       } else {
-        this.initEditor();
+        // this.initEditor();
       }
     }
     this.loadCategory();
@@ -152,38 +155,7 @@ export default {
     };
   },
   methods: {
-    initEditor() {
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: this.oEditors,
-        elPlaceHolder: "content",
-        sSkinURI: "/asserts/editor/SmartEditor2Skin.html",
-        fCreator: "createSEditorInIFrame",
-        fOnAppLoad: () => {
-          // 본문 내용 수정
-          $("iframe")
-            .contents()
-            .find("#se2_iframe")
-            .contents()
-            .find("body")
-            .keyup(e => {
-              this.item.content = this.oEditors.getById["content"].getIR();
-              this.resetAutoSaveTimer();
-            });
-          this.oEditors.getById["content"].setDefaultFont("나눔고딕", 10);
-          // 자동저장을 수정일 경우만 함.
-          if (this.autoSave.run == false) {
-            return;
-          }
-          this.runAutoSaveTimer();
-        }
-      });
-    },
-    // 이미지 붙이기
-    pasteImage(html) {
-      this.oEditors.getById["content"].exec("PASTE_HTML", [html]);
-    },
     submitProc() {
-      this.item.content = this.oEditors.getById["content"].getIR();
       let html = CommonUtil.clearHtml(this.item.content);
       if (CommonUtil.isEmpty(html)) {
         Swal.fire("안내", "내용을 입력해", "error");
@@ -205,6 +177,7 @@ export default {
           url = "/note/item";
         }
         let copyItem = $.extend(true, {}, this.item);
+        copyItem.markdownF = this.markdown;
         delete copyItem.category;
         delete copyItem.attach;
 
