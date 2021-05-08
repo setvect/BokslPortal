@@ -140,7 +140,7 @@ export default {
       console.log('this.$route.query.markdown :>> ', this.$route.query.markdown);
       this.markdown = this.$route.query.markdown;
       if (this.markdown) {
-        this.item.content = "# ㅋㅋㅋ";
+        this.item.content = "# ㅋㅋㅋ\n```java\npublic static String aaa;\n````";
         // markdown
       } else {
         this.initEditor();

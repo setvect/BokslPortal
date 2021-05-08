@@ -23,7 +23,6 @@
 import cookies from 'js-cookie'
 import { codemirror } from 'vue-codemirror'
 import "../../utils/vue-common.js";
-import "../../asserts/lib/editor/js/HuskyEZCreator.js";
 
 // base style
 import 'codemirror/lib/codemirror.css'
@@ -35,6 +34,13 @@ import 'codemirror/addon/selection/active-line.js'
 
 import 'codemirror/addon/edit/continuelist.js'
 import 'codemirror/mode/markdown/markdown.js'
+import 'codemirror/mode/meta.js'
+import 'codemirror/mode/javascript/javascript.js'
+import 'codemirror/mode/css/css.js'
+import 'codemirror/mode/sql/sql.js'
+import 'codemirror/mode/vue/vue.js'
+import 'codemirror/mode/shell/shell.js'
+import 'codemirror/mode/clike/clike.js'
 import 'codemirror/mode/gfm/gfm.js'
 
 export default {
