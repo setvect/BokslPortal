@@ -23,6 +23,9 @@
       </template>
       <template slot="file" slot-scope="data">{{data.item.attach.length}}</template>
       <template slot="regDate" slot-scope="data">{{data.item.regDate | relativeDate}}</template>
+      <template slot="edit" slot-scope="data">
+        <b-link @click="editPage(data.item.knowledgeSeq)">수정</b-link>
+      </template>
     </b-table>
     <b-pagination v-model="currentPage" :total-rows="page.totalCount" :per-page="10" @change="changePage" limit="10" align="center" />
   </div>
@@ -42,6 +45,7 @@ export default {
         { key: "problem", label: "질문", class: "content-col" },
         { key: "solution", label: "답변", class: "content-col" },
         { key: "file", label: "파일", class: "file-col" },
+        { key: "edit", label: "수정", class: "edit-col" },
         { key: "regDate", label: "날짜", class: "date-col" }
       ],
       page: {
@@ -87,6 +91,12 @@ export default {
       this.$route.query.knowledgeSeq = knowledgeSeq;
       this.$router.push({ name: "knowledgeRead", query: this.$route.query });
     },
+    editPage(knowledgeSeq) {
+      this.$router.push({
+        name: "knowledgeAdd",
+        query: {...this.$route.query, knowledgeSeq}
+      });
+    },
     changePage(page) {
       let param = $.extend({}, this.$route.query);
       param["startCursor"] = this.page.returnCount * (page - 1);
@@ -118,6 +128,9 @@ export default {
   white-space: nowrap;
 }
 .file-col {
+  width: 60px;
+}
+.edit-col {
   width: 60px;
 }
 .date-col {
