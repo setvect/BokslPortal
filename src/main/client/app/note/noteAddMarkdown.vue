@@ -31,7 +31,10 @@
 <script>
 import cookies from 'js-cookie'
 import { codemirror } from 'vue-codemirror'
+import { getToken } from "../../utils/auth.js";
 import "../../utils/vue-common.js";
+import "inline-attachment/src/inline-attachment.js";
+import "inline-attachment/src/codemirror-4.inline-attachment.js";
 
 import "codemirror/addon/selection/active-line.js";
 import "codemirror/addon/edit/continuelist.js";
@@ -110,9 +113,15 @@ export default {
     },
   },
   mounted() {
+    console.log('getToken() :>> ', getToken());
+    inlineAttachment.defaults.uploadUrl = "/attach/uploadImage";
+    inlineAttachment.defaults.extraHeaders["x-auth-token"] = getToken();
     this.preview = cookies.get("noteMarkdownPreview") === "true";
     this.editAreaHeight = Math.max($(window).height() - 450, 400);
     this.reiszeEditor();
+    console.log('inlineAttachment.editors.codemirror4 :>> ', inlineAttachment.editors.codemirror4);
+    console.log('inlineAttachment.editors.codemirror4.attach :>> ', inlineAttachment.editors.codemirror4.attach);
+    inlineAttachment.editors.codemirror4.attach(this.$refs.editor.codemirror);
   },
   methods: {
     reiszeEditor() {

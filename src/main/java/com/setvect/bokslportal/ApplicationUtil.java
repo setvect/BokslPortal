@@ -237,6 +237,20 @@ public abstract class ApplicationUtil {
     }
   }
 
+  /**
+   * 파일 업로드 체크. 허용된 확장자가 아니면 예외 발생
+   *
+   * @param filename 파일명
+   */
+  public static void checkAllowUploadImage(String filename) {
+    String ext = FilenameUtils.getExtension(filename).toLowerCase();
+
+    boolean deny = !BokslPortalConstant.Attach.IMAGE_EXT.contains(ext);
+    if (deny) {
+      throw new RuntimeException("[" + filename + "] is not an authorized image file.");
+    }
+  }
+
 
   /**
    * @param imagePath 이미지 경로
@@ -283,7 +297,7 @@ public abstract class ApplicationUtil {
    * @param file
    * @return 이미지 확장자면 true, 아니면 false
    */
-  public static boolean isImage(File file){
+  public static boolean isImage(File file) {
     return isImage(file.getName());
   }
 
@@ -291,8 +305,24 @@ public abstract class ApplicationUtil {
    * @param fileName
    * @return 이미지 확장자면 true, 아니면 false
    */
-  public static boolean isImage(String fileName){
+  public static boolean isImage(String fileName) {
     String ext = FilenameUtils.getExtension(fileName);
     return IMAGE_EXT.contains(ext);
   }
+
+
+  /**
+   * @param destDir
+   * @param saveDir
+   * @return 저장 경로에서 기본 경로를 제외한 즉 날짜로 이루어진 경로 <br/>
+   * ex) /2011/02/11/
+   */
+  public static String getDayPath(File destDir, File saveDir) {
+    String dd = destDir.getAbsolutePath();
+    String sd = saveDir.getAbsolutePath();
+    String dayPath = sd.substring(dd.length()) + "/";
+    dayPath = dayPath.replace('\\', '/');
+    return dayPath;
+  }
+
 }

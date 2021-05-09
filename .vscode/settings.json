@@ -41,8 +41,5 @@
 	"vetur.format.defaultFormatter.js": "vscode-typescript",
 	"editor.wordWrap": "on",
 	"html.format.wrapAttributes": "preserve",
-	"editor.fontLigatures": true,
-	"debug.console.fontSize": 16,
-	"terminal.integrated.fontSize": 16,
-	"editor.fontSize": 15
+	"editor.fontLigatures": true
 }

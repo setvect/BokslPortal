@@ -96,7 +96,7 @@ public class AttachFileService {
     }
 
     File saveDir = FileUtil.makeDayDir(BokslPortalConstant.Attach.BASE_DIR);
-    String dayPath = getDayPath(BokslPortalConstant.Attach.BASE_DIR, saveDir);
+    String dayPath = ApplicationUtil.getDayPath(BokslPortalConstant.Attach.BASE_DIR, saveDir);
 
     List<AttachFileVo> result = new ArrayList<AttachFileVo>();
     for (MultipartFile file : attachFiles) {
@@ -127,19 +127,6 @@ public class AttachFileService {
     return result;
   }
 
-  /**
-   * @param destDir
-   * @param saveDir
-   * @return 저장 경로에서 기본 경로를 제외한 즉 날짜로 이루어진 경로 <br/>
-   * ex) /2011/02/11/
-   */
-  public static String getDayPath(File destDir, File saveDir) {
-    String dd = destDir.getAbsolutePath();
-    String sd = saveDir.getAbsolutePath();
-    String dayPath = sd.substring(dd.length()) + "/";
-    dayPath = dayPath.replace('\\', '/');
-    return dayPath;
-  }
 
   /**
    * @param deleteSeq 첨부파일 시퀀스 번호
