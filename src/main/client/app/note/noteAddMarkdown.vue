@@ -14,7 +14,8 @@
           ref="editor"
           :value="value"
           :options="cmOption"
-          @input="chnage($event)"
+          @input="chnageInput($event)"
+          @cursorActivity="changeCursor($event)"
         />
       </b-col>
       <b-col cols="6" v-show="preview">
@@ -113,14 +114,11 @@ export default {
     },
   },
   mounted() {
-    console.log('getToken() :>> ', getToken());
     inlineAttachment.defaults.uploadUrl = "/attach/uploadImage";
     inlineAttachment.defaults.extraHeaders["x-auth-token"] = getToken();
     this.preview = cookies.get("noteMarkdownPreview") === "true";
     this.editAreaHeight = Math.max($(window).height() - 450, 400);
     this.reiszeEditor();
-    console.log('inlineAttachment.editors.codemirror4 :>> ', inlineAttachment.editors.codemirror4);
-    console.log('inlineAttachment.editors.codemirror4.attach :>> ', inlineAttachment.editors.codemirror4.attach);
     inlineAttachment.editors.codemirror4.attach(this.$refs.editor.codemirror);
   },
   methods: {
@@ -130,9 +128,19 @@ export default {
     toggle(pre) {
       cookies.set("noteMarkdownPreview", pre, { expires: 365 });
     },
-    chnage(value) {
+    chnageInput(value) {
       this.$emit('input', value);
+
     },
+    changeCursor(editor){
+      console.log("editor.getCursor()", editor.getCursor())
+      const currentLine = editor.getCursor().line + 1;
+      const selectElement = $(".preview").find(`[data-source-line=${currentLine}]`);
+      if(selectElement.length){
+        const top = $(".preview").scrollTop() + selectElement.position().top;
+        $(".preview").scrollTop(top - 150);
+      }
+    }
   }
 };
 </script>
