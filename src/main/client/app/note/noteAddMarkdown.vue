@@ -19,7 +19,7 @@
           @ready="readyCodemirror"
         />
       </b-col>
-      <b-col cols="6" v-show="preview">
+      <b-col cols="6" v-if="preview">
         <MarkdownItVue
           class="preview"
           :style="{ height: editAreaHeight + 'px' }"
