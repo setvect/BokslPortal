@@ -16,6 +16,7 @@
           :options="cmOption"
           @input="chnageInput($event)"
           @cursorActivity="changeCursor($event)"
+          @ready="readyCodemirror"
         />
       </b-col>
       <b-col cols="6" v-show="preview">
@@ -130,16 +131,19 @@ export default {
     },
     chnageInput(value) {
       this.$emit('input', value);
-
     },
-    changeCursor(editor){
-      console.log("editor.getCursor()", editor.getCursor())
+    changeCursor(editor) {
       const currentLine = editor.getCursor().line + 1;
       const selectElement = $(".preview").find(`[data-source-line=${currentLine}]`);
-      if(selectElement.length){
+      if (selectElement.length) {
         const top = $(".preview").scrollTop() + selectElement.position().top;
         $(".preview").scrollTop(top - 150);
       }
+    },
+    readyCodemirror(cm) {
+      // 빈 데이터로 undo 못하게 함
+      cm.doc.clearHistory();
+      cm.refresh();
     }
   }
 };

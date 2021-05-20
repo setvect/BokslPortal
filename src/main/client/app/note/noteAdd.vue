@@ -138,7 +138,6 @@ export default {
     }
     // 등록
     else {
-      console.log('this.$route.query.markdown :>> ', this.$route.query.markdown);
       this.markdown = this.$route.query.markdown;
     }
     this.loadCategory();
