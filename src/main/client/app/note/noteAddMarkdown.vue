@@ -24,7 +24,7 @@
           class="preview"
           :style="{ height: editAreaHeight + 'px' }"
           :option="markdownItOption"
-          :content="value"
+          :content="previewValue"
         />
       </b-col>
     </b-row>
@@ -89,6 +89,7 @@ export default {
           }
         }
       },
+      previewValue: "",
       preview: false,
       editAreaHeight: 100,
       fullscreen: false,
@@ -129,6 +130,11 @@ export default {
     this.editAreaHeight = Math.max($(window).height() - 450, 400);
     this.reiszeEditor();
     inlineAttachment.editors.codemirror4.attach(this.$refs.editor.codemirror);
+    this.previewValue = this.value;
+    setTimeout(()=>{
+      console.log("setTimeout");
+      this.previewValue = this.value;
+    }, 1000);
   },
   methods: {
     reiszeEditor() {
@@ -141,6 +147,7 @@ export default {
       this.$emit('input', value);
     },
     changeCursor(editor) {
+      console.log("change cursor");
       const currentLine = editor.getCursor().line + 1;
       const selectElement = $(".preview").find(`[data-source-line=${currentLine}]`);
       if (selectElement.length) {
