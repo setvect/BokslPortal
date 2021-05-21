@@ -41,6 +41,12 @@ import "inline-attachment/src/codemirror-4.inline-attachment.js";
 import "codemirror/addon/selection/active-line.js";
 import "codemirror/addon/edit/continuelist.js";
 import "codemirror/addon/scroll/simplescrollbars.js";
+import "codemirror/addon/scroll/simplescrollbars.css";
+
+import "codemirror/addon/search/searchcursor.js";
+import "codemirror/addon/search/search.js";
+import "codemirror/addon/search/matchesonscrollbar.js";
+
 import "codemirror/mode/markdown/markdown.js";
 import "codemirror/mode/meta.js";
 import "codemirror/mode/javascript/javascript.js";
@@ -53,7 +59,9 @@ import "codemirror/mode/gfm/gfm.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/eclipse.css";
 import "codemirror/theme/night.css";
-import "codemirror/addon/scroll/simplescrollbars.css";
+import "codemirror/addon/dialog/dialog.css";
+import "codemirror/addon/search/matchesonscrollbar.css";
+
 
 import MarkdownItVue from "markdown-it-vue";
 import "markdown-it-vue/dist/markdown-it-vue.css";
@@ -68,7 +76,7 @@ export default {
         mode: 'gfm',
         theme: "default",
         scrollbarStyle: "simple",
-        extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
+        extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList", "Alt-F": "findPersistent" }
       },
       markdownItOption: {
         markdownIt: {
