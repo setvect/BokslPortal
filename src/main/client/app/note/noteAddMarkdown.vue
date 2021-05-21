@@ -131,10 +131,7 @@ export default {
     this.reiszeEditor();
     inlineAttachment.editors.codemirror4.attach(this.$refs.editor.codemirror);
     this.previewValue = this.value;
-    setTimeout(()=>{
-      console.log("setTimeout");
-      this.previewValue = this.value;
-    }, 1000);
+    this.previewRender();
   },
   methods: {
     reiszeEditor() {
@@ -147,7 +144,6 @@ export default {
       this.$emit('input', value);
     },
     changeCursor(editor) {
-      console.log("change cursor");
       const currentLine = editor.getCursor().line + 1;
       const selectElement = $(".preview").find(`[data-source-line=${currentLine}]`);
       if (selectElement.length) {
@@ -159,6 +155,16 @@ export default {
       // 빈 데이터로 undo 못하게 함
       cm.doc.clearHistory();
       cm.refresh();
+    },
+    // 키 입력마다 markdown preview를 반영하면 렉이 걸리는 문제를 해결하기 위해 1초 마다 반복적으로 값을 반영함
+    previewRender() {
+      const intervalId = setInterval(() => {
+        if (!this.$route.path.endsWith("/add")) {
+          console.log("clearInterval", intervalId);
+          clearInterval(intervalId);
+        }
+        this.previewValue = this.value;
+      }, 1000);
     }
   }
 };

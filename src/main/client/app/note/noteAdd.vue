@@ -188,7 +188,10 @@ export default {
       this.autoSave.save = false;
     },
     runAutoSaveTimer() {
-      setInterval(() => {
+      const intervalId = setInterval(() => {
+        if(!this.$route.path.endsWith("/add")){
+          clearInterval(intervalId);
+        }
         if (this.autoSave.save) {
           return;
         }
