@@ -132,6 +132,7 @@ export default {
     inlineAttachment.editors.codemirror4.attach(this.$refs.editor.codemirror);
     this.previewValue = this.value;
     this.previewRender();
+    this.applyShortCut();
   },
   methods: {
     reiszeEditor() {
@@ -165,6 +166,35 @@ export default {
         }
         this.previewValue = this.value;
       }, 1000);
+    },
+    applyShortCut() {
+      this.$refs.editor.codemirror.addKeyMap({
+        // bold
+        'Ctrl-B': function (cm) {
+          var s = cm.getSelection(),
+            t = s.slice(0, 2) === '**' && s.slice(-2) === '**';
+          cm.replaceSelection(t ? s.slice(2, -2) : '**' + s + '**', 'around');
+        },
+        // italic
+        'Ctrl-I': function (cm) {
+          var s = cm.getSelection(),
+            t = s.slice(0, 1) === '_' && s.slice(-1) === '_';
+          cm.replaceSelection(t ? s.slice(1, -1) : '_' + s + '_', 'around');
+        },
+        // code
+        'Ctrl-K': function (cm) {
+          var s = cm.getSelection(),
+            t = s.slice(0, 1) === '`' && s.slice(-1) === '`';
+          cm.replaceSelection(t ? s.slice(1, -1) : '`' + s + '`', 'around');
+        },
+        // strike
+        'Ctrl-Delete': function (cm) {
+          var s = cm.getSelection(),
+            t = s.slice(0, 2) === '~~' && s.slice(-2) === '~~';
+          if (!s) return null;
+          cm.replaceSelection(t ? s.slice(2, -2) : '~~' + s + '~~', 'around');
+        }
+      });
     }
   }
 };
