@@ -6,6 +6,7 @@
 - JDBC URL: jdbc:h2:file:.//db/BokslPortal_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 ### 진행예정.
+- NEW-20210530: 미리보기, 전체화면 단축키 적용
 - NEW-20210505: bootstrap-vue 최신 버전 변경
 - NEW-20210505: QueryDSL 사용
 - NEW-20210505: Entity 정리
