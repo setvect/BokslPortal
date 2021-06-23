@@ -56,6 +56,7 @@ import "codemirror/mode/vue/vue.js";
 import "codemirror/mode/shell/shell.js";
 import "codemirror/mode/clike/clike.js";
 import "codemirror/mode/gfm/gfm.js";
+import "codemirror/mode/python/python.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/eclipse.css";
 import "codemirror/theme/night.css";

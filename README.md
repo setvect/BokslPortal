@@ -1,8 +1,8 @@
-복슬포털
-=========================
-그동안 개발 했던 복슬 프로젝트 모음<br>
+# 복슬포털
 
-### 주요기능
+그동안 개발 했던 복슬 프로젝트 모음
+
+## 주요기능
 
 - NowHappy (개인홈피)
 - 복슬지식
@@ -11,9 +11,7 @@
 - 복슬포토
 - 복슬관계
 
-### 실행방법
-
-### 주요 프레임워크 및 라이브러리
+## 주요 프레임워크 및 라이브러리
 
 * Spring Boot: 2.1.4
 * JPA
@@ -22,7 +20,7 @@
 * [UI 템플릿 - bootstrap](https://bootstrap-vue.js.org/)
 * [UI 템플릿 - gentelella](https://github.com/ColorlibHQ/gentelella)
 
-### IDE 셋팅 방법
+## IDE 셋팅 방법
 
 공통
 
@@ -40,25 +38,23 @@
 
 - 프로젝트 > 우클릭 > Configure > Add Gradle Nature
 
-### 주요 설정 파일
+## 주요 설정 파일
 
 - src/main/resources/application.properties
 - config/index.js
 
-### Webpack
+## 실행방법
+###  백엔드
+- `com.setvect.bokslportal.BokslPortalApplication` 스프링부트 진입 클래스 실행
 
+###  프론트엔드
 ```bash
-npm install
-
-# 웹팩 서버 시작 localhost:8081
-npm run dev
-
-# 웹팩 빌드. 빌드 경로: /src/main/webapp
-npm run build
-
+npm install # 최초 한번
+npm start
 ```
+- 이후 http://127.0.0.1:8081 접속
 
-### 빌드 방법
+## 빌드 방법
 
 ```bash
 npm run prod
@@ -76,14 +72,11 @@ build/dest에 실행 파일 만들어짐
 | conf/BokslPortal.properties | 각종 설정 파일. DB 연결정보 셋팅                 |
 | conf/log4j2.xml             | 로그 설정                                        |
 
-### 개발 실행
 
-### 수정사항
+## 수정사항
 
 - node_modules/bootstrap/dist/css/bootstrap.css 파일에서 아래 수정
   - .nav 클래스 'display: flex;' 속성 제거
   - 나도 node_modules 파일 직접 수정하면 안되는 거 알고 있다. 어쩔 수 없다. 어떻게 하는지 모르겠다.
 
-### 주요 화면
-
-### 주요 파일
+## 주요 화면
