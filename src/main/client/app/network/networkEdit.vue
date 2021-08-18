@@ -18,28 +18,29 @@
         </div>
       </b-form>
     </div>
-    <div id="mynetwork" @contextmenu.prevent="$refs.menu.open">aaa</div>
-    <vue-context ref="menu">
-      <li>
-        <a href="#" @click.prevent="openNodeForm()">노드추가</a>
-      </li>
-      <li>
-        <a href="#" @click.prevent="openEdgeForm()">연결선 추가</a>
-      </li>
-      <li>
-        <a href="#" @click.prevent="editObject()">수정</a>
-      </li>
-      <li>
-        <a href="#" @click.prevent="deleteObject()">제거</a>
-      </li>
-      <li>----------------------------</li>
-      <li v-show="undoHistory.length !== 0">
-        <a href="#" @click.prevent="undo()">되돌리기</a>
-      </li>
-      <li v-show="redoHistory.length !== 0">
-        <a href="#" @click.prevent="redo()">앞으로돌리기</a>
-      </li>
-    </vue-context>
+    <div id="mynetwork" @contextmenu.prevent="$refs.ctxMenu.open">aaa</div>
+    <context-menu ref="ctxMenu">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-action">
+          <a href="#" @click.prevent="openNodeForm()">노드추가</a>
+        </li>
+        <li class="list-group-item list-group-item-action">
+          <a href="#" @click.prevent="openEdgeForm()">연결선 추가</a>
+        </li>
+        <li class="list-group-item list-group-item-action">
+          <a href="#" @click.prevent="editObject()">수정</a>
+        </li>
+        <li class="list-group-item list-group-item-action">
+          <a href="#" @click.prevent="deleteObject()">제거</a>
+        </li>
+        <li class="list-group-item list-group-item-action" v-show="undoHistory.length !== 0">
+          <a href="#" @click.prevent="undo()">되돌리기</a>
+        </li>
+        <li class="list-group-item list-group-item-action" v-show="redoHistory.length !== 0">
+          <a href="#" @click.prevent="redo()">앞으로돌리기</a>
+        </li>
+      </ul>
+    </context-menu>
     <networkNode ref="nodeComponent" />
     <networkEdge ref="edgeComponent" />
   </div>
@@ -47,15 +48,15 @@
 
 <script>
 import vis from 'vis-network/dist/vis-network.js';
-import { VueContext } from 'vue-context';
 import networkNode from './networkNode.vue';
 import networkEdge from './networkEdge.vue';
 import "vis-network/dist/vis-network.css";
+import contextMenu from 'vue-context-menu'
 
 export default {
   mixins: [comFunction],
   components: {
-    VueContext, networkNode, networkEdge
+    networkNode, networkEdge, contextMenu
   },
   data() {
     return {
