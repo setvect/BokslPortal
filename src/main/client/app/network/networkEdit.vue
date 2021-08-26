@@ -12,13 +12,14 @@
             <span v-show="!validateState('main-form.title')" class="invalid-feedback">{{ veeErrors.first('main-form.title') }}</span>
           </div>
           <div class="col-sm-2">
+            <b-button variant="secondary" size="sm" @click="init()">다시읽기</b-button>
             <b-button variant="primary" size="sm" @click="listPage()">목록</b-button>
             <b-button @click="deleteProc()" type="button" size="sm" variant="danger">삭제</b-button>
           </div>
         </div>
       </b-form>
     </div>
-    <div id="mynetwork" @contextmenu.prevent="$refs.ctxMenu.open">aaa</div>
+    <div id="mynetwork" @contextmenu.prevent="$refs.ctxMenu.open"></div>
     <context-menu ref="ctxMenu">
       <ul class="list-group">
         <li class="list-group-item list-group-item-action">
